@@ -1647,6 +1647,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
         out += '<tr class="sub"><td colspan="5"><span class="flex">' + (editing ? f(p+".name") + del(p) : nm(r.name)) + '</span></td></tr>';
         return;
       }
+      if (inSub && STAT_TAG.test(r.name)) inSub = false;  // a row with its own stat tag is a skill in its own right, not part of the sub-group above
       if (inSub && !editing && /^Martial Arts/.test(lastSub)){
         if (r.el && !masterOpen){ masterOpen = true; out += '<tr class="sub mhead"><td colspan="5">Mastered</td></tr>'; }
         else if (!r.el && masterOpen && !otherOpen){ otherOpen = true; out += '<tr class="sub mhead other"><td colspan="5">Other Forms</td></tr>'; }
