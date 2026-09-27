@@ -2642,7 +2642,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (x + w > window.innerWidth - 8) x = ev.clientX - w - 12; if (y + h > window.innerHeight - 8) y = ev.clientY - h - 12;
     tip.style.left = x + "px"; tip.style.top = y + "px";
   });
-  var advRz = 0, advW = 0;
+  var advRz = 0, advW = 0, advRO = null;
   window.addEventListener("resize", function(){
     if (tab !== "advance" || editing) return;
     cancelAnimationFrame(advRz); advRz = requestAnimationFrame(function(){ var h = document.getElementById("tmap"); if (h && Math.abs(h.clientWidth - advW) > 2){ advW = h.clientWidth; advLayout(false); } });
@@ -2650,7 +2650,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   function advAfter(){
     tip.hidden = true;
     if (tab !== "advance" || editing) return;
-    var h = document.getElementById("tmap"); if (h){ advW = h.clientWidth; advLayout(advFirst); }
+    var h = document.getElementById("tmap"); if (h){ advW = h.clientWidth; advLayout(advFirst);
+      /* re-lay the map whenever its box changes size, including a first load in a hidden or zero-width tab */
+      if (window.ResizeObserver){ if (advRO) advRO.disconnect(); advRO = new ResizeObserver(function(){ var w = h.clientWidth; if (w > 20 && Math.abs(w - advW) > 2){ var first = !h.querySelector(".tm-t"); advW = w; advLayout(first); } }); advRO.observe(h); } }
     advFirst = false; advMark();
   }
 
