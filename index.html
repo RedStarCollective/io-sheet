@@ -1346,6 +1346,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 }
 @media (max-width:600px){
   .wrap{padding-inline:16px}
+  .meta .m{flex:1 1 50%;box-sizing:border-box;border-bottom:1px solid var(--line)}
+  .meta .m:nth-child(2n){border-right:0}
+  .top .actions{flex:1 1 100%;justify-content:flex-end;padding:8px 14px}
   .dossier{grid-template-columns:minmax(0,1fr);grid-template-areas:"id" "st" "vit" "c1" "c2" "c3" "wa" "lo"}
   .a-c3{display:flex}
   .idcol{grid-template-columns:minmax(0,1fr)}
@@ -1446,8 +1449,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
         '<span class="chip">' + f("origin",{label:"Origin"}) + '</span></div></div>' +
       '<div class="meta">' +
         '<div class="m"><b>Reputation</b><span class="gold">' + f("rep",{num:1,label:"Reputation"}) + '</span></div>' +
-        '<div class="m"><b>IP available</b><span>' + (S.advance && S.ip ? '<span class="dec">' + (S.ip[0] = advAvail()) + '</span>' : f("ip.0",{num:1,label:"IP available"})) + '<span class="u">/ ' + f("ip.1",{num:1,label:"IP earned"}) + '</span></span></div>' +
-        '<div class="m"><b>Tech time</b><span>' + f("techTime",{num:1,label:"Tech time"}) + '<span class="u">days</span></span></div>' +
+        '<div class="m"><b>IP available</b><span>' + (S.advance && S.ip ? '<span class="dec">' + (S.ip[0] = advAvail()) + '</span>' : f("ip.0",{num:1,label:"IP available"})) + '</span></div>' +
         '<div class="m"><b>Commission</b><span>' + f("commission",{num:1,label:"Commission time"}) + '</span></div>' +
         '<div class="m"><b>Cash</b><span class="gold">' + f("cash",{num:1,label:"Cash"}) + '<span class="u">eb</span></span></div>' +
         '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
