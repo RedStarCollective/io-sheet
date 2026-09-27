@@ -1272,6 +1272,20 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .t td.n{width:48px;min-width:48px;max-width:48px;padding-left:2px;padding-right:2px}
 .t td.name{overflow-wrap:anywhere}
 
+/* posse hero: opens zoomed on the upper body; tap the art to see the full figure */
+.phero{overflow:hidden;cursor:zoom-out}
+.phero.full{cursor:zoom-in}
+.pz{--z:1.85;position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end;transform-origin:50% 2%;transform:scale(var(--z));transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  -webkit-mask-image:linear-gradient(#000 38%,transparent 56%);mask-image:linear-gradient(#000 38%,transparent 56%)}
+.phero.duo .pz{--z:1.22;transform-origin:50% 0;-webkit-mask-image:linear-gradient(#000 62%,transparent 80%);mask-image:linear-gradient(#000 62%,transparent 80%)}
+.phero.full .pz{transform:scale(1);-webkit-mask-image:none;mask-image:none}
+.pzh{position:absolute;right:12px;bottom:10px;z-index:2;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--line);background:rgba(8,6,5,.7);padding:3px 8px 2px;pointer-events:none}
+@media (max-width:760px){ .phero{position:relative} }
+@media (prefers-reduced-motion:no-preference){
+  .phero:not(.full) .pz{animation:pzoom 1s cubic-bezier(.25,.7,.2,1) both .12s}
+  @keyframes pzoom{from{transform:scale(1);-webkit-mask-image:none;mask-image:none}}
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:1320px){
   .dossier{grid-template-columns:300px 92px minmax(0,1fr) minmax(0,1fr);
@@ -2042,7 +2056,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   function hero(m){
     var imgs = (m.imgs || []).map(function(src, k){ return '<img src="' + esc(src) + '" alt="' + esc(m.name) + '" style="--s:' + ((m.scales || [])[k] || .93) + '">'; });
     if (imgs.length > 1) imgs.reverse();
-    return '<div class="phero' + (imgs.length > 1 ? ' duo' : '') + '">' + imgs.join("") + '</div>';
+    return '<div class="phero' + (imgs.length > 1 ? ' duo' : '') + '" title="Tap to switch between close-up and full body"><div class="pz">' + imgs.join("") + '</div><span class="pzh" aria-hidden="true">Full body</span></div>';
   }
   function avatar(m){ var src = (m.imgs || [])[0]; return src ? '<span class="pav' + (/laika/i.test(src) ? ' wolf' : '') + '"><img src="' + esc(src) + '" alt=""></span>' : ''; }
   function memberPanel(m){
@@ -2128,6 +2142,8 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   }
   app.addEventListener("click", function(ev){
     if (tab !== "posse" || editing) return;
+    var hz = ev.target.closest && ev.target.closest(".phero");
+    if (hz){ hz.classList.toggle("full"); var hl = hz.querySelector(".pzh"); if (hl) hl.textContent = hz.classList.contains("full") ? "Close-up" : "Full body"; return; }
     var tb = ev.target.closest && ev.target.closest("[data-ptabbtn]");
     if (tb){ pTab = tb.dataset.ptabbtn; var card = tb.closest(".pcard"); card.dataset.ptab = pTab; [].forEach.call(card.querySelectorAll("[data-ptabbtn]"), function(x){ x.setAttribute("aria-selected", x === tb); }); return; }
     if (ev.target.closest && ev.target.closest("[data-pclose]")){ posseClose(); return; }
