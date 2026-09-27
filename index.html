@@ -130,6 +130,15 @@ button,select,input{font:inherit;color:inherit}
 .sk tr.key td:first-child{color:var(--ink);font-weight:600}
 .sk tr.zero td:first-child{color:var(--ink-3)}
 .sk tr.sub td{background:var(--cell-2);color:var(--ink-2);font-weight:600}
+.sk tr.sub .cnt.known{margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-dim);text-transform:uppercase}
+.sk tr.more td{padding-top:2px;padding-bottom:2px}
+.sk tr.more .tog{padding-left:16px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.sk tr.more .tog:hover{color:var(--ink)}
+.sk tr.more .chev{font-size:8px;color:var(--red-hi)}
+.sk tr.more .tog[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.sk tr.kind td{padding-left:34px;color:var(--ink-2);font-family:var(--f-cond);font-size:14px}
+.sk tr.kind td::before{content:"↳ ";color:var(--red-hi)}
+
 .sk tr.ind td:first-child{padding-left:26px;position:relative}
 .sk tr.ind td:first-child::before{content:"↳";position:absolute;left:10px;top:50%;transform:translateY(-52%);color:var(--red-hi);font-weight:700}
 .st{font-weight:700;color:var(--ink-3);font-size:.86em;letter-spacing:.03em}
@@ -1318,86 +1327,71 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .sk tr.practiced td:nth-child(2) .dec{color:var(--gold)}
 .sk tr.practiced td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
 
-/* dossier: Trauma Team card (fills the gap under Condition; flips to the back on click) */
-.vit{display:flex;flex-direction:column;gap:12px}
+/* loadout: Trauma Team card (fills the space under Concealed Items; click flips it) */
 .ttwrap{display:flex;flex-direction:column;align-items:center;gap:8px}
 .ttfit{width:100%;display:flex;justify-content:center}
-.ttc{--w:min(100%,440px);position:relative;width:var(--w);aspect-ratio:1.72/1;perspective:1100px;cursor:pointer;container-type:inline-size;border:0;padding:0;background:none;color:inherit;font:inherit;display:block}
-@media (min-width:1181px){
-  .vit{align-self:stretch}
-  .ttwrap{flex:1 1 0;min-height:150px;contain:size}
+.ttc{--w:min(100%,460px);text-align:left;position:relative;width:var(--w);aspect-ratio:1.64/1;perspective:1200px;cursor:pointer;container-type:inline-size;border:0;padding:0;background:none;color:inherit;font:inherit;display:block}
+@media (min-width:1321px){
+  .lo > .stack{align-self:stretch}
+  .ttwrap{flex:1 1 0;min-height:170px;contain:size}
   .ttfit{flex:1 1 0;min-height:0;container-type:size;align-items:center}
-  .ttc{--w:min(100cqw,calc(100cqh * 1.72),460px)}
+  .ttc{--w:min(100cqw,calc(100cqh * 1.64),460px)}
 }
-.ttflip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.7,.2,1)}
+.ttflip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.7,.2,1)}
 .ttc.back .ttflip{transform:rotateY(180deg)}
 @media (prefers-reduced-motion:reduce){.ttflip{transition:none}}
-.ttface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.ttface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  clip-path:polygon(0 0,calc(100% - 5.2cqw) 0,100% 5.2cqw,100% 100%,0 100%);
+  background:radial-gradient(120% 90% at 0% 0%,rgba(159,12,23,.26),transparent 55%),linear-gradient(160deg,#171110,#0a0707 60%,#0e0a09)}
 .ttface.b{transform:rotateY(180deg)}
-.ttglass{position:absolute;inset:0;clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%);
-  background:linear-gradient(135deg,rgba(150,255,225,.20),rgba(40,140,115,.09) 38%,rgba(120,240,205,.16) 64%,rgba(20,90,75,.12)),rgba(8,22,20,.55)}
-.ttglass::before{content:"";position:absolute;inset:0;padding:1.5px;clip-path:inherit;background:linear-gradient(120deg,rgba(190,255,235,.9),rgba(90,200,170,.35) 35%,rgba(200,255,240,.8) 60%,rgba(70,170,145,.3));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.ttglass::after{content:"";position:absolute;right:0;top:22%;width:1.1cqw;height:30%;background:repeating-linear-gradient(180deg,rgba(200,255,240,.55) 0 .5cqw,transparent .5cqw 1.3cqw)}
-.ttcirc{position:absolute;inset:0;width:100%;height:100%;color:#6fe8c6;opacity:.42}
-.ttcard{position:absolute;left:7%;right:5%;top:10%;bottom:11%;background:linear-gradient(160deg,#0d1010,#050606 55%,#0a0d0c);box-shadow:0 0 0 1px rgba(160,255,230,.12),0 1.6cqw 4cqw rgba(0,0,0,.6);
-  clip-path:polygon(4.5cqw 0,100% 0,100% calc(100% - 2.6cqw),calc(100% - 2.6cqw) 100%,0 100%,0 4.5cqw);overflow:hidden}
-.ttcard .ttcirc{opacity:.07}
-.ttf{position:absolute;inset:0;padding:3.2cqw 3.4cqw 2.6cqw 3.6cqw;display:grid;grid-template-columns:22cqw minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:2.6cqw}
-.ttmark{grid-row:1 / 3;width:20cqw;height:20cqw;margin-top:.4cqw}
-.ttwm{min-width:0;text-align:center}
-.ttwm b{display:block;font:700 7.3cqw/.92 var(--f-disp);letter-spacing:.005em;color:#e0202b;-webkit-text-stroke:.18cqw rgba(255,210,210,.35);text-shadow:0 0 2cqw rgba(224,32,43,.35);white-space:nowrap}
-.ttwm i{display:block;font:700 3.6cqw/1 var(--f-disp);font-style:normal;letter-spacing:.06em;color:#e0202b;margin-top:.5cqw;-webkit-text-stroke:.1cqw rgba(255,210,210,.25)}
-.ttwm small{display:block;font:600 2.5cqw/1 var(--f-disp);letter-spacing:.12em;color:#8e9794;margin-top:1.2cqw;text-transform:uppercase;white-space:nowrap}
-.ttwm small em{font-style:normal;color:#e7ecea}
-.ttrow{grid-column:2;display:flex;align-items:center;gap:1.6cqw;margin-top:1.8cqw;min-width:0}
-.ttscan{position:relative;flex:1 1 auto;min-width:0;padding:.9cqw 5cqw .9cqw 1.6cqw}
-.ttscan svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.ttscan b{display:block;font:700 2.6cqw/1 var(--f-disp);letter-spacing:.06em;color:#fff}
-.ttscan span{display:block;font:600 1.6cqw/1.25 var(--f-num);letter-spacing:.02em;color:#e8ecea;white-space:nowrap}
-.ttmicro{font:600 1.3cqw/1.4 var(--f-num);color:#b9c2bf;letter-spacing:.04em;white-space:nowrap;flex:none}
-.ttstk{flex:none;width:8cqw;height:8cqw;background:#f2e31b;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(0 0,100% 0,100% 80%,80% 100%,0 100%)}
-.ttstk b{font:700 4.4cqw/.9 var(--f-num);font-variant-numeric:tabular-nums}
-.ttstk small{font:700 1.6cqw/1 var(--f-num);letter-spacing:.14em}
-.tttri{flex:none;width:6cqw;height:5.4cqw;background:#f2e31b;clip-path:polygon(50% 0,100% 100%,0 100%);display:flex;align-items:flex-end;justify-content:center;font:700 1.9cqw/1 var(--f-num);color:#111;padding-bottom:.5cqw}
-.tttier{grid-column:1 / 3;justify-self:start;align-self:end;font:700 5.9cqw/.9 var(--f-disp);letter-spacing:.02em;color:#f3f5f4;white-space:nowrap}
-.ttc.t-executive .tttier{background:linear-gradient(100deg,#fff,#dfe9f3 40%,#f6ecd6 70%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.ttstrip{grid-column:1 / 3;position:relative;margin-top:1.6cqw}
-.ttstrip .dig{display:flex;justify-content:space-between;font:600 2.2cqw/1 var(--f-num);letter-spacing:.08em;color:#f0f3f2;padding:0 1cqw 0 5cqw}
-.ttstrip > svg:not(.ttchip){display:block;width:100%;height:3.2cqw;margin-top:.6cqw}
-.ttchip{position:absolute;left:.4cqw;top:-.6cqw;width:3.2cqw;height:3.2cqw}
-.ttbrk{position:absolute;width:2.2cqw;height:2.2cqw;border:.25cqw solid rgba(255,255,255,.8)}
-.ttbrk.a{display:none}
-.ttbrk.c{right:1.4cqw;top:1.4cqw;width:1.8cqw;height:1.8cqw;border-width:.22cqw}
+.ttface::before{content:"";position:absolute;inset:0;padding:.45cqw;clip-path:inherit;background:linear-gradient(135deg,#8a6c3d,#6b5431 40%,#b58f52 70%,#6b5431);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
+.ttface::after{content:"";position:absolute;right:0;top:0;width:9cqw;height:9cqw;background:var(--gold);clip-path:polygon(42% 0,58% 0,100% 42%,100% 58%);opacity:.9;z-index:3}
+.ttcirc{position:absolute;inset:0;width:100%;height:100%;color:var(--gold);opacity:.13}
+.ttf{position:absolute;inset:0;padding:4.4cqw 5cqw 3.6cqw;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:3.6cqw}
+.ttmark{width:17cqw;height:17cqw;flex:none}
+.tthead{display:contents}
+.ttwm{align-self:center;min-width:0}
+.ttwm small{display:block;font:700 2.3cqw/1 var(--f-body);letter-spacing:.26em;color:var(--ink-3);text-transform:uppercase}
+.ttwm b{display:block;font:700 7.6cqw/.95 var(--f-disp);letter-spacing:.01em;color:var(--ink);margin-top:.9cqw;white-space:nowrap}
+.ttwm .chip{display:inline-block;margin-top:1.4cqw;font:700 2.3cqw/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:.25cqw solid var(--frame);padding:.8cqw 1.6cqw .6cqw}
+.ttstats{grid-column:1 / 3;align-self:center;display:grid;grid-template-columns:1.1fr 1fr 1fr;border-top:.25cqw solid var(--line);border-bottom:.25cqw solid var(--line);margin-top:2.6cqw}
+.ttstats div{padding:1.6cqw 2cqw 1.4cqw;border-left:.25cqw solid var(--line);display:flex;flex-direction:column;gap:.9cqw;min-width:0}
+.ttstats div:first-child{border-left:0;padding-left:0}
+.ttstats small{font:700 2cqw/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}
+.ttstats b{font:600 6cqw/1 var(--f-num);color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ttstats b.red{color:var(--red-hi)}
+.ttstats b u{text-decoration:none;font-size:.5em;color:var(--ink-3);margin-left:.4em}
+.ttstats b.st{font:700 3.4cqw/1.5 var(--f-body);letter-spacing:.16em;color:var(--gold)}
+.ttc.off .ttstats b.st{color:var(--red-hi)}
+.ttfoot{grid-column:1 / 3;display:flex;align-items:flex-end;gap:3cqw;margin-top:2.4cqw}
+.ttfoot .bc{height:6cqw;width:34cqw;fill:#d8cfc6;flex:none}
+.ttfoot span{font:600 2.3cqw/1 var(--f-num);letter-spacing:.24em;color:var(--ink-2);white-space:nowrap}
+.ttfoot em{margin-left:auto;font:700 2cqw/1 var(--f-body);font-style:normal;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}
 /* back */
-.ttb{position:absolute;inset:0;padding:3cqw 3.4cqw 2.6cqw 3.6cqw;display:grid;grid-template-columns:1fr 36cqw;column-gap:3cqw}
-.ttb .bc{width:100%;height:6.2cqw;fill:#f3f5f4}
-.ttb .ser{font:600 2.3cqw/1 var(--f-num);letter-spacing:.14em;color:#f3f5f4;margin-top:.8cqw}
-.ttb dl{margin:1.8cqw 0 0;display:grid;grid-template-columns:auto 1fr;gap:.5cqw 1.4cqw;font:600 1.75cqw/1.2 var(--f-num);letter-spacing:.05em;text-transform:uppercase}
-.ttb dt{color:#7f8a86}.ttb dd{margin:0;color:#e8ecea}
-.ttb .big{align-self:end;font:700 5.2cqw/.9 var(--f-disp);color:#f3f5f4;margin-top:1.4cqw}
-.ttb .cid{font:600 1.6cqw/1 var(--f-num);letter-spacing:.08em;color:#9aa4a0;margin-top:.8cqw}
-.ttscanar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw}
-.ttscanar small{font:600 1.6cqw/1 var(--f-num);letter-spacing:.14em;color:#c9d0cd}
-.ttsq{position:relative;width:26cqw;height:26cqw;display:flex;align-items:center;justify-content:center;border:.2cqw solid rgba(255,255,255,.7)}
-.ttsq::before{content:"";position:absolute;inset:-1.6cqw;background:
-  linear-gradient(#fff,#fff) 0 0/3cqw .3cqw,linear-gradient(#fff,#fff) 0 0/.3cqw 3cqw,linear-gradient(#fff,#fff) 100% 0/3cqw .3cqw,linear-gradient(#fff,#fff) 100% 0/.3cqw 3cqw,
-  linear-gradient(#fff,#fff) 0 100%/3cqw .3cqw,linear-gradient(#fff,#fff) 0 100%/.3cqw 3cqw,linear-gradient(#fff,#fff) 100% 100%/3cqw .3cqw,linear-gradient(#fff,#fff) 100% 100%/.3cqw 3cqw;background-repeat:no-repeat}
-.ttsq .ttmark{width:17cqw;height:17cqw;margin:0}
+.ttb{position:absolute;inset:0;padding:4.4cqw 5cqw 3.6cqw;display:grid;grid-template-columns:minmax(0,1fr) 30cqw;column-gap:4cqw}
+.ttb h4{margin:0;font:700 2.3cqw/1 var(--f-body);letter-spacing:.26em;color:var(--ink-3);text-transform:uppercase}
+.ttb .big{font:700 5.6cqw/1 var(--f-disp);color:var(--ink);margin:1cqw 0 0}
+.ttb dl{margin:2.2cqw 0 0;display:grid;grid-template-columns:auto 1fr;gap:1cqw 2cqw;font:500 2.5cqw/1.25 var(--f-body)}
+.ttb dt{font-weight:700;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;font-size:2.1cqw;padding-top:.3cqw}
+.ttb dd{margin:0;color:var(--ink-2)}
+.ttb .src{margin-top:auto;font:600 2cqw/1 var(--f-body);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.ttscanar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw}
+.ttscanar small{font:700 2cqw/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3)}
+.ttsq{position:relative;width:24cqw;height:24cqw;display:flex;align-items:center;justify-content:center;border:.25cqw solid var(--line)}
+.ttsq::before{content:"";position:absolute;inset:-1.4cqw;background:
+  linear-gradient(var(--gold),var(--gold)) 0 0/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 0 0/.35cqw 3cqw,linear-gradient(var(--gold),var(--gold)) 100% 0/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 100% 0/.35cqw 3cqw,
+  linear-gradient(var(--gold),var(--gold)) 0 100%/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 0 100%/.35cqw 3cqw,linear-gradient(var(--gold),var(--gold)) 100% 100%/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 100% 100%/.35cqw 3cqw;background-repeat:no-repeat}
+.ttsq .ttmark{width:16cqw;height:16cqw}
 /* inactive */
-.ttslash{position:absolute;inset:0;display:none;pointer-events:none;overflow:hidden;clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%)}
-.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.3cqw;background:#e0202b;transform:rotate(-26deg);box-shadow:0 0 2cqw rgba(224,32,43,.6)}
-.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-26deg);font:700 3.2cqw/1 var(--f-disp);letter-spacing:.22em;color:#fff;background:#9f0c17;padding:1cqw 2.4cqw;white-space:nowrap}
-.ttc.off .ttface{filter:saturate(.2) brightness(.7)}
+.ttslash{position:absolute;inset:0;display:none;pointer-events:none;overflow:hidden;clip-path:polygon(0 0,calc(100% - 5.2cqw) 0,100% 5.2cqw,100% 100%,0 100%)}
+.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.1cqw;background:var(--red-hi);transform:rotate(-22deg);box-shadow:0 0 2cqw rgba(209,28,40,.55)}
+.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-22deg);font:700 3.1cqw/1 var(--f-disp);letter-spacing:.22em;color:#fff;background:var(--red);padding:1cqw 2.4cqw;white-space:nowrap}
+.ttc.off .ttface > *:not(.ttb){filter:saturate(.25) brightness(.72)}
 .ttc.off .ttslash{display:block}
-.ttc .shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(210,255,240,.16) 49%,transparent 60%);transform:translateX(-120%);clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%)}
-@media (prefers-reduced-motion:no-preference){
-  .ttc:hover .shine{transition:transform 1.1s ease;transform:translateX(120%)}
-  .ttc:not(.off) .ttmark .pulse{stroke-dasharray:60;animation:ttpulse 2.4s linear infinite}
-}
-@keyframes ttpulse{from{stroke-dashoffset:120}to{stroke-dashoffset:0}}
 .ttc:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
-/* owner controls: one slim row under the card */
+.tthint{position:absolute;right:4.6cqw;bottom:-4.6cqw;font:700 1.9cqw/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+/* owner controls */
 .ttctl{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;flex:none}
 .ttctl .prsw{padding:5px 9px;font-size:12px;align-self:auto}
 .ttseg{display:inline-flex;border:1px solid var(--line);background:rgba(0,0,0,.4)}
@@ -1449,7 +1443,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     grid-template-areas:"id st c1 c2" "vit vit c3 c3" "wa wa wa wa" "lo lo lo lo"}
   .a-c3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
   .a-c3 > .box.grow{flex:none}
-  .a-vit{align-self:stretch}
+  .a-vit{align-self:start}
   .wa{grid-template-columns:repeat(2,minmax(0,1fr))}
   .wa .glitch{display:none}
 }
@@ -1619,6 +1613,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       : '<span class="mname">' + badge + '<span>' + nm(r.name) + '</span></span>';
     return '<tr class="' + cls.join(" ") + '"><td>' + nameCell + '</td><td' + (prac ? ' title="Training Area +1"' : '') + '>' + (prac ? '<span class="dec">' + ((+r.mod || 0) + 1) + '</span>' : f(p+".mod",{num:1})) + '</td><td>' + f(p+".lvl",{num:1}) + '</td><td>' + f(p+".stat",{num:1}) + '</td><td class="base">' + f(p+".base",{num:1}) + '</td></tr>';
   }
+  function moreRow(key, isOpen, label){
+    return '<tr class="more"><td colspan="5"><button class="tog" data-tog="' + key + '" aria-expanded="' + isOpen + '"><span class="chev">▶</span>' + (isOpen ? 'Hide' : esc(label)) + '</button></td></tr>';
+  }
   function groupOpen(g, base){ return !g.collapse || editing || !!open[base]; }
   function skillGroup(g, base, grow){
     var inSub = false, lastSub = "", masterOpen = false, otherOpen = false;
@@ -1634,13 +1631,15 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     g.rows.forEach(function(r,ri){
       var p = base+".rows."+ri;
       if (r.collapse){
-        var key = p, isOpen = editing || !!open[key];
-        out += '<tr class="sub"><td colspan="5"><button class="tog" data-tog="' + key + '" aria-expanded="' + isOpen + '"><span class="chev">▶</span>' + nm(r.name) + '<span class="cnt">' + r.items.length + ' known</span></button></td></tr>';
+        var key = p, isOpen = editing || !!open[key], pin = Math.min(r.pin || 0, r.items.length), rest = r.items.length - pin;
+        out += '<tr class="sub"><td colspan="5"><span class="flex">' + nm(r.name) + '<span class="cnt known">' + r.items.length + ' known</span></span></td></tr>';
         inSub = false;
-        if (isOpen){
-          r.items.forEach(function(it,ii){ out += skillRow(p+".items."+ii, it, true); });
-          if (editing) out += '<tr><td colspan="5">' + add(p+".items","Add language") + '</td></tr>';
+        r.items.forEach(function(it,ii){ if (ii < pin) out += skillRow(p+".items."+ii, it, true); });
+        if (rest > 0){
+          out += moreRow(key, isOpen, rest + ' more');
+          if (isOpen) r.items.forEach(function(it,ii){ if (ii >= pin) out += skillRow(p+".items."+ii, it, true); });
         }
+        if (editing) out += '<tr><td colspan="5">' + add(p+".items","Add language") + '</td></tr>';
         return;
       }
       if (r.sub && SUB_RE.test(r.name)){
@@ -1653,6 +1652,11 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
         else if (!r.el && masterOpen && !otherOpen){ otherOpen = true; out += '<tr class="sub mhead other"><td colspan="5">Other Forms</td></tr>'; }
       }
       out += skillRow(p, r, inSub);
+      if (r.kinds && r.kinds.length){
+        var kk = p + ".kinds", kOpen = editing || !!open[kk];
+        out += moreRow(kk, kOpen, r.kinds.length + ' types');
+        if (kOpen) r.kinds.forEach(function(k){ out += '<tr class="kind"><td colspan="5">' + nm(k) + '</td></tr>'; });
+      }
     });
     return out + '</tbody></table>' + add(base+".rows","Add skill") + '' + '</section>';
   }
@@ -1718,36 +1722,34 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   var ttBack = false;
   function ttState(){ var t = S.tt || {}, tier = t.tier === "platinum" ? "executive" : t.tier;
     return {active:!!t.active, tier:TT_TIERS[tier] ? tier : "silver", weeks:(t.weeks === "" || t.weeks == null) ? "" : Math.max(0, Math.round(+t.weeks) || 0)}; }
-  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 172 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".5">' +
-    '<path d="M0 8h22l4 4h30l3-3h60l4 4h49M0 92h18l6-6h40l4 4h50l5-5h49M150 0v6l6 6v30l-5 5v53M8 100V70l6-6h6M104 100V88l6-6h22l6-6h34M36 0v5l5 5M172 30h-8l-4 4v24l4 4h8M0 40h4l3 3v22l-3 3H0"/>' +
-    '<path d="M60 92v-6M70 92v-6M80 92v-6M126 12v5M132 12v5M138 12v5" stroke-width=".8"/>' +
-    '<circle cx="26" cy="12" r="1.1"/><circle cx="119" cy="9" r="1.1"/><circle cx="156" cy="12" r="1.1"/><circle cx="24" cy="86" r="1.1"/><circle cx="160" cy="62" r="1.1"/><circle cx="14" cy="64" r="1.1"/></g></svg>';
+  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 164 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".45">' +
+    '<path d="M0 30h20l5 5h26M164 18h-30l-5 5v20l-6 6h-20M120 100V86l6-6h38M0 76h12l4-4h24l4 4h30"/>' +
+    '<circle cx="51" cy="35" r="1"/><circle cx="103" cy="49" r="1"/><circle cx="74" cy="76" r="1"/></g></svg>';
+  /* Original emblem: a medevac AV seen from above (four thruster rings, fuselage, pulse line) inside a red hexagon */
   var TT_MARK = '<svg class="ttmark" viewBox="0 0 64 64" aria-hidden="true">' +
-    '<path d="M24 4h16v20h20v16H40v20H24V40H4V24h20z" fill="#c1121c" stroke="#e0202b" stroke-width="1.5"/>' +
-    '<path d="M24 4h16v20h20" fill="none" stroke="rgba(255,200,200,.35)" stroke-width="1"/>' +
-    '<polyline class="pulse" points="9,33 20,33 24,25 30,42 35,27 39,33 55,33" fill="none" stroke="#0b0d0d" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
-  var TT_CHIP = '<svg class="ttchip" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" fill="none" stroke="#dfe5e3" stroke-width="1.4"/><path d="M3 7h-2M3 10h-2M3 13h-2M17 7h2M17 10h2M17 13h2M7 3v-2M10 3v-2M13 3v-2M7 17v2M10 17v2M13 17v2" stroke="#dfe5e3" stroke-width="1.2"/><rect x="7" y="7" width="6" height="6" fill="#dfe5e3"/></svg>';
-  function ttSaw(){ var d = "M0 5", x = 0; while (x < 200){ x += 3; d += "L" + x + " " + (x % 6 ? 1 : 5); } return '<svg viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true"><path d="' + d + 'L200 8H0z" fill="#eef2f0"/></svg>'; }
-  var TT_ARROW = '<svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path d="M1 1H80V-6L99 15L80 36V29H1Z" fill="none" stroke="#fff" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>';
+    '<path d="M32 2 58 17v30L32 62 6 47V17z" fill="rgba(159,12,23,.22)" stroke="#d11c28" stroke-width="2.4"/>' +
+    '<g fill="none" stroke="#d11c28" stroke-width="2"><circle cx="18" cy="21" r="6.5"/><circle cx="46" cy="21" r="6.5"/><circle cx="18" cy="43" r="6.5"/><circle cx="46" cy="43" r="6.5"/></g>' +
+    '<path d="M24 21h16M24 43h16" stroke="#d11c28" stroke-width="2"/>' +
+    '<rect x="25" y="12" width="14" height="40" rx="7" fill="#f0ebe3"/>' +
+    '<polyline points="25,33 29,33 31,28 33,38 35,31 36.5,33 39,33" fill="none" stroke="#9f0c17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
   function ttBox(){
     var t = ttState(), T = TT_TIERS[t.tier], lock = readOnly, wk = t.weeks === "" ? "--" : String(t.weeks).padStart(2, "0");
-    var sin = String(S.sin || ""), cid = sin.replace(/-[A-Z]+$/, ""), digits = sin.replace(/[^0-9A-Z]/g, "");
-    var front = '<div class="ttface f"><div class="ttglass">' + TT_CIRC + '</div><div class="ttcard">' + TT_CIRC + '<div class="ttf">' + TT_MARK +
-        '<div class="ttwm"><b>TRAUMA TEAM</b><i>INSURANCE CARD</i><small>Subscriber issue // <em>' + esc(T.label) + '</em></small></div>' +
-        '<div class="ttrow"><div class="ttscan">' + TT_ARROW + '<b>ID SCAN</b><span>CARD ID ' + esc(cid) + '</span></div>' +
-          '<div class="ttmicro">' + esc(T.rate.toUpperCase()) + '<br>STATUS ' + (t.active ? 'ACTIVE' : 'LAPSED') + '<br>ETA d6 RNDS</div>' +
-          '<div class="ttstk" title="Weeks left"><b>' + wk + '</b><small>WKS</small></div><div class="tttri">' + (t.active ? 'A' : '!') + '</div></div>' +
-        '<div class="tttier">' + esc(T.label.toUpperCase()) + '</div>' +
-        '<div class="ttstrip"><div class="dig"><span>' + esc(digits.slice(0, 7)) + '</span><span>' + esc(digits.slice(7)) + '</span><span>WK ' + wk + '</span></div>' + ttSaw() + TT_CHIP + '</div>' +
-      '</div><span class="ttbrk a"></span><span class="ttbrk c"></span></div></div>';
-    var back = '<div class="ttface b"><div class="ttglass">' + TT_CIRC + '</div><div class="ttcard">' + TT_CIRC + '<div class="ttb"><div style="display:flex;flex-direction:column;min-width:0">' +
-        barcode(sin) + '<div class="ser">' + esc(digits) + '</div>' +
-        '<dl><dt>Plan</dt><dd>' + esc(T.label) + ' · ' + esc(T.rate) + '</dd><dt>Surgery</dt><dd>' + esc(T.surg) + '</dd><dt>Call</dt><dd>An Action · auto via Agent + Biomonitor</dd><dt>ETA</dt><dd>d6 Rounds</dd><dt>Cover</dt><dd>You, or one friend instead</dd></dl>' +
-        '<div class="big">' + esc(T.label.toUpperCase()) + '</div><div class="cid">CARD ID ' + esc(cid) + ' · WEEKS LEFT ' + wk + '</div></div>' +
-        '<div class="ttscanar"><small>SCAN AREA</small><div class="ttsq">' + TT_MARK + '</div><small>CARD ID ' + esc(cid) + '</small></div>' +
-      '</div></div></div>';
-    var card = '<button type="button" class="ttc t-' + t.tier + (t.active ? '' : ' off') + (ttBack ? ' back' : '') + '" id="ttflip" aria-pressed="' + ttBack + '" aria-label="Trauma Team ' + esc(T.label) + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '. Flip the card">' +
-      '<span class="ttflip">' + front + back + '</span><span class="ttslash"><span>COVERAGE INACTIVE</span></span><span class="shine"></span></button>';
+    var sin = String(S.sin || ""), cid = sin.replace(/-[A-Z]+$/, "");
+    var front = '<div class="ttface f">' + TT_CIRC + '<div class="ttf">' + TT_MARK +
+        '<div class="ttwm"><small>Subscriber</small><b>TRAUMA TEAM</b><span class="chip">' + esc(T.label) + ' plan</span></div>' +
+        '<div class="ttstats"><div><small>Member</small><b style="font:700 3.4cqw/1.5 var(--f-body);letter-spacing:.06em">' + esc(S.name || "") + '</b></div>' +
+          '<div><small>Weeks left</small><b' + (t.active && t.weeks === 0 ? ' class="red"' : '') + '>' + wk + '</b></div>' +
+          '<div><small>Status</small><b class="st">' + (t.active ? 'Active' : 'Lapsed') + '</b></div></div>' +
+        '<div class="ttfoot">' + barcode(cid) + '<span>' + esc(cid) + '</span><em>' + esc(T.rate) + '</em></div>' +
+      '</div></div>';
+    var back = '<div class="ttface b">' + TT_CIRC + '<div class="ttb"><div style="display:flex;flex-direction:column;min-width:0">' +
+        '<h4>Coverage</h4><div class="big">' + esc(T.label) + ' · ' + esc(T.rate.replace(" / month", "/mo")) + '</div>' +
+        '<dl><dt>Surgery</dt><dd>' + esc(T.surg) + '</dd><dt>Call</dt><dd>An Action, or automatic via Agent + Biomonitor</dd><dt>Arrives</dt><dd>In d6 Rounds</dd><dt>Cover</dt><dd>You, or one friend instead</dd></dl>' +
+        '<div class="src">Core rulebook p. 224</div></div>' +
+        '<div class="ttscanar"><small>SCAN AREA</small><div class="ttsq">' + TT_MARK + '</div><small>' + esc(cid) + '</small></div>' +
+      '</div></div>';
+    var card = '<button type="button" class="ttc t-' + t.tier + (t.active ? '' : ' off') + (ttBack ? ' back' : '') + '" id="ttflip" aria-pressed="' + ttBack + '" title="Flip the card" aria-label="Trauma Team ' + esc(T.label) + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '. Flip the card">' +
+      '<span class="ttflip">' + front + back + '</span><span class="ttslash"><span>COVERAGE INACTIVE</span></span></button>';
     var ctl = lock ? '' : '<div class="ttctl">' +
       '<button type="button" class="prsw" id="ttsw" aria-pressed="' + t.active + '"><i></i>' + (t.active ? 'Active' : 'Inactive') + '</button>' +
       '<span class="ttseg" role="group" aria-label="Plan">' + Object.keys(TT_TIERS).map(function(k){ return '<button type="button" data-tt="' + k + '" aria-pressed="' + (t.tier === k) + '">' + TT_TIERS[k].label + '</button>'; }).join("") + '</span>' +
@@ -1770,7 +1772,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div>' +
       (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>') +
       '</div>' + add("crits","Add entry") + '</div>';
-    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + (editing ? '' : ttBox()) + '</div>';
+    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section></div>';
   }
 
   var ICONS = {
@@ -1822,7 +1824,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var con = '<section class="box"><div class="hb">Concealed Items</div><ul class="list">' +
       S.concealed.map(function(r,i){ var p="concealed."+i; return '<li><span class="flex" style="flex:1">' + f(p+".name",{fmt:1}) + del(p) + '</span><span class="where">' + f(p+".where") + '</span></li>'; }).join("") +
       '</ul>' + add("concealed","Add concealed item") + '</section>';
-    return '<div class="lo a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + inv + pharma() + '<div class="stack">' + thr + con + '</div></div>';
+    return '<div class="lo a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + inv + pharma() + '<div class="stack">' + thr + con + (editing ? '' : ttBox()) + '</div></div>';
   }
 
   var C39 = {"0":"nnnwwnwnn","1":"wnnwnnnnw","2":"nnwwnnnnw","3":"wnwwnnnnn","4":"nnnwwnnnw","5":"wnnwwnnnn","6":"nnwwwnnnn","7":"nnnwnnwnw","8":"wnnwnnwnn","9":"nnwwnnwnn",

@@ -313,20 +313,20 @@
       "collapse": true,
       "items": [
        {
-        "name": "Streetslang",
-        "mod": "",
-        "lvl": 2,
-        "stat": 8,
-        "base": 10,
-        "bold": true
-       },
-       {
         "name": "The Word [Native]",
         "mod": "",
         "lvl": 4,
         "stat": 8,
         "base": 12,
         "bold": false
+       },
+       {
+        "name": "Streetslang",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": true
        },
        {
         "name": "French",
@@ -408,7 +408,8 @@
         "base": 10,
         "bold": false
        }
-      ]
+      ],
+      "pin": 2
      },
      {
       "name": "Library Search (INT)",
@@ -936,52 +937,14 @@
       "lvl": 5,
       "stat": 8,
       "base": "",
-      "bold": false
-     },
-     {
-      "name": "LastChance",
-      "mod": "",
-      "lvl": "",
-      "stat": "",
-      "base": "",
       "bold": false,
-      "sub": true
-     },
-     {
-      "name": "Nyozi",
-      "mod": "",
-      "lvl": "",
-      "stat": "",
-      "base": "",
-      "bold": false,
-      "sub": true
-     },
-     {
-      "name": "RapidDetox",
-      "mod": "",
-      "lvl": "",
-      "stat": "",
-      "base": "",
-      "bold": false,
-      "sub": true
-     },
-     {
-      "name": "Sedative",
-      "mod": "",
-      "lvl": "",
-      "stat": "",
-      "base": "",
-      "bold": false,
-      "sub": true
-     },
-     {
-      "name": "Speedheal",
-      "mod": "",
-      "lvl": "",
-      "stat": "",
-      "base": "",
-      "bold": false,
-      "sub": true
+      "kinds": [
+       "LastChance",
+       "Nyozi",
+       "RapidDetox",
+       "Sedative",
+       "Speedheal"
+      ]
      },
      {
       "name": "Medical Tech (Calculated)",
@@ -991,8 +954,7 @@
       "base": 13,
       "bold": false
      }
-    ],
-    "collapse": true
+    ]
    }
   ]
  ],
