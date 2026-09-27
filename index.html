@@ -1318,67 +1318,93 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .sk tr.practiced td:nth-child(2) .dec{color:var(--gold)}
 .sk tr.practiced td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
 
-/* dossier: Trauma Team subscription card */
+/* dossier: Trauma Team card (fills the gap under Condition; flips to the back on click) */
 .vit{display:flex;flex-direction:column;gap:12px}
-.ttbox .hb .prstate{margin-left:auto}
-.ttbody{padding:14px 14px 12px;display:flex;flex-direction:column;gap:12px}
-.ttstage{perspective:900px}
-.ttc{--fa:#7f878e;--fb:#f4f7f9;--fc:#9ea7ae;--tint:rgba(150,172,186,.12);position:relative;aspect-ratio:1.72/1;width:100%;max-width:440px;margin:0 auto;
-  clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px);
-  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.03) 38%,rgba(255,255,255,.07) 62%,rgba(255,255,255,.02)),var(--tint);
-  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transform-style:preserve-3d;transition:transform .35s ease,filter .35s ease;container-type:inline-size}
-.ttc.t-platinum{--fa:#c9b58f;--fb:#fffaf0;--fc:#c7d8ea;--tint:rgba(214,196,160,.14)}
-.ttc.t-platinum::before{background:conic-gradient(from 200deg,#e9d7ae,#fffaf0,#c7d8ea,#e6cfee,#fffaf0,#d9c08e,#e9d7ae)}
-.ttc.t-platinum .tttier .big{background:linear-gradient(100deg,#d9c49a,#fffaf0 30%,#cfe0f0 50%,#ecd6f2 66%,#fff6e0 82%,#cdb68a);-webkit-background-clip:text;background-clip:text}
-.ttc::before{content:"";position:absolute;inset:0;padding:1px;background:linear-gradient(120deg,var(--fa),var(--fb) 30%,var(--fc) 55%,var(--fb) 75%,var(--fa));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;clip-path:inherit;pointer-events:none}
-.ttc .ttin{position:absolute;inset:7% 5% 8% 5%;background:rgba(6,5,5,.86);border:1px solid rgba(255,255,255,.08);overflow:hidden;
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
-.ttc .ttcirc{position:absolute;inset:0;width:100%;height:100%;opacity:.16;color:var(--fb)}
-.ttc .ttgrid{position:relative;height:100%;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr auto;gap:0 3.2cqw;padding:4.2cqw 4.6cqw 3.4cqw}
-.ttmark{grid-row:1 / 3;width:19cqw;height:19cqw;align-self:start}
-.ttbrand{min-width:0}
-.ttbrand b{display:block;font:700 7.4cqw/0.95 var(--f-disp);letter-spacing:.01em;color:var(--red-hi);text-shadow:0 0 12px rgba(209,28,40,.35)}
-.ttbrand i{display:block;font:700 3.3cqw/1.1 var(--f-disp);font-style:normal;letter-spacing:.12em;color:var(--red-hi);margin-top:.6cqw}
-.ttbrand small{display:block;font:600 2.7cqw/1.2 var(--f-num);letter-spacing:.14em;color:#8d8781;margin-top:1.2cqw;text-transform:uppercase}
-.ttbrand small em{font-style:normal;background:linear-gradient(90deg,var(--fa),var(--fb),var(--fc));-webkit-background-clip:text;background-clip:text;color:transparent}
-.ttmid{grid-column:2;display:flex;align-items:center;gap:3cqw;min-width:0}
-.ttscan{flex:1;min-width:0;position:relative;border:1.5px solid rgba(255,255,255,.75);padding:1.2cqw 5.6cqw 1.2cqw 2cqw;clip-path:polygon(0 0,calc(100% - 5cqw) 0,100% 50%,calc(100% - 5cqw) 100%,0 100%)}
-.ttscan b{display:block;font:700 2.9cqw/1 var(--f-num);letter-spacing:.1em;color:#fff}
-.ttscan span{display:block;font:500 2.35cqw/1.2 var(--f-num);color:#cfc8c1;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tttag{flex:none;font:700 2.6cqw/1 var(--f-num);letter-spacing:.14em;padding:1.1cqw 1.6cqw;color:#000;background:var(--gold)}
-.ttc.off .tttag{background:var(--red-hi);color:#fff}
-.tttier{grid-column:1 / 3;display:flex;align-items:flex-end;justify-content:space-between;gap:3cqw;border-top:1px dashed rgba(255,255,255,.14);padding-top:2cqw}
-.tttier .big{font:700 8.6cqw/0.9 var(--f-disp);letter-spacing:.04em;background:linear-gradient(100deg,var(--fa),var(--fb) 35%,var(--fc) 60%,var(--fb) 80%,var(--fa));-webkit-background-clip:text;background-clip:text;color:transparent;text-transform:uppercase}
-.tttier .who{font:600 2.5cqw/1.2 var(--f-num);letter-spacing:.12em;color:#9b948e;text-transform:uppercase;margin-top:1cqw}
-.tttier .who b{color:#ece6df;font-weight:600}
-.ttwk{text-align:right;flex:none}
-.ttwk small{display:block;font:700 2.3cqw/1 var(--f-num);letter-spacing:.16em;color:#8d8781}
-.ttwk b{display:block;font:600 8.2cqw/1 var(--f-num);color:#fff;font-variant-numeric:tabular-nums}
-.ttwk b.due{color:var(--red-hi)}
-.ttwk span{display:block;font:600 2.3cqw/1 var(--f-num);letter-spacing:.1em;color:#8d8781;margin-top:.6cqw}
-.ttbar{position:absolute;left:0;right:0;bottom:0;height:3.2cqw;display:flex;align-items:stretch;gap:1.2cqw;padding:0 4.6cqw .8cqw}
-.ttbar .bc{flex:1;height:100%;fill:#e9e3dc;opacity:.55}
-.ttsaw{position:absolute;left:4.6cqw;right:4.6cqw;bottom:3.6cqw;height:1.2cqw;background:linear-gradient(135deg,transparent 50%,rgba(255,255,255,.35) 50%) 0 0/1.2cqw 100% repeat-x;opacity:.5}
-.ttslash{position:absolute;inset:0;display:none;pointer-events:none}
-.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.4cqw;background:var(--red-hi);transform:rotate(-24deg);box-shadow:0 0 14px rgba(209,28,40,.6)}
-.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-24deg);font:700 3.4cqw/1 var(--f-disp);letter-spacing:.24em;color:#fff;background:var(--red);padding:1cqw 2.4cqw}
-.ttc.off{filter:saturate(.25) brightness(.72)}
+.ttwrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.ttfit{width:100%;display:flex;justify-content:center}
+.ttc{--w:min(100%,440px);position:relative;width:var(--w);aspect-ratio:1.72/1;perspective:1100px;cursor:pointer;container-type:inline-size;border:0;padding:0;background:none;color:inherit;font:inherit;display:block}
+@media (min-width:1181px){
+  .vit{align-self:stretch}
+  .ttwrap{flex:1 1 0;min-height:150px;contain:size}
+  .ttfit{flex:1 1 0;min-height:0;container-type:size;align-items:center}
+  .ttc{--w:min(100cqw,calc(100cqh * 1.72),460px)}
+}
+.ttflip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.7,.2,1)}
+.ttc.back .ttflip{transform:rotateY(180deg)}
+@media (prefers-reduced-motion:reduce){.ttflip{transition:none}}
+.ttface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.ttface.b{transform:rotateY(180deg)}
+.ttglass{position:absolute;inset:0;clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%);
+  background:linear-gradient(135deg,rgba(150,255,225,.20),rgba(40,140,115,.09) 38%,rgba(120,240,205,.16) 64%,rgba(20,90,75,.12)),rgba(8,22,20,.55)}
+.ttglass::before{content:"";position:absolute;inset:0;padding:1.5px;clip-path:inherit;background:linear-gradient(120deg,rgba(190,255,235,.9),rgba(90,200,170,.35) 35%,rgba(200,255,240,.8) 60%,rgba(70,170,145,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.ttglass::after{content:"";position:absolute;right:0;top:22%;width:1.1cqw;height:30%;background:repeating-linear-gradient(180deg,rgba(200,255,240,.55) 0 .5cqw,transparent .5cqw 1.3cqw)}
+.ttcirc{position:absolute;inset:0;width:100%;height:100%;color:#6fe8c6;opacity:.42}
+.ttcard{position:absolute;left:7%;right:5%;top:10%;bottom:11%;background:linear-gradient(160deg,#0d1010,#050606 55%,#0a0d0c);box-shadow:0 0 0 1px rgba(160,255,230,.12),0 1.6cqw 4cqw rgba(0,0,0,.6);
+  clip-path:polygon(4.5cqw 0,100% 0,100% calc(100% - 2.6cqw),calc(100% - 2.6cqw) 100%,0 100%,0 4.5cqw);overflow:hidden}
+.ttcard .ttcirc{opacity:.07}
+.ttf{position:absolute;inset:0;padding:3.2cqw 3.4cqw 2.6cqw 3.6cqw;display:grid;grid-template-columns:22cqw minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:2.6cqw}
+.ttmark{grid-row:1 / 3;width:20cqw;height:20cqw;margin-top:.4cqw}
+.ttwm{min-width:0;text-align:center}
+.ttwm b{display:block;font:700 7.3cqw/.92 var(--f-disp);letter-spacing:.005em;color:#e0202b;-webkit-text-stroke:.18cqw rgba(255,210,210,.35);text-shadow:0 0 2cqw rgba(224,32,43,.35);white-space:nowrap}
+.ttwm i{display:block;font:700 3.6cqw/1 var(--f-disp);font-style:normal;letter-spacing:.06em;color:#e0202b;margin-top:.5cqw;-webkit-text-stroke:.1cqw rgba(255,210,210,.25)}
+.ttwm small{display:block;font:600 2.5cqw/1 var(--f-disp);letter-spacing:.12em;color:#8e9794;margin-top:1.2cqw;text-transform:uppercase;white-space:nowrap}
+.ttwm small em{font-style:normal;color:#e7ecea}
+.ttrow{grid-column:2;display:flex;align-items:center;gap:1.6cqw;margin-top:1.8cqw;min-width:0}
+.ttscan{position:relative;flex:1 1 auto;min-width:0;padding:.9cqw 5cqw .9cqw 1.6cqw}
+.ttscan svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ttscan b{display:block;font:700 2.6cqw/1 var(--f-disp);letter-spacing:.06em;color:#fff}
+.ttscan span{display:block;font:600 1.6cqw/1.25 var(--f-num);letter-spacing:.02em;color:#e8ecea;white-space:nowrap}
+.ttmicro{font:600 1.3cqw/1.4 var(--f-num);color:#b9c2bf;letter-spacing:.04em;white-space:nowrap;flex:none}
+.ttstk{flex:none;width:8cqw;height:8cqw;background:#f2e31b;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(0 0,100% 0,100% 80%,80% 100%,0 100%)}
+.ttstk b{font:700 4.4cqw/.9 var(--f-num);font-variant-numeric:tabular-nums}
+.ttstk small{font:700 1.6cqw/1 var(--f-num);letter-spacing:.14em}
+.tttri{flex:none;width:6cqw;height:5.4cqw;background:#f2e31b;clip-path:polygon(50% 0,100% 100%,0 100%);display:flex;align-items:flex-end;justify-content:center;font:700 1.9cqw/1 var(--f-num);color:#111;padding-bottom:.5cqw}
+.tttier{grid-column:1 / 3;justify-self:start;align-self:end;font:700 5.9cqw/.9 var(--f-disp);letter-spacing:.02em;color:#f3f5f4;white-space:nowrap}
+.ttc.t-executive .tttier{background:linear-gradient(100deg,#fff,#dfe9f3 40%,#f6ecd6 70%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ttstrip{grid-column:1 / 3;position:relative;margin-top:1.6cqw}
+.ttstrip .dig{display:flex;justify-content:space-between;font:600 2.2cqw/1 var(--f-num);letter-spacing:.08em;color:#f0f3f2;padding:0 1cqw 0 5cqw}
+.ttstrip > svg:not(.ttchip){display:block;width:100%;height:3.2cqw;margin-top:.6cqw}
+.ttchip{position:absolute;left:.4cqw;top:-.6cqw;width:3.2cqw;height:3.2cqw}
+.ttbrk{position:absolute;width:2.2cqw;height:2.2cqw;border:.25cqw solid rgba(255,255,255,.8)}
+.ttbrk.a{display:none}
+.ttbrk.c{right:1.4cqw;top:1.4cqw;width:1.8cqw;height:1.8cqw;border-width:.22cqw}
+/* back */
+.ttb{position:absolute;inset:0;padding:3cqw 3.4cqw 2.6cqw 3.6cqw;display:grid;grid-template-columns:1fr 36cqw;column-gap:3cqw}
+.ttb .bc{width:100%;height:6.2cqw;fill:#f3f5f4}
+.ttb .ser{font:600 2.3cqw/1 var(--f-num);letter-spacing:.14em;color:#f3f5f4;margin-top:.8cqw}
+.ttb dl{margin:1.8cqw 0 0;display:grid;grid-template-columns:auto 1fr;gap:.5cqw 1.4cqw;font:600 1.75cqw/1.2 var(--f-num);letter-spacing:.05em;text-transform:uppercase}
+.ttb dt{color:#7f8a86}.ttb dd{margin:0;color:#e8ecea}
+.ttb .big{align-self:end;font:700 5.2cqw/.9 var(--f-disp);color:#f3f5f4;margin-top:1.4cqw}
+.ttb .cid{font:600 1.6cqw/1 var(--f-num);letter-spacing:.08em;color:#9aa4a0;margin-top:.8cqw}
+.ttscanar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw}
+.ttscanar small{font:600 1.6cqw/1 var(--f-num);letter-spacing:.14em;color:#c9d0cd}
+.ttsq{position:relative;width:26cqw;height:26cqw;display:flex;align-items:center;justify-content:center;border:.2cqw solid rgba(255,255,255,.7)}
+.ttsq::before{content:"";position:absolute;inset:-1.6cqw;background:
+  linear-gradient(#fff,#fff) 0 0/3cqw .3cqw,linear-gradient(#fff,#fff) 0 0/.3cqw 3cqw,linear-gradient(#fff,#fff) 100% 0/3cqw .3cqw,linear-gradient(#fff,#fff) 100% 0/.3cqw 3cqw,
+  linear-gradient(#fff,#fff) 0 100%/3cqw .3cqw,linear-gradient(#fff,#fff) 0 100%/.3cqw 3cqw,linear-gradient(#fff,#fff) 100% 100%/3cqw .3cqw,linear-gradient(#fff,#fff) 100% 100%/.3cqw 3cqw;background-repeat:no-repeat}
+.ttsq .ttmark{width:17cqw;height:17cqw;margin:0}
+/* inactive */
+.ttslash{position:absolute;inset:0;display:none;pointer-events:none;overflow:hidden;clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%)}
+.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.3cqw;background:#e0202b;transform:rotate(-26deg);box-shadow:0 0 2cqw rgba(224,32,43,.6)}
+.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-26deg);font:700 3.2cqw/1 var(--f-disp);letter-spacing:.22em;color:#fff;background:#9f0c17;padding:1cqw 2.4cqw;white-space:nowrap}
+.ttc.off .ttface{filter:saturate(.2) brightness(.7)}
 .ttc.off .ttslash{display:block}
-.ttc .shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.14) 48%,transparent 60%);transform:translateX(-120%);pointer-events:none}
+.ttc .shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(210,255,240,.16) 49%,transparent 60%);transform:translateX(-120%);clip-path:polygon(6% 0,100% 0,100% 88%,95% 100%,0 100%,0 13%)}
 @media (prefers-reduced-motion:no-preference){
   .ttc:hover .shine{transition:transform 1.1s ease;transform:translateX(120%)}
   .ttc:not(.off) .ttmark .pulse{stroke-dasharray:60;animation:ttpulse 2.4s linear infinite}
 }
 @keyframes ttpulse{from{stroke-dashoffset:120}to{stroke-dashoffset:0}}
-.ttctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.ttseg{display:inline-flex;border:1px solid var(--line)}
-.ttseg button{background:none;border:0;color:var(--ink-3);font:600 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;padding:8px 11px 7px;cursor:pointer}
+.ttc:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+/* owner controls: one slim row under the card */
+.ttctl{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;flex:none}
+.ttctl .prsw{padding:5px 9px;font-size:12px;align-self:auto}
+.ttseg{display:inline-flex;border:1px solid var(--line);background:rgba(0,0,0,.4)}
+.ttseg button{background:none;border:0;color:var(--ink-3);font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;padding:6px 9px 5px;cursor:pointer}
 .ttseg button+button{border-left:1px solid var(--line)}
 .ttseg button[aria-pressed="true"]{color:#000;background:var(--gold)}
-.ttseg button:disabled{cursor:default}
-.ttwkc{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
-.ttctl .prsw{align-self:auto}
+.ttwkc{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
 .pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
@@ -1423,7 +1449,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     grid-template-areas:"id st c1 c2" "vit vit c3 c3" "wa wa wa wa" "lo lo lo lo"}
   .a-c3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
   .a-c3 > .box.grow{flex:none}
-  .a-vit{align-self:start}
+  .a-vit{align-self:stretch}
   .wa{grid-template-columns:repeat(2,minmax(0,1fr))}
   .wa .glitch{display:none}
 }
@@ -1686,34 +1712,48 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   }
 
 
-  /* Trauma Team subscription (core rulebook p. 224: Silver 500eb/mo, Executive 1,000eb/mo; Oak calls the top tier Platinum) */
-  var TT_TIERS = {silver:{label:"Silver", rate:"500eb / month", rule:"Surgery is charged at hospital rates. If you won't pay, they do what they can with Paramedic and drop you at the nearest hospital."},
-                  platinum:{label:"Platinum", rate:"1,000eb / month", rule:"Treatments that need Surgery are included at no extra cost."}};
-  function ttState(){ var t = S.tt || {}; return {active:!!t.active, tier:TT_TIERS[t.tier] ? t.tier : "silver", weeks:(t.weeks === "" || t.weeks == null) ? "" : Math.max(0, Math.round(+t.weeks) || 0)}; }
-  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 200 116" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".6">' +
-    '<path d="M0 20h40l8 8h60l6-6h86M0 96h30l10-10h50l8 8h102M150 0v18l10 10v40l-8 8v40M20 116V70l12-12h24M120 116v-20l10-10h30l10-10h30M60 0v12l8 8"/>' +
-    '<circle cx="48" cy="28" r="1.6"/><circle cx="114" cy="22" r="1.6"/><circle cx="160" cy="28" r="1.6"/><circle cx="56" cy="58" r="1.6"/><circle cx="170" cy="76" r="1.6"/></g></svg>';
-  var TT_MARK = '<svg class="ttmark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="#d11c28" stroke-width="3"/>' +
-    '<path d="M25 11h14v14h14v14H39v14H25V39H11V25h14z" fill="#9f0c17" stroke="#d11c28" stroke-width="2"/>' +
-    '<polyline class="pulse" points="13,33 22,33 26,26 31,41 35,29 38,33 51,33" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+  /* Trauma Team card. Core rulebook p. 224: Silver 500eb/month, Executive 1,000eb/month. */
+  var TT_TIERS = {silver:{label:"Silver", rate:"500eb / month", surg:"Billed at hospital rates"},
+                  executive:{label:"Executive", rate:"1,000eb / month", surg:"Included"}};
+  var ttBack = false;
+  function ttState(){ var t = S.tt || {}, tier = t.tier === "platinum" ? "executive" : t.tier;
+    return {active:!!t.active, tier:TT_TIERS[tier] ? tier : "silver", weeks:(t.weeks === "" || t.weeks == null) ? "" : Math.max(0, Math.round(+t.weeks) || 0)}; }
+  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 172 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".5">' +
+    '<path d="M0 8h22l4 4h30l3-3h60l4 4h49M0 92h18l6-6h40l4 4h50l5-5h49M150 0v6l6 6v30l-5 5v53M8 100V70l6-6h6M104 100V88l6-6h22l6-6h34M36 0v5l5 5M172 30h-8l-4 4v24l4 4h8M0 40h4l3 3v22l-3 3H0"/>' +
+    '<path d="M60 92v-6M70 92v-6M80 92v-6M126 12v5M132 12v5M138 12v5" stroke-width=".8"/>' +
+    '<circle cx="26" cy="12" r="1.1"/><circle cx="119" cy="9" r="1.1"/><circle cx="156" cy="12" r="1.1"/><circle cx="24" cy="86" r="1.1"/><circle cx="160" cy="62" r="1.1"/><circle cx="14" cy="64" r="1.1"/></g></svg>';
+  var TT_MARK = '<svg class="ttmark" viewBox="0 0 64 64" aria-hidden="true">' +
+    '<path d="M24 4h16v20h20v16H40v20H24V40H4V24h20z" fill="#c1121c" stroke="#e0202b" stroke-width="1.5"/>' +
+    '<path d="M24 4h16v20h20" fill="none" stroke="rgba(255,200,200,.35)" stroke-width="1"/>' +
+    '<polyline class="pulse" points="9,33 20,33 24,25 30,42 35,27 39,33 55,33" fill="none" stroke="#0b0d0d" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+  var TT_CHIP = '<svg class="ttchip" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" fill="none" stroke="#dfe5e3" stroke-width="1.4"/><path d="M3 7h-2M3 10h-2M3 13h-2M17 7h2M17 10h2M17 13h2M7 3v-2M10 3v-2M13 3v-2M7 17v2M10 17v2M13 17v2" stroke="#dfe5e3" stroke-width="1.2"/><rect x="7" y="7" width="6" height="6" fill="#dfe5e3"/></svg>';
+  function ttSaw(){ var d = "M0 5", x = 0; while (x < 200){ x += 3; d += "L" + x + " " + (x % 6 ? 1 : 5); } return '<svg viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true"><path d="' + d + 'L200 8H0z" fill="#eef2f0"/></svg>'; }
+  var TT_ARROW = '<svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path d="M1 1H80V-6L99 15L80 36V29H1Z" fill="none" stroke="#fff" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>';
   function ttBox(){
-    var t = ttState(), T = TT_TIERS[t.tier], lock = readOnly, wk = t.weeks === "" ? "—" : String(t.weeks).padStart(2, "0");
-    var card = '<div class="ttstage"><div class="ttc t-' + t.tier + (t.active ? '' : ' off') + '" role="img" aria-label="Trauma Team ' + T.label + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '">' +
-      '<div class="ttin">' + TT_CIRC + '<div class="ttgrid">' + TT_MARK +
-        '<div class="ttbrand"><b>TRAUMA TEAM</b><i>MEMBERSHIP CARD</i><small>Response plan // <em>' + esc(T.label) + '</em></small></div>' +
-        '<div class="ttmid"><div class="ttscan"><b>ID SCAN // CARD ID</b><span>' + esc(String(S.sin || "").replace(/-[A-Z]+$/, "")) + '</span></div><span class="tttag">' + (t.active ? 'ACTIVE' : 'LAPSED') + '</span></div>' +
-        '<div class="tttier"><div><div class="big">' + esc(T.label) + '</div><div class="who">Member <b>' + esc(S.name || "") + '</b></div></div>' +
-          '<div class="ttwk"><small>WEEKS LEFT</small><b' + (t.active && t.weeks === 0 ? ' class="due"' : '') + '>' + wk + '</b><span>' + esc(T.rate) + '</span></div></div>' +
-      '</div><div class="ttsaw"></div><div class="ttbar">' + barcode(S.sin || "") + '</div></div>' +
-      '<div class="ttslash"><span>COVERAGE INACTIVE</span></div><div class="shine"></div></div></div>';
+    var t = ttState(), T = TT_TIERS[t.tier], lock = readOnly, wk = t.weeks === "" ? "--" : String(t.weeks).padStart(2, "0");
+    var sin = String(S.sin || ""), cid = sin.replace(/-[A-Z]+$/, ""), digits = sin.replace(/[^0-9A-Z]/g, "");
+    var front = '<div class="ttface f"><div class="ttglass">' + TT_CIRC + '</div><div class="ttcard">' + TT_CIRC + '<div class="ttf">' + TT_MARK +
+        '<div class="ttwm"><b>TRAUMA TEAM</b><i>INSURANCE CARD</i><small>Subscriber issue // <em>' + esc(T.label) + '</em></small></div>' +
+        '<div class="ttrow"><div class="ttscan">' + TT_ARROW + '<b>ID SCAN</b><span>CARD ID ' + esc(cid) + '</span></div>' +
+          '<div class="ttmicro">' + esc(T.rate.toUpperCase()) + '<br>STATUS ' + (t.active ? 'ACTIVE' : 'LAPSED') + '<br>ETA d6 RNDS</div>' +
+          '<div class="ttstk" title="Weeks left"><b>' + wk + '</b><small>WKS</small></div><div class="tttri">' + (t.active ? 'A' : '!') + '</div></div>' +
+        '<div class="tttier">' + esc(T.label.toUpperCase()) + '</div>' +
+        '<div class="ttstrip"><div class="dig"><span>' + esc(digits.slice(0, 7)) + '</span><span>' + esc(digits.slice(7)) + '</span><span>WK ' + wk + '</span></div>' + ttSaw() + TT_CHIP + '</div>' +
+      '</div><span class="ttbrk a"></span><span class="ttbrk c"></span></div></div>';
+    var back = '<div class="ttface b"><div class="ttglass">' + TT_CIRC + '</div><div class="ttcard">' + TT_CIRC + '<div class="ttb"><div style="display:flex;flex-direction:column;min-width:0">' +
+        barcode(sin) + '<div class="ser">' + esc(digits) + '</div>' +
+        '<dl><dt>Plan</dt><dd>' + esc(T.label) + ' · ' + esc(T.rate) + '</dd><dt>Surgery</dt><dd>' + esc(T.surg) + '</dd><dt>Call</dt><dd>An Action · auto via Agent + Biomonitor</dd><dt>ETA</dt><dd>d6 Rounds</dd><dt>Cover</dt><dd>You, or one friend instead</dd></dl>' +
+        '<div class="big">' + esc(T.label.toUpperCase()) + '</div><div class="cid">CARD ID ' + esc(cid) + ' · WEEKS LEFT ' + wk + '</div></div>' +
+        '<div class="ttscanar"><small>SCAN AREA</small><div class="ttsq">' + TT_MARK + '</div><small>CARD ID ' + esc(cid) + '</small></div>' +
+      '</div></div></div>';
+    var card = '<button type="button" class="ttc t-' + t.tier + (t.active ? '' : ' off') + (ttBack ? ' back' : '') + '" id="ttflip" aria-pressed="' + ttBack + '" aria-label="Trauma Team ' + esc(T.label) + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '. Flip the card">' +
+      '<span class="ttflip">' + front + back + '</span><span class="ttslash"><span>COVERAGE INACTIVE</span></span><span class="shine"></span></button>';
     var ctl = lock ? '' : '<div class="ttctl">' +
       '<button type="button" class="prsw" id="ttsw" aria-pressed="' + t.active + '"><i></i>' + (t.active ? 'Active' : 'Inactive') + '</button>' +
       '<span class="ttseg" role="group" aria-label="Plan">' + Object.keys(TT_TIERS).map(function(k){ return '<button type="button" data-tt="' + k + '" aria-pressed="' + (t.tier === k) + '">' + TT_TIERS[k].label + '</button>'; }).join("") + '</span>' +
       '<span class="ttwkc">Weeks<span class="ctr" role="group" aria-label="Weeks left"><button data-ttw="-1" aria-label="One week less"' + (!t.weeks ? ' disabled' : '') + '>−</button><output>' + (t.weeks === "" ? '–' : t.weeks) + '</output><button data-ttw="1" aria-label="One week more">+</button></span></span>' +
     '</div>';
-    return '<section class="box ttbox"><div class="hb">Trauma Team<span class="prstate' + (t.active ? ' on' : '') + '">' + (t.active ? 'Active' : 'Inactive') + '</span></div><div class="ttbody">' + card + ctl +
-      '<p class="prule"><b>' + esc(T.label) + ':</b> ' + esc(T.rule) + ' Calling them is an Action (automatic through a registered Agent and Biomonitor when HP drops below BODY or a limb is lost); they arrive in d6 Rounds. Coverage can be used for one friend instead of yourself.</p>' +
-    '</div></section>';
+    return '<div class="ttwrap"><div class="ttfit">' + card + '</div>' + ctl + '</div>';
   }
   function saveTT(){
     render(); status("Unsaved");
@@ -3269,6 +3309,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
     if (b.dataset.tog){ if (editing) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
+    if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
     if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }
     if (b.dataset.tt){ if (readOnly) return; var t2 = ttState(); t2.tier = b.dataset.tt; S.tt = t2; saveTT(); return; }
     if (b.dataset.ttw){ if (readOnly) return; var t3 = ttState(); t3.weeks = Math.max(0, (+t3.weeks || 0) + (+b.dataset.ttw)); S.tt = t3; saveTT(); return; }

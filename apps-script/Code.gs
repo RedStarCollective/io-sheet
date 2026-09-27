@@ -90,10 +90,10 @@ function saveTraining_(body) {
   return { ok: true, training: t };
 }
 
-/** Stores the Trauma Team card: active, tier (silver or platinum) and weeks left. */
+/** Stores the Trauma Team card: active, tier (silver or executive) and weeks left. */
 function saveTT_(body) {
   const w = body.weeks === '' || body.weeks == null ? '' : Math.max(0, Math.min(520, Math.round(Number(body.weeks)) || 0));
-  const t = { active: body.active === true, tier: body.tier === 'platinum' ? 'platinum' : 'silver', weeks: w, updated: new Date().toISOString() };
+  const t = { active: body.active === true, tier: (body.tier === 'executive' || body.tier === 'platinum') ? 'executive' : 'silver', weeks: w, updated: new Date().toISOString() };
   PropertiesService.getScriptProperties().setProperty('TT', JSON.stringify(t));
   return { ok: true, tt: t };
 }
