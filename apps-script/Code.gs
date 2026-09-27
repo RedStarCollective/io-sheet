@@ -10,6 +10,8 @@
  *   3. Deploy > New deployment > type "Web app".
  *        Execute as: Me.   Who has access: Anyone.
  *      Authorize when asked. Copy the Web app URL (ends in /exec).
+ *   Updating later: Deploy > Manage deployments > pencil icon > Version: New version > Deploy.
+ *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
  * Writing needs EDIT_KEY, and can only change pharma dose counts.
@@ -18,12 +20,20 @@
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
 const TABS = ['Stats & Skills Iō', 'Skill Improvements', 'Skill Improvement Calculator'];
 
+// Tab names are matched loosely (spaces, capitals and accents ignored), so "Stats & Skills Io " still counts.
+function tabKey_(s) { return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toLowerCase(); }
+function findTab_(ss, name) {
+  const want = tabKey_(name);
+  return ss.getSheets().filter(function (sh) { return tabKey_(sh.getName()) === want; })[0] || null;
+}
+
 function doGet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const out = { updated: new Date().toISOString(), sheets: {} };
+  const out = { updated: new Date().toISOString(), sheets: {}, missing: [] };
   TABS.forEach(function (name) {
-    const sh = ss.getSheetByName(name);
+    const sh = findTab_(ss, name);
     if (sh) out.sheets[name] = sh.getDataRange().getDisplayValues();
+    else out.missing.push(name);
   });
   return json_(out);
 }
@@ -40,7 +50,7 @@ function doPost(e) {
 
 /** Finds the "Pharma" list on the Stats tab and writes each dose count two columns to the right of its name. */
 function savePharma_(items) {
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(TABS[0]);
+  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), TABS[0]);
   if (!sh) return { ok: false, error: 'Stats tab not found' };
   const vals = sh.getDataRange().getDisplayValues();
   let hr = -1, hc = -1;

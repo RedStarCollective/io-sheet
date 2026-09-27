@@ -2672,7 +2672,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
      On *.github.io the page reads Oak's Google Sheet through an Apps Script web app (apps-script/Code.gs).
      data/io.json stays the base (art, rules text, rep events, posse, vehicles); the sheet overlays the
      numbers and lists it owns. Visiting once with ?key=EDIT_KEY unlocks the dose counters on that device. */
-  var SHEET_API = "";
+  var SHEET_API = "https://script.google.com/macros/s/AKfycbxHyP13HOErUASVTbd0cN2Gkg5XJa05Y6oMGZVdqfvhvfCy7CeiTKtw25mBS1k_I30GVQ/exec";
   var SHEET_TABS = {stats:"Stats & Skills Iō", imp:"Skill Improvements", calc:"Skill Improvement Calculator"};
   var HOSTED = /github\.io$/.test(location.hostname) || /[?&]hosted=1/.test(location.search);
   var EDIT_KEY = "", syncInfo = "", lastPull = 0, doseQueue = {};
