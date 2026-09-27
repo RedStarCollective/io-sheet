@@ -2673,7 +2673,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
      data/io.json stays the base (art, rules text, rep events, posse, vehicles); the sheet overlays the
      numbers and lists it owns. Visiting once with ?key=EDIT_KEY unlocks the dose counters on that device. */
   var SHEET_API = "https://script.google.com/macros/s/AKfycbxHyP13HOErUASVTbd0cN2Gkg5XJa05Y6oMGZVdqfvhvfCy7CeiTKtw25mBS1k_I30GVQ/exec";
-  var SHEET_TABS = {stats:"Stats & Skills Iō", imp:"Skill Improvements", calc:"Skill Improvement Calculator"};
+  var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator"};
+  function tabKey(t){ return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9&]+/g, " ").trim().toLowerCase(); }
+  function sheetOf(j, name){ var k = tabKey(name); for (var n in j.sheets) if (tabKey(n) === k) return j.sheets[n]; return null; }
   var HOSTED = /github\.io$/.test(location.hostname) || /[?&]hosted=1/.test(location.search);
   var EDIT_KEY = "", syncInfo = "", lastPull = 0, doseQueue = {};
   try {
@@ -2817,7 +2819,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (!quiet){ syncInfo = "syncing…"; status(readOnly ? "View only · syncing…" : "Syncing…"); }
     fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(j){
       if (!j || !j.sheets) throw new Error("no data");
-      var st = j.sheets[SHEET_TABS.stats], si = j.sheets[SHEET_TABS.imp], sc = j.sheets[SHEET_TABS.calc];
+      var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
       if (st) syncStats(Grid(st));
       if (si) syncLog(Grid(si));
       if (sc) syncPlan(Grid(sc));

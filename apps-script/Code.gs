@@ -18,10 +18,10 @@
  */
 
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
-const TABS = ['Stats & Skills Iō', 'Skill Improvements', 'Skill Improvement Calculator'];
+const TABS = ['Stats & Skills [Iō]', 'Skill Improvements', 'Skill Improvement Calculator'];
 
-// Tab names are matched loosely (spaces, capitals and accents ignored), so "Stats & Skills Io " still counts.
-function tabKey_(s) { return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toLowerCase(); }
+// Tab names are matched loosely (spaces, brackets, capitals and accents ignored), so "Stats & Skills Io" still counts.
+function tabKey_(s) { return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9&]+/g, ' ').trim().toLowerCase(); }
 function findTab_(ss, name) {
   const want = tabKey_(name);
   return ss.getSheets().filter(function (sh) { return tabKey_(sh.getName()) === want; })[0] || null;
