@@ -14,7 +14,8 @@
  *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
- * Writing needs EDIT_KEY, and can only change pharma dose counts.
+ * Writing needs EDIT_KEY, and can only change pharma dose counts and the Training Area picks.
+ * The Training Area picks are kept in Script Properties (TRAINING), not in a sheet cell.
  */
 
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
@@ -35,6 +36,7 @@ function doGet() {
     if (sh) out.sheets[name] = sh.getDataRange().getDisplayValues();
     else out.missing.push(name);
   });
+  try { out.training = JSON.parse(PropertiesService.getScriptProperties().getProperty('TRAINING') || 'null'); } catch (err) { out.training = null; }
   return json_(out);
 }
 
@@ -45,6 +47,7 @@ function doPost(e) {
   if (!key || body.key !== key) return json_({ ok: false, error: 'not allowed' });
   if (body.type === 'ping') return json_({ ok: true });
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
+  if (body.type === 'training') return json_(saveTraining_(body));
   return json_({ ok: false, error: 'unknown request' });
 }
 
@@ -74,6 +77,14 @@ function savePharma_(items) {
     }
   });
   return { ok: true, saved: saved };
+}
+
+/** Stores whether the Training Area is active and which (up to three) skills are Practiced. */
+function saveTraining_(body) {
+  const skills = (Array.isArray(body.skills) ? body.skills : []).map(function (s) { return String(s).slice(0, 80); }).slice(0, 3);
+  const t = { active: body.active === true, skills: skills, updated: new Date().toISOString() };
+  PropertiesService.getScriptProperties().setProperty('TRAINING', JSON.stringify(t));
+  return { ok: true, training: t };
 }
 
 function json_(o) {

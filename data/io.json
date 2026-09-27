@@ -1280,7 +1280,6 @@
   190,
   27880
  ],
- "techTime": 0,
  "commission": 3,
  "aliases": "Dr. Kōru Singh, Galileo, Beard-Kun,  JAQ, Reginald Sterling, Magna Defender, Martian Manhunter, IP MAN",
  "name": "Dr. Kōru Singh",
@@ -5271,5 +5270,9 @@
     "skill": "Basic Tech (TECH)"
    }
   ]
+ },
+ "training": {
+  "active": false,
+  "skills": []
  }
 }
