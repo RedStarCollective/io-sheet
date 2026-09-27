@@ -2796,6 +2796,76 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     });
   }
 
+
+  /* Gear boxes on the Stats tab. Lists are rebuilt in the sheet's order; web-only styling
+     (weapon tone and indent, pharma group headings) is kept when a row's name matches. */
+  function cleanName(t){ return String(t).replace(/^[^\p{L}\p{N}\[\(]+/u, "").trim(); }
+  function colIn(g, r, label, from){ var row = g.at, t = normN(label); for (var c = from; c < from + 12; c++) if (normN(g.at(r, c)) === t) return c; return -1; }
+  function rowsUnder(g, hd, stopRe, max){
+    var out = [];
+    for (var r = hd[0] + 1; r < Math.min(g.rows, hd[0] + 1 + max); r++){
+      var t = g.at(r, hd[1]);
+      if (stopRe && stopRe.test(normN(t))) break;
+      if (t) out.push(r);
+    }
+    return out;
+  }
+  function byName(list){ var m = {}; (list || []).forEach(function(x){ var k = normN(typeof x === "string" ? x : x.name); if (!m[k]) m[k] = x; }); return m; }
+  function syncGear(g){
+    var ar = g.find("Armor");
+    if (ar){
+      var tc = colIn(g, ar[0], "Type", ar[1]), sc = colIn(g, ar[0], "SP", ar[1]), pc = colIn(g, ar[0], "Penalty", ar[1]), out = [];
+      rowsUnder(g, ar, /^penalty applies/, 10).forEach(function(r){
+        out.push({name:g.at(r, ar[1]), loc:tc > 0 ? g.at(r, tc) : "", sp:sc > 0 ? numV(g.at(r, sc)) : "", pen:pc > 0 ? numV(g.at(r, pc)) : ""});
+      });
+      if (out.length) S.armor = out;
+    }
+    var wp = g.find("Weapon");
+    if (wp){
+      var dc = colIn(g, wp[0], "DMG", wp[1]), rc = colIn(g, wp[0], "ROF", wp[1]), old = byName(S.weapons), out2 = [];
+      rowsUnder(g, wp, /^aliases$/, 11).forEach(function(r){
+        var n = g.at(r, wp[1]), o = old[normN(n)] || {};
+        out2.push({name:o.name || cleanName(n), dmg:dc > 0 ? g.at(r, dc) : "", rof:rc > 0 ? numV(g.at(r, rc)) : ""});
+      });
+      if (out2.length) S.weapons = out2;
+    }
+    var cw = g.find("Cyberweapon");
+    if (cw){
+      var dc2 = colIn(g, cw[0], "DMG", cw[1]), ac = colIn(g, cw[0], "Ammo", cw[1]), rc2 = colIn(g, cw[0], "ROF", cw[1]), old2 = byName(S.cyberweapons), out3 = [];
+      rowsUnder(g, cw, /^other inventory$/, 11).forEach(function(r){
+        var n = g.at(r, cw[1]), o = old2[normN(n)] || {};
+        out3.push({name:o.name || cleanName(n), dmg:dc2 > 0 ? g.at(r, dc2) : "", ammo:ac > 0 ? numV(g.at(r, ac)) : "", rof:rc2 > 0 ? numV(g.at(r, rc2)) : "", head:!!o.head, tone:o.tone || "", ind:!!o.ind});
+      });
+      if (out3.length) S.cyberweapons = out3;
+    }
+    var inv = g.find("Other Inventory");
+    if (inv){ var li = rowsUnder(g, inv, /^cash$|^fashion$|^housing$/, 30).map(function(r){ return g.at(inv[0] > -1 ? r : r, inv[1]); }); if (li.length) S.inventory = li; }
+    var cc = g.find("Concealed Items");
+    if (cc){
+      var out4 = [];
+      rowsUnder(g, cc, null, 14).forEach(function(r){ out4.push({name:g.at(r, cc[1]), where:g.right(r, cc[1])}); });
+      if (out4.length) S.concealed = out4;
+    }
+    var al = g.find("Aliases"); if (al){ var av = g.right(al[0], al[1]); if (av) S.aliases = av; }
+    /* pharma and throwables: rebuilt so rows added in the sheet appear too */
+    var ph = g.find("Pharma"), cash = g.find("Cash");
+    if (ph){
+      var oldP = byName(S.pharma), out5 = [], end = cash && cash[0] > ph[0] ? cash[0] - ph[0] - 1 : 25;
+      rowsUnder(g, ph, null, end).forEach(function(r){
+        var n = g.at(r, ph[1]), cnt = numV(g.at(r, ph[1] + 2)), o = oldP[normN(n)];
+        var head = o ? !!o.head : cnt === "";
+        out5.push({name:o ? o.name : cleanName(n), n:head ? "" : (cnt === "" ? 0 : cnt), head:head});
+      });
+      if (out5.length) S.pharma = out5;
+    }
+    var th = g.find("Throwables");
+    if (th){
+      var oldT = byName(S.throwables), out6 = [];
+      rowsUnder(g, th, /^concealed items$/, 20).forEach(function(r){ var n = g.at(r, th[1]), o = oldT[normN(n)]; out6.push({name:o ? o.name : cleanName(n), n:numV(g.at(r, th[1] + 3))}); });
+      if (out6.length) S.throwables = out6;
+    }
+  }
+
   /* Skill Improvements tab: "Name a to b" + cost. The sheet decides which rows exist and their order;
      categories, dossier links and notes are kept from the web data when the name matches. */
   function syncLog(g){
@@ -2852,7 +2922,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(j){
       if (!j || !j.sheets) throw new Error("no data");
       var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
-      if (st) syncStats(Grid(st));
+      if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
       if (sc) syncPlan(Grid(sc));
       saved = clone(S);
