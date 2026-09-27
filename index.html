@@ -1327,70 +1327,79 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .sk tr.practiced td:nth-child(2) .dec{color:var(--gold)}
 .sk tr.practiced td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
 
-/* loadout: Trauma Team card (fills the space under Concealed Items; click flips it) */
+/* loadout: Trauma Team card v5. Cyberpunk ID card, original layout and emblem */
 .ttwrap{display:flex;flex-direction:column;align-items:center;gap:8px}
 .ttfit{width:100%;display:flex;justify-content:center}
-.ttc{--w:min(100%,460px);text-align:left;position:relative;width:var(--w);aspect-ratio:1.64/1;perspective:1200px;cursor:pointer;container-type:inline-size;border:0;padding:0;background:none;color:inherit;font:inherit;display:block}
+.ttc{--w:min(100%,460px);--cut:polygon(5.5cqw 0,100% 0,100% calc(100% - 5.5cqw),calc(100% - 5.5cqw) 100%,0 100%,0 5.5cqw);text-align:left;position:relative;width:var(--w);aspect-ratio:1.6/1;perspective:1400px;cursor:pointer;container-type:inline-size;border:0;padding:0;background:none;color:inherit;font:inherit;display:block}
 @media (min-width:1321px){
   .lo > .stack{align-self:stretch}
   .ttwrap{flex:1 1 0;min-height:170px;contain:size}
   .ttfit{flex:1 1 0;min-height:0;container-type:size;align-items:center}
-  .ttc{--w:min(100cqw,calc(100cqh * 1.64),460px)}
+  .ttc{--w:min(100cqw,calc(100cqh * 1.6),460px)}
 }
 .ttflip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.7,.2,1)}
 .ttc.back .ttflip{transform:rotateY(180deg)}
 @media (prefers-reduced-motion:reduce){.ttflip{transition:none}}
-.ttface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  clip-path:polygon(0 0,calc(100% - 5.2cqw) 0,100% 5.2cqw,100% 100%,0 100%);
-  background:radial-gradient(120% 90% at 0% 0%,rgba(159,12,23,.26),transparent 55%),linear-gradient(160deg,#171110,#0a0707 60%,#0e0a09)}
+.ttface{position:absolute;inset:0;clip-path:var(--cut);backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:linear-gradient(160deg,#141212,#080707 55%,#0e0c0c)}
 .ttface.b{transform:rotateY(180deg)}
-.ttface::before{content:"";position:absolute;inset:0;padding:.45cqw;clip-path:inherit;background:linear-gradient(135deg,#8a6c3d,#6b5431 40%,#b58f52 70%,#6b5431);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
-.ttface::after{content:"";position:absolute;right:0;top:0;width:9cqw;height:9cqw;background:var(--gold);clip-path:polygon(42% 0,58% 0,100% 42%,100% 58%);opacity:.9;z-index:3}
-.ttcirc{position:absolute;inset:0;width:100%;height:100%;color:var(--gold);opacity:.13}
-.ttf{position:absolute;inset:0;padding:4.4cqw 5cqw 3.6cqw;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:3.6cqw}
-.ttmark{width:17cqw;height:17cqw;flex:none}
-.tthead{display:contents}
-.ttwm{align-self:center;min-width:0}
-.ttwm small{display:block;font:700 2.3cqw/1 var(--f-body);letter-spacing:.26em;color:var(--ink-3);text-transform:uppercase}
-.ttwm b{display:block;font:700 7.6cqw/.95 var(--f-disp);letter-spacing:.01em;color:var(--ink);margin-top:.9cqw;white-space:nowrap}
-.ttwm .chip{display:inline-block;margin-top:1.4cqw;font:700 2.3cqw/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:.25cqw solid var(--frame);padding:.8cqw 1.6cqw .6cqw}
-.ttstats{grid-column:1 / 3;align-self:center;display:grid;grid-template-columns:1.1fr 1fr 1fr;border-top:.25cqw solid var(--line);border-bottom:.25cqw solid var(--line);margin-top:2.6cqw}
-.ttstats div{padding:1.6cqw 2cqw 1.4cqw;border-left:.25cqw solid var(--line);display:flex;flex-direction:column;gap:.9cqw;min-width:0}
-.ttstats div:first-child{border-left:0;padding-left:0}
-.ttstats small{font:700 2cqw/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}
-.ttstats b{font:600 6cqw/1 var(--f-num);color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
-.ttstats b.red{color:var(--red-hi)}
-.ttstats b u{text-decoration:none;font-size:.5em;color:var(--ink-3);margin-left:.4em}
-.ttstats b.st{font:700 3.4cqw/1.5 var(--f-body);letter-spacing:.16em;color:var(--gold)}
-.ttc.off .ttstats b.st{color:var(--red-hi)}
-.ttfoot{grid-column:1 / 3;display:flex;align-items:flex-end;gap:3cqw;margin-top:2.4cqw}
-.ttfoot .bc{height:6cqw;width:34cqw;fill:#d8cfc6;flex:none}
-.ttfoot span{font:600 2.3cqw/1 var(--f-num);letter-spacing:.24em;color:var(--ink-2);white-space:nowrap}
-.ttfoot em{margin-left:auto;font:700 2cqw/1 var(--f-body);font-style:normal;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}
-/* back */
-.ttb{position:absolute;inset:0;padding:4.4cqw 5cqw 3.6cqw;display:grid;grid-template-columns:minmax(0,1fr) 30cqw;column-gap:4cqw}
-.ttb h4{margin:0;font:700 2.3cqw/1 var(--f-body);letter-spacing:.26em;color:var(--ink-3);text-transform:uppercase}
-.ttb .big{font:700 5.6cqw/1 var(--f-disp);color:var(--ink);margin:1cqw 0 0}
-.ttb dl{margin:2.2cqw 0 0;display:grid;grid-template-columns:auto 1fr;gap:1cqw 2cqw;font:500 2.5cqw/1.25 var(--f-body)}
-.ttb dt{font-weight:700;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;font-size:2.1cqw;padding-top:.3cqw}
-.ttb dd{margin:0;color:var(--ink-2)}
-.ttb .src{margin-top:auto;font:600 2cqw/1 var(--f-body);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
-.ttscanar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw}
-.ttscanar small{font:700 2cqw/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3)}
-.ttsq{position:relative;width:24cqw;height:24cqw;display:flex;align-items:center;justify-content:center;border:.25cqw solid var(--line)}
-.ttsq::before{content:"";position:absolute;inset:-1.4cqw;background:
-  linear-gradient(var(--gold),var(--gold)) 0 0/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 0 0/.35cqw 3cqw,linear-gradient(var(--gold),var(--gold)) 100% 0/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 100% 0/.35cqw 3cqw,
-  linear-gradient(var(--gold),var(--gold)) 0 100%/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 0 100%/.35cqw 3cqw,linear-gradient(var(--gold),var(--gold)) 100% 100%/3cqw .35cqw,linear-gradient(var(--gold),var(--gold)) 100% 100%/.35cqw 3cqw;background-repeat:no-repeat}
-.ttsq .ttmark{width:16cqw;height:16cqw}
-/* inactive */
-.ttslash{position:absolute;inset:0;display:none;pointer-events:none;overflow:hidden;clip-path:polygon(0 0,calc(100% - 5.2cqw) 0,100% 5.2cqw,100% 100%,0 100%)}
-.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.1cqw;background:var(--red-hi);transform:rotate(-22deg);box-shadow:0 0 2cqw rgba(209,28,40,.55)}
-.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-22deg);font:700 3.1cqw/1 var(--f-disp);letter-spacing:.22em;color:#fff;background:var(--red);padding:1cqw 2.4cqw;white-space:nowrap}
-.ttc.off .ttface > *:not(.ttb){filter:saturate(.25) brightness(.72)}
-.ttc.off .ttslash{display:block}
+.ttface::after{content:"";position:absolute;inset:0;padding:.35cqw;clip-path:var(--cut);background:linear-gradient(135deg,#5a1016,#2a2424 30%,#3a3232 70%,#6b1219);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ttcirc{position:absolute;inset:0;width:100%;height:100%;color:#3b3434;pointer-events:none}
+.ttscan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 .25cqw,transparent .25cqw .7cqw)}
+/* header bar */
+.tthd{position:absolute;left:0;right:0;top:0;height:18%;display:flex;align-items:center;gap:2.6cqw;padding:0 4cqw 0 7cqw;background:linear-gradient(90deg,#9f0c17,#d11c28 55%,#9f0c17);clip-path:polygon(5.5cqw 0,100% 0,100% 100%,0 100%,0 5.5cqw)}
+.tthd::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.5cqw;background:#000;opacity:.35}
+.tthd b{font:700 6.2cqw/1 var(--f-disp);letter-spacing:.06em;color:#fff;white-space:nowrap}
+.tthd small{margin-left:auto;font:700 1.9cqw/1.25 var(--f-num);letter-spacing:.14em;color:rgba(255,255,255,.85);text-align:right;white-space:nowrap}
+.tthaz{position:absolute;right:0;top:18%;width:14cqw;height:2.2cqw;background:repeating-linear-gradient(-45deg,#d11c28 0 1.1cqw,#0a0808 1.1cqw 2.2cqw)}
+/* body */
+.ttbd{position:absolute;left:0;right:0;top:18%;bottom:0;padding:4cqw 5cqw 3.4cqw 5cqw;display:grid;grid-template-columns:17cqw minmax(0,1fr) 17cqw;grid-template-rows:1fr auto;column-gap:3.6cqw}
+.ttmark{width:17cqw;height:17cqw;align-self:start}
+.ttemb{display:flex;flex-direction:column;gap:1.4cqw}
+.ttemb span{font:700 1.8cqw/1 var(--f-num);letter-spacing:.16em;color:#8a8080;text-align:center}
+.ttemb em{font:700 3cqw/1 var(--f-disp);font-style:normal;letter-spacing:.14em;color:#fff;background:#d11c28;text-align:center;padding:.9cqw 0 .7cqw;text-transform:uppercase}
+.ttc.t-executive .ttemb em{font-size:2.3cqw;letter-spacing:.08em;background:linear-gradient(90deg,#b58f52,#f3d58e,#b58f52);color:#140f0e}
+.ttdata{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.1cqw 1.8cqw;align-content:start;font:600 2.35cqw/1.2 var(--f-num);letter-spacing:.04em}
+.ttdata dt{color:#7d7474;letter-spacing:.14em}
+.ttdata dt::after{content:" /"}
+.ttdata dd{margin:0;color:#ece6e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
+.ttdata dd.red{color:#ff4a55}
+.ttdata dd.big{font:700 3cqw/1.05 var(--f-disp);letter-spacing:.02em;color:#fff;text-transform:none}
+.ttret{position:relative;align-self:start;height:17cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw}
+.ttret::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(#d11c28,#d11c28) 0 0/3.2cqw .45cqw,linear-gradient(#d11c28,#d11c28) 0 0/.45cqw 3.2cqw,linear-gradient(#d11c28,#d11c28) 100% 0/3.2cqw .45cqw,linear-gradient(#d11c28,#d11c28) 100% 0/.45cqw 3.2cqw,
+  linear-gradient(#d11c28,#d11c28) 0 100%/3.2cqw .45cqw,linear-gradient(#d11c28,#d11c28) 0 100%/.45cqw 3.2cqw,linear-gradient(#d11c28,#d11c28) 100% 100%/3.2cqw .45cqw,linear-gradient(#d11c28,#d11c28) 100% 100%/.45cqw 3.2cqw;background-repeat:no-repeat}
+.ttret::after{content:"";position:absolute;left:50%;top:50%;width:1.2cqw;height:1.2cqw;transform:translate(-50%,-50%);border:.25cqw solid rgba(209,28,40,.4);border-radius:50%;opacity:.0}
+.ttret small{font:700 1.7cqw/1 var(--f-num);letter-spacing:.22em;color:#8a8080}
+.ttret b{font:700 8cqw/.9 var(--f-num);color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.ttret b.due{color:#ff4a55}
+.ttbar{grid-column:1 / 4;display:flex;align-items:flex-end;gap:3cqw;margin-top:2.6cqw}
+.ttbar .bc{flex:1;height:6.4cqw;fill:#ece6e0}
+.ttser{flex:none;font:600 1.45cqw/1.4 var(--f-num);letter-spacing:.08em;color:#8a8080;white-space:nowrap}
+.ttser b{color:#ece6e0;font-weight:600}
+.ttrail{position:absolute;right:1.5cqw;top:24%;bottom:14%;width:1.2cqw;background:repeating-linear-gradient(180deg,#5a5050 0 .4cqw,transparent .4cqw 1.4cqw)}
+/* back: terminal readout */
+.ttbk{position:absolute;inset:0;padding:6cqw 6cqw 4.6cqw 7cqw;display:grid;grid-template-columns:minmax(0,1fr) 22cqw;column-gap:4.4cqw}
+.ttterm{font:600 2.3cqw/1.55 var(--f-num);color:#d9d1ca;letter-spacing:.03em;min-width:0}
+.ttterm .h{color:#ff4a55;letter-spacing:.14em;margin-bottom:1cqw}
+.ttterm .ttkv{display:grid;grid-template-columns:14cqw minmax(0,1fr);column-gap:1.6cqw}
+.ttterm .ttkv span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ttterm i{font-style:normal;color:#7d7474}
+.ttterm .cur::after{content:"_";color:#ff4a55}
+.ttqr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw}
+.ttqr .qw{position:relative;padding:1.8cqw}
+.ttqr .qw::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(#d11c28,#d11c28) 0 0/3cqw .45cqw,linear-gradient(#d11c28,#d11c28) 0 0/.45cqw 3cqw,linear-gradient(#d11c28,#d11c28) 100% 0/3cqw .45cqw,linear-gradient(#d11c28,#d11c28) 100% 0/.45cqw 3cqw,
+  linear-gradient(#d11c28,#d11c28) 0 100%/3cqw .45cqw,linear-gradient(#d11c28,#d11c28) 0 100%/.45cqw 3cqw,linear-gradient(#d11c28,#d11c28) 100% 100%/3cqw .45cqw,linear-gradient(#d11c28,#d11c28) 100% 100%/.45cqw 3cqw;background-repeat:no-repeat}
+.ttqr svg{display:block;width:17cqw;height:17cqw}
+.ttqr small{font:700 1.6cqw/1 var(--f-num);letter-spacing:.2em;color:#8a8080}
+/* lapsed */
+.ttlap{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%) rotate(-8deg);display:none;pointer-events:none;
+  font:700 5.2cqw/1 var(--f-disp);letter-spacing:.24em;color:#fff;background:#d11c28;padding:1.4cqw 3cqw 1.2cqw 4cqw;box-shadow:.8cqw .8cqw 0 #000;white-space:nowrap}
+.ttc.off .ttbd,.ttc.off .tthd,.ttc.off .tthaz{filter:saturate(.15) brightness(.55)}
+.ttc.off .ttlap{display:block}
 .ttc:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
-.tthint{position:absolute;right:4.6cqw;bottom:-4.6cqw;font:700 1.9cqw/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
 /* owner controls */
 .ttctl{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;flex:none}
 .ttctl .prsw{padding:5px 9px;font-size:12px;align-self:auto}
@@ -1718,39 +1727,59 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 
 
   /* Trauma Team card. Core rulebook p. 224: Silver 500eb/month, Executive 1,000eb/month. */
-  var TT_TIERS = {silver:{label:"Silver", rate:"500eb / month", surg:"Billed at hospital rates"},
-                  executive:{label:"Executive", rate:"1,000eb / month", surg:"Included"}};
+  var TT_TIERS = {silver:{label:"Silver", rate:"500eb / month", surg:"Billed at hospital rates", short:"Hospital rate"},
+                  executive:{label:"Executive", rate:"1,000eb / month", surg:"Included", short:"Included"}};
   var ttBack = false;
   function ttState(){ var t = S.tt || {}, tier = t.tier === "platinum" ? "executive" : t.tier;
     return {active:!!t.active, tier:TT_TIERS[tier] ? tier : "silver", weeks:(t.weeks === "" || t.weeks == null) ? "" : Math.max(0, Math.round(+t.weeks) || 0)}; }
-  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 164 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".45">' +
-    '<path d="M0 30h20l5 5h26M164 18h-30l-5 5v20l-6 6h-20M120 100V86l6-6h38M0 76h12l4-4h24l4 4h30"/>' +
-    '<circle cx="51" cy="35" r="1"/><circle cx="103" cy="49" r="1"/><circle cx="74" cy="76" r="1"/></g></svg>';
-  /* Original emblem: a medevac AV seen from above (four thruster rings, fuselage, pulse line) inside a red hexagon */
+  /* Original emblem: angular red "drop" chevron with a vertical lifeline bar (medevac descending), cut from blocks */
   var TT_MARK = '<svg class="ttmark" viewBox="0 0 64 64" aria-hidden="true">' +
-    '<path d="M32 2 58 17v30L32 62 6 47V17z" fill="rgba(159,12,23,.22)" stroke="#d11c28" stroke-width="2.4"/>' +
-    '<g fill="none" stroke="#d11c28" stroke-width="2"><circle cx="18" cy="21" r="6.5"/><circle cx="46" cy="21" r="6.5"/><circle cx="18" cy="43" r="6.5"/><circle cx="46" cy="43" r="6.5"/></g>' +
-    '<path d="M24 21h16M24 43h16" stroke="#d11c28" stroke-width="2"/>' +
-    '<rect x="25" y="12" width="14" height="40" rx="7" fill="#f0ebe3"/>' +
-    '<polyline points="25,33 29,33 31,28 33,38 35,31 36.5,33 39,33" fill="none" stroke="#9f0c17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+    '<path d="M4 8h18l10 16 10-16h18L32 54z" fill="#d11c28"/>' +
+    '<path d="M4 8h18l10 16 10-16h18" fill="none" stroke="#ff6b73" stroke-width="1.2"/>' +
+    '<path d="M28 4h8v18h-8z" fill="#fff"/>' +
+    '<path d="M21 30h7l2-4 3 9 2-5h8" fill="none" stroke="#0a0808" stroke-width="2.6" stroke-linejoin="miter"/>' +
+    '<path d="M2 58h60" stroke="#d11c28" stroke-width="2" stroke-dasharray="6 3"/></svg>';
+  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".5">' +
+    '<path d="M0 60h14l5 5h22l4-4h30M160 40h-16l-5 5v18l-6 6h-24M96 100V88l6-6h24l5-5h29M20 100V84l6-6h10M0 28h8l4 4v14"/>' +
+    '<path d="M70 61v5M74 61v5M78 61v5M140 63h5M140 66h5" stroke-width=".8"/>' +
+    '<circle cx="45" cy="61" r="1"/><circle cx="109" cy="69" r="1"/><circle cx="36" cy="78" r="1"/></g></svg>';
+  function ttQR(seed){
+    var n = 21, h = 0, out = ""; for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    function rnd(){ h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0; return h / 4294967296; }
+    function finder(x, y){ return '<rect x="' + x + '" y="' + y + '" width="7" height="7"/><rect x="' + (x+1) + '" y="' + (y+1) + '" width="5" height="5" fill="#0b0909"/><rect x="' + (x+2) + '" y="' + (y+2) + '" width="3" height="3"/>'; }
+    for (var y = 0; y < n; y++) for (var x = 0; x < n; x++){
+      if ((x < 8 && y < 8) || (x > 12 && y < 8) || (x < 8 && y > 12)) continue;
+      if (rnd() > .52) out += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>';
+    }
+    return '<svg viewBox="0 0 21 21" fill="#ece6e0" shape-rendering="crispEdges" aria-hidden="true">' + out + finder(0,0) + finder(14,0) + finder(0,14) + '</svg>';
+  }
   function ttBox(){
     var t = ttState(), T = TT_TIERS[t.tier], lock = readOnly, wk = t.weeks === "" ? "--" : String(t.weeks).padStart(2, "0");
-    var sin = String(S.sin || ""), cid = sin.replace(/-[A-Z]+$/, "");
-    var front = '<div class="ttface f">' + TT_CIRC + '<div class="ttf">' + TT_MARK +
-        '<div class="ttwm"><small>Subscriber</small><b>TRAUMA TEAM</b><span class="chip">' + esc(T.label) + ' plan</span></div>' +
-        '<div class="ttstats"><div><small>Member</small><b style="font:700 3.4cqw/1.5 var(--f-body);letter-spacing:.06em">' + esc(S.name || "") + '</b></div>' +
-          '<div><small>Weeks left</small><b' + (t.active && t.weeks === 0 ? ' class="red"' : '') + '>' + wk + '</b></div>' +
-          '<div><small>Status</small><b class="st">' + (t.active ? 'Active' : 'Lapsed') + '</b></div></div>' +
-        '<div class="ttfoot">' + barcode(cid) + '<span>' + esc(cid) + '</span><em>' + esc(T.rate) + '</em></div>' +
-      '</div></div>';
-    var back = '<div class="ttface b">' + TT_CIRC + '<div class="ttb"><div style="display:flex;flex-direction:column;min-width:0">' +
-        '<h4>Coverage</h4><div class="big">' + esc(T.label) + ' · ' + esc(T.rate.replace(" / month", "/mo")) + '</div>' +
-        '<dl><dt>Surgery</dt><dd>' + esc(T.surg) + '</dd><dt>Call</dt><dd>An Action, or automatic via Agent + Biomonitor</dd><dt>Arrives</dt><dd>In d6 Rounds</dd><dt>Cover</dt><dd>You, or one friend instead</dd></dl>' +
-        '<div class="src">Core rulebook p. 224</div></div>' +
-        '<div class="ttscanar"><small>SCAN AREA</small><div class="ttsq">' + TT_MARK + '</div><small>' + esc(cid) + '</small></div>' +
+    var sin = String(S.sin || ""), d = sin.replace(/[^0-9A-Z]/g, "");
+    function kv(k, v){ return '<div class="ttkv"><i>' + k + '</i><span>' + esc(v) + '</span></div>'; }
+    var front = '<div class="ttface f">' + TT_CIRC + '<div class="ttscan"></div>' +
+      '<div class="tthd"><b>TRAUMA TEAM</b><small>RAPID RESPONSE<br>MEDEVAC // ' + esc(T.label.toUpperCase()) + '</small></div><div class="tthaz"></div>' +
+      '<div class="ttbd">' +
+        '<div class="ttemb">' + TT_MARK + '<em>' + esc(T.label) + '</em><span>TIER</span></div>' +
+        '<dl class="ttdata"><dt>MEMBER</dt><dd class="big">' + esc(S.name || "") + '</dd>' +
+          '<dt>SIN</dt><dd>' + esc(sin) + '</dd>' +
+          '<dt>RATE</dt><dd>' + esc(T.rate) + '</dd>' +
+          '<dt>SURGERY</dt><dd>' + esc(T.short) + '</dd>' +
+          '<dt>STATUS</dt><dd' + (t.active ? '' : ' class="red"') + '>' + (t.active ? 'COVERED' : 'LAPSED') + '</dd></dl>' +
+        '<div class="ttret"><small>RENEW</small><b' + (t.active && t.weeks === 0 ? ' class="due"' : '') + '>' + wk + '</b><small>WEEKS</small></div>' +
+        '<div class="ttbar">' + barcode(sin) + '<div class="ttser">SER/ <b>' + esc(d.slice(0, 6)) + '</b><br>BDM/ <b>' + esc(d.slice(6)) + '-' + esc(t.tier.slice(0, 2).toUpperCase()) + '</b><br>ETA/ <b>d6 RND</b></div></div>' +
+      '</div><div class="ttrail"></div>' +
+      '<div class="ttlap">COVERAGE LAPSED</div>' +
+    '</div>';
+    var back = '<div class="ttface b">' + TT_CIRC + '<div class="ttscan"></div><div class="ttbk">' +
+        '<div class="ttterm"><div class="h">&gt; TT://POLICY.READ</div>' +
+          kv("PLAN", T.label.toUpperCase() + " · " + T.rate.toUpperCase()) + kv("SURGERY", T.surg.toUpperCase()) + kv("CALL", "ACTION · OR AGENT+BIOMON") +
+          kv("TRIGGER", "HP < BODY · LIMB LOST") + kv("ETA", "d6 ROUNDS") + kv("COVER", "SELF OR ONE FRIEND") + kv("SOURCE", "CRB P.224") +
+          '<div class="cur"><i>&gt;</i> ' + (t.active ? 'STATUS OK' : 'STATUS LAPSED') + ' </div></div>' +
+        '<div class="ttqr"><div class="qw">' + ttQR(sin + t.tier) + '</div><small>SCAN AT DISPATCH</small></div>' +
       '</div></div>';
     var card = '<button type="button" class="ttc t-' + t.tier + (t.active ? '' : ' off') + (ttBack ? ' back' : '') + '" id="ttflip" aria-pressed="' + ttBack + '" title="Flip the card" aria-label="Trauma Team ' + esc(T.label) + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '. Flip the card">' +
-      '<span class="ttflip">' + front + back + '</span><span class="ttslash"><span>COVERAGE INACTIVE</span></span></button>';
+      '<span class="ttflip">' + front + back + '</span></button>';
     var ctl = lock ? '' : '<div class="ttctl">' +
       '<button type="button" class="prsw" id="ttsw" aria-pressed="' + t.active + '"><i></i>' + (t.active ? 'Active' : 'Inactive') + '</button>' +
       '<span class="ttseg" role="group" aria-label="Plan">' + Object.keys(TT_TIERS).map(function(k){ return '<button type="button" data-tt="' + k + '" aria-pressed="' + (t.tier === k) + '">' + TT_TIERS[k].label + '</button>'; }).join("") + '</span>' +
