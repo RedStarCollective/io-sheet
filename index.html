@@ -1286,6 +1286,44 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   @keyframes pzoom{from{transform:scale(1);-webkit-mask-image:none;mask-image:none}}
 }
 
+/* posse: companion stat card */
+[data-ptab="stats"] .pp-stats{display:flex}
+.pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
+.pcard.has-stats[data-ptab="kit"] .pink{transform:translateX(192px)}
+.cvit{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
+.cv{display:flex;flex-direction:column;gap:2px;background:var(--cell);border:1px solid var(--line);padding:8px 10px 9px}
+.cv .lab{margin:0;font-size:10.5px}
+.cv b{font-family:var(--f-num);font-weight:600;font-size:26px;line-height:1.05;color:var(--ink)}
+.cv b i{font-style:normal;font-size:14px;color:var(--ink-3);margin-left:2px}
+.cv em{font-style:normal;font-size:12px;color:var(--ink-3);line-height:1.2}
+.cv.hp{border-left:3px solid var(--red-hi)}
+.cstats{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border:1px solid var(--frame)}
+.cstats.few{grid-template-columns:repeat(var(--n,4),minmax(0,1fr));max-width:calc(var(--n,4) * 90px)}
+.cstats div{display:flex;flex-direction:column;align-items:center;padding:0 0 6px;border-left:1px solid var(--line)}
+.cstats div:first-child{border-left:0}
+.cstats span{align-self:stretch;text-align:center;background:#000;font-weight:700;font-size:11px;letter-spacing:.1em;color:#fff;padding:2px 0 1px}
+.cstats b{font-family:var(--f-num);font-weight:600;font-size:22px;color:var(--ink);margin-top:3px}
+.catk{display:flex;flex-direction:column;gap:6px}
+.ca{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;background:linear-gradient(90deg,rgba(159,12,23,.16),rgba(28,23,22,.6) 60%);border:1px solid var(--line);border-left:3px solid var(--red-hi);padding:8px 12px}
+.can{display:flex;flex-direction:column;gap:2px;min-width:0}
+.can b{font-family:var(--f-cond);font-weight:600;font-size:18px;color:var(--ink);line-height:1.1}
+.can span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.can em{font-style:normal;font-size:13px;color:var(--ink-2);line-height:1.3}
+.cad{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.cad b{font-family:var(--f-num);font-weight:600;font-size:28px;line-height:1;color:var(--ink)}
+.cad span{font-family:var(--f-num);font-size:12px;color:var(--ink-3);white-space:nowrap}
+.cskills{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+.csk{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:5px 2px;border-bottom:1px solid var(--line)}
+.csk span{font-family:var(--f-cond);font-size:16px;color:var(--ink-2)}
+.csk small{margin-left:6px;font-family:var(--f-body);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink-3)}
+.csk b{font-family:var(--f-num);font-weight:600;font-size:17px;color:var(--ink)}
+.csk.best span{color:var(--ink)}
+.csk.best b{color:var(--gold)}
+.cup{margin:4px 0 0;padding:8px 10px;border:1px dashed var(--line);font-size:13.5px;color:var(--ink-2)}
+.cup .lab{margin-right:8px}
+.cup b{color:var(--red-hi)}
+@media (max-width:600px){ .cstats{grid-template-columns:repeat(5,minmax(0,1fr))} .cstats div:nth-child(6){border-left:0} .cstats.few{grid-template-columns:repeat(var(--n,2),minmax(0,1fr))} .cskills{grid-template-columns:1fr} }
+
 /* ---------- responsive ---------- */
 @media (max-width:1320px){
   .dossier{grid-template-columns:300px 92px minmax(0,1fr) minmax(0,1fr);
@@ -1397,7 +1435,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   }
   var READY = ["dossier","ware","rep","posse","vehicles","advance"];
   var tab = (location.hash || "").replace("#",""); if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (READY.indexOf(tab) < 0) tab = "dossier";
-  var TABS = ["Dossier","Ware","Lifepath","Rep","Posse","Companions","Vehicles","HQ","Advance"];
+  var TABS = ["Dossier","Ware","Lifepath","Rep","Posse","Vehicles","HQ","Advance"];
 
   function header(){
     return '' +
@@ -2041,11 +2079,10 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   function lineup(mini){
     var M = PM(), L = [], P = S.posse || {};
     M.forEach(function(m){ (m.imgs || []).forEach(function(src, k){ L.push({m:m, src:src, s:(m.scales || [])[k] || .93}); }); });
-    var comp = L.filter(function(x){ return (x.m.imgs || []).length > 1; }), rest = L.filter(function(x){ return (x.m.imgs || []).length <= 1; });
+    /* companions flank Iō: C1 at his right hand (flank "L" on screen), Laika sits at his left (flank "R") */
+    var fl = L.filter(function(x){ return x.m.flank === "L"; }), fr = L.filter(function(x){ return x.m.flank === "R"; }), rest = L.filter(function(x){ return !x.m.flank; });
     var nl = Math.floor(rest.length / 2), left = rest.slice(0, nl), right = rest.slice(nl);
-    /* the drone stands at Iō's right hand, the wolf sits at his left */
-    var droneFirst = comp.slice().sort(function(a, b){ return b.s - a.s; });
-    var seq = left.concat(droneFirst.slice(0, 1), P.leader ? [{lead:true, src:P.leader, s:P.leaderScale || 1}] : [], droneFirst.slice(1), right);
+    var seq = left.concat(fl, P.leader ? [{lead:true, src:P.leader, s:P.leaderScale || 1}] : [], fr, right);
     return '<div class="lineup' + (mini ? ' mini' : '') + '" role="list">' + seq.map(function(x, i){
       var st = ' style="--s:' + x.s + ';--i:' + Math.abs(i - (seq.length - 1) / 2) + '"';
       if (x.lead) return '<div class="fig lead" role="listitem"' + st + '><img src="' + esc(x.src) + '" alt="Iō"><span class="plate"><b>Iō</b><em>Leader</em></span></div>';
@@ -2059,6 +2096,32 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     return '<div class="phero' + (imgs.length > 1 ? ' duo' : '') + '" title="Tap to switch between close-up and full body"><div class="pz">' + imgs.join("") + '</div><span class="pzh" aria-hidden="true">Full body</span></div>';
   }
   function avatar(m){ var src = (m.imgs || [])[0]; return src ? '<span class="pav' + (/laika/i.test(src) ? ' wolf' : '') + '"><img src="' + esc(src) + '" alt=""></span>' : ''; }
+  /* companions (Laika, C1): a stat card built for how they're played, not a copy of the sheet */
+  function blockStats(b){
+    var v = '<div class="cvit">' +
+      '<div class="cv hp"><span class="lab">Hit points</span><b class="dec">' + esc(b.hp[0]) + '<i>/' + esc(b.hp[1]) + '</i></b>' +
+        (b.sw != null ? '<em>Seriously wounded at ' + esc(b.sw) + '</em>' : '') + '</div>' +
+      (b.armor || []).map(function(a){ return '<div class="cv"><span class="lab">' + esc(a.loc) + ' SP</span><b class="dec">' + esc(a.sp) + '</b><em>' + esc(String(a.name).replace(/\s*\[[^\]]*\]/g, "")) + (a.pen ? ' · ' + esc(a.pen) + ' pen.' : '') + '</em></div>'; }).join("") +
+      (b.ds != null ? '<div class="cv"><span class="lab">Death save</span><b class="dec">' + esc(b.ds) + '</b></div>' : '') +
+      (b.bonding != null ? '<div class="cv"><span class="lab">Bonding</span><b class="dec">' + esc(b.bonding) + '</b></div>' : '') +
+      '</div>';
+    var st = '<div class="cstats' + ((b.stats || []).length < 5 ? ' few' : '') + '" style="--n:' + ((b.stats || []).length || 1) + '">' + (b.stats || []).map(function(x){ return '<div><span>' + esc(x.k) + '</span><b>' + esc(x.v) + '</b></div>'; }).join("") + '</div>';
+    var at = '<h3 class="zh">Attacks</h3><div class="catk">' + (b.attacks || []).map(function(a){
+      return '<div class="ca"><div class="can"><b>' + esc(a.name) + '</b>' + (a.tag ? '<span>' + esc(a.tag) + '</span>' : '') + (a.note ? '<em>' + esc(a.note) + '</em>' : '') + '</div>' +
+        '<div class="cad"><b>' + esc(a.dmg) + '</b><span>ROF ' + esc(a.rof) + (a.ammo ? ' · ' + esc(a.ammo) : '') + '</span></div></div>'; }).join("") + '</div>';
+    var sk = "";
+    if ((b.skills || []).length){
+      var list = b.skills.slice().sort(function(x, y){ return (+y.base || 0) - (+x.base || 0); });
+      sk = '<h3 class="zh">Skills</h3><div class="cskills">' + list.map(function(x, i){
+        return '<div class="csk' + (i < 3 ? ' best' : '') + '" title="' + esc((x.mod ? "MOD " + x.mod + " + " : "") + "LVL " + x.lvl + " + " + x.st + " " + x.stat) + '"><span>' + esc(x.name) + '<small>' + esc(x.st) + '</small></span><b>' + esc(x.base) + '</b></div>'; }).join("") + '</div>';
+    }
+    var up = "";
+    if (b.upkeep && !readOnly) up = '<p class="cup"><span class="lab">Upkeep</span>' + esc(b.upkeep.per) + ' a game · ' + (b.upkeep.unpaid ? '<b>' + b.upkeep.unpaid + ' unpaid</b> (' + b.upkeep.owed.map(esc).join(", ") + ')' : 'all paid') + '</p>';
+    return v + st + at + sk + up;
+  }
+  function blockKit(b){
+    return (b.ware || []).map(function(g){ return '<h3 class="zh">' + esc(g.group) + '</h3><ul class="pgear">' + g.items.map(function(it){ return '<li><b>' + pnm(it.name) + '</b><span>' + esc(it.data) + '</span></li>'; }).join("") + '</ul>'; }).join("");
+  }
   function memberPanel(m){
     var std = stdGear(), special = (m.gear || []).filter(function(g){ return std.indexOf(g.name) < 0; }), hasStd = (m.gear || []).some(function(g){ return std.indexOf(g.name) >= 0; });
     var armor = (m.armor || []).map(function(a){ var b = armorBits(a.name); return '<div class="ptile"><span class="pl">' + esc(a.loc) + '</span><b>' + esc(a.sp) + '</b><span class="pn2">' + esc(b.base) + (b.variant ? ' <i>· ' + esc(b.variant) + '</i>' : '') + '</span>' + (/VOGUE/.test(a.name) ? '<span class="chip2">Vogue</span>' : '') + '</div>'; }).join("");
@@ -2070,14 +2133,17 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       (hasStd ? '<p class="pstd"><span class="lab">Standard issue</span>' + std.map(esc).join(" · ") + '</p>' : '');
     var paras = String(m.bio || "").split(/\n\s*\n/).filter(function(x){ return x.trim(); });
     var bio = paras.length ? '<div class="pbio">' + paras.map(function(t, i){ return '<p style="--d:' + Math.min(i, 8) + '">' + esc(t) + '</p>'; }).join("") + '</div>' : '<p class="zhint">No write-up for ' + esc(m.name) + ' yet.</p>';
+    if (m.block) kit = blockKit(m.block);
     if (!kit) kit = '<p class="zhint">Nothing Iō bought for ' + esc(m.name) + ' is tracked yet.</p>';
-    var t = pTab === "kit" ? "kit" : "profile";
-    return '<section class="box pcard" data-ptab="' + t + '"><div class="phead"><div><h2>' + esc(m.name) + '</h2>' +
+    var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : "profile";
+    return '<section class="box pcard' + (m.block ? ' has-stats' : '') + '" data-ptab="' + t + '"><div class="phead"><div><h2>' + esc(m.name) + '</h2>' +
       (m.title ? '<p class="ptitle">' + esc(m.title) + '</p>' : '<span class="chip">' + esc(m.role) + '</span>') +
       ((m.facts || []).length ? '<div class="pfacts">' + m.facts.map(function(f2){ return '<span>' + esc(f2) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
       '<button type="button" class="pclose" data-pclose="1" aria-label="Back to the whole posse">×</button></div>' +
-      '<div class="ptabs" role="tablist"><button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button><button type="button" role="tab" data-ptabbtn="kit" aria-selected="' + (t === "kit") + '">Kit</button><span class="pink"></span></div>' +
-      '<div class="pbody ppane pp-profile">' + bio + '</div><div class="pbody ppane pp-kit">' + kit + '</div></section>';
+      '<div class="ptabs" role="tablist"><button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button>' +
+        (m.block ? '<button type="button" role="tab" data-ptabbtn="stats" aria-selected="' + (t === "stats") + '">Stats</button>' : '') +
+        '<button type="button" role="tab" data-ptabbtn="kit" aria-selected="' + (t === "kit") + '">' + (m.block ? 'Ware' : 'Kit') + '</button><span class="pink"></span></div>' +
+      '<div class="pbody ppane pp-profile">' + bio + '</div>' + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
   }
   function roster(){
     var std = stdGear();
@@ -2150,8 +2216,10 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var b = ev.target.closest && ev.target.closest("[data-posse]"); if (!b) return;
     var id = b.dataset.posse;
     if (id === posseSel){ posseClose(); return; }
-    var wasOpen = !!posseSel;
+    var wasOpen = !!posseSel, nm0 = pById(id);
     posseSel = id;
+    if (nm0 && nm0.block && !nm0.bio && pTab === "profile") pTab = "stats";
+    if (nm0 && !nm0.block && pTab === "stats") pTab = "profile";
     render();
     var main = document.querySelector(".posse"); if (main && wasOpen) main.classList.add("swap");
     if (window.innerWidth <= 760){ var c = document.querySelector(".phero"); if (c) c.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }

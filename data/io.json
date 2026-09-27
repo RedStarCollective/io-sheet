@@ -3418,24 +3418,429 @@
     "bio": "Arina Morozova arrived in Night City at eighteen with nothing but a Moscow education, sambo training, and the knowledge that no one would ever fight for her.\n\nShe'd spent her childhood learning to read rooms. First in the unstable apartments of her mother Zoya's rotating relationships, then in the wealthy household of Viktor Morozov, the Zhirafa executive who married her mother when Arina was eight. For one year, Viktor felt like a father. Then Zoya got pregnant, and Arina became furniture. She spent the next eight years as auxiliary parent to her half-siblings Vera and Misha while watching Viktor's attention go entirely to his biological children. She tried everything to win it back. Perfect marks, competitive sambo, the flawless elegance Moscow society demanded. It didn't work. She was auditioning for a role she'd already lost.\n\nWhen Viktor found someone new, he kept his children and disposed of the rest. Zoya negotiated for money, not for her daughter. Arina watched her mother calculate, adapt, survive. But she did not fight. The flight to Night City taught her the final lesson: she would survive some way that didn't depend on anyone else.\n\nFour years at the Slammer followed. She started behind the bar, moved to running books on the cinder block arena fights, and eventually found the real money: provoking unofficial matches with carefully chosen words. She learned which egos to prod, which grudges to stoke, which fights would pay out. Fixer-adjacent work put her in dangerous rooms and taught her how violence operated professionally. It also got her in a few fights of her own.\n\nWhen she'd saved enough, she built something clean: a corner store in Little Europe selling Gardener produce. For four years, it worked. Then Continental Brands came with price wars, supply strangulation, and hit squads against the Gardeners she'd partnered with. They didn't burn her bodega. They just made it impossible to operate.\n\nShe saw Iō and Sherwood hit the Oasis shortly after. While others celebrated, she watched with mounting frustration. One burning storefront was theater. She burst into the People's Center the next day, armed and angry, demanding they organize another strike. She wanted to burn every Oasis in Little Europe to the ground. Iō bet her she couldn't last a week seeing how they actually intended to operate. One week became years.\n\nAs one of the original six cadre, Arina trained under Iō and Le Fou and later Sorry and Luthiel and still serves on their security work gang. Her real value emerged in building relationships. Particularly with the Gardeners, where her understanding of small margins and supply chains (learned the hard way) makes her invaluable. She's the informal liaison, the one who speaks their language because her bodega once needed the same things they need.\n\nHer family situation is complicated. Viktor transferred to Night City years after casting her out; Vera and Misha now live in the Executive Zone as privileged youth, and Arina maintains contact in neutral territory. Her mother Zoya lives off an ever dwindling alimony and Piranhas connections, still chasing powerful men, still performing warmth only when it serves her. Arina keeps her at a distance.\n\nThose who've known her less than six months see the reputation. The other woman with the white hair and the rifle who doesn't smile until she decides to. Direct to the point of harshness, economical with words, watching everything. She wields a power softer than the harder edges of the prominent solo that haunts the Wuguan.\n\nThose who've earned her trust see someone different. Visible kindness. Longer sentences. A laugh that transforms her face. She remembers names, asks about your kid's cough six months later. The ice queen is for strangers; the people who've put in the time see the warmth underneath.\n\nShe lives at Morro Rock with Iō and Chan and his grandfather. She's often found at the Center's Wuguan or at the range, putting in hours with the sniper rifle she's taken further than anyone expected. Those looking to get something to Iō's attention know to find her there. She'll hear anyone out. Her directness means you'll know immediately if she thinks it's worth pursuing."
    },
    {
-    "id": "laika",
-    "name": "Laika & C1",
-    "role": "Cyberwolf + Humanoid Drone.",
+    "id": "c1",
+    "name": "C1-IO",
+    "role": "Humanoid Drone",
+    "title": "",
+    "facts": [],
+    "bio": "",
     "imgs": [
-     "img/posse/laika.webp",
      "img/posse/c1.webp"
     ],
+    "scales": [
+     1.13
+    ],
+    "flank": "L",
     "armor": [],
     "weapons": [],
     "ammo": "",
     "gear": [],
-    "scales": [
-     0.593,
-     1.13
-    ],
+    "block": {
+     "type": "Humanoid Chassis",
+     "stats": [
+      {
+       "k": "MOVE",
+       "v": 7
+      },
+      {
+       "k": "BODY",
+       "v": 12
+      }
+     ],
+     "hp": [
+      30,
+      30
+     ],
+     "armor": [
+      {
+       "loc": "Head",
+       "sp": 12,
+       "name": "Mimic Kit LAJ [UPG]"
+      },
+      {
+       "loc": "Body",
+       "sp": 16,
+       "pen": -1,
+       "name": "Light Metalgear [UPG]"
+      }
+     ],
+     "attacks": [
+      {
+       "name": "Tsunami Arms Pulse Laser",
+       "tag": "EQ · Smartlink · Sniping Scope",
+       "dmg": "6d6",
+       "rof": 1,
+       "ammo": "8/8 ×2",
+       "note": "The sheet also lists a second line under it: 4d6/5d6, ROF 1."
+      },
+      {
+       "name": "Martial Arts",
+       "tag": "Remote",
+       "dmg": "4d6",
+       "rof": 2,
+       "ammo": "",
+       "note": ""
+      }
+     ],
+     "skills": [],
+     "ware": [
+      {
+       "group": "Propulsion",
+       "items": [
+        {
+         "name": "Speed Upgrade",
+         "data": "The Drone's MOVE is increased by 2 to a maximum of 8."
+        }
+       ]
+      },
+      {
+       "group": "Sensors",
+       "items": [
+        {
+         "name": "Observation Camera",
+         "data": "UV/IR and Visual/Audio."
+        }
+       ]
+      },
+      {
+       "group": "Controls",
+       "items": [
+        {
+         "name": "Virtual Agentic Intelligence",
+         "data": "Replikant Control Functions."
+        }
+       ]
+      },
+      {
+       "group": "Utilities",
+       "items": [
+        {
+         "name": "Amplifier",
+         "data": "Sound emitted by this drone can be heard up to 100 m/yd."
+        },
+        {
+         "name": "Emergency Medical Suite",
+         "data": "An Airhypo and various medical tools are installed. Considered properly equipped for Stabilization, Quick Fix, and Treatment Checks. Can hold up to 10 doses of any Pharmaceutical, Poison, and/or Street Drugs and load its own Airhypo."
+        },
+        {
+         "name": "Targeting Laser",
+         "data": "As an Action, the drone can designate a target it can see. Until the start of the drone’s next turn, allies making Ranged Attack Checks against the designated target add a +1 Complimentary Bonus to their Check."
+        }
+       ]
+      },
+      {
+       "group": "Gear",
+       "items": [
+        {
+         "name": "EL-F4-NT [FAB]",
+         "data": "Body 12, External Frame."
+        },
+        {
+         "name": "Battle Greaves [UPG]",
+         "data": "Skate Feet. +6m on Run Action."
+        },
+        {
+         "name": "Siege Feet",
+         "data": "See Chromed Up [RUSH]."
+        },
+        {
+         "name": "Portable Cover ×3",
+         "data": "30 HP Movable Cover."
+        },
+        {
+         "name": "Spare Mimic Kit TUP LAJ",
+         "data": "12 SP Body and Head."
+        },
+        {
+         "name": "Jetboy Hoverboard [FAB]",
+         "data": "Has 10 SPD. 15 MOVE in Combat. 30 MPH Narrative Speed. Piloted with Athletics."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "id": "laika",
+    "name": "Laika",
+    "role": "Cyberwolf",
     "title": "",
     "facts": [],
-    "bio": ""
+    "bio": "",
+    "imgs": [
+     "img/posse/laika.webp"
+    ],
+    "scales": [
+     0.593
+    ],
+    "flank": "R",
+    "armor": [],
+    "weapons": [],
+    "ammo": "",
+    "gear": [],
+    "block": {
+     "type": "Cyberwolf",
+     "stats": [
+      {
+       "k": "INT",
+       "v": 3
+      },
+      {
+       "k": "REF",
+       "v": 7
+      },
+      {
+       "k": "DEX",
+       "v": 8
+      },
+      {
+       "k": "TECH",
+       "v": 2
+      },
+      {
+       "k": "COOL",
+       "v": 2
+      },
+      {
+       "k": "WILL",
+       "v": 4
+      },
+      {
+       "k": "MOVE",
+       "v": 7
+      },
+      {
+       "k": "BODY",
+       "v": 5
+      },
+      {
+       "k": "EMP",
+       "v": 2
+      }
+     ],
+     "hp": [
+      40,
+      40
+     ],
+     "sw": 20,
+     "ds": 5,
+     "bonding": 1,
+     "armor": [
+      {
+       "loc": "Head",
+       "sp": 11,
+       "name": "Subdermal Armor"
+      },
+      {
+       "loc": "Body",
+       "sp": 11,
+       "name": "Subdermal Armor"
+      }
+     ],
+     "attacks": [
+      {
+       "name": "Combat Jaw",
+       "tag": "TUp +1d6",
+       "dmg": "4d6",
+       "rof": 1,
+       "ammo": "",
+       "note": "5d6 against a target the cyberwolf is grappling."
+      },
+      {
+       "name": "Claws",
+       "tag": "",
+       "dmg": "2d6",
+       "rof": 2,
+       "ammo": "",
+       "note": ""
+      },
+      {
+       "name": "Vampyres",
+       "tag": "DIME-M",
+       "dmg": "1d6",
+       "rof": 1,
+       "ammo": "3/10",
+       "note": "Poison fangs. Loaded with DIME-M from the Toxin Allocation System."
+      }
+     ],
+     "skills": [
+      {
+       "name": "Tracking",
+       "st": "INT",
+       "mod": 2,
+       "lvl": 13,
+       "stat": 3,
+       "base": 18
+      },
+      {
+       "name": "Tactics",
+       "st": "INT",
+       "mod": "",
+       "lvl": 11,
+       "stat": 3,
+       "base": 14
+      },
+      {
+       "name": "Brawling",
+       "st": "DEX",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14
+      },
+      {
+       "name": "Athletics",
+       "st": "DEX",
+       "mod": "",
+       "lvl": 5,
+       "stat": 8,
+       "base": 13
+      },
+      {
+       "name": "Evasion",
+       "st": "DEX",
+       "mod": "",
+       "lvl": 5,
+       "stat": 8,
+       "base": 13
+      },
+      {
+       "name": "Wilderness Survival",
+       "st": "INT",
+       "mod": "",
+       "lvl": 9,
+       "stat": 3,
+       "base": 12
+      },
+      {
+       "name": "Melee Weapon",
+       "st": "DEX",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12
+      },
+      {
+       "name": "Perception",
+       "st": "INT",
+       "mod": "",
+       "lvl": 7,
+       "stat": 3,
+       "base": 10
+      },
+      {
+       "name": "Stealth",
+       "st": "DEX",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10
+      },
+      {
+       "name": "Endurance",
+       "st": "WILL",
+       "mod": "",
+       "lvl": 4,
+       "stat": 4,
+       "base": 8
+      },
+      {
+       "name": "Human Perception",
+       "st": "EMP",
+       "mod": "",
+       "lvl": 6,
+       "stat": 2,
+       "base": 8
+      },
+      {
+       "name": "Concentration",
+       "st": "WILL",
+       "mod": "",
+       "lvl": 2,
+       "stat": 4,
+       "base": 6
+      }
+     ],
+     "ware": [
+      {
+       "group": "Cyberware",
+       "items": [
+        {
+         "name": "Neural Link",
+         "data": "Foundational ware."
+        },
+        {
+         "name": "Reflex Co-Processor",
+         "data": "Allows for bullet dodging."
+        },
+        {
+         "name": "Internal Agent",
+         "data": "Fully functional Agent implanted."
+        },
+        {
+         "name": "Chyron",
+         "data": "Projects a subscreen linked to Agent."
+        },
+        {
+         "name": "Cybereye",
+         "data": "Foundational ware."
+        },
+        {
+         "name": "Targeting Scope",
+         "data": "When making Aimed Shots, +1."
+        },
+        {
+         "name": "Shift Tacts",
+         "data": "Color to red."
+        },
+        {
+         "name": "Cyberaudio Suite",
+         "data": "Foundational ware."
+        },
+        {
+         "name": "Toxin Allocation System [DIME M 3/10]",
+         "data": "Stores 1 Poison for 10 charges. A user when making an attack with a cyberimplanted Light Melee Weapon, may consume one charge to coat the weapon. The attack gains the benefit of the selected poison but it disperses harmlessly on a miss."
+        }
+       ]
+      },
+      {
+       "group": "Bioware",
+       "items": [
+        {
+         "name": "Vampyres",
+         "data": "Excellent Quality Light Melee Weapon implanted in mouth. Can be concealed. User can add Poisons without an action."
+        },
+        {
+         "name": "Bear Nose",
+         "data": "Add a bonus of +2 to all Tracking checks that involve smell."
+        },
+        {
+         "name": "Grooming Symbiotes",
+         "data": "Dental & Follicular."
+        }
+       ]
+      },
+      {
+       "group": "Loaded",
+       "items": [
+        {
+         "name": "DIME-M",
+         "data": "Immediately does 2d6 damage to health. DV 13 RTD or take an additional 3d6 damage and Brain Injury (w/o Bonus Damage)."
+        }
+       ]
+      }
+     ],
+     "upkeep": {
+      "per": "150eb",
+      "games": 65,
+      "unpaid": 3,
+      "owed": [
+       "Swords Will Be Shaken [2 PARTER]",
+       "Nameless No More",
+       "Spartoi [FANS]"
+      ]
+     }
+    }
    },
    {
     "id": "daiyu",
