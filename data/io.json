@@ -5239,5 +5239,8 @@
   "active": true,
   "tier": "silver",
   "weeks": ""
+ },
+ "nyozi": {
+  "active": false
  }
 }

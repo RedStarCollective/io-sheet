@@ -1408,6 +1408,14 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .ttseg button+button{border-left:1px solid var(--line)}
 .ttseg button[aria-pressed="true"]{color:#000;background:var(--gold)}
 .ttwkc{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+/* dossier: Nyozi (Vein Melters, Iō's own compound) */
+.nyz .rfl{margin:0;font-size:13.5px;line-height:1.4}
+.nyz .nyzfx{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.nyz .nyzfx b{font-family:var(--f-num);font-size:18px;letter-spacing:0;color:var(--ink)}
+.nyz .nyzfx .arr{color:var(--gold)}
+.stat.nyzon .pair span:first-child{color:var(--gold);text-shadow:0 0 10px rgba(181,143,82,.45)}
+.stat.nyzon{box-shadow:inset 0 0 0 1px rgba(181,143,82,.55)}
+.stat.nyzon b{color:var(--gold)}
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
 .pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
@@ -1598,10 +1606,11 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 
   function statsRail(){
     return '<div class="stats a-st" aria-label="Stats">' + S.stats.map(function(s,i){
+      var nz = !editing && s.k === "EMP" && nyoziOn() && s.max != null;
       var inner = s.max != null
-        ? '<div class="pair"><span>' + f("stats."+i+".v",{num:1,label:s.k}) + '</span><span class="of">out of</span><span>' + f("stats."+i+".max",{num:1,label:s.k+" max"}) + '</span></div>'
+        ? '<div class="pair"><span' + (nz ? ' title="Nyozi: skills use EMP before Humanity loss"' : '') + '>' + (nz ? '<span class="dec">' + esc(s.max) + '</span>' : f("stats."+i+".v",{num:1,label:s.k})) + '</span><span class="of">out of</span><span>' + f("stats."+i+".max",{num:1,label:s.k+" max"}) + '</span></div>'
         : '<span class="sv">' + f("stats."+i+".v",{num:1,label:s.k}) + '</span>';
-      return '<div class="stat"><b>' + esc(s.k) + '</b>' + inner + '</div>';
+      return '<div class="stat' + (nz ? ' nyzon' : '') + '"><b>' + esc(s.k) + '</b>' + inner + '</div>';
     }).join("") + '</div>';
   }
 
@@ -1711,6 +1720,29 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       '<div class="prgrid">' + grid + '</div>' +
     '</div></section>';
   }
+  /* Nyozi: while active, EMP-linked skill bases use EMP before Humanity loss (the stat's max) */
+  function nyoziOn(){ return !!(S.nyozi && S.nyozi.active); }
+  var NYOZI_FLAVOR = "A pharmaceutical compound developed by Dr. Kōru Singh, Dr. Minata Tindano, and the medical team at the People's Clinic in SNC. Sustained types of trauma may suppress the brain's social-emotional processing: the capacity to read a room, follow subtext, register shifts in another person's face. The same neural pathways often govern self-reflection. When they erode, and the erosion is always gradual, patients may lose the ability to perceive others and themselves with equal measure. Most never notice. Nyozi temporarily restores baseline function across those pathways. For some, it opens a window where the patient can engage at a depth that is otherwise inaccessible. For others, this restored clarity often serves as its own catalyst. The name is Highrider creole for 'star,' after the fixed points by which Highriders orient themselves in the void.";
+  function nyoziBox(){
+    var on = nyoziOn(), isOpen = !!open.nyozi, lock = readOnly;
+    var emp = (S.stats || []).filter(function(x){ return x.k === "EMP"; })[0] || {v:"", max:""};
+    var doses = ((S.pharma || []).filter(function(x){ return /^nyozi$/i.test(String(x.name).trim()); })[0] || {}).n;
+    var head = '<div class="hb"><button class="prtog" data-tog="nyozi" aria-expanded="' + isOpen + '"><span class="chev">▶</span>Nyozi' +
+      '<span class="prstate' + (on ? ' on' : '') + '">' + (on ? 'Active' : 'Inactive') + '</span></button></div>';
+    if (!isOpen) return '<section class="box pract nyz">' + head + '</section>';
+    return '<section class="box pract nyz">' + head + '<div class="prbody">' +
+      '<button type="button" class="prsw" id="nyzsw" aria-pressed="' + on + '"' + (lock ? ' disabled' : '') + '><i></i>' + (on ? 'Active' : 'Inactive') + '</button>' +
+      '<div class="nyzfx"><span>EMP</span><b>' + esc(emp.v) + '</b><span class="arr">→</span><b>' + esc(emp.max) + '</b>' + (doses != null ? '<span style="margin-left:auto">Doses <b>' + esc(doses) + '</b></span>' : '') + '</div>' +
+      '<p class="rfl">' + esc(NYOZI_FLAVOR) + '</p>' +
+      '<p class="prule"><b>Pharmaceutical.</b> For 4 hours after injection, the target uses their original EMP stat, prior to any reductions caused by Humanity Loss, when calculating Skill Bases for EMP-linked Skills. This does not restore lost Humanity, increase Current or Maximum Humanity, or affect Cyberpsychosis thresholds. A person can only benefit from one dose at a time. No effect on Smash, at 0 EMP, or below 10 Max Humanity. <b>Vein Melters</b></p>' +
+    '</div></section>';
+  }
+  function saveNyozi(){
+    render(); status("Unsaved");
+    clearTimeout(saveTimer);
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("nyozi", {active:nyoziOn()}); }, 1200); return; }
+    saveTimer = setTimeout(persist, 1200);
+  }
   function saveTraining(){
     render(); status("Unsaved");
     clearTimeout(saveTimer);
@@ -1721,7 +1753,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing ? trainingBox() : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing ? trainingBox() + nyoziBox() : '') + '</div>';
     }).join("");
   }
 
@@ -3004,7 +3036,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
      e.g. "Language (INT)", "Martial Arts [x2] [DEX]"), and BASE = MOD + LVL + STAT. Rows with no stat stay as typed. */
   var STAT_TAG = /[\(\[](INT|REF|DEX|TECH|COOL|WILL|LUCK|MOVE|BODY|EMP)[\)\]]/;
   function deriveSkills(){
-    var sv = {}; (S.stats || []).forEach(function(s){ sv[s.k] = +s.v || 0; });
+    var sv = {}; (S.stats || []).forEach(function(s){ sv[s.k] = +s.v || 0; if (s.k === "EMP" && nyoziOn() && s.max != null && +s.max > 0) sv.EMP = +s.max; });
     var PR = practicedSet();
     function fix(x, inherited){
       var m = String(x.name || "").match(STAT_TAG), k = m ? m[1] : inherited;
@@ -3262,6 +3294,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
       if (sc) syncPlan(Grid(sc));
+      if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       saved = clone(S);
@@ -3342,6 +3375,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
     if (b.dataset.tog){ if (editing) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
     if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
+    if (b.id === "nyzsw"){ if (readOnly) return; S.nyozi = {active:!nyoziOn()}; saveNyozi(); return; }
     if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }
     if (b.dataset.tt){ if (readOnly) return; var t2 = ttState(); t2.tier = b.dataset.tt; S.tt = t2; saveTT(); return; }
     if (b.dataset.ttw){ if (readOnly) return; var t3 = ttState(); t3.weeks = Math.max(0, (+t3.weeks || 0) + (+b.dataset.ttw)); S.tt = t3; saveTT(); return; }

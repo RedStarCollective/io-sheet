@@ -14,8 +14,8 @@
  *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
- * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks and the Trauma Team card.
- * The Training Area and Trauma Team settings are kept in Script Properties (TRAINING, TT), not in sheet cells.
+ * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks, the Trauma Team card and the Nyozi switch.
+ * These page settings are kept in Script Properties (TRAINING, TT, NYOZI), not in sheet cells.
  */
 
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
@@ -39,6 +39,7 @@ function doGet() {
   const props = PropertiesService.getScriptProperties();
   try { out.training = JSON.parse(props.getProperty('TRAINING') || 'null'); } catch (err) { out.training = null; }
   try { out.tt = JSON.parse(props.getProperty('TT') || 'null'); } catch (err) { out.tt = null; }
+  try { out.nyozi = JSON.parse(props.getProperty('NYOZI') || 'null'); } catch (err) { out.nyozi = null; }
   return json_(out);
 }
 
@@ -51,6 +52,11 @@ function doPost(e) {
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
   if (body.type === 'training') return json_(saveTraining_(body));
   if (body.type === 'tt') return json_(saveTT_(body));
+  if (body.type === 'nyozi') {
+    const n = { active: body.active === true, updated: new Date().toISOString() };
+    PropertiesService.getScriptProperties().setProperty('NYOZI', JSON.stringify(n));
+    return json_({ ok: true, nyozi: n });
+  }
   return json_({ ok: false, error: 'unknown request' });
 }
 
