@@ -1,0 +1,902 @@
+{
+ "nanoaud": {
+  "name": "Nanoauditory Rebuild",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Mall",
+  "hl": "7 (2d6)",
+  "flavor": "Don't feel like having your skull cracked open to get cyberaudio crammed in there? Expertly designed nanosurgeons can rebuild sections of your auditory canal to improve your hearing.",
+  "rules": "Audio Bioware. User adds +2 to Perception Skill Checks involving hearing. Does not stack with Amplified Hearing. Additionally, user is immune to deafness or other effects caused by dangerously loud noises, like those produced by a flashbang.",
+  "type": "Audio Bioware"
+ },
+ "echo": {
+  "name": "Echolocation",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "Modifications to the user’s auditory canals improve their audiospatial capabilities, allowing them to pinpoint sources of noise in space. Doing so requires feeling them through surface-to-surface bone conduction or making a clicking noise and listening for echoes. The Doppler Effect allows them to determine relative velocity as well.",
+  "rules": "Audio Bioware. When the user holds a hand to a flat surface, they can sense things moving on floors, walls, or ceilings within 20m. Additionally, the user can click their teeth to know the relative direction, distance, and velocity of any moving object within 50m if it is not obscured by cover.",
+  "type": "Audio Bioware"
+ },
+ "cateyes": {
+  "name": "Cat Eyes",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "The user’s meat eyes are genetically re-engineered to perceive the infrared spectrum.",
+  "rules": "Optic Bioware. Reduces penalties imposed by darkness and other intangible obscurement, like smoke, fog, etc. to 0. User can distinguish hot meat from cold metal but cannot see through anything that could provide cover. Uses both eyes.",
+  "type": "Optic Bioware"
+ },
+ "chromatic": {
+  "name": "Chromatic Vision",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "The user's retinas are rebuilt with five distinct types of cone cells instead of the normal three, allowing the user to distinguish up to 100 million color variations compared to the 10 million of normal vision. The modification also incorporates polarization-sensitive cells, allowing detection of light wave orientation invisible to normal humans. Enhanced rod cell density and optimized neural pathways to the visual cortex improve contrast detection and motion tracking in peripheral vision. The expanded color discrimination reveals subtle flush responses and material variations, while polarization vision can detect stress patterns in glass, hidden watermarks, and some camouflaged objects.",
+  "rules": "Optic Bioware. The user adds +2 to their Perception, Lip Reading, and Conceal/Reveal Object Skills for Checks which include sight. Does not stack with Image Enhance. Uses both eyes.",
+  "type": "Optic Bioware"
+ },
+ "mmwave": {
+  "name": "Millimeter Wave Scanner",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Training your security guards to look for concealed weapons is hard. What if they could spot them effortlessly? Enter the Millimeter Wave Scanner. Using the same technology as airport scanners, the user’s eye picks up contraband concealed under clothes. It has trouble penetrating certain materials, but you can always flag suspicious persons for further checks. Fortunately for edgerunners, the high price has prevented the Millimeter Wave Scanner from seeing widespread adoption in corporate security and law enforcement, though security staff in highly important areas may have one of these. Cybereye Option. Requires a Cybereye and takes 2 Option Slots. The user can see any items concealed under most thin materials such as a subject’s clothing without a check, up to 2m away. Color is not added—only gray contours. The scanner cannot penetrate even thin layers of metal, skin, or Realskinn™, preventing detection of cyberware that is concealed automatically and any contents therein as well as anything hidden in containers made of such materials.",
+  "type": "Cyberoptics"
+ },
+ "otc": {
+  "name": "Optical Tracking Agent Controller",
+  "src": "Chromed Up (RUSH)",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "",
+  "rules": "Internal Agents lack a means of non-verbal user input, which poses a problem to the deaf and hard of hearing. Some use linked cameras such as MicroVideo units to recognize sign language input, but these options are expensive. The Optical Tracking Agent Controller provides a cost-effective alternative. By tracking the orientation of the user’s eyes with internal sensors, the Agent can match their gaze to virtual objects presented in a Chyron or cyberoptic Virtuality unit. Virtual keyboards allow for rapid typing and commands using this method. Cybereye Option. Requires a Cybereye with Chyron or Virtuality. User can control a linked Agent using eye motions for input. You don’t have to open your eye to use this feature.",
+  "type": "Cyberoptics"
+ },
+ "targeting": {
+  "name": "Targeting Scope",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Adds +1 to Check when making an Aimed Shot. Requires a Cybereye.",
+  "type": "Cyberoptics"
+ },
+ "chyron": {
+  "name": "Chyron",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "2 (1d6/2)",
+  "flavor": "",
+  "rules": "Projects a subscreen into the user's field of vision. Requires a Cybereye.",
+  "type": "Cyberoptics"
+ },
+ "cyberarm": {
+  "name": "Cyberarm",
+  "src": "Cyberpunk RED core rulebook · p.115",
+  "cost": "500eb (Expensive)",
+  "install": "Hospital",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Replacement arm. Has 4 Option Slots. Comes installed with a Standard Hand that doesn't cause Humanity Loss or take up an Option Slot.",
+  "type": "Cyberlimb (foundational)"
+ },
+ "force": {
+  "name": "Cyberarm Force Upgrade",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "Cyberarm A variety of upgrades that enhance the force output of cyberarms in different ways. These upgrades are performed to construct the Hail Mary Cyberarm and the Cybermatrix Hammerhand, among other less popular brands.",
+  "rules": "Invented Upgrade. Cyberarm gains your choice of one of the following benefits. Unlike other Tech Upgrades, this one doesn’t prevent the Cyberarm from being Tech Upgraded again as long as it isn’t this one. \n• Hydraulic Ram. When using this arm to make a Brawling attack or to Choke or Throw a grappled target, you are considered to have BODY 11 unless your BODY is higher. If it wasn't already, the Cyberarm becomes bulky and obviously cybernetic at a glance. It cannot be passed off as a meat arm under any circumstances, even if the user has Realskinn Covering or a FBC Gemini Sculpt. \n• Parabolic Myomar Subroutine. When throwing something with this Cyberarm, the maximum range is 50m instead of 25m. \n• Thickened Myomar. When using this arm to make a Brawling Attack, make a Martial Arts attack, Choke, or Throw a grappled target, you are considered to have BODY 7 unless your BODY is higher. \n• Strikethrough Piston. Your arms are equipped with CO2-powered pistons that allow you to carry your momentum forward while smashing through solid objects.  Once per turn, after you make a Brawling, Martial Arts, or Melee Weapon Attack that destroys a piece of cover using the cyberarm with this upgrade or a melee weapon held in it, you may make another Attack of the same kind against another target this turn. You may move between destroying the cover and making this attack.",
+  "type": "Invented Upgrade"
+ },
+ "superchrome": {
+  "name": "Superchrome® Covering",
+  "src": "Cyberpunk RED core rulebook · p.116",
+  "cost": "1,000eb (V. Expensive)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "",
+  "rules": "Shiny metallic coating for Cyberlimb. +2 to Wardrobe and Style. Requires a Cyberarm or Cyberleg but does not take an Option Slot.",
+  "type": "Cyberlimb covering"
+ },
+ "watchman": {
+  "name": "Psiberstuff Watch-Man",
+  "src": "Interface RED Vol. 3",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "3 (1d6)",
+  "flavor": "As time marches on, so does the iconic Watch-Man from Psiberstuff! No longer a basic “television in an arm”, now the iconic pop-up cybernetic electronic serves as an Agent, complete with pseudo-AI to keep you company!",
+  "rules": "Cyberarm Option. A fully functional Agent with a flip-up screen (see CP:R page 352) built into the cyberarm.",
+  "type": "Cyberarm Option"
+ },
+ "palmbomb": {
+  "name": "High Five, AKA The Palm Bomb",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Cyberhand Option. A directional explosive charge is embedded in the palm of the user's cyberhand, with a magazine capacity of a single grenade. As an Action while the hand is empty and a grenade is loaded, the user may make an attack as if using an Excellent Quality Very Heavy Melee Weapon against an enemy or surface. \n• On a hit, the Melee Attack's damage is applied first, followed immediately by the detonation of the loaded grenade emanating from the user in the direction of the target (similar to a shotgun shell effect). The grenade retains its normal Area of Effect and damage/effect properties. \n• On a failed Attack, the grenade detonates with its effects centered on the user (who cannot evade it), and the explosive recoil fractures the cyberarm, inflicting the Dismembered Hand Critical Injury. In either case, the DV to evade the explosion is equal to the Melee Attack roll. Requires a Cyberarm and takes 1 Option Slot. Must be installed in Cyberware.",
+  "type": "Cyberhand Option"
+ },
+ "popup": {
+  "name": "Popup Melee Weapon",
+  "src": "Cyberpunk RED core rulebook · p.115",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Any Light, Medium, or Heavy Melee Weapon installed in a Cyberarm. Weapon can be concealed even if not normally concealable. Requires a Cyberarm and takes up 2 Option Slots.",
+  "type": "Cyberarm Option"
+ },
+ "wolvers": {
+  "name": "Wolvers",
+  "src": "Cyberpunk RED core rulebook · p.115",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Long claws extended from the knuckles. Heavy Melee Weapon. Can be concealed. Can be installed as the only piece of Cyberware in a meat arm.",
+  "type": "Cyberarm Option"
+ },
+ "medhand": {
+  "name": "Medical Hand",
+  "src": "Chromed Up (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "Tired of lugging that Medtech Bag around? What if all the tools were stored inside your cyberhand? You still have to restock it, but at least no one can steal your medical supplies from you. Or rather, you’ll have bigger problems in the event they can.",
+  "rules": "Cyberarm Option. Fingers contain retractable dermal stapler, spray skin applicator, self-sterilizing scalpel, and other medical tools. Everything you need to save lives using your skills and training. Provides the benefits of Airhypo Cyberfinger (BC 24) as well. Can be installed as the only piece of Cyberware in a meat arm.",
+  "type": "Cyberarm Option"
+ },
+ "reinforced": {
+  "name": "Reinforced Cyberlimb Upgrade",
+  "src": "Interface RED Vol. 3",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Cyberlimb Option. Increased hydraulic redundancy within the cyberlimb allows it to function even under extreme strain. This limb is immune to the Broken Leg Critical Injury if it’s a Cyberleg or the Broken Arm Critical Injury if it’s a Cyberarm. Cyberdeck Hardware. While installed, a Snaketrap prevents the first Black ICE or Program effect during a netrun that would destroy a Program at random on the user’s deck. Multiple installations do nothing.",
+  "type": "Cyberlimb Option"
+ },
+ "qcm": {
+  "name": "Quick Change Mount",
+  "src": "Cyberpunk RED core rulebook · p.115",
+  "cost": "100eb (Premium)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Allows user to remove or install a Cyberarm as an Action.",
+  "type": "Cyberlimb Option"
+ },
+ "bonedensity": {
+  "name": "Bone Density Augmentation",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "3 (1d6)",
+  "flavor": "Bone Density Augmentation is a specialized form of bone lace selectively applied to limb bones to prevent fractures without removing marrow or adding significant weight.",
+  "rules": "Limb Bioware. A meat arm with Bone Density Augmentation cannot suffer the Broken Arm Critical Injury, and a meat leg with Bone Density Augmentation cannot suffer the Broken Leg Critical Injury. If either of these would occur as a result of rolling on the Critical Injury table, ignore the result and do not reroll.",
+  "type": "Limb Bioware"
+ },
+ "vibres": {
+  "name": "Vibrational Resonance",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Extensive modifications to the user's skeletal structure and the mechanoreceptors in their limbs create a resonance network throughout the body, similar to the seismic sensing capabilities found in elephants. Combined with enhanced neural grafts, this allows the user to detect minute surface vibrations at extended ranges and produce precisely controlled ultrasonic frequencies through specialized vocal modifications.",
+  "rules": "Advanced Bioware. As long as the user is still and barefoot, they may sense things moving on floors, walls, or ceilings within 30m rather than 20m. Additionally, when clicking their teeth, the user may choose to do so at a frequency inaudible to most human ears. Detecting this sound is impossible without some form of Amplified Hearing. Requires Echolocation, Nanoauditory Rebuild, and Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "axolotl": {
+  "name": "\"Axolotl\" Limb Grafting",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Built off of recovered genetic material after the \"BEX\" Scandal of 2047, this gene treatment alters DNA allowing users to reattach their limbs after they've been severed without treatment. Various biological research companies deny involvement in the discovery to avoid Biotechnica litigation.",
+  "rules": "Advanced Bioware. When you suffer a Dismembered Arm, Leg, or Hand Critical Injury to a meat limb, it can only be Quick Fixed at a Paramedic Skill Check DV17 following the usual rules for Quick Fixes (CP:R 223) except that instead of ignoring the Injury Effect for the rest of the day, it is treated as a different Critical Injury during this time. Dismembered Hand is treated as Crushed Fingers, Dismembered Arm is treated as Broken Arm, and Dismembered Leg is treated as Broken Leg. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "spider": {
+  "name": "Spider Grip",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "Bio-engineered tissue in the hands and feet allows adhesion to surfaces. The skin develops subtle microscopic hooks visible under magnification.",
+  "rules": "Limb Bioware. Must be paired. If the user has two meat legs with Spider Grip, they ignore the climbing movement penalty and receive +2 to Athletics Skill Checks involving climbing. If they have two meat arms with Spider Grip, they can cling to dry, flat surfaces, potentially allowing them to scale walls and ceilings. This requires both hands.",
+  "type": "Limb Bioware"
+ },
+ "adaptive": {
+  "name": "Adaptive Musculature",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "5,000eb (Luxury)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Select muscles, bones, tendons, and ligaments in the user’s body are subject to extensive microscopic modifications and subtle macroscopic modifications that enhance the user’s mobility while performing certain types of motion.",
+  "rules": "Advanced Bioware. Choose two of the following benefits: \n• Ignore the climbing movement penalty \n• Ignore the jumping movement penalty \n• Ignore the swimming movement penalty \n• When you take the Run Action, you gain an additional 6m of movement You have these benefits as long as you do not have an implanted Linear Frame or any Cyberlegs currently installed. Movement bonus does not stack with Skate Feet or Inline Skates. You can only get Adaptive Musculature once, so choose carefully. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "infolink": {
+  "name": "Rocklin Augmentics InfoLink™",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "0",
+  "flavor": "The InfoLink represents a revolution in neuralware. Its design is even less intrusive than that of a standard Neural Link, leading users to report no noticeable difference after installation—but that's only the beginning. The InfoLink is designed to work in tandem with cyberoptic and cyberaudio implants, coordinating their activity and taking advantage of their features. The improved performance results in them feeling mostly natural too, and the whole network of cyberware is far easier to maintain. During a press conference in August 2046, Jacinda Hidalgo said that centralized personal cyberware networks are the future. She dismissed claims that the InfoLink was produced by a \"secret hive mind neural link R&D program\" as too ridiculous to warrant a serious response.",
+  "rules": "Neural Link. Has 5 Option Slots for Neuralware Options. While the user has a Rocklin Augmentics InfoLink installed, items on the list below do not cause Humanity Loss on installation, do not contribute to Maximum Humanity Depression, and do not cost an Option Slot. Installed options are brain-controlled and have access to all of one another's information, such as an Internal Agent seeing a Cybereye's visual field or receiving a user's mental commands from the InfoLink. This includes thought-to-text capability, which the Agent can turn into synthesized speech in real time. These items will stop working if the InfoLink is uninstalled and will not work again unless the user installs an InfoLink again or uninstalls and reinstalls each affected piece. For the purposes of Maintenance (Breaking Your Stuff, pg. 3-5), treat the InfoLink and all items listed below as a single 100eb (Premium) piece of Cyberware. \n• Biomonitor (Does not use a Fashionware Slot.) \n• Chipware Socket (Any variety. Maximum 2. Additional installations will use an Option Slot and cause Humanity Loss and Maximum Humanity Depression as normal.) \n• Chyron (CP:R 360) \n• Cyberaudio Suite (CP:R 361) \n• Cybereye (CP:R 360) \n• Discount Cyberaudio Suite (Black Chrome, pg. 17) \n• Interface Plugs (Any variety. Maximum 1. Additional installations will use an Option Slot and cause Humanity Loss and Maximum Humanity Depression as normal.) \n• Internal Agent (Any variety. Maximum 1. Additional installations will use an Option Slot and cause Humanity Loss and Maximum Humanity Depression as normal.) \n• Kiroshi MonoVision (Twelve Days of Cybermas, pg. 3-4) \n• Sponsored Cybereye (Black Chrome, pg. 22) \n• Virtuality (CP:R 361)",
+  "type": "Neural Link"
+ },
+ "socket": {
+  "name": "Chipware Socket",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "A single socket installed in the back of the neck. Required to use Chipware. Requires Neural Link. (No HL, Max Humanity or slot cost while an InfoLink is installed — up to 2 sockets.)",
+  "type": "Neuralware"
+ },
+ "kensho": {
+  "name": "Arasaka Kenshō™",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "7 (2d6)",
+  "flavor": "\"Thought is slow. Instinct is fast. Kenshō is fastest.\" The engineers at Arasaka recognized a gap in the speedware market. While competitors focused on sustained reflex enhancement, the Kenshō project aimed for something different: a single, perfect moment of preternatural clarity and speed while still boosting the user's baseline precision.",
+  "rules": "Neuralware. Speedware. \n• 風神 FUJIN — The user receives a +1 to their Check when making an Aimed Shot with a Melee Attack. \n• 雷神 RAIJIN — Once per day, whenever you spend at least one point of Luck on a Melee Attack, you may roll the d10 twice and take your favored result.",
+  "type": "Neuralware"
+ },
+ "quickfix": {
+  "name": "Quick Fix Coprocessor",
+  "src": "Chromed Up (RUSH)",
+  "cost": "5,000eb (Luxury)",
+  "install": "Clinic",
+  "hl": "10 (3d6)",
+  "flavor": "During the Fourth Corporate War, Trauma Team struggled to keep up with demand. Many policyholders were injured daily. A Tech in their employ developed the Quick Fix Coprocessor for rapid wound dressing, but the project was ultimately shelved because its expense and poor reliability made it unsuitable for widespread adoption. Ten years later, a Netrunner recovered the design documents from an orphaned prewar server and sold them for a tidy sum, which is why you can get your hands on one today if you have the money for it.",
+  "rules": "Neuralware Option. Requires Neural Link. User may Quick Fix as an Action at a -4 penalty. Quick Fixes applied this way only last one hour unless they remove the Critical Injury entirely. Provides no benefit to Treatments.",
+  "type": "Neuralware Option"
+ },
+ "plugs": {
+  "name": "Interface Plugs",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Plugs in wrist or head that allow connection to machines. Requires Neural Link. (No HL, Max Humanity or slot cost while an InfoLink is installed — 1 set.)",
+  "type": "Neuralware"
+ },
+ "plugdrive": {
+  "name": "Interface Plug Chipware Drive",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "Interface Plugs (CP:R 359) Pre-war Interface Plug models typically had a slot for chipware. This design was abandoned for economic reasons, but you can still outfit your plugs with a chipware drive if you want.",
+  "rules": "Invented Upgrade. Installation of Interface Plugs also acts as a Chipware Socket (CP:R 359) with one Chipware slot. This does not cause additional Max Humanity Depression.",
+  "type": "Invented Upgrade"
+ },
+ "bdrec": {
+  "name": "Braindance Recorder",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "Records the user's experiences to a memory chip or external device. Requires Neural Link.",
+  "type": "Neuralware"
+ },
+ "boshaki": {
+  "name": "Boshaki",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "5,000eb (Luxury)",
+  "install": "Hospital",
+  "hl": "7 (2d6)",
+  "flavor": "“A martial artist who needs three blows to end a fight has already lost twice.” The brainstem reflex that throttles muscle fiber recruitment is suppressed, allowing the user to fire every motor unit at once. The effect cannot be sustained across a flurry of strikes. Voted most controversial bioware 8 years running by Solo of Fortune reader polls.",
+  "rules": "Neural Bioware. Takes two option slots. When the user makes a Martial Arts Attack as part of a Martial Arts Special Move that replaces their Martial Arts Attack Action with a single attack, 5's are treated as 6's on the damage dice for that attack solely for the purpose of determining if the attack causes a Critical Injury.",
+  "type": "Neural Bioware"
+ },
+ "nmr": {
+  "name": "Neurochemical Memory Receptors",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "Originally developed in European biotechnology centers, Neurochemical Memory represents a breakthrough in temporary skill enhancement through biochemical means. Sophisticated compounds are delivered via injection, triggering cascading changes in bioengineered neural pathways that allow access to muscle memory and learned behaviors the user has never actually developed.",
+  "rules": "Neural Bioware. The user can make use of Neurochemical Memory Compounds. When injected via Airhypo, a Neurochemical Memory Compound grants the user a Skill Level of 4 in a skill chosen at purchase or fabrication unless their Skill Level would already be 4 or higher. This effect lasts for 4 hours after injection. Neurochemical Memory Compounds are 100eb (Premium) for x1 skills or 250eb (Expensive) for x2 skills. Neurochemical Memory Compounds can only be fabricated by a Medtech using an upgraded Medbay Improvement with the Science (Chemistry) skill following the usual rules for drug fabrication (see No Place Like Home, pg. 4).",
+  "type": "Neural Bioware"
+ },
+ "proprio": {
+  "name": "Propriosync",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "0",
+  "flavor": "Your brain keeps a map of your body. When bioware changes that map, the brain doesn't always keep up. Propiosync is a neural graft that aids in integrating new installations in the body. The augmented tissue feels grown. Like it was always supposed to be there.",
+  "rules": "Neural Bioware. Does not require a Neural Bioware slot. The Maximum Humanity Depression of the following bioware is reduced by 1 while Propiosync is installed: all Neural Bioware, all Audio Bioware, Hawk Eye, Kosmich's Third Eye Activation, Bone Density Augmentation, and Knuckle Spurs.",
+  "type": "Neural Bioware"
+ },
+ "ssc": {
+  "name": "Synesthetic Social Cortex",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Originally developed by European behavioral research labs, this neural modification creates new synaptic pathways between the brain's sensory processing centers and social cognition regions. The bioware enhances the user's ability to synthesize multiple sensory inputs. Micro-expressions visible only with enhanced vision, subtle voice tremors, pheromonal changes, and minute body movements into a comprehensive understanding of social dynamics. Unlike electronic analyzers, this biological enhancement integrates seamlessly with the user's natural perception, making social cues feel intuitively obvious rather than analytically processed.",
+  "rules": "Advanced Bioware. The user adds +2 to their Human Perception, Interrogation, and Conversation Skills. Requires at least 3 of the following bioware modifications to provide the necessary sensory input: Nanoauditory Rebuild, Echolocation, Bear Nose, or Chromatic Vision. If the user has all four modifications, the bonus increases to +3. Without these enhanced senses feeding information to the modified cortex, the neural pathways have nothing to draw on and the bioware remains dormant. Does not stack with the Voice Stress Analyzer or Smash. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "trauma": {
+  "name": "Trauma Dampening",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Adjustments to the function of structures in the frontal cortex and limbic system limit the potential damage of traumatic events, helping prevent PTSD.",
+  "rules": "Advanced Bioware. If you would suffer Humanity Loss to anything other than the voluntary installation of Bioware or Cyberware, reduce the amount suffered by half. Round down, minimum 1. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "biomon": {
+  "name": "Biomonitor",
+  "src": "Cyberpunk RED core rulebook · p.111",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "",
+  "rules": "Subdermal implant which generates a readout of vitals. Can link to an Agent. (No Fashionware slot while an InfoLink is installed.)",
+  "type": "Fashionware"
+ },
+ "symb": {
+  "name": "Grooming Symbiotes",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "Bio-engineered microorganisms that maintain your personal appearance. These beneficial bacteria colonies help maintain optimal hygiene and appearance. Each type of symbiote culture subtly alters your appearance: dental symbiotes make teeth slightly more luminescent, follicle symbiotes give hair a natural sheen, and dermal symbiotes create a subtle healthy glow.",
+  "rules": "Fashion Bioware. Choose one of three symbiote cultures when installed: \n• Oral Symbiotes: Maintain perfect dental hygiene and fresh breath \n• Follicle Symbiotes: Keep hair clean, styled and healthy \n• Dermal Symbiotes: Maintain clear, healthy skin Having all three types of symbiotes installed grants a +3 to Personal Grooming Skill Checks. Dermal Symbiotes cannot be installed if you have Chemskin, and Follicle Symbiotes cannot be installed if you have Techhair. Installing Chemskin while you have Dermal Symbiotes or Techhair while you have Follicle Symbiotes causes the bioware to be uninstalled and destroyed beyond repair.",
+  "type": "Fashion Bioware"
+ },
+ "skinwatch": {
+  "name": "Skinwatch",
+  "src": "Cyberpunk RED core rulebook · p.111",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "",
+  "rules": "Subdermally implanted LED watch.",
+  "type": "Fashionware"
+ },
+ "wayfinder": {
+  "name": "Wayfinder",
+  "src": "Chromed Up (RUSH)",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "A light-projecting subdermal patch with built-in sensors displays information such as bearing, azimuth, temperature, and atmospheric pressure. When installed with a Skinwatch, it is able to provide more detailed information about the user’s environment. Useful for surviving in the wilderness away from CitiNets.",
+  "rules": "Fashionware. User adds +1 to Wilderness Survival Skill Checks. This bonus increases to +2 if they also have a Skinwatch.",
+  "type": "Fashionware"
+ },
+ "livingink": {
+  "name": "Living Ink",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Mall",
+  "hl": "0",
+  "flavor": "Bio-engineered chromatophore cells with magnetically-responsive pigments are implanted beneath the skin in intricate patterns. The pigments respond to weak bioelectric fields, causing them to slowly drift and shift like colored sand flowing beneath glass - subtle enough that you have to stare for several seconds to notice the transformation.",
+  "rules": "Fashion Bioware. During installation, the user chooses the design pattern, flow speed, and color palette. Unlike Light Tattoos, Living Ink is purely pigment-based and doesn't glow. The pattern movement is automatic and constant. Counts as an installation of Light Tattoo Fashionware.",
+  "type": "Fashion Bioware"
+ },
+ "armstrong": {
+  "name": "Raven Microcybernetics “Armstrong” Myoskeletal Nanomatrix",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "14 (4d6)",
+  "flavor": "Raven Microcybernetics has fallen behind on the linear frame market, but have innovated instead in state of the art nanomachine injectors installed directly into your skeleton. No longer will you need a full linear frame to \"Hulk Out\"!",
+  "rules": "Borgware. The Armstrong can be activated by the user at any time without an action, including upon being hit but before damage is taken. Upon activation, nanomachines flood your system, hardening your body. Your BODY increases by 3 (max 11) for 5 minutes, affecting HP and Death Saves. You immediately gain HP equal to the difference between your old and new max HP. While active, you may spend an additional use to re-activate the matrix, refreshing the duration to 5 minutes and healing for the original HP difference. When the effect ends, if your current HP exceeds your normal max, it drops to your normal max. The nanites require 24 hours to regenerate all uses. You can install this cyberware up to 3 times for additional uses (installations beyond 3 have no effect). This cyberware does not stack with BODY benefits from linear frames and is considered Hardened while dormant.",
+  "type": "Borgware"
+ },
+ "armplate": {
+  "name": "Armstrong Dermal Plating",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "5,000eb (Luxury)",
+  "install": "",
+  "hl": "",
+  "flavor": "Raven Microcybernetics \"Armstrong\" Myoskeletal Nanomatrix Additional nanohives are implanted into the user's skin - while still concealed, they're too bulky to fit alongside heavier subdermal armour, and need space to deploy around the user's body when activated.",
+  "rules": "Invented Upgrade. This upgrade has no effect if the user has Subdermal Armour, Heavy Subdermal Plating, Dragoon Plating, or Dragoon Plating (Metalgear). When the nanomatrix is activated, the user's head and body locations are each armored at SP13 if no external armour exists in that location. There is no Armor Penalty for this, and the armour lasts until the nanomatrix deactivates. Additional installations do not require this upgrade to provide its effect.",
+  "type": "Invented Upgrade"
+ },
+ "tailoring": {
+  "name": "Physiological Tailoring",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "10,000eb (Super Luxury)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "An extensive suite of genetic and microbiological modifications prepares the user to receive future vat treatments. These changes might not seem to do much on their own, but they have two notable effects even if the user were to receive no further Advanced Bioware installations: they age slower, extending their lifespan by several decades, and they require far more calories to avoid starvation.",
+  "rules": "Advanced Bioware. A prerequisite to install other forms of Advanced Bioware. Your metabolism requires you to spend 100eb each month to maintain your calorie and vitamin intake. If you go for a month without doing so, you begin starving and take a -2 to all Actions. If you go two months, you die of starvation. This expense is included in Good Prepak and Fresh Food Lifestyles. Despite causing no Humanity Loss on installation, Physiological Tailoring counts as one piece of Borgware for the purposes of Max Humanity Depression, reducing Max Humanity by 4. Physiological Tailoring gives an extra slot to each cyberware category as long as you don’t have a foundational piece of cyberware there, with the exception of neuralware, which gets an extra slot even with foundational cyberware installed. Additionally, you may install an additional piece of audio, optic, arm, leg, or limb Bioware to each location.",
+  "type": "Advanced Bioware"
+ },
+ "cornucopia": {
+  "name": "Cornucopia Stimulant Processor",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "An upgrade for the truly stim-maxxing, designed to slow down and optimise the process of stimulants filtering through your system. The filters also assist in countering the effects of poisons and make it less likely to develop a dependency for drugs.",
+  "rules": "Advanced Bioware. Primary Effect durations of Street Drugs and Pharmaceuticals are doubled, and the user gains a +4 bonus to Resist Torture/Drugs as well as the effects of Nasal Filters. This effect does not stack with other bonuses to Resist Torture/Drugs checks, such as the one gained from Toxin Binders. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "healing": {
+  "name": "Healing Factor",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Enhanced Antibodies are only the beginning of what an engineered biological system can do to heal itself. This augmentation is a suite of modifications to the body’s natural healing mechanisms that include enhanced antibodies, nanosurgeons that apply rapid repairs to traumatic injuries, and various metabolic adjustments to enhance the healing power of regenerative medicine.",
+  "rules": "Advanced Bioware. The user gains the following benefits: \n• The benefits of Enhanced Antibodies (CP:R). \n• The DV to Quick-Fix any of their Critical Injuries is reduced by 4. \n• If you have not taken damage in the last 60 seconds, you begin recovering 1 HP every round to a maximum of half your HP \n• If a non-cybernetic body part suffers a Critical Injury that can be Quick Fixed, it is immediately Quick Fixed without a check. This can only happen once per day. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "nocic": {
+  "name": "Nociception Filter",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Adjustments to the body’s nociceptor processing pathways result in pain being felt without ever overwhelming the user. This prevents the negative effects of analgesia while still enhancing the user’s ability to work through pain.",
+  "rules": "Advanced Bioware. You are immune to the Action and STAT penalties of Wound States. You are considered to have a Pain Editor for the purposes of any effect that would be altered based on the installation of one and cannot suffer the effects of Mortally Wounded above 0 HP. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "physenh": {
+  "name": "Physiological Enhancement",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive) or 5,000eb (Luxury)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Physiological Enhancement refers to various kinds of genetic and subtle anatomical adjustments that enhance the user’s physiological traits, including reaction time, coordination, speed, strength, and durability.",
+  "rules": "Advanced Bioware. Your choice of BODY, REF, DEX, or MOVE permanently increases by 1. BODY costs 1,000eb (Very Expensive) per point and cannot be raised above 13. REF and DEX cost 5,000eb (Luxury) per point and cannot be raised above 8. MOVE costs 5,000eb (Luxury) per point and cannot be raised above 8. Characters benefitting from Adaptive Musculature may raise MOVE to a maximum of 9 instead. Additional installations stack. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "flame": {
+  "name": "Flamebreath",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "Bio-engineered glands in the throat and mouth produce volatile compounds that ignite when mixed and exposed to air. The modification includes heat-resistant tissue lining the mouth, throat, and respiratory system to protect the user.",
+  "rules": "Internal Body Bioware. The user can now exhale an impressive blast of fire. This acts like a Flamethrower (see CP:R page 348) that is ROF 2, deals 4d6 damage, and has 2 uses before requiring 24 hours to regenerate. Additional Flamebreath installations can be added for 2 more uses each costing 0 HL per installation. Additionally, the user can exhale small, controlled bursts of flame without an Action. These flames are suitable for lighting cigarettes, candles, small fires, or providing momentary warmth, but cannot be used to attack or set people on fire.",
+  "type": "Internal Body Bioware"
+ },
+ "bearnose": {
+  "name": "Bear Nose",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "The user's olfactory system is enhanced with bio-engineered tissue based on ursine physiology, featuring dramatically expanded scent receptors and an enhanced olfactory cortex. The nose becomes more mobile, with nostrils that visibly flair when actively sampling the air.",
+  "rules": "Internal Body Bioware. The user's sense of smell is boosted, allowing them to use the Tracking Skill to track scent in addition to visual clues. The user receives +2 to Tracking Skill Checks.",
+  "type": "Internal Body Bioware"
+ },
+ "cyberskull": {
+  "name": "Cyberskull",
+  "src": "Interface RED Vol. 3",
+  "cost": "5,000eb (Luxury)",
+  "install": "Hospital",
+  "hl": "14 (4d6)",
+  "flavor": "How can you call yourself a Metalhead if you don’t have a metal head? What you need is a Cyberskull to protect you from life’s many dangers – like bullets, explosions, and samurai swords! You don’t have to be accident-prone to benefit from a metal skull, so don’t skimp on your own safety. Remember – with a Cyberskull, there’s no need for a helmet!",
+  "rules": "Internal Body Cyberware. Requires 3 Option Slots. The user’s head is no longer considered a 2x weak point when targeted by an Aimed Shot or through any other method. Additionally, the user is immune to the effect and bonus damage of the Cracked Skull and Broken Jaw Critical Injuries. Every purchase comes with a personalized Faceplate. Additional personalized Faceplates, including ones covered with RealskinnTM and SuperChrome ® , are available for 100eb (Premium).",
+  "type": "Internal Body Cyberware"
+ },
+ "reservoir": {
+  "name": "Advanced Reservoir System",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "Extensive modifications to the adrenal system integrate specialized storage chambers with the body's natural stress response pathways. The augmented glands allow controlled release of stored compounds based on specific physiological triggers while maintaining complete biological compatibility with the user's enhanced metabolism.",
+  "rules": "Advanced Bioware. Choose one trigger mechanism when installing this bioware: \n• Combat Response releases when the user rolls Initiative for combat. \n• Trauma Response releases when the user enters a specific Wound State chosen at installation. \n• Toxin Response releases when the user is poisoned before the poison's effect is applied. \n• Voluntary Response can be triggered as an Action by the user by flexing specific neck muscles. One dose of a Street Drug or Pharmaceutical can be loaded via airhypo behind the ear as an Action. Loading a new dose or taking an Action to flush displaces any previous contents. Street drugs remain stable indefinitely. Pharmaceuticals degrade after 1 hour and cannot inject until a Medtech stabilizes the reservoir with an Action. Only Medtechs can load Pharmaceuticals. Once triggered, the entire dose is consumed. The reservoir requires 10 minutes to reset before reloading. Each installation is a separate reservoir. Only one of each trigger type may be installed. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "venom": {
+  "name": "Venom Gland",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "The principles that allow for in-body production of venom are well established science, but until recently, it remained something reserved for animals. Implanted venom glands are now available for a wide variety of popular poisons, venoms, and other assorted toxins.",
+  "rules": "Advanced Bioware. The user gains a gland in their body that produces their choice of Biotoxin, Brain Fog, Recollis, RedRiver, Sodium Pentathol, or ThroatAdder selected on installation. If the user has Vampyres, Scratchers, or a Popup Light Melee Weapon installed, then at installation of this item or that weapon, they may link the venom gland to that item, keeping it permanently affected as though the poison was just applied to it. Otherwise, as an Action, they can spit up a dose of the chosen poison to be applied as normal. Once the user does this, they need to wait 24 hours to produce enough poison to do it again regardless of other venom glands installed. Poisons produced by this method are not shelf-stable and lose potency within 24 hours. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "cyberspine": {
+  "name": "Sycust Cyberspine",
+  "src": "Interface RED Vol. 5",
+  "cost": "1,000eb (V. Expensive)",
+  "install": "Hospital",
+  "hl": "7 (2d6)",
+  "type": "Internal Body Cyberware",
+  "flavor": "Your spine is too precious. You need the invincibility of metal: a Cyberspine. Military-grade, double-walled, and now with extra articulation, 80% of existing users report “meets or exceeds expectations.”",
+  "rules": "Internal Body Cyberware. Requires 3 Option Slots. The user is immune to the effect and bonus damage of the Spinal Injury Critical Injury. The Cyberspine is Hardened; it cannot be damaged or rendered inoperable by EMP effects like Microwaver pulses or Non-Black ICE Program effects. Additionally, the user gets a +1 bonus to their Contortionist Skill Checks. The Sycust Cyberspine counts as an orifice for the purpose of mounting a Cybersnake."
+ },
+ "fleshweave": {
+  "name": "Fleshweave",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "A hyperactive colony of nano-organisms binding together tightly under your skin. Sound horrible? Scientists at UtopiaCorp thought so, and they released the project files for this almost 20 years ago and gave up on the thing. Still, it does provide basic ballistic protection, and most people get used to the crawling sensation pretty quickly.",
+  "rules": "External Body Bioware. Skinweave. User’s body and head are armored at SP7. After 10 minutes without strenuous activity, the colony of nano-organisms repairs both the head and body to full SP.",
+  "type": "External Body Bioware"
+ },
+ "hemo": {
+  "name": "Fleshweave Hemolattice",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Advanced",
+  "hl": "0",
+  "flavor": "The user's Fleshweave is enhanced by microvascularization and heightened clotting potential. Shortly after the user stops suffering active damage, unique coagulative agents cause the blood beneath the skin to re-harden.",
+  "rules": "Advanced Bioware. Requires Bioware Fleshweave. The SP granted by the Fleshweave increases by 2. After a minute without taking damage, the Fleshweave regains one point of lost SP every 3 seconds. Requires Physiological Tailoring.",
+  "type": "Advanced Bioware"
+ },
+ "draco": {
+  "name": "Draco-Skin",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "14 (4d6)",
+  "flavor": "An evolution of 2020’s nanotech weave and engineered chemical glands implanted into the skin make the user effectively fireproof. Popular with firefighters, Netrunners, and pyromaniacs.",
+  "rules": "External Body Bioware. User is immune to being damaged by fire (including Incendiary Ammunition) and cannot be set on fire. Despite being Bioware, Draco-Skin reduces the user’s Maximum Humanity by 4 as if it were Borgware.",
+  "type": "External Body Bioware"
+ },
+ "radskin": {
+  "name": "Rad-Skin",
+  "src": "Flesh & Bone Redefined (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Hospital",
+  "hl": "3 (1d6)",
+  "flavor": "The user's skin is spliced with radiation resistant cells that gives it a slight silvery color. Fixers like to package it with Nasal Filters to sell to Hot Zone salvagers.",
+  "rules": "External Body Bioware. The user is protected from radiation, just like if they were wearing a Radiation Suit.",
+  "type": "External Body Bioware"
+ },
+ "smartears": {
+  "name": "Smart Ears",
+  "src": "Interface RED Vol. 5",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "",
+  "rules": "Cost: 1,000eb (Very Expensive) Let the music flow through you from your Smart Ears! Music is meant to be free, and so are you. Your Smart Ears are easily customizable to your tastes. Designed by a community of audio enthusiast Techs, Smart Ears can be printed in hundreds of sizes and shapes to match your needs and aesthetic. Smart Ears come with a non-removable Radio Scanner/ Music Player installed and 2 additional Option Slots for Cyberaudio Options. When worn, Smart Ears give the user access to the benefits of these options. Installing or uninstalling a Cyberaudio Option into Smart Ears takes one hour. You can only wear one set of Smart Ears at a time.",
+  "type": "Worn gear · Cyberaudio mount"
+ },
+ "agent": {
+  "name": "Internal Agent",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Fully functional Agent installed internally. Can be linked to a Cybereye with Chyron display. Otherwise, audio only. (No HL, Max Humanity or slot cost while an InfoLink is installed.)",
+  "type": "Cyberaudio"
+ },
+ "radio": {
+  "name": "Radio Scanner / Music Player",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "50eb (Costly)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "",
+  "rules": "Can play music from Data Pool or Memory Chip or tune into radio broadcasts within 1 mile. Requires a Cyberaudio Suite.",
+  "type": "Cyberaudio"
+ },
+ "jamup": {
+  "name": "Signal Jammer Power Upgrade",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "Signal Jammer (RED: Mixing Drinks Changing Lives) The signal jammer is modified with a secondary power routing system that can temporarily boost its output at the cost of additional battery drain.",
+  "rules": "Invented Upgrade. When activating the Signal Jammer, the user may spend an Action to route additional power to it, increasing the DV to penetrate the jamming to 15 and the range of jamming to 12m. Deactivating the additional power requires another Action.",
+  "type": "Invented Upgrade"
+ },
+ "microvideo": {
+  "name": "MicroVideo",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "",
+  "rules": "Camera in eye. Records audio and video to Memory Chip or linked Agent. Requires a Cybereye and takes 2 Option Slots.",
+  "type": "Cyberoptics"
+ },
+ "virtuality": {
+  "name": "Virtuality",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "2 (1d6/2)",
+  "flavor": "",
+  "rules": "Projects cyberspace imagery over the user's view of the world. Requires two Cybereyes and must be paired.",
+  "type": "Cyberoptics"
+ },
+ "tele": {
+  "name": "TeleOptics",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Can see detail up to 800m/yd away. +1 to Aimed Shots against targets 51m/yds or farther away. Requires a Cybereye.",
+  "type": "Cyberoptics"
+ },
+ "micro": {
+  "name": "MicroOptics",
+  "src": "Cyberpunk RED core rulebook · p.113",
+  "cost": "100eb (Premium)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2)",
+  "flavor": "",
+  "rules": "Provides user with 400x magnification. Requires a Cybereye.",
+  "type": "Cyberoptics"
+ },
+ "holoware": {
+  "name": "Masetto HoloWare",
+  "src": "Chromed Up (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "Mall",
+  "hl": "3 (1d6)",
+  "flavor": "Never be without your fit! Masetto lets you show how much you love HoloWare by permanently fixing the  projectors to your body.",
+  "rules": "External Cyberware. An implanted version of Masetto HoloWear (Black Chrome). Its holoprojectors sit in the wrists, ankles, throat, and waist. Otherwise identical to the worn version.",
+  "type": "External Cyberware"
+ },
+ "controlchip": {
+  "name": "Control Chip",
+  "src": "Chromed Up (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "—",
+  "hl": "7 (2d6)",
+  "flavor": "A control chip connects the user’s Interface Plugs to a short-range transceiver plugged into a vehicle the user wishes to control. This connection allows the user to operate the vehicle as though they were plugged in directly, including getting feeds from the vehicle’s sensors.",
+  "rules": "Chipware. While installed, a Control Chip connects you to the vehicle its transceiver is plugged into as though you were properly connected to it with Interface Plugs as long as the transceiver is within 100m. This grants full control of the vehicle and allows you to see through its sensors (such as front-facing and rear-facing cameras in a car) using a Chyron, Virtuality, or Agent. An installation of Interface Plugs is required to use this feature. If you have multiple installations of Interface Plugs, choose one to be occupied by the Control Chip upon installation. Plugging a transceiver into a vehicle takes an Action. A Control Chip can only be linked to one transceiver at a time. Linking a Control Chip to a new transceiver requires 1 minute. One transceiver comes free with a purchase of a Control Chip. Replacements are 50eb (Costly).",
+  "type": "Chipware"
+ },
+ "mindpalace": {
+  "name": "Segotari Mind Palace™",
+  "src": "Chromed Up (RUSH)",
+  "cost": "100eb (Premium)",
+  "install": "—",
+  "hl": "0",
+  "flavor": "Can’t take your RUSH REVOLUTION® with you? Play Mind Palace! Purchase your favorite Segotari games on our Agent app, chip the Palace into your socket, and play on the go. Mind Games save files can be synced with your RUSH REVOLUTION® console so you can pick up right where you left off. New titles are released every day on your Segotari App!",
+  "rules": "Chipware. While a Mind Palace™ chip is installed, the user can play any copy of a RUSH REVOLUTION game [Segotari Power, pg.12] they have purchased as if they were connected to the headset. They are effectively Unconscious to the outside world while doing so unless they have Virtuality. It takes an Action to start the game, but you can quit without an Action. Online games require a CitiNet connection to play, which can be provided by a linked Agent.",
+  "type": "Chipware"
+ },
+ "chemanal": {
+  "name": "Chemical Analyzer",
+  "src": "Cyberpunk RED core rulebook · p.112",
+  "cost": "500eb (Expensive)",
+  "install": "—",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Tests a substance for precise chemical composition and compares it to a database. Requires Chipware Socket.",
+  "type": "Chipware"
+ },
+ "smartglasses": {
+  "name": "Smart Glasses",
+  "src": "Cyberpunk RED core rulebook · Gear",
+  "cost": "500eb (Expensive)",
+  "install": "—",
+  "hl": "0",
+  "type": "Worn gear · Cyberoptic mount",
+  "flavor": "",
+  "rules": "Technologically enhanced glasses. Contains two option slots for Cybereye options. When worn, Smart Glasses give the user access to the benefits of these options. When cybereye options are installed into the glasses, they always count as if they were paired, and it costs the same as installing the option once in a cybereye. You can only wear a single pair at a time. Enthusiasts often replace the frames of their Smart Glasses with nicer ones, as they aren't the prettiest out of the box."
+ },
+ "v_hpt": {
+  "name": "High Performance Tuning",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "The vehicle’s engine is enhanced for a higher top speed. Its Combat Speed increases by 10 MOVE, and its Narrative Speed increases by 50% of its unmodified speed. This Vehicle Upgrade provides no benefits if the vehicle has a Heavy Chassis. Incompatible with the Zonda Metrocar or Zonda R400 Trail."
+ },
+ "v_av4": {
+  "name": "AV-4 Engine Upgrade",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Luxury · Moto Rank 7",
+  "type": "Vehicle Upgrade · All Land Vehicles",
+  "flavor": "",
+  "rules": "This upgrade adds a vectored thrust turbofan engine to the vehicle, allowing flight! As far as movement is concerned, treat the vehicle as an AV-4 while it is in the air. The vehicle is piloted using the Pilot Air Vehicle Skill instead of the Drive Land Vehicle Skill when it is in the air."
+ },
+ "v_nos": {
+  "name": "NOS",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Very Expensive · Moto Rank 1",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "A burst of power when you need it.",
+  "rules": "Allows you to use your Action to use an additional Move Action when driving a vehicle. Each tank of NOS can be used once per day. Each additional upgrade adds an additional tank. The tanks capture nitrogen and oxygen from the air and synthesize nitrous oxide on their own, never needing refilling."
+ },
+ "v_armor": {
+  "name": "Armored Chassis",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Luxury · Moto Rank 5",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "Armors the vehicle at SP13. Doesn't affect the vehicle's glass."
+ },
+ "v_glass": {
+  "name": "Bulletproof Glass",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Very Expensive · Moto Rank 1",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "Instead of providing no protection, all glass on the vehicle is now considered to be cover: Thin Bulletproof Glass (15 HP). If upgraded a second time, it becomes Thick Bulletproof Glass (30 HP). All windows on the vehicle sustain damage individually."
+ },
+ "v_blast": {
+  "name": "Blast-Proof Glass",
+  "src": "Hot Throttle (RUSH) · Invented Upgrade",
+  "cost": "1,000eb (Very Expensive)",
+  "type": "Eligible: Bulletproof Glass",
+  "flavor": "The vehicle’s bulletproof glass is outfitted with a smart blast-resistant material that causes it to fracture in a way that contains most of the force of an explosion.",
+  "rules": "If the Bulletproof Glass would be reduced to 0 HP by an explosion, the explosion stops at the glass and does not affect anyone on the other side. If you have two installations of Bulletproof Glass in one vehicle, only one of them needs this upgrade for the feature to work."
+ },
+ "v_plow": {
+  "name": "Combat Plow",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Very Expensive · Moto Rank 1",
+  "type": "Vehicle Upgrade · Land & Sea Vehicles except Bikes and Jetskis",
+  "flavor": "",
+  "rules": "Whenever you slam the front of the vehicle into a piece of cover, another vehicle, or an unlucky pedestrian your vehicle doesn't take any damage and nobody in your vehicle suffers the Whiplash Critical Injury. If your vehicle was boosted by NOS on the Turn when you slammed the front of your vehicle into a piece of cover, other vehicle, or unlucky pedestrian, damage dealt by your vehicle's ramming increases by 2d6."
+ },
+ "v_blackout": {
+  "name": "Blackout Suite",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All except Bikes, Jetskis, and Gyrocopters",
+  "flavor": "",
+  "rules": "The vehicle's chassis is lined with signal-blocking materials and radiation shielding, and the cabin is insulated against sound. As an Action, the driver can activate or deactivate the Blackout Suite.\nWhile active, occupants are protected from environmental radiation, and sound cannot pass into or out of the vehicle. Occupants cannot hear anything outside, and no one outside can hear anything inside. Additionally, all wireless signals are blocked. Agents, cyberware, and other devices inside the vehicle cannot send or receive signals, and the vehicle cannot be targeted by Netrunners remotely. A vehicle's Smart Vehicle System, if present, cannot receive commands while the Blackout Suite is active."
+ },
+ "v_security": {
+  "name": "Security Upgrade",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Luxury · Moto Rank 5",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "Replaces all the locks on the vehicle with DNA locks, which can be set up to accept a thumbprint, iris scan, blood sample, or any other desired biometric method. Such a lock cannot be unlocked without either its biometric key or a DV 17 Electronics/Security Tech Check. A person who presents an inaccurate biometric key, or fails a Check to open one of the locks without the correct biometric key is struck as if they had been hit in the body by a Stun Baton if they are within two m/yds of the vehicle.\nAdditionally, the Security Upgrade adds a cloaking feature to the vehicle, allowing it to hide itself from all but a DV17 Perception Check, assuming it remains still. System takes a minute to engage, and operates by taking a video of the vehicle's surroundings and projecting it on the surface of the vehicle in real time, aided in part by nanomachines which cover hard-to-reach areas."
+ },
+ "v_cloakacc": {
+  "name": "Cloaking Accelerator",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "If installed into a vehicle with a Security Upgrade, this upgrade reduces the time required for the cloaking system to engage from 1 minute to 30 seconds. A second installation of this upgrade reduces it further to 9 seconds."
+ },
+ "v_advcloak": {
+  "name": "Advanced Cloaking Module",
+  "src": "Hot Throttle (RUSH) · Invented Upgrade",
+  "cost": "1,000eb (Very Expensive)",
+  "type": "Eligible: Security Upgrade",
+  "flavor": "The vehicle's optical camouflage system is upgraded with predictive rendering software and high-refresh nanomachine arrays, allowing the cloaking system to calibrate in less-than-ideal conditions and remain active during slow, careful movement.",
+  "rules": "The vehicle's cloaking system can engage while the vehicle spends its Move Action instead of requiring the vehicle to remain still. Each turn spent cloaking requires the vehicle's Move Action. The vehicle cannot benefit from additional Move Actions while cloaking or while the cloak is active. Once activated, the cloak is deactivated automatically if the vehicle moves further than 10m within 3 seconds (1 Turn). Cannot be installed on Bikes, Jetskis, Gyrocopters, or Helicopters."
+ },
+ "v_radarcm": {
+  "name": "Radar/Sonar Countermeasures",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "The vehicle's chassis is upgraded with radar/sonar baffling materials and/or contours. It cannot be detected by a Radar/Sonar System. It's still visible, though."
+ },
+ "v_paint": {
+  "name": "SovOil Spectrum SmartPaint™",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "Cosmetic upgrade allows color and pattern changes to be made as an Action."
+ },
+ "v_comms": {
+  "name": "Communications Center",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Very Expensive · Moto Rank 1",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "Easily accessible touchscreen console with onboard Agent and storage space loaded with removable tech: 6 Radio Communicators, 6 Scrambler/Descramblers, a Radio Scanner/Music Player, a Homing Tracer with 6 button-sized linked tracers, and an Audio Recorder."
+ },
+ "v_selfdrive": {
+  "name": "Self-Driving Vehicle",
+  "src": "Hot Throttle (RUSH) · Invented Upgrade",
+  "cost": "1,000eb (Very Expensive)",
+  "type": "Eligible: Communications Center",
+  "flavor": "“Look, you seem like a chill person, so I think I can trust you with this secret. Yeah, I’ve taken an SAAI out of an Agent and trained it to operate a vehicle. The thing’s pretty damn good at it, too. You want me to install it in your ride?” - Troy Gordon",
+  "rules": "The onboard Agent’s SAAI is now capable of operating the vehicle on its own. When doing so, it has an effective Skill Base of 10."
+ },
+ "v_smart": {
+  "name": "Smart Vehicle System",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "This upgrade adds a 6-floor NET Architecture to the vehicle's cybermodem complete with a Demon programmed to pilot the vehicle following instructions sent by the user's linked Agent or by voice commands. Linking your Agent or transferring to a new one takes 5 minutes, during which time you must be within 6m of the vehicle. Only one Agent can be linked at a time. Features can be added to the NET Architecture following the rules and price guidelines found on pages 217-218 of the core rulebook. The Demon and Control Node can be replaced with better versions, but the Smart Vehicle System will not operate without a Control Node to control the vehicle and a Demon to operate it. The Demon is only capable of Normal Driving and cannot make Maneuver Checks, though it is always capable of take-off and landing under standard conditions. It will follow all traffic laws. Navigation relies on GPS data provided by the user's linked Agent. A Smart Vehicle System cannot be Countered by Electronics/Security Tech.\nDefault Architecture: floors 1–5 empty · 6. Control Node, DV6. Vehicle control."
+ },
+ "v_radar": {
+  "name": "Radar/Sonar System",
+  "src": "Hot Throttle (RUSH)",
+  "cost": "",
+  "type": "Vehicle Upgrade · All Vehicles",
+  "flavor": "",
+  "rules": "The vehicle is outfitted with a radar and/or sonar system for detecting large, fast-moving objects. A screen inside the vehicle displays the direction and speed of all vehicles or vehicle-sized objects moving within 1 mile, but the system cannot detect people on foot or small vehicles such as a motorcycle or jetski, and it is blocked by cover and terrain features. Using radar requires contact with the air, and using sonar requires contact with the water; you cannot detect anything underwater from the air or on land, and you cannot detect anything above water while underwater."
+ },
+ "v_housing": {
+  "name": "Housing Capacity",
+  "src": "Cyberpunk RED core rulebook",
+  "cost": "Very Expensive · Moto Rank 1",
+  "type": "Vehicle Upgrade · Aerozep, AV-4, Cabin Cruiser, Groundcars, Yacht",
+  "flavor": "",
+  "rules": "When installed in a Groundcar or AV-4, this upgrade adds a sleeping area with 1 bed, a toilet, a shower, and a small kitchen to the vehicle, turning it into a Kombi. When installed in a Cabin Cruiser, Yacht, or Aerozep, the upgrade instead adds one room to the vehicle. Requires a Heavy Chassis on Compact Groundcar and High Performance Groundcar."
+ },
+ "v_sub": {
+  "name": "Submersible Upgrade",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Moto Rank 5",
+  "type": "Vehicle Upgrade · All Land and Sea Vehicles except Bikes and Jetskis",
+  "flavor": "",
+  "rules": "Waterproofs the vehicle and adds a submersible engine, allowing it to travel underwater at the speed of a Speedboat. The vehicle is piloted using the Pilot Sea Vehicle Skill while submerged."
+ },
+ "v_reinf": {
+  "name": "Reinforced Hull/Tires",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Moto Rank 1",
+  "type": "Vehicle Upgrade · All Land and Sea Vehicles",
+  "flavor": "",
+  "rules": "Reinforces the vehicle’s weak points so they cannot be targeted by an Aimed Shot."
+ },
+ "v_titanic": {
+  "name": "Titanic Hull",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Moto Rank 7",
+  "type": "Vehicle Upgrade · Aerozep, Yacht",
+  "flavor": "",
+  "rules": "Increases the SDP of the vehicle by an amount that scales with the number of rooms it has.\n1 to 4 Rooms: +100 SDP · 5 to 8 Rooms: +180 SDP · 9 to 12 Rooms: +250 SDP · 13+ Rooms: +380 SDP"
+ },
+ "v_gasbag": {
+  "name": "Aerozep Selfsealing Gasbag",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Moto Rank 7",
+  "type": "Vehicle Upgrade · Aerozep",
+  "flavor": "",
+  "rules": "Reinforces the vehicle’s weak points so they cannot be targeted by an Aimed Shot."
+ },
+ "v_hangar": {
+  "name": "Hangar",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Moto Rank 7",
+  "type": "Vehicle Upgrade · Aerozep, Yacht",
+  "flavor": "",
+  "rules": "Furnishes the vehicle with a safe parking space for a single non-yacht, non-aerozep vehicle. The parking space may take the form of an actual enclosed hangar, a landing pad, or a davit frame system. Passengers with access can enter/exit a parked vehicle without taking an Action. Multiple upgrades can be installed."
+ },
+ "v_complex": {
+  "name": "Complex Vehicle Room",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Triple the cost of a base or luxury room",
+  "type": "Vehicle Room",
+  "flavor": "",
+  "rules": "A Complex Room is a variant base room for a vehicle. Complex Rooms are large, can serve a variety of purposes, and add to the vehicle three times the number of seats of a typical room for the vehicle (6 for Aerozeps/Cabin Cruisers, 12 for Yachts). Restaurants, Recreation decks, Prisons, Bowling Alleys, Cargo Bays, Bunkhouses, Cafeterias, and Laser Tag Arenas are all examples of Complex Rooms.\nThe Housing Capacity Nomad Vehicle Upgrade, when taken at Moto Rank 7 (5,000eb if purchased separately) or above, can upgrade an existing room in a vehicle to a Complex Room instead of adding a new room. Multiple upgrades can be installed."
+ },
+ "v_luxury": {
+  "name": "Luxury Vehicle Room",
+  "src": "12 Days of Vehiclemas (RTG)",
+  "cost": "Double the cost of a base room",
+  "type": "Vehicle Room",
+  "flavor": "",
+  "rules": "When building a vehicle that has rooms, any room may be upgraded to a Luxury Room for double the cost of that room. A Luxury Room only differs in aesthetics. A Luxury Room is a room suitable for a king, CEO, or diplomat, and everyone can tell the difference. If the room is being rented, the GM should decide what category of housing it is.\nThe Housing Capacity Nomad Vehicle Upgrade, when taken at Moto Rank 5 (5,000eb if purchased separately) or above, can upgrade an existing room in a vehicle to a Luxury Room instead of adding a new room. Multiple upgrades can be installed."
+ }
+}

@@ -1,0 +1,4870 @@
+{
+ "handle": "Iō",
+ "roles": [
+  {
+   "role": "Rocker",
+   "ability": "Charismatic Impact",
+   "rank": 8
+  },
+  {
+   "role": "Solo",
+   "ability": "Combat Awarness",
+   "rank": 6
+  },
+  {
+   "role": "Medtech",
+   "ability": "Medicine",
+   "rank": 6
+  }
+ ],
+ "stats": [
+  {
+   "k": "INT",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "REF",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "DEX",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "TECH",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "COOL",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "WILL",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "LUCK",
+   "v": 3,
+   "max": 3
+  },
+  {
+   "k": "MOVE",
+   "v": 9,
+   "max": null
+  },
+  {
+   "k": "BODY",
+   "v": 8,
+   "max": null
+  },
+  {
+   "k": "EMP",
+   "v": 3,
+   "max": 8
+  }
+ ],
+ "humanity": [
+  31,
+  32
+ ],
+ "hp": [
+  50,
+  50
+ ],
+ "sw": 25,
+ "deathSave": 8,
+ "crits": [
+  "TT Silver"
+ ],
+ "skills": [
+  [
+   {
+    "title": "Awareness Skills",
+    "rows": [
+     {
+      "name": "Concentration (WILL)",
+      "mod": 1,
+      "lvl": 7,
+      "stat": 8,
+      "base": 16,
+      "bold": true
+     },
+     {
+      "name": "Conceal/Reveal Object (INT)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Lip Reading (INT)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Perception (INT)",
+      "mod": 2,
+      "lvl": 4,
+      "stat": 8,
+      "base": 14,
+      "bold": true
+     },
+     {
+      "name": "Tracking (INT)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Body Skills",
+    "rows": [
+     {
+      "name": "Athletics (DEX)",
+      "mod": "",
+      "lvl": 8,
+      "stat": 8,
+      "base": 16,
+      "bold": true
+     },
+     {
+      "name": "Contortionist (DEX)",
+      "mod": 1,
+      "lvl": 1,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Dance (DEX)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Endurance (WILL)",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Resist Torture/Drugs (WILL)",
+      "mod": 4,
+      "lvl": 4,
+      "stat": 8,
+      "base": 16,
+      "bold": false
+     },
+     {
+      "name": "Stealth (DEX)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": true
+     }
+    ]
+   },
+   {
+    "title": "Control Skills",
+    "rows": [
+     {
+      "name": "Drive Land Vehicle (REF)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Pilot Air Vehicle (x2) (REF)",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Pilot Sea Vehicle (REF)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Riding (REF)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Education Skills",
+    "rows": [
+     {
+      "name": "Accounting (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Animal Handling (INT)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Bureaucracy (INT)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Business (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Composition (INT)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Criminology (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Cryptography (INT)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Deduction (INT)",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Education (INT)",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": true
+     },
+     {
+      "name": "Gamble (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "title": "Education Skills",
+    "rows": [
+     {
+      "name": "Language (INT)",
+      "sub": true,
+      "collapse": true,
+      "items": [
+       {
+        "name": "Streetslang",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": true
+       },
+       {
+        "name": "The Word [Native]",
+        "mod": "",
+        "lvl": 4,
+        "stat": 8,
+        "base": 12,
+        "bold": false
+       },
+       {
+        "name": "French",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Russian",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Korean",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Spanish",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Mandarin",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Arabic",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "German",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Swahili",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "English",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       },
+       {
+        "name": "Sign",
+        "mod": "",
+        "lvl": 2,
+        "stat": 8,
+        "base": 10,
+        "bold": false
+       }
+      ]
+     },
+     {
+      "name": "Library Search (INT)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Local Expert (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "South Night City",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Morro Rock",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Science (INT)",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Chemistry",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Psychology",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Tactics (INT)",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Wilderness Survival (INT)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Fighting Skills",
+    "rows": [
+     {
+      "name": "Brawling (DEX)",
+      "mod": "",
+      "lvl": 8,
+      "stat": 8,
+      "base": 16,
+      "bold": true
+     },
+     {
+      "name": "Evasion (DEX)",
+      "mod": "",
+      "lvl": 8,
+      "stat": 8,
+      "base": 16,
+      "bold": true
+     },
+     {
+      "name": "Melee Weapon (DEX)",
+      "mod": "",
+      "lvl": 10,
+      "stat": 8,
+      "base": 18,
+      "bold": false
+     },
+     {
+      "name": "Martial Arts [x2] [DEX]",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Hung Gar [Kung Fu]",
+      "mod": "",
+      "lvl": 10,
+      "stat": 8,
+      "base": 18,
+      "bold": false,
+      "el": "earth"
+     },
+     {
+      "name": "Northern Shaolin [TKD]",
+      "mod": "",
+      "lvl": 10,
+      "stat": 8,
+      "base": 18,
+      "bold": false,
+      "el": "fire"
+     },
+     {
+      "name": "Tajiquan [Tai Chi]",
+      "mod": "",
+      "lvl": 10,
+      "stat": 8,
+      "base": 18,
+      "bold": false,
+      "el": "water"
+     },
+     {
+      "name": "Baguazhang [Sov System]",
+      "mod": "",
+      "lvl": 10,
+      "stat": 8,
+      "base": 18,
+      "bold": false,
+      "el": "air"
+     },
+     {
+      "name": "Wudang Jian [Kendo]",
+      "mod": "",
+      "lvl": 8,
+      "stat": 8,
+      "base": 16,
+      "bold": false
+     },
+     {
+      "name": "Lung Ying [Thrash Sambo]",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Xingyiquan [Arnis]",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Hou Quan [Capoiera]",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Chu Gar [Arasaka-Te]",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Shuai Jiao [Sumo]",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Choy Li Fut",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Bak Mei [Silat]",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Wuzuquan [Karate]",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Jeet Kune Do [Krav Maga]",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Sanshou [Muay Thai]",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Performance Skills",
+    "rows": [
+     {
+      "name": "Acting (COOL)",
+      "mod": "",
+      "lvl": 4,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Play Instrument (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "title": "Ranged Weapon Skills",
+    "rows": [
+     {
+      "name": "Archery (REF)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Autofire (x2) (REF)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Handgun (REF)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Heavy Weapons (x2) (REF)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Shoulder Arms (REF)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Social Skills",
+    "rows": [
+     {
+      "name": "Bribery (COOL)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Conversation (EMP) [NYOZI]",
+      "mod": 3,
+      "lvl": 8,
+      "stat": 3,
+      "base": 14,
+      "bold": true
+     },
+     {
+      "name": "Human Perception (EMP)[NYOZI]",
+      "mod": 3,
+      "lvl": 10,
+      "stat": 3,
+      "base": 16,
+      "bold": true
+     },
+     {
+      "name": "Interrogation (COOL)",
+      "mod": 3,
+      "lvl": 1,
+      "stat": 8,
+      "base": 12,
+      "bold": false
+     },
+     {
+      "name": "Persuasion (COOL)",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": true
+     },
+     {
+      "name": "Personal Grooming (COOL)",
+      "mod": 3,
+      "lvl": 3,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Streetwise (COOL)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Trading (COOL)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Wardrobe & Style (COOL)",
+      "mod": 4,
+      "lvl": 2,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "Technique Skills",
+    "rows": [
+     {
+      "name": "Air Vehicle Tech (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Basic Tech (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Cybertech (TECH)",
+      "mod": "",
+      "lvl": 6,
+      "stat": 8,
+      "base": 14,
+      "bold": false
+     },
+     {
+      "name": "Demolitions (x2) (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Electronics/Security Tech (x2) (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "First Aid (TECH)",
+      "mod": 2,
+      "lvl": 2,
+      "stat": 8,
+      "base": 12,
+      "bold": true
+     },
+     {
+      "name": "Forgery (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Land Vehicle Tech (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Paint/Draw/Sculpt (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Paramedic (x2) (TECH)",
+      "mod": 2,
+      "lvl": 6,
+      "stat": 8,
+      "base": 16,
+      "bold": false
+     },
+     {
+      "name": "Photography/Film (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Pick Lock (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Pick Pocket (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Sea Vehicle Tech (TECH)",
+      "mod": "",
+      "lvl": "",
+      "stat": 8,
+      "base": 8,
+      "bold": false
+     },
+     {
+      "name": "Weaponstech (TECH)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     }
+    ]
+   },
+   {
+    "title": "MedTech Specialties",
+    "rows": [
+     {
+      "name": "Surgery (TECH)",
+      "mod": "",
+      "lvl": 2,
+      "stat": 8,
+      "base": 10,
+      "bold": false
+     },
+     {
+      "name": "Pharmaceuticals",
+      "mod": "",
+      "lvl": 5,
+      "stat": 8,
+      "base": "",
+      "bold": false
+     },
+     {
+      "name": "LastChance",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Nyozi",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "RapidDetox",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Sedative",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Speedheal",
+      "mod": "",
+      "lvl": "",
+      "stat": "",
+      "base": "",
+      "bold": false,
+      "sub": true
+     },
+     {
+      "name": "Medical Tech (Calculated)",
+      "mod": "",
+      "lvl": 5,
+      "stat": 8,
+      "base": 13,
+      "bold": false
+     }
+    ],
+    "collapse": true
+   }
+  ]
+ ],
+ "armor": [
+  {
+   "name": "Fleshweave [BIOWARE] [UPG] [ADV]",
+   "loc": "Head",
+   "sp": 10,
+   "pen": ""
+  },
+  {
+   "name": "Fleshweave [BIOWARE] [UPG] [ADV]",
+   "loc": "Body",
+   "sp": 10,
+   "pen": ""
+  }
+ ],
+ "weapons": [
+  {
+   "name": "MARTIAL ARTS",
+   "dmg": "4d6",
+   "rof": 2
+  },
+  {
+   "name": "Chakram [PQ HM - Fragile, Thrown, Conc.]",
+   "dmg": "3d6",
+   "rof": 0
+  },
+  {
+   "name": "EnVogue Chi Restraint Pack [EQ LM - FAB, Ultra Snag'Em, WF Kit Leisurewear]",
+   "dmg": "1d6",
+   "rof": 2
+  }
+ ],
+ "cyberweapons": [
+  {
+   "name": "MAGI PALM (EXC. Heavy Melee) [UPG, Reach]",
+   "dmg": "3d6",
+   "ammo": "",
+   "rof": 2,
+   "head": false,
+   "tone": "gold"
+  },
+  {
+   "name": "IGNIS (Sets Strong On Fire)",
+   "dmg": "3d6",
+   "ammo": 0,
+   "rof": 2,
+   "head": false,
+   "tone": "fire",
+   "ind": true
+  },
+  {
+   "name": "FRIGUS (DV 15 Endurance: Frost)",
+   "dmg": "3d6",
+   "ammo": 1,
+   "rof": 2,
+   "head": false,
+   "tone": "ice",
+   "ind": true
+  },
+  {
+   "name": "FULGUR (DV 15 Cybertech: EMP)",
+   "dmg": "3d6",
+   "ammo": 1,
+   "rof": 2,
+   "head": false,
+   "tone": "volt",
+   "ind": true
+  },
+  {
+   "name": "MEDICAL HAND (Airhypo)",
+   "dmg": "",
+   "ammo": "",
+   "rof": "",
+   "head": false,
+   "tone": "med"
+  },
+  {
+   "name": "RED RIVER (DV 17 RTD: 3 Extra Damage )",
+   "dmg": "",
+   "ammo": 1,
+   "rof": 1,
+   "head": false,
+   "tone": "",
+   "ind": true
+  },
+  {
+   "name": "SEDATIVE (DV 15 RTD: Unconscious)",
+   "dmg": "",
+   "ammo": 8,
+   "rof": 1,
+   "head": false,
+   "tone": "",
+   "ind": true
+  }
+ ],
+ "inventory": [
+  "Bug Detector",
+  "Disposable Phone [2]",
+  "Medscanner",
+  "Ion Cuffs [FAB]",
+  "Bug Detector",
+  "Bio Pill",
+  "Mag Speakers [4]",
+  "Agent",
+  "Ziggurat City Database",
+  "Car [NYOTA]",
+  "Professional Disguise Kit",
+  "Control Node, Nyota",
+  "Home",
+  "Biosystem [FAB]",
+  "Cyberskull [FAB]",
+  "Elflines Online sub [2]",
+  "ELO Character LVL. 10 [2]"
+ ],
+ "pharma": [
+  {
+   "name": "Lastchance",
+   "n": 1,
+   "head": false
+  },
+  {
+   "name": "Rapid Detox",
+   "n": 2,
+   "head": false
+  },
+  {
+   "name": "Speedheal",
+   "n": 6,
+   "head": false
+  },
+  {
+   "name": "Nyozi",
+   "n": 5,
+   "head": false
+  },
+  {
+   "name": "Sedative",
+   "n": 8,
+   "head": false
+  },
+  {
+   "name": "Streetdrugs",
+   "n": "",
+   "head": true
+  },
+  {
+   "name": "Primetime",
+   "n": 6,
+   "head": false
+  },
+  {
+   "name": "Boost",
+   "n": 1,
+   "head": false
+  },
+  {
+   "name": "Red Lace",
+   "n": 5,
+   "head": false
+  },
+  {
+   "name": "White Lace",
+   "n": 7,
+   "head": false
+  },
+  {
+   "name": "Piranha Smash [FAB]",
+   "n": 10,
+   "head": false
+  },
+  {
+   "name": "Synthcoke",
+   "n": 4,
+   "head": false
+  },
+  {
+   "name": "9-Volt",
+   "n": 0,
+   "head": false
+  },
+  {
+   "name": "Bliss",
+   "n": 6,
+   "head": false
+  },
+  {
+   "name": "InSense",
+   "n": 6,
+   "head": false
+  },
+  {
+   "name": "Neurochems",
+   "n": "",
+   "head": true
+  },
+  {
+   "name": "Stealth",
+   "n": 0,
+   "head": false
+  },
+  {
+   "name": "Tracking",
+   "n": 0,
+   "head": false
+  },
+  {
+   "name": "Poisons",
+   "n": "",
+   "head": true
+  },
+  {
+   "name": "Brain Fog [FAB]",
+   "n": 4,
+   "head": false
+  },
+  {
+   "name": "Distilling C.",
+   "n": 0,
+   "head": false
+  }
+ ],
+ "throwables": [
+  {
+   "name": "Smoke Grenade",
+   "n": 1
+  },
+  {
+   "name": "Sov Oil Grenade",
+   "n": 1
+  },
+  {
+   "name": "Concussion Grenade",
+   "n": 1
+  },
+  {
+   "name": "Rave Grenade",
+   "n": 1
+  },
+  {
+   "name": "Incendiary Grenade",
+   "n": 1
+  },
+  {
+   "name": "Incendiary Grenade [PALM BOMB]",
+   "n": 1
+  },
+  {
+   "name": "Electric Bolas",
+   "n": 1
+  },
+  {
+   "name": "飛鏢 [PQ HM - Fragile, Thrown, Conc.]",
+   "n": 4
+  },
+  {
+   "name": "Counterweight",
+   "n": 6
+  }
+ ],
+ "concealed": [
+  {
+   "name": "Chakram [PQ HM - Fragile, Thrown, Conc.]",
+   "where": "Inside Samue"
+  },
+  {
+   "name": "Pharma & Drugs",
+   "where": "Inside Bumbag & attached to beltstraps."
+  },
+  {
+   "name": "EnVogue Chi Restraint Pack [EQ LM - FAB, Ultra Snag'Em, WF Kit Leisurewear]",
+   "where": "Looks like Bumbag"
+  },
+  {
+   "name": "Weapon Retention System [Attached to Chi Restraint Pack]",
+   "where": "Straps of Bumbag"
+  }
+ ],
+ "cash": 450,
+ "rep": 7,
+ "ip": [
+  190,
+  27880
+ ],
+ "techTime": 0,
+ "commission": 3,
+ "aliases": "Dr. Kōru Singh, Galileo, Beard-Kun,  JAQ, Reginald Sterling, Magna Defender, Martian Manhunter, IP MAN",
+ "name": "Dr. Kōru Singh",
+ "origin": "Highrider · O'Neill Two",
+ "sin": "ON2-4471-0925-KS",
+ "chrome": {
+  "zones": [
+   {
+    "id": "neural",
+    "label": "Neural Link",
+    "regions": [
+     "head"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "InfoLink & Neuralware",
+      "items": [
+       {
+        "name": "Infolink",
+        "kind": "cyber",
+        "tags": [
+         "UPG"
+        ],
+        "ref": "infolink",
+        "setup": "Thought-to-text capability. Foundational Tuning: Neuralware is only 1 MHL.",
+        "cap": 6,
+        "children": [
+         {
+          "name": "Chipware Socket x1",
+          "kind": "cyber",
+          "tags": [
+           "UPG",
+           "INFOLINKED"
+          ],
+          "ref": "socket",
+          "setup": "A dual socket installed at the base of the neck.",
+          "slots": 0,
+          "children": [
+           {
+            "name": "Control Chip",
+            "kind": "chip",
+            "tags": [],
+            "ref": "controlchip",
+            "setup": ""
+           },
+           {
+            "name": "Chemical Analyzer",
+            "kind": "chip",
+            "tags": [],
+            "ref": "chemanal",
+            "setup": ""
+           },
+           {
+            "name": "Segotari Mindgames",
+            "kind": "chip",
+            "tags": [],
+            "ref": "mindpalace",
+            "setup": ""
+           }
+          ]
+         },
+         {
+          "name": "Kenshō",
+          "kind": "cyber",
+          "tags": [
+           "FAB"
+          ],
+          "ref": "kensho",
+          "setup": "",
+          "slots": 1
+         },
+         {
+          "name": "Quickfix Co-Processor",
+          "kind": "cyber",
+          "tags": [
+           "FAB"
+          ],
+          "ref": "quickfix",
+          "setup": "",
+          "slots": 1
+         },
+         {
+          "name": "Interface Plugs",
+          "kind": "cyber",
+          "tags": [
+           "UPG",
+           "INFOLINKED"
+          ],
+          "ref": "plugs,plugdrive",
+          "setup": "Plugs in the wrist of the cyberarm. Has Cyberdrive Upgrade, allowing another chip slot.",
+          "slots": 0
+         },
+         {
+          "name": "Braindance Recorder",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "bdrec",
+          "setup": "",
+          "slots": 1
+         },
+         {
+          "name": "Boshaki",
+          "kind": "bio",
+          "tags": [
+           "FAB",
+           "BIOWARE"
+          ],
+          "ref": "boshaki",
+          "setup": "",
+          "slots": 2
+         },
+         {
+          "name": "Neurochemical Memory Receptors",
+          "kind": "bio",
+          "tags": [
+           "BIOWARE"
+          ],
+          "ref": "nmr",
+          "setup": "",
+          "slots": 1
+         },
+         {
+          "name": "Propiosync",
+          "kind": "bio",
+          "tags": [
+           "BIOWARE"
+          ],
+          "ref": "proprio",
+          "setup": "",
+          "slots": 0
+         }
+        ],
+        "capnote": "5 + 1 from Physiological Tailoring"
+       },
+       {
+        "kind": "enh",
+        "enh": "ssc",
+        "note": "Human Perception, Conversation, and Interrogation +3."
+       },
+       {
+        "kind": "enh",
+        "enh": "trauma",
+        "note": "Takes half HL."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "optics",
+    "label": "Cyberoptics",
+    "regions": [
+     "eyes"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "Right Cybereye",
+      "items": [
+       {
+        "name": "Cat Eyes",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "cateyes",
+        "setup": ""
+       },
+       {
+        "name": "Chromatic Vision",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "chromatic",
+        "setup": ""
+       }
+      ]
+     },
+     {
+      "title": "Left Cybereye",
+      "items": [
+       {
+        "name": "Cat Eyes",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "cateyes",
+        "setup": ""
+       },
+       {
+        "name": "Chromatic Vision",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "chromatic",
+        "setup": ""
+       }
+      ]
+     },
+     {
+      "title": "Right Smart Lens",
+      "items": [
+       {
+        "name": "Smart Lens",
+        "kind": "worn",
+        "tags": [
+         "UPG"
+        ],
+        "ref": "chyron",
+        "setup": "Chyron w/ Enhanced HUD.",
+        "children": [
+         {
+          "name": "Targeting Scope",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "targeting",
+          "setup": ""
+         },
+         {
+          "name": "Optical Tracking Controller",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "otc",
+          "setup": "Allows user to control Agent with eye."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Left Smart Lens",
+      "items": [
+       {
+        "name": "Smart Lens",
+        "kind": "worn",
+        "tags": [
+         "UPG"
+        ],
+        "ref": "chyron",
+        "setup": "Chyron w/ Enhanced HUD.",
+        "children": [
+         {
+          "name": "Milimeter Wave Scanner",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "mmwave",
+          "setup": "With an Action, can switch modes to see through Thin Cover within 20m."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "audio",
+    "label": "Cyberaudio",
+    "regions": [
+     "ears"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "Cyberaudio",
+      "items": [
+       {
+        "name": "Nano Auditory Rebuild",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "nanoaud",
+        "setup": ""
+       },
+       {
+        "name": "Echolocation",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE",
+         "ADV"
+        ],
+        "ref": "echo",
+        "setup": "",
+        "children": [
+         {
+          "kind": "enh",
+          "enh": "vibres",
+          "note": "Touch a flat surface to sense movement within 30m."
+         }
+        ]
+       },
+       {
+        "kind": "link",
+        "to": "gear",
+        "label": "Smart Ears (Gear Items)"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "limbs",
+    "label": "Cyberlimbs",
+    "regions": [
+     "armR",
+     "armL",
+     "legs"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "Right Cyberarm",
+      "items": [
+       {
+        "name": "Cyberarm",
+        "kind": "cyber",
+        "tags": [
+         "FAB",
+         "UPG"
+        ],
+        "ref": "cyberarm,force",
+        "setup": "Strikethrough Piston Upgrade. Interface Plugs unspool at wrist. Skinwatch and Wayfinder in wrist.",
+        "children": [
+         {
+          "name": "Superchrome®",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "superchrome",
+          "setup": "Orbital Titanium."
+         },
+         {
+          "name": "Concealment Sleeve",
+          "kind": "cyber",
+          "tags": [
+           "FAB"
+          ],
+          "ref": "",
+          "setup": "Used for when incognito/Galileo. Presents as Realskinn and biological to cyberscanners."
+         },
+         {
+          "name": "Holo-Palm",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "",
+          "setup": "Consumer Ergonomics. Soda can sized hologram."
+         },
+         {
+          "name": "Psiberstuff Watch-Man",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "watchman",
+          "setup": "Agent Plug Compatibility."
+         },
+         {
+          "name": "Palm Bomb",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "palmbomb",
+          "setup": ""
+         },
+         {
+          "name": "Popup Melee [Faisal’s Magi-Palm]",
+          "kind": "cyber",
+          "tags": [
+           "UPG",
+           "REACH"
+          ],
+          "ref": "popup",
+          "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Three modes: Ignis, Frigus, and Fulgur."
+         },
+         {
+          "name": "Wolvers",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "wolvers",
+          "setup": "3d6. Armor Shredding. Precise."
+         },
+         {
+          "name": "Medical Hand",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "medhand",
+          "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
+         },
+         {
+          "name": "Reinforced Cyberlimb",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "reinforced",
+          "setup": ""
+         },
+         {
+          "name": "Quick Change Mount",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "qcm",
+          "setup": ""
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Left Arm",
+      "items": [
+       {
+        "name": "Bone Density Augmentation",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "bonedensity",
+        "setup": ""
+       },
+       {
+        "kind": "enh",
+        "enh": "vibres",
+        "note": "Can detect movement up to 30m."
+       },
+       {
+        "kind": "enh",
+        "enh": "axolotl",
+        "note": "DV 17 [DV 13 HF] to Quickfix a Dismembered Leg, Hand, or Arm."
+       }
+      ]
+     },
+     {
+      "title": "Right Leg",
+      "items": [
+       {
+        "name": "Bone Density Augmentation",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "bonedensity",
+        "setup": ""
+       },
+       {
+        "name": "Spider Grip",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "spider",
+        "setup": ""
+       },
+       {
+        "kind": "enh",
+        "enh": "vibres",
+        "note": "Can detect movement up to 30m."
+       },
+       {
+        "kind": "enh",
+        "enh": "axolotl",
+        "note": "DV 17 [DV 13 HF] to Quickfix a Dismembered Leg, Hand, or Arm."
+       },
+       {
+        "kind": "enh",
+        "enh": "adaptive",
+        "note": "Ignores Jump Penalty, Run Action adds 6m."
+       }
+      ]
+     },
+     {
+      "title": "Left Leg",
+      "items": [
+       {
+        "name": "Bone Density Augmentation",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "bonedensity",
+        "setup": ""
+       },
+       {
+        "name": "Spider Grip",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "spider",
+        "setup": ""
+       },
+       {
+        "kind": "enh",
+        "enh": "vibres",
+        "note": "Can detect movement up to 30m."
+       },
+       {
+        "kind": "enh",
+        "enh": "axolotl",
+        "note": "DV 17 [DV 13 HF] to Quickfix a Dismembered Leg, Hand, or Arm."
+       },
+       {
+        "kind": "enh",
+        "enh": "adaptive",
+        "note": "Ignores Jump Penalty, Run Action adds 6m."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "internal",
+    "label": "Internal Ware",
+    "regions": [
+     "torso",
+     "head"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "Internal Cyberware",
+      "items": [
+       {
+        "name": "Flame Breath",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "flame",
+        "setup": "Functions as Flamethrower [ROF 2, 4d6 damage, 2 uses/24hr regeneration].",
+        "slots": 1
+       },
+       {
+        "name": "Bear Nose",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "bearnose",
+        "setup": "",
+        "slots": 1
+       },
+       {
+        "name": "Cyberspine",
+        "kind": "cyber",
+        "tags": [
+         "FAB"
+        ],
+        "ref": "cyberspine",
+        "setup": "",
+        "slots": 3
+       },
+       {
+        "name": "Cyberskull",
+        "kind": "cyber",
+        "tags": [
+         "FAB"
+        ],
+        "ref": "cyberskull",
+        "setup": "",
+        "slots": 3,
+        "children": [
+         {
+          "name": "Faceplates",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "",
+          "setup": "Io, Zolo, Galileo, IP Man, Generic"
+         }
+        ]
+       },
+       {
+        "kind": "enh",
+        "enh": "reservoir",
+        "note": "x3. Trauma: Speedheal · Combat: Red Lace · Voluntary: RapiDetox."
+       },
+       {
+        "kind": "enh",
+        "enh": "venom",
+        "note": "Red River. Once per day."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "external",
+    "label": "External Ware",
+    "regions": [
+     "body"
+    ],
+    "tone": "gold",
+    "groups": [
+     {
+      "title": "External Cyberware",
+      "items": [
+       {
+        "name": "Fleshweave",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE",
+         "UPG"
+        ],
+        "ref": "fleshweave",
+        "setup": "User’s body and head are armored at SP8.",
+        "children": [
+         {
+          "kind": "enh",
+          "enh": "hemo",
+          "note": "Fleshweave SP is increased to 10. Regenerates 1 SP every 30 sec. out of combat."
+         }
+        ]
+       },
+       {
+        "name": "Dermatech Draco-Skin",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "draco",
+        "setup": ""
+       },
+       {
+        "name": "Radskin",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "radskin",
+        "setup": ""
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "fashion",
+    "label": "Fashionware",
+    "regions": [
+     "body"
+    ],
+    "tone": "gold",
+    "groups": [
+     {
+      "title": "Fashionware",
+      "items": [
+       {
+        "name": "Biomonitor",
+        "kind": "cyber",
+        "tags": [
+         "INFOLINKED"
+        ],
+        "ref": "biomon",
+        "setup": ""
+       },
+       {
+        "name": "Oral, Follicle, and Dermal Symbiotes",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "symb",
+        "setup": ""
+       },
+       {
+        "name": "Skinwatch + Wayfinder",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "skinwatch,wayfinder",
+        "setup": "Installed in Cyberarm. +2 to Wilderness Survival."
+       },
+       {
+        "name": "Highrider Ritual Scarring & Tattoos",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "livingink",
+        "setup": "3x Living Ink. Narratively made and inscribed by Dr. Curiosity Clavell."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "borg",
+    "label": "Borgware",
+    "regions": [
+     "body"
+    ],
+    "tone": "",
+    "groups": [
+     {
+      "title": "Borgware",
+      "items": [
+       {
+        "name": "“Armstrong” Myoskeletal Nanomatrix",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "armstrong",
+        "setup": "",
+        "count": "x3",
+        "children": [
+         {
+          "name": "Armstrong Dermal Plating Upgrade",
+          "kind": "upgrade",
+          "tags": [],
+          "ref": "armplate",
+          "setup": "While the nanomatrix is active, head and body are armored at SP13."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "adv",
+    "label": "Advanced Bioware",
+    "regions": [
+     "body"
+    ],
+    "tone": "adv",
+    "groups": [
+     {
+      "title": "Advanced Bioware",
+      "note": "No slots · no Humanity Loss",
+      "items": [
+       {
+        "name": "Physiological Tailoring",
+        "kind": "adv",
+        "tags": [
+         "ADV"
+        ],
+        "ref": "tailoring",
+        "setup": "",
+        "children": [
+         {
+          "name": "Cornucopia Stimulant Processor",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "cornucopia",
+          "setup": "RTD +4, Doubled duration for pharmas and streetdrugs."
+         },
+         {
+          "name": "Healing Factor",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "healing",
+          "setup": ""
+         },
+         {
+          "name": "Nociception Filter",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "nocic",
+          "setup": ""
+         },
+         {
+          "name": "Physiological Enhancement x13",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "physenh",
+          "setup": "REF +6 · BODY +6 · MOVE +1."
+         },
+         {
+          "name": "Synaesthetic Social Cortex",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "ssc",
+          "setup": "",
+          "feeds": [
+           "Nano Auditory Rebuild",
+           "Echolocation",
+           "Bear Nose",
+           "Chromatic Vision"
+          ],
+          "links": [
+           "audio",
+           "internal",
+           "optics"
+          ],
+          "id": "ssc"
+         },
+         {
+          "name": "Trauma Dampening",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "trauma",
+          "setup": "",
+          "links": [
+           "neural"
+          ],
+          "id": "trauma"
+         },
+         {
+          "name": "Vibrational Resonance",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "vibres",
+          "setup": "",
+          "links": [
+           "audio",
+           "limbs"
+          ],
+          "id": "vibres"
+         },
+         {
+          "name": "Axolotl Limb Grafting",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "axolotl",
+          "setup": "",
+          "links": [
+           "limbs"
+          ],
+          "id": "axolotl"
+         },
+         {
+          "name": "Adaptive Musculature",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "adaptive",
+          "setup": "",
+          "links": [
+           "limbs"
+          ],
+          "id": "adaptive"
+         },
+         {
+          "name": "Fleshweave Hemolattice",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "hemo",
+          "setup": "",
+          "links": [
+           "external"
+          ],
+          "id": "hemo"
+         },
+         {
+          "name": "Advanced Reservoir System x3",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "reservoir",
+          "setup": "",
+          "links": [
+           "internal"
+          ],
+          "id": "reservoir"
+         },
+         {
+          "name": "Venom Gland",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "venom",
+          "setup": "",
+          "links": [
+           "internal"
+          ],
+          "id": "venom"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "gear",
+    "label": "Gear",
+    "regions": [
+     "head"
+    ],
+    "tone": "gold",
+    "groups": [
+     {
+      "title": "Gear Items",
+      "items": [
+       {
+        "name": "Smart Ears",
+        "kind": "worn",
+        "tags": [
+         "FAB"
+        ],
+        "ref": "smartears",
+        "setup": "Fashioned as two bone conduction devices under beard attached to jaw.",
+        "cap": 2,
+        "children": [
+         {
+          "name": "Raven Drake",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "agent",
+          "setup": "Standard Internal Agent.",
+          "slots": 1
+         },
+         {
+          "name": "Radio Scanner/Music Player",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "radio",
+          "setup": "",
+          "slots": 0
+         },
+         {
+          "name": "Signal Jammer",
+          "kind": "cyber",
+          "tags": [
+           "UPG"
+          ],
+          "ref": "jamup",
+          "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle as a Free Action. Power upgrade: DV15, 12m.",
+          "slots": 1
+         }
+        ]
+       },
+       {
+        "name": "Smart Glasses",
+        "kind": "worn",
+        "tags": [
+         "FAB",
+         "UPG"
+        ],
+        "ref": "smartglasses",
+        "setup": "Fashioned as circular black spectacles made by Vogue.",
+        "cap": 2,
+        "children": [
+         {
+          "name": "MicroVideo",
+          "kind": "cyber",
+          "tags": [
+           "FAB"
+          ],
+          "ref": "microvideo",
+          "setup": ""
+         },
+         {
+          "name": "Virtuality",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "virtuality",
+          "setup": ""
+         }
+        ]
+       },
+       {
+        "name": "Smart Glasses",
+        "kind": "worn",
+        "tags": [],
+        "ref": "smartglasses",
+        "setup": "Father’s Glasses.",
+        "cap": 2,
+        "children": [
+         {
+          "name": "Tele Optics",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "tele",
+          "setup": ""
+         },
+         {
+          "name": "Micro Optics",
+          "kind": "cyber",
+          "tags": [],
+          "ref": "micro",
+          "setup": ""
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Faceplates & Holoware",
+      "items": [
+       {
+        "kind": "link",
+        "to": "internal",
+        "label": "Faceplates (in the Cyberskull)"
+       },
+       {
+        "name": "Holoware",
+        "kind": "worn",
+        "tags": [],
+        "ref": "",
+        "setup": "Additional: Handwraps, Magna Defender, Ed Hardy.",
+        "children": [
+         {
+          "name": "Jean Suit",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "Chuck Norris style."
+         },
+         {
+          "name": "Green Tracksuit",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "For IP MAN. Squid Games style."
+         },
+         {
+          "name": "Streetwear",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "Generic. Blend into the Street."
+         },
+         {
+          "name": "Van Damme Outfit",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "You know the one."
+         },
+         {
+          "name": "Vogue Original",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "Nicer, Used for an earlier disguise."
+         },
+         {
+          "name": "Simple Casual",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": "Nice dresspants and sweater."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "repEvents": [
+  {
+   "lvl": 7,
+   "head": "Singh Takes the 49th World Martial Arts Crown",
+   "text": "Champion of the 49th World Martial Arts Tournament that was hosted in NC.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Night City"
+   ],
+   "date": "2024-12-02",
+   "link": "https://discord.com/channels/1061931924010045522/1307487446157492286/1312956046859571271"
+  },
+  {
+   "lvl": 7,
+   "head": "Red Star Showdown Champ Xiao Falls in Exhibition",
+   "text": "Won against the Champion of the Red Star Showdown, Xiao, a world class martial artist. In an exhbition match after the tournament.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Night City"
+   ],
+   "date": "2023-06-23",
+   "link": "https://discord.com/channels/1061931924010045522/1120399513568419890/1121931201167511612"
+  },
+  {
+   "lvl": 7,
+   "head": "Burning Truck Rams Continental Brands Flagship; Driver Hands Out Food",
+   "text": "Publicly ran a burning truck into flagship continental brands store. Was caught on camera passing food out to those in need.",
+   "kinds": [
+    "red"
+   ],
+   "who": [
+    "Continental Brands"
+   ],
+   "date": "2023-06-23",
+   "link": "https://discord.com/channels/1061931924010045522/1120399513568419890/1121931201167511612"
+  },
+  {
+   "lvl": 7,
+   "head": "Mongrel Downed at Red Mats",
+   "text": "Defeated Mongrel, a very famous boxer in a public exhibition match at Red Mats",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Red Mats"
+   ],
+   "date": "2025-11-03",
+   "link": "https://discord.com/channels/1061931924010045522/1434620088585031812/1434831022846902345"
+  },
+  {
+   "lvl": 6,
+   "head": "Starborne Showdown Opens Morro Rock; Singh Wins It",
+   "text": "Winning the Starborne Shodown, A Highrider tournament marking the opening of Morro Rock. Was a true display of his capabilities, against all manner of foe.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Highriders",
+    "Morro Rock"
+   ],
+   "date": "2024-03-11",
+   "link": "https://discord.com/channels/1061931924010045522/1214315666358935604/1216775664225484940"
+  },
+  {
+   "lvl": 5,
+   "head": "Mama Silver Orders Heywood to Honor Threadbare's Defenders",
+   "text": "All the present Edgerunners are extoled to residents of Heywood, by order of Mama Silver. Due to the work done to protect The Threadbare and the civillians inside.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Heywood",
+    "Mama Silver"
+   ],
+   "date": "2026-03-25",
+   "link": "https://discord.com/channels/1061931924010045522/1486110246282989709/1486186118822232166"
+  },
+  {
+   "lvl": 5,
+   "head": "Known Menace Taken Out in Public",
+   "text": "Took out a known menace in an incredibly public fashion to the goodwill of protector-guardians and the scorn of Vancouverite solos in layover.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Protector-Guardians",
+    "Vancouverite Solos"
+   ],
+   "date": "2026-02-26",
+   "link": "https://discord.com/channels/1061931924010045522/1475166953264906503/1476444985652936875"
+  },
+  {
+   "lvl": 5,
+   "head": "RSC Runs Hot Zone Survivors Past the Blockade",
+   "text": "More than 40 Hotzone survivors and NCPD/MAXTAC are aware of the efforts Io and the RSC took to get survivors past the blockade",
+   "kinds": [
+    "shield",
+    "red"
+   ],
+   "who": [
+    "Hot Zone",
+    "NCPD",
+    "MAXTAC",
+    "RSC"
+   ],
+   "date": "2025-08-04",
+   "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961"
+  },
+  {
+   "lvl": 5,
+   "head": "Bulletface Grand Prix Goes to the Crew",
+   "text": "Winners of the Bulletface Grand Prix. Establishes themselves as some of the realest motherfuckers in the Zone.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "The Zone"
+   ],
+   "date": "2025-11-28",
+   "link": "https://discord.com/channels/1061931924010045522/1443446116485169294/1443818778637893692"
+  },
+  {
+   "lvl": 5,
+   "head": "Telly Tubby Superdrome Gone; Heywood Exhales",
+   "text": "Overcrowded suburbs of Heywood breathe a sigh of relief. Months upon months of open warfare come to an end. They know who to thank for eliminating the Telly Tubby Superdrome",
+   "kinds": [
+    "ops",
+    "shield"
+   ],
+   "who": [
+    "Heywood"
+   ],
+   "date": "2025-01-30",
+   "link": "https://discord.com/channels/1061931924010045522/1333222667536564329/1334578709960720498"
+  },
+  {
+   "lvl": 5,
+   "head": "“It's the Immortal Science for a Reason!” Assassin Subdued on Camera",
+   "text": "Resisting a very public assassination attempt, various videos on the garden patch emerge of him triumphantly announcing \"It's the immortal science for a reason!\" Subdues his attacker publicly.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Garden Patch"
+   ],
+   "date": "2024-09-03",
+   "link": "https://discord.com/channels/1061931924010045522/1279826684308357271/1280589671734444166"
+  },
+  {
+   "lvl": 5,
+   "head": "Auction Rant: Class War Speech, Kicked-In Lundee Portrait, Gunfire",
+   "text": "Gave an impassioned rant on corporate fascism and class warfare to a room full of execs at an art auction. Kicked a hole through an expensive piece depicting General Donald Lundee on the toilet. Left in a hail of gunfire and chaos. While progressively yelling louder and more passionately.",
+   "kinds": [
+    "red"
+   ],
+   "who": [
+    "Corps"
+   ],
+   "date": "2023-05-17",
+   "link": "https://discord.com/channels/1061931924010045522/1107722738623320145/1108518913626615869"
+  },
+  {
+   "lvl": 5,
+   "head": "Thelas Fleet “Recovered from Pirates”",
+   "text": "Thelas Nation thinks you recovered one of their fleet from pirates while the Meta knows the truth.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Thelas Nation",
+    "Meta"
+   ],
+   "date": "2026-03-31",
+   "link": "https://discord.com/channels/1061931924010045522/1481722177459060909/1488340381669261343"
+  },
+  {
+   "lvl": 5,
+   "head": "Police Chase Through Heywood Industrial After 6th St–Maelstrom War",
+   "text": "Chased by the police through Heywood Industrial Zone after being spotted on site during a high profile gang war between 6th Street and Maelstrom.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "NCPD",
+    "6th Street",
+    "Maelstrom",
+    "Heywood"
+   ],
+   "date": "2023-08-07",
+   "link": "https://discord.com/channels/1061931924010045522/1137223828787961946/1137928643071455293"
+  },
+  {
+   "lvl": 4,
+   "head": "Miku Miku Beam's Cannibal Racket Ended",
+   "text": "For ending the menace of Miku Miku Beam and their cannibal enterpirses.",
+   "kinds": [
+    "ops",
+    "shield"
+   ],
+   "who": [
+    "Miku Miku Beam"
+   ],
+   "date": "2026-06-07",
+   "link": "https://discord.com/channels/1061931924010045522/1512871191311028307/1513018242430537868"
+  },
+  {
+   "lvl": 4,
+   "head": "White Smash Bonanza Pulled from a Death Squad",
+   "text": "For pulling a bonanza (White Smash in storage for the vending machines in a defunct Segotari Compound) out of the clutches of a paramilitary death squad (present to retrieve and delete extant data for the corp).",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Segotari"
+   ],
+   "date": "2026-03-27",
+   "link": "https://discord.com/channels/1061931924010045522/1487103651909730314/1487238090627092621"
+  },
+  {
+   "lvl": 4,
+   "head": "High-End HTR Team Repelled from Bhagat's Operation",
+   "text": "Reclaimers, Jodes nation, blood nation, the various fixers who trade with Bhagat as well as Continental Brands know you repelled a high-end HTR team that sought to undermine Bhagat's operation",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Reclaimers",
+    "Jodes Nation",
+    "Blood Nation",
+    "Bhagat",
+    "Continental Brands"
+   ],
+   "date": "2026-01-16",
+   "link": "https://discord.com/channels/1061931924010045522/1461369615136456880/1461605471143333921"
+  },
+  {
+   "lvl": 4,
+   "head": "Raffen Clan Beheaded Before Its Punknaught Fleet Sails",
+   "text": "Lazarus, the Estero Bay COG, and the Seven Nations know you decapitated the leadership of a Raffen clan who were trying to build a fleet of punknaughts",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Lazarus",
+    "Estero Bay COG",
+    "Seven Nations",
+    "Raffen"
+   ],
+   "date": "2026-02-05",
+   "link": "https://discord.com/channels/1061931924010045522/1466941431867506943/1468853893122359388"
+  },
+  {
+   "lvl": 4,
+   "head": "SoCal Greenhouse Taken from Three Corps; Eight Arasaka Cybersoldiers Down",
+   "text": "Even if they agreed to keep a lid on it in exchange for a ceasefire, Petrochem, Metacorp, and Biotechnica know you blackmailed them into handing off a greenhouse facility in SoCal. Arasaka knows you wasted about eight of their cybersoldiers, two being valuable operatives in the form of Rock 13 and Fangs Chau.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Petrochem",
+    "Metacorp",
+    "Biotechnica",
+    "Arasaka"
+   ],
+   "date": "2025-12-13",
+   "link": "https://discord.com/channels/1061931924010045522/1447957121357582470/1449283645671084145"
+  },
+  {
+   "lvl": 4,
+   "head": "Blackwatch Asset Retrieved Against the Odds",
+   "text": "With Blackwatch (Your Employer's PMC Outfit), for successfully retrieving a valued Asset of theirs within Mission Parameters and with Odds stacked immensely against you. Cpt. Pryde is majorly impressed.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Blackwatch"
+   ],
+   "date": "2026-04-23",
+   "link": "https://discord.com/channels/1061931924010045522/1495663809153732618/1496877391945924648"
+  },
+  {
+   "lvl": 4,
+   "head": "BIUG HALP Dissolved",
+   "text": "Eliminated BIUG HALP in a joint operation that dissolved their organization",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "BIUG HALP"
+   ],
+   "date": "2025-11-26",
+   "link": "https://discord.com/channels/1061931924010045522/1441600019169022022/1443295882396303400"
+  },
+  {
+   "lvl": 4,
+   "head": "Heidegger's Chopshop Closed for Good",
+   "text": "Ended Heidegger's scav and chopshop in the Dark Zone.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Dark Zone"
+   ],
+   "date": "2025-11-21",
+   "link": "https://discord.com/channels/1061931924010045522/1440010036708507648/1441251312959488062"
+  },
+  {
+   "lvl": 4,
+   "head": "Three Dozen Bozos Fall in the University Dark Zone",
+   "text": "Eliminated 3 dozen Bozos in the University Dark Zone.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Bozos",
+    "Dark Zone"
+   ],
+   "date": "2025-10-26",
+   "link": "https://discord.com/channels/1061931924010045522/1431719189453738104/1431851460777480236"
+  },
+  {
+   "lvl": 4,
+   "head": "2-on-1 Against Max Muscle; the Street Knows Who's Stronger",
+   "text": "For a 2 v 1 fight against Max Muscle and Zlizzles fighter in which it's shown he's undoubably stronger than Max Muscle. The street knows it even if the fight ended and Max claims otherwise.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Max Muscle",
+    "Zlizzles"
+   ],
+   "date": "2025-05-12",
+   "link": "https://discord.com/channels/1061931924010045522/1359660767602806794/1371490921597767691"
+  },
+  {
+   "lvl": 4,
+   "head": "STIGMARTYR Attack Repelled in a Corporate Zone",
+   "text": "Doing the Japan Corps a solid. Repeling a STIGMARTYR atack in a Corporate Zone.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Japan Corps",
+    "STIGMARTYR"
+   ],
+   "date": "2024-12-26",
+   "link": "https://discord.com/channels/1061931924010045522/1321147216722661386/1321980847250870333"
+  },
+  {
+   "lvl": 4,
+   "head": "Line of Feanor Holds Against the Bozos",
+   "text": "Aided an Elven Protector gang [Line of Feanor] in repelling a Bozo onslaught in SNC.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Line of Feanor",
+    "Bozos",
+    "SNC"
+   ],
+   "date": "2024-05-11",
+   "link": "https://discord.com/channels/1061931924010045522/1238390891442606091/1238759515617366038"
+  },
+  {
+   "lvl": 4,
+   "head": "Neighborhood Rises Against 6th Street Gougers; Rad Meds Handed Out",
+   "text": "Leading a whole neighborhood against a price-gouging district of 6th street, followed by the free distribution of radiation medicine in South Night City near the radiation-quarantine zone.",
+   "kinds": [
+    "red",
+    "shield"
+   ],
+   "who": [
+    "SNC",
+    "6th Street"
+   ],
+   "date": "2023-07-23",
+   "link": "https://discord.com/channels/1061931924010045522/1131696962597572660/1132744804728586351"
+  },
+  {
+   "lvl": 4,
+   "head": "Sledgehammer Challenged at Metalstorm, and Dead",
+   "text": "Challenging Sledgehammer in the middle of Metalstorm and winning. Io making sure Sledgehammer is dead sends a message to the street that he didn't go down to sledgehammer. Word of this will also spread through Maelstrom ranks, they will view Io as a credible threat and enemy.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Maelstrom"
+   ],
+   "date": "2024-11-06",
+   "link": "https://discord.com/channels/1061931924010045522/1302364483041230979/1303743385009651734"
+  },
+  {
+   "lvl": 4,
+   "head": "Rigged NCW Bout",
+   "text": "Appeared as a combatant on the NCW, did not realize it was rigged. Still harbors grudge.",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "NCW"
+   ],
+   "date": "2023-05-16",
+   "link": "https://discord.com/channels/1061931924010045522/1106998064486547497/1107868073337290783"
+  },
+  {
+   "lvl": 4,
+   "head": "Cargo Train Held Against Vandoos and Hatamoto Sisters",
+   "text": "Defended a Cargo Train by an onslought by the Vandoos and Hatamoto Sisters. Jodes commend the efforts and Vandoos speak on it with a begrudging respect.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Jodes Nation",
+    "Vandoos",
+    "Hatamoto Sisters"
+   ],
+   "date": "2024-09-26",
+   "link": "https://discord.com/channels/1061931924010045522/1288193934740164620/1288855228720087155"
+  },
+  {
+   "lvl": 4,
+   "head": "Bonesaw's Scav Nest Cleared in the Badlands",
+   "text": "Cleared out a Raffen Scav nest in the Badlands, eliminated notorious Raffen leader, Bonesaw",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Raffen",
+    "Badlands"
+   ],
+   "date": "2023-06-17",
+   "link": "https://discord.com/channels/1061931924010045522/1119299621026537522/1119612903578939422"
+  },
+  {
+   "lvl": 4,
+   "head": "Red Snakes Affair Goes to Print",
+   "text": "Io's public involvement in the Red Snakes affair and the impact of the article.",
+   "kinds": [
+    "red"
+   ],
+   "who": [
+    "Red Snakes"
+   ],
+   "date": "2023-07-04",
+   "link": "https://discord.com/channels/1061931924010045522/1125258316478685234/1125629241405476864"
+  },
+  {
+   "lvl": 4,
+   "head": "Sinner's Lounge Battle",
+   "text": "A large public battle at the Sinner's Lounge, where descriptions place us at the scene",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Sinner's Lounge"
+   ],
+   "date": "2023-11-28",
+   "link": "https://discord.com/channels/1061931924010045522/1177001293575901245/1179069392030531614"
+  },
+  {
+   "lvl": 3,
+   "head": "McBride Street Orange Line Made Safe",
+   "text": "Word spreads among the residents of SNC that the Orange Line station on McBride street has been made safe thanks to the efforts of a crew of edgerunners, who defeated a cyberpsychotic cult",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "SNC"
+   ],
+   "date": "2026-06-12",
+   "link": "https://discord.com/channels/1061931924010045522/1514561746709385358/1514881181617881129"
+  },
+  {
+   "lvl": 3,
+   "head": "Clips Goaded into a Fight with a Crowd Watching",
+   "text": "Io goads Clips, a local edgerunner fixture into fighting him with an audience",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Clips"
+   ],
+   "date": "2026-05-25",
+   "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
+  },
+  {
+   "lvl": 3,
+   "head": "Vermin Commander Talked Out of Arms Deal",
+   "text": "Exa Bakerhouse and bbno$ explain Io revealed himself to VERMIN COMMANDER, persuaded him to abandon the arms deal, and tried to make off with BLACK FEAR (a Continental Brands Senior Covert Operative).",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Vermin Commander",
+    "Continental Brands"
+   ],
+   "date": "2026-01-21",
+   "link": "https://discord.com/channels/1061931924010045522/1462916725438939351/1463583902278094932"
+  },
+  {
+   "lvl": 3,
+   "head": "Militech HTR Team Fended Off at Rancho Coronado Supermarket",
+   "text": "For visibily fending off a Militech HTR team at a Supermarket in Rancho Coronado",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Militech",
+    "Rancho Coronado"
+   ],
+   "date": "2026-01-23",
+   "link": "https://discord.com/channels/1061931924010045522/1463822572264226920/1464407701131100282"
+  },
+  {
+   "lvl": 3,
+   "head": "Broken Cross Clinic Raid: Survivors Say Don't Join",
+   "text": "Survivors of a Raid on a Broken Cross Medical Clinic in the OCZ spread the word about what happened there and to not join.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "OCZ",
+    "Broken Cross"
+   ],
+   "date": "2026-01-04",
+   "link": "https://discord.com/channels/1061931924010045522/1457051561812300052/1457241857603146022"
+  },
+  {
+   "lvl": 3,
+   "head": "Big Generator for the Zoners",
+   "text": "Positive Rep amongst the Zoners for getting them a large generator",
+   "kinds": [
+    "shield",
+    "red"
+   ],
+   "who": [
+    "Zoners"
+   ],
+   "date": "2025-12-25",
+   "link": "https://discord.com/channels/1061931924010045522/1453583096682250447/1453679180553261202"
+  },
+  {
+   "lvl": 3,
+   "head": "Danger Gal Sting Gets a Lecture on Pinkertonism",
+   "text": "for humiliating a Danger Gal sting operation by engaging in a lecture about pinkertonism. Maybe also for hosting a crowded exhibition at their AO. Who can say.",
+   "kinds": [
+    "red"
+   ],
+   "who": [
+    "Danger Gal"
+   ],
+   "date": "2025-12-23",
+   "link": "https://discord.com/channels/1061931924010045522/1452629234353831997/1452876597869940852"
+  },
+  {
+   "lvl": 3,
+   "head": "Stickball Match Settles a Gang Dispute; Lord Serrated and Machine Gun Eddie Dead",
+   "text": "Was in a large Stickball match meant to settle a gang dispute. Ended with the death of Lord Serrated and Machine Gun Eddie",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Street Gangs"
+   ],
+   "date": "2025-11-07",
+   "link": "https://discord.com/channels/1061931924010045522/1435625623425908837/1436174387593089054"
+  },
+  {
+   "lvl": 3,
+   "head": "Roughwater Family Thankful; Some Maelstrom and Lightning Cats Spared",
+   "text": "Squall Roughwater and her remaining family and friends are thankful for your work. A few Maelstrom and the Lightning Cats led by Lieutenant Void and Sly Tom are thankful for your help and for sparing them.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Maelstrom",
+    "Lightning Cats"
+   ],
+   "date": "2025-07-22",
+   "link": "https://discord.com/channels/1061931924010045522/1394560051485741147/1397049417013399674"
+  },
+  {
+   "lvl": 3,
+   "head": "Recommended by Woodchipper and an Arasaka Cutout",
+   "text": "Woodchipper puts in a positive recommendation for your services. So does Constella, an Arasaka Security cutout",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Woodchipper",
+    "Arasaka"
+   ],
+   "date": "2025-05-06",
+   "link": "https://discord.com/channels/1061931924010045522/1368339913744978030/1369363284309839893"
+  },
+  {
+   "lvl": 3,
+   "head": "Iron Widow Toppled",
+   "text": "The crew single handedly fought through hordes of Iron Widos against all odds and won. Toppling the Iron Widow herself.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Iron Widows"
+   ],
+   "date": "2025-03-22",
+   "link": "https://discord.com/channels/1061931924010045522/1352452670753079327/1352809848286351370"
+  },
+  {
+   "lvl": 3,
+   "head": "VDB Gusanos Ownzoned at the Blue Moon",
+   "text": "Ownzoned some Gusano's [VDB Hwhite Boyz] at the Blue Moon, causing quite the stir",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "VDB White Boyz"
+   ],
+   "date": "2024-10-08",
+   "link": "https://discord.com/channels/1061931924010045522/1292580898843263066/1293253892166914133"
+  },
+  {
+   "lvl": 3,
+   "head": "Nazi-Occupied Building Taken; Gardeners Find a Home",
+   "text": "Fought a group of Nazisoccupying a building in SNC. Helped the Gardeners source a location. A bunch of followers of Thomas Hill witness",
+   "kinds": [
+    "red",
+    "shield"
+   ],
+   "who": [
+    "Gardeners",
+    "SNC",
+    "Thomas Hill"
+   ],
+   "date": "2024-05-24",
+   "link": "https://discord.com/channels/1061931924010045522/1241467535233384470/1243710103513862154"
+  },
+  {
+   "lvl": 3,
+   "head": "RCL Attack Stopped; Speech on Nanami and Gentrification",
+   "text": "Successfully subverting and RCL Terrorist Attack. A speech to corpos about the corruption of one Ikuru Nanami, and the damage of gentrification.",
+   "kinds": [
+    "red",
+    "shield"
+   ],
+   "who": [
+    "RCL",
+    "Corps"
+   ],
+   "date": "2024-03-06",
+   "link": "https://discord.com/channels/1061931924010045522/1146108667339485204/1214893185776619520"
+  },
+  {
+   "lvl": 3,
+   "head": "La Arenal Watches Old Rio Get Saved",
+   "text": "People of La Arenal Barrio, a notably violent neighborhood in South Heywood, all watched as the edgerunners went and saved their beloved codger, Old Rio.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "South Heywood"
+   ],
+   "date": "2023-11-10",
+   "link": "https://discord.com/channels/1061931924010045522/1171890600073777172/1172368799756976289"
+  },
+  {
+   "lvl": 3,
+   "head": "Bulletface Grand Prix Finalist",
+   "text": "Made it to the final of the Bulletface Grand Prix",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "The Zone"
+   ],
+   "date": "2024-11-29",
+   "link": "https://discord.com/channels/1061931924010045522/1308574292988006480/1311860488086229043"
+  },
+  {
+   "lvl": 3,
+   "head": "Thanatos XBD: Io and Narukami vs. a Cyberpsycho Martyr",
+   "text": "An XBD from an artist that goes by the name Thanatos, shows Io and Narukami fighting off a Cyberpsycho Martyr as they also keep four other cyberpsychos at bay.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Braindance"
+   ],
+   "date": "2023-08-03",
+   "link": "https://discord.com/channels/1061931924010045522/1135775956540346408/1136559314308435988"
+  },
+  {
+   "lvl": 3,
+   "head": "Zazz's Niece Recovered from the Iron Peal Yakuza",
+   "text": "Aiding Zazz, an Italian midboss in recovering his niece from the Iron Peal Yakuza.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Zazz",
+    "Iron Peal Yakuza"
+   ],
+   "date": "2023-05-12",
+   "link": "https://discord.com/channels/1061931924010045522/1105470739726995547/1106377981951234068"
+  },
+  {
+   "lvl": 3,
+   "head": "Minimall Brawl: Maelstrom, Kendachi Assassins, 6th Street",
+   "text": "Fucking up some Maelstrom, Kendachi assassins, 6th Street in front of a crowd of shoppers and Continental Brands associates at a newly opened Continental Brands Minimall",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Maelstrom",
+    "Kendachi",
+    "6th Street",
+    "Continental Brands"
+   ],
+   "date": "2023-11-28",
+   "link": "https://discord.com/channels/1061931924010045522/1175890390310719519/1178999593875296307"
+  },
+  {
+   "lvl": 3,
+   "head": "RCL Attack Foiled in the Glen; RSC Park Protest",
+   "text": "Foiled an RCL terrorist attack in the Glen, organized a protest and gathering to oppose the gentrification of a park special to the RSC in SNC",
+   "kinds": [
+    "red",
+    "shield"
+   ],
+   "who": [
+    "RCL",
+    "The Glen",
+    "RSC"
+   ],
+   "date": "2024-01-03",
+   "link": "https://discord.com/channels/1061931924010045522/1191508554876719194/1192196522683670558"
+  },
+  {
+   "lvl": 3,
+   "head": "Class of '45 Rescued from a Militech Assault Team",
+   "text": "Class of '45 spreads the word about the rescure from a Militech Assault Team in the Hot Zone",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Class of '45",
+    "Militech",
+    "Hot Zone"
+   ],
+   "date": "2024-02-02",
+   "link": "https://discord.com/channels/1061931924010045522/1198090414926856383/1202855386890113064"
+  },
+  {
+   "lvl": 2,
+   "head": "Waffle Place Fight Club",
+   "text": "For partking in the Waffle Place Fight Club",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Waffle Place"
+   ],
+   "date": "2024-10-31",
+   "link": "https://discord.com/channels/1061931924010045522/1301342761735295048/1301622396020592653"
+  },
+  {
+   "lvl": 2,
+   "head": "Waffle Place Fight Club",
+   "text": "For partking in the Waffle Place Fight Club",
+   "kinds": [
+    "contest"
+   ],
+   "who": [
+    "Waffle Place"
+   ],
+   "date": "2024-10-31",
+   "link": "https://discord.com/channels/1061931924010045522/1301342761735295048/1301622396020592653"
+  },
+  {
+   "lvl": 2,
+   "head": "Bobby Kennedy Siege Repelled",
+   "text": "Repelled a siege on Bobby Kennedy on behalf of the Kennedy's",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Kennedys"
+   ],
+   "date": "2024-10-19",
+   "link": "https://discord.com/channels/1061931924010045522/1296250090666590240/1297021783894917203"
+  },
+  {
+   "lvl": 2,
+   "head": "Mourners Vouch for the Crew",
+   "text": "Mourners spread word that Io and the party are reliable, moral individuals in the aftermath of this gig",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Mourners"
+   ],
+   "date": "2023-05-23",
+   "link": "https://discord.com/channels/1061931924010045522/1109602958653522131/1110685152486629456"
+  },
+  {
+   "lvl": 2,
+   "head": "Street Firefight with a Puma Squad Member",
+   "text": "Firefight with a Puma Squad Member on the streets between SNC and the Glen",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Puma Squad",
+    "SNC",
+    "The Glen"
+   ],
+   "date": "2023-04-24",
+   "link": "https://discord.com/channels/1061931924010045522/1097677054478123110/1099877423522255002"
+  }
+ ],
+ "repPortraits": [
+  {
+   "img": "img/rep/2043.webp",
+   "cap": "Circa 2043",
+   "pos": "50% 20%"
+  },
+  {
+   "img": "img/rep/2045.webp",
+   "cap": "Circa 2045",
+   "pos": "50% 15%"
+  },
+  {
+   "img": "img/rep/2046.webp",
+   "cap": "Circa 2046",
+   "pos": "45% 20%"
+  },
+  {
+   "img": "img/rep/2047.webp",
+   "cap": "Circa 2047",
+   "pos": "50% 15%"
+  },
+  {
+   "img": "img/io-portrait.jpg",
+   "cap": "Circa 2048",
+   "pos": "50% 20%"
+  }
+ ],
+ "posse": {
+  "note": "Note for GMs: This is for tracking items Io directly bought for them, they may have other things at your discretion. They aren't often brought on table.",
+  "leader": "img/posse/io.webp",
+  "members": [
+   {
+    "id": "kerubo",
+    "name": "Kerubo Whetu",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/kerubo.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Bandana][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [
+     {
+      "name": "Boa Zande [HM]",
+      "dmg": "3d6",
+      "ammo": "2",
+      "rof": "2"
+     },
+     {
+      "name": "Throwing Daggers [PQ UYA, Thrown, Fragile]",
+      "dmg": "3d6",
+      "ammo": "6",
+      "rof": "2"
+     }
+    ],
+    "ammo": "",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     }
+    ],
+    "scales": [
+     0.954
+    ],
+    "title": "Highrider liaison",
+    "facts": [
+     "Space-born",
+     "Wuguan regular",
+     "Recent arrival"
+    ],
+    "bio": "A recent arrival at the People's Center, Kerubo represents a new connection between the RSC and their Highrider allies. She carries herself with the distinctive bearing of the space-born - precise movements and careful observation that comes from living where small mistakes can be fatal.\n\nLike many of her generation who grew up in the post-independence Highrider Confederation, Kerubo combines technical expertise with strong cultural ties to African traditions. Her family's connections to Pan-African revolutionary movements provide personal context for understanding the RSC's work, though she keeps details of these connections private.\n\nAt the Center, she works closely with Iō to understand RSC operations, particularly their martial arts programs. Her interest in ground-based combat techniques reflects both personal passion and professional necessity - operating in Earth gravity requires different approaches than orbital close combat. Those who train with her note how she analyzes movements with the methodical attention characteristic of Highrider culture.\n\nWhile her exact role continues to develop, she maintains the careful diplomatic neutrality typical of Highrider representatives. She builds connections deliberately, particularly with the RSC's security personnel, while maintaining clear boundaries between her duties to the Confederation and her involvement with the organization. Her presence in the Wuguan has become increasingly common, where she both learns and offers perspectives from her own martial traditions.\n\nThose seeking to understand her mission might note how the Highriders' own revolutionary history - from colonial workforce to independent power - mirrors aspects of what the RSC hopes to achieve. For now though, she remains an observer and student."
+   },
+   {
+    "id": "chanwoo",
+    "name": "Chan Woo Park",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/chanwoo.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Cap][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [],
+    "ammo": "",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     },
+     {
+      "name": "Zetatech Commander Headset",
+      "data": "Wrap-around throat microphone and attached earbud, can be linked wirelessly to any Agent or radio. Detecting sound out of a Stealth Headset is impossible without some form of Amplified Hearing."
+     }
+    ],
+    "scales": [
+     0.928
+    ],
+    "title": "Community Kitchen · Original cadre",
+    "facts": [
+     "Driver & mechanic",
+     "Security rotation",
+     "Lives at Morro Rock"
+    ],
+    "bio": "Chan-Woo Park spent his early nights in Night City's street racing scene. He was good behind the wheel - not legendary, but reliable enough to make decent money and earn respect without drawing too much attention. During the day, he worked at a Triad-aligned auto shop in Little China, learning the mechanical skills that would later prove valuable while staying clear of the outfit's shadier operations.\n\nHis parents had come to Night City as refugees from the Second Korean War. Like many immigrants, they found themselves trapped in Little China's underground economy - his mother in textile work, his father eventually turning to Black Lace to cope with the endless grind. Park used his racing earnings to help keep the family afloat, but watching his father's spiral left marks that would shape his later path.\n\nThe family's connection to Iō began at the original Comrade Clinic, where his father sought treatment for his addiction. During the long hours spent in the clinic's waiting room, Park and Iō discovered shared ground in unexpected places - lengthy discussions about old Japanese anime between appointments, debates about eastern religions, quiet conversations about family obligations. When his father's treatment succeeded where others had failed, Park started volunteering at the clinic, initially just helping with maintenance and deliveries.\n\nWhen Iō proposed establishing the first People's Center, Park brought practical skills honed by necessity. The same attention to detail that kept racing engines running now went into stretching kitchen resources and maintaining the Center's resources. His old Lada, perpetually in various states of repair, became a familiar sight throughout South Night City's back alleys.\n\nThese days, Park runs the People's Center's kitchen with the same quiet efficiency he once applied to engine work. He's developed a knack for turning limited supplies into meals that keep both spirits and bodies going. The kitchen doubles as an unofficial meeting spot after hours, where residents often find him working late, usually willing to share both food and measured advice.\n\nDespite being one of the original six cadres who helped establish the RSC, Park maintains a low profile. He takes his turns on security detail without complaint, handles logistics runs when needed, and helps train new members in both driving and basic combat skills. His old connections in Little China occasionally prove useful, though he's careful to maintain boundaries with his former Triad employers.\n\nThose who work closely with him note his methodical nature extends beyond just cooking and mechanics. He maintains the Center's vehicles with ritualistic precision, keeps careful inventory of kitchen supplies, and approaches combat training with the same patient attention to detail. Few know about his serious Elflines Online habit - a rare indulgence he keeps carefully separate from his public persona.\n\nPark spends his off hours visiting his parents in Little China or occasionally checking in on old contacts from the racing scene. His father's ongoing recovery remains a priority, though these days their conversations are as likely to be about Park's latest kitchen experiments as about treatment. He's been quietly working on a recipe book, combining his mother's Korean cooking with ingredients available in the Combat Zone - though he tends to deflect when asked about it.\n\nThe most common sight of Park remains in the Center's kitchen during meal times, carefully plating food while keeping an eye on supplies, staff, and the steady stream of residents who've come to rely on both his cooking and his quiet presence."
+   },
+   {
+    "id": "arina",
+    "name": "Arina Morozov",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/arina.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Headband][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [
+     {
+      "name": "Malorian Arms Subflechette [EQ, Smartlink] [FAB]",
+      "dmg": "2d6",
+      "ammo": "25/25",
+      "rof": "1"
+     },
+     {
+      "name": "Militech Perseus [EQ, SL, Pistol Autosear [UPG], Silencer, Long Barrel]",
+      "dmg": "4d6",
+      "ammo": "11/11 Explosive",
+      "rof": "2 [REV]"
+     },
+     {
+      "name": "Heavy Pistol EQ [Concealable Extended Mag, Silencer, Autosear [UPG]]",
+      "dmg": "3d6",
+      "ammo": "14/14 Tracer",
+      "rof": "2"
+     },
+     {
+      "name": "KTech Security Grenade",
+      "dmg": "5d6",
+      "ammo": "1/2",
+      "rof": "1"
+     }
+    ],
+    "ammo": "5x Rounds of MA Subflechette. 19x Rounds of VHP Explosive, 16x Rounds of HP Tracer",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     },
+     {
+      "name": "Smart Glove [UPG]",
+      "data": "Contains Subdermal Grip, Bullet Proof Shield."
+     },
+     {
+      "name": "Zetatech Commander Headset",
+      "data": "Wrap-around throat microphone and attached earbud, can be linked wirelessly to any Agent or radio. Detecting sound out of a Stealth Headset is impossible without some form of Amplified Hearing."
+     }
+    ],
+    "scales": [
+     0.862
+    ],
+    "title": "Security · Gardener liaison · Original cadre",
+    "facts": [
+     "Sniper",
+     "Sambo",
+     "Lives at Morro Rock"
+    ],
+    "bio": "Arina Morozova arrived in Night City at eighteen with nothing but a Moscow education, sambo training, and the knowledge that no one would ever fight for her.\n\nShe'd spent her childhood learning to read rooms. First in the unstable apartments of her mother Zoya's rotating relationships, then in the wealthy household of Viktor Morozov, the Zhirafa executive who married her mother when Arina was eight. For one year, Viktor felt like a father. Then Zoya got pregnant, and Arina became furniture. She spent the next eight years as auxiliary parent to her half-siblings Vera and Misha while watching Viktor's attention go entirely to his biological children. She tried everything to win it back. Perfect marks, competitive sambo, the flawless elegance Moscow society demanded. It didn't work. She was auditioning for a role she'd already lost.\n\nWhen Viktor found someone new, he kept his children and disposed of the rest. Zoya negotiated for money, not for her daughter. Arina watched her mother calculate, adapt, survive. But she did not fight. The flight to Night City taught her the final lesson: she would survive some way that didn't depend on anyone else.\n\nFour years at the Slammer followed. She started behind the bar, moved to running books on the cinder block arena fights, and eventually found the real money: provoking unofficial matches with carefully chosen words. She learned which egos to prod, which grudges to stoke, which fights would pay out. Fixer-adjacent work put her in dangerous rooms and taught her how violence operated professionally. It also got her in a few fights of her own.\n\nWhen she'd saved enough, she built something clean: a corner store in Little Europe selling Gardener produce. For four years, it worked. Then Continental Brands came with price wars, supply strangulation, and hit squads against the Gardeners she'd partnered with. They didn't burn her bodega. They just made it impossible to operate.\n\nShe saw Iō and Sherwood hit the Oasis shortly after. While others celebrated, she watched with mounting frustration. One burning storefront was theater. She burst into the People's Center the next day, armed and angry, demanding they organize another strike. She wanted to burn every Oasis in Little Europe to the ground. Iō bet her she couldn't last a week seeing how they actually intended to operate. One week became years.\n\nAs one of the original six cadre, Arina trained under Iō and Le Fou and later Sorry and Luthiel and still serves on their security work gang. Her real value emerged in building relationships. Particularly with the Gardeners, where her understanding of small margins and supply chains (learned the hard way) makes her invaluable. She's the informal liaison, the one who speaks their language because her bodega once needed the same things they need.\n\nHer family situation is complicated. Viktor transferred to Night City years after casting her out; Vera and Misha now live in the Executive Zone as privileged youth, and Arina maintains contact in neutral territory. Her mother Zoya lives off an ever dwindling alimony and Piranhas connections, still chasing powerful men, still performing warmth only when it serves her. Arina keeps her at a distance.\n\nThose who've known her less than six months see the reputation. The other woman with the white hair and the rifle who doesn't smile until she decides to. Direct to the point of harshness, economical with words, watching everything. She wields a power softer than the harder edges of the prominent solo that haunts the Wuguan.\n\nThose who've earned her trust see someone different. Visible kindness. Longer sentences. A laugh that transforms her face. She remembers names, asks about your kid's cough six months later. The ice queen is for strangers; the people who've put in the time see the warmth underneath.\n\nShe lives at Morro Rock with Iō and Chan and his grandfather. She's often found at the Center's Wuguan or at the range, putting in hours with the sniper rifle she's taken further than anyone expected. Those looking to get something to Iō's attention know to find her there. She'll hear anyone out. Her directness means you'll know immediately if she thinks it's worth pursuing."
+   },
+   {
+    "id": "laika",
+    "name": "Laika & C1",
+    "role": "Cyberwolf + Humanoid Drone.",
+    "imgs": [
+     "img/posse/laika.webp",
+     "img/posse/c1.webp"
+    ],
+    "armor": [],
+    "weapons": [],
+    "ammo": "",
+    "gear": [],
+    "scales": [
+     0.593,
+     1.13
+    ],
+    "title": "",
+    "facts": [],
+    "bio": ""
+   },
+   {
+    "id": "daiyu",
+    "name": "Daiyu Wu",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/daiyu.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Beanie][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [],
+    "ammo": "",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     }
+    ],
+    "scales": [
+     0.887
+    ],
+    "title": "Head of the Education Committee",
+    "facts": [
+     "Apartment in the Glen",
+     "Trains with Iō at dawn"
+    ],
+    "bio": "Dai Yu runs the Education Committee like a precisely engineered machine. Every study group, training session, and outreach program fits into carefully mapped objectives, documented in files that line her office walls at the People's Center. The daughter of party officials from Beijing, she came to Night City University to study how people organize in failed capitalist states. Her family's resources let her focus entirely on revolutionary work, her apartment in the Glen serving as unofficial RSC housing and meeting space.\n\nThe Red Chrome Legion attack changed everything. Walking back from an evening study group, she watched her closest friends - aspiring doctors, engineers, artists - murdered by uniformed gangers targeting them for representing \"corrupt foreign influence.\" University administration dismissed their deaths as unfortunate consequences of \"housing market realities.\" Theory suddenly meant nothing without the power to defend it.\n\nShe found the Center weeks later, still healing from her wounds. In its organized self-defense and political education, she recognized what she'd been searching for - not just theory, but theory armed. Now she builds educational programs where self-defense and political consciousness develop together, each reinforcing the other.\n\nHer study sessions are known for their intense rigor. Students joke about her ability to cite theory in multiple languages, but they also notice how she tracks their safe arrival home after late sessions, how she ensures everyone has transportation through dangerous areas. The trauma of that night walks with her still, transformed into determination that education must serve survival.\n\nWorking with Nomar has taught her to balance precision with accessibility, their contrasting styles creating productive tension in planning meetings. His ability to connect naturally with people both impresses and occasionally frustrates her, though she values how he helps make revolutionary concepts accessible without diluting their meaning.\n\nEarly mornings find her practicing martial arts with Iō, a ritual of discipline that helps order her thoughts before the day's work. Her apartment serves as informal meeting space for advanced study groups, its spare elegance reflecting both her background and current purpose. Those who earn her trust find her generous with both resources and knowledge, though she maintains clear boundaries between revolutionary work and social relationships.\n\nCommittee meetings run with characteristic efficiency, each agenda item tied to concrete objectives. New cadres learn quickly that her high standards come with equally thorough support - detailed feedback on their first attempts at teaching, careful guidance in developing their own theoretical understanding."
+   },
+   {
+    "id": "nomar",
+    "name": "Nomar Otero",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/nomar.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Bandana][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [],
+    "ammo": "",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     }
+    ],
+    "scales": [
+     0.93
+    ],
+    "title": "Security · Education outreach · Core cadre",
+    "facts": [
+     "Heywood born",
+     "University Cargo Bay"
+    ],
+    "bio": "Nomar Otero learned early that survival in Heywood meant understanding how to talk to anyone. His father, an enforcer for Sister Consuela's operation at Iglesia de Nuestra Señora de Guadalupe, had dragged him from Cuba despite his mother's refusal to leave the island. Growing up meant weathering his father's abuse while being pushed into dealing - first small-time runs that his father skimmed most of the profits from, then gradually building his own connections in Heywood's club scene through the Piranhas.\n\nHe met Iō in 2043 through shared work in high-end clubs where young corporate heirs burned through their allowances. Their partnership worked - Nomar had the social grace to keep clients comfortable while Iō kept them alive and unaddicted. More importantly, it gave Nomar his first taste of independence from his father's control.\n\nHis path to revolution came gradually. What started as casual interest in Iō's political discussions evolved through seeing the RSC's practical impact. The work connected him, unexpectedly, to memories of his mother's unwavering commitment to Cuba's communist project - stories he'd previously dismissed as youthful idealism.\n\nThese days he splits time between core cadre security work and supporting the Education Committee's outreach efforts. Working closely with committee head Dai Yu, he brings a natural ability to read people and situations that complements her theoretical expertise. Months of collaboration have given them an easy rhythm - his humor and practical insights balancing her academic rigor, though their occasional moments of tension remain unspoken.\n\nBetween shifts, Nomar returns to his cargo container in the University Cargo Bay. The space is sparse save for a collection of old Cuban jazz records inherited from his grandfather and a worn copy of \"The Wretched of the Earth\" given to him by Iō, complete with margin notes from their early debates.\n\nHe maintains deep connections throughout Heywood, particularly regular visits with his Abuela who takes quiet pride in his work while pretending not to know exactly what he does. Their conversations carefully avoid politics or his father, focusing instead on neighborhood gossip and whether he's eating enough. At Papa Rio's and other local spots, he keeps up with childhood friends and old contacts, maintaining relationships built over years of growing up in the neighborhood.\n\nAt the Center, his quick wit serves a purpose beyond charm - making concepts accessible without diminishing their importance. The same social intelligence that once helped him survive his father's household now helps others see their personal struggles as part of larger systemic issues. His approach to teaching emphasizes practical understanding over theory, showing rather than telling how collective action changes lives."
+   },
+   {
+    "id": "minata",
+    "name": "Dr. Minata Tindano",
+    "role": "Rocker Posse",
+    "imgs": [
+     "img/posse/minata.webp"
+    ],
+    "armor": [
+     {
+      "name": "Mimic Kit [RSC Beret][VOGUE]",
+      "loc": "Head",
+      "sp": 11
+     },
+     {
+      "name": "Mimic Kit [RSC Fatigues][VOGUE]",
+      "loc": "Body",
+      "sp": 11
+     }
+    ],
+    "weapons": [],
+    "ammo": "",
+    "gear": [
+     {
+      "name": "Anti-Smog Breathing Mask",
+      "data": "User is immune to the effects of toxic gasses, fumes, and all similar dangers."
+     },
+     {
+      "name": "Disposable Phone",
+      "data": "A good choice for Fixers and other people who don't want to be tracked."
+     },
+     {
+      "name": "Grapple Gun",
+      "data": "Negates Climbing penalty when used to climb. 10 HP Line. Can be fired up to 30m."
+     },
+     {
+      "name": "Radio Communicator",
+      "data": "1 mile radius."
+     },
+     {
+      "name": "Scrambler/Descrambler",
+      "data": "For secure communications."
+     }
+    ],
+    "scales": [
+     0.924
+    ],
+    "title": "Physician · Head of the Health Committee · Original cadre",
+    "facts": [
+     "Intake 7AM sharp",
+     "Lives at Morro Rock"
+    ],
+    "bio": "Minata Tindano started at Savage Docs in South Night City at sixteen, orpahaned, after her older brother's theft of their parents' insurance payout left her unable to continue corporate schooling. She worked intake and assisted with procedures, sleeping in the clinic's back room between shifts. The clinic's staff eventually apprenticed her while she self-studied from borrowed textbooks. Her test scores and recommendations from Savage Docs earned her one of NCU's few medical scholarships. She left the program in her second year after recognizing the corporate service requirements attached to completion.\n\nShe first encountered the Comrade Clinic while living next door in rented housing. Initially volunteering to handle cleanup and intake, she began assisting Iō with procedures during busy shifts. Their shared background with Orbital Air and culture of the subcontinent led to longer conversations during quiet nights. They dated briefly during the clinic's early days, ending around the time Iō met Arina. When Iō proposed establishing the People's Center, she joined as one of the original cadre.\n\nMinata now serves as the Center's second primary physician alongside Iō and heads the Health Committee. She handles morning clinic hours, speaking Mooré to elderly West African immigrants, French to Haitian refugees, and Streetslang to everyone else. Her work gang of five former trafficking victims trains as medtechs under her supervision. During triage situations, she often pushes for treating chronic conditions that Iō might deprioritize, tracking patient histories to prevent recurring emergencies.\n\nLike Chan and Arina, Minata lives at Iō's Conapt on Morro Rock. She's usually at the clinic by 6AM, reviewing cases over breakfast with Chan before his kitchen shift starts. Busy periods often find her sleeping on the back office couch rather than making the trip back. While clinic duties take most of her time, she maintains her security training and attends core cadre meetings.\n\nThe People's Center's morning crowd knows her schedule - intake starts at 7AM sharp, no exceptions. Her work gang runs practice sessions every Wednesday night, working through emergency scenarios based on real cases the clinc's had. They keep a running tally of whoever gets through their scenario with the fewest \"patient deaths,\" collecting their reward of one of Chan's experimental dishes from the Community Kitchen. Current patients know to expect questions about their families and work - next week's visits often come with job leads or housing connections she's arranged through other Center programs."
+   }
+  ],
+  "leaderScale": 1.0
+ },
+ "garage": [
+  {
+   "id": "chui",
+   "name": "Chui Nyota",
+   "chassis": "Compact Groundcar",
+   "sdp": [
+    50,
+    50
+   ],
+   "seats": 6,
+   "sp": 13,
+   "value": "",
+   "modes": [
+    {
+     "id": "road",
+     "label": "Road",
+     "speed": "30 MOVE · 150 MPH",
+     "img": "img/garage/chui-road.webp",
+     "via": ""
+    },
+    {
+     "id": "sky",
+     "label": "Sky",
+     "speed": "50 MOVE · 300 MPH",
+     "img": "img/garage/chui-sky.webp",
+     "via": "AV-4 Engine Upgrade"
+    },
+    {
+     "id": "deep",
+     "label": "Deep",
+     "speed": "30 MOVE · 90 MPH",
+     "img": "img/garage/chui-side.webp",
+     "via": "Submersible Upgrade"
+    }
+   ],
+   "gallery": [
+    "img/garage/chui-road.webp",
+    "img/garage/chui-rear.webp"
+   ],
+   "mods": [
+    {
+     "name": "High Performance Engine Tuning",
+     "data": "",
+     "group": "engine",
+     "ref": "v_hpt",
+     "note": "",
+     "zone": "nose"
+    },
+    {
+     "name": "AV-4 Engine Upgrade",
+     "data": "",
+     "group": "engine",
+     "ref": "v_av4",
+     "note": "",
+     "zone": "underside"
+    },
+    {
+     "name": "Submersible Upgrade [FAB]",
+     "data": "",
+     "group": "engine",
+     "ref": "v_sub",
+     "zone": "underside"
+    },
+    {
+     "name": "NOS x1",
+     "data": "",
+     "group": "engine",
+     "ref": "v_nos",
+     "note": "",
+     "zone": "nose"
+    },
+    {
+     "name": "Armored Chassis",
+     "data": "",
+     "group": "armor",
+     "ref": "v_armor",
+     "note": "",
+     "zone": "shell"
+    },
+    {
+     "name": "Bulletproof Glass x2 + Blastproof Glass",
+     "data": "",
+     "group": "armor",
+     "ref": "v_glass,v_blast",
+     "note": "",
+     "zone": "cabin"
+    },
+    {
+     "name": "Reinforced Hull/Tires",
+     "data": "",
+     "group": "armor",
+     "ref": "v_reinf",
+     "zone": "wheels"
+    },
+    {
+     "name": "Combat Plow",
+     "data": "",
+     "group": "armor",
+     "ref": "v_plow",
+     "note": "",
+     "zone": "nose"
+    },
+    {
+     "name": "Blackout Suite",
+     "data": "",
+     "group": "armor",
+     "ref": "v_blackout",
+     "note": "",
+     "zone": "cabin"
+    },
+    {
+     "name": "Security Upgrade",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_security",
+     "note": "",
+     "zone": "shell"
+    },
+    {
+     "name": "Cloaking Accelerator x2",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_cloakacc",
+     "note": "",
+     "zone": "shell"
+    },
+    {
+     "name": "Radar/Sonar Countermeasures",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_radarcm",
+     "note": "",
+     "zone": "shell"
+    },
+    {
+     "name": "SovOil Spectrum SmartPaint [FAB]",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_paint",
+     "note": "",
+     "zone": "shell"
+    },
+    {
+     "name": "Communications Center",
+     "data": "",
+     "group": "systems",
+     "ref": "v_comms",
+     "note": "",
+     "zone": "cabin"
+    },
+    {
+     "name": "Self Driving Vehicle [UPG]",
+     "data": "",
+     "group": "systems",
+     "ref": "v_selfdrive",
+     "note": "",
+     "zone": "cabin"
+    },
+    {
+     "name": "Smart Vehicle System",
+     "data": "",
+     "group": "systems",
+     "ref": "v_smart",
+     "note": "VIRUS: Per a luck check, if its failed when a drone is connected he obbsesively key the car for 1d6 + 2 rounds.",
+     "zone": "cabin"
+    },
+    {
+     "name": "Radar/Sonar Suite",
+     "data": "",
+     "group": "systems",
+     "ref": "v_radar",
+     "note": "",
+     "zone": "cabin"
+    }
+   ],
+   "rooms": [],
+   "anatomy": {
+    "img": "img/garage/cut-chui-road34.webp",
+    "w": 1472,
+    "h": 341,
+    "zones": [
+     {
+      "id": "shell",
+      "label": "Body shell",
+      "poly": "450,105 780,90 1300,95 1440,120 1470,220 1350,245 1200,245 860,295 680,300 450,280"
+     },
+     {
+      "id": "underside",
+      "label": "Underside",
+      "poly": "640,292 860,292 1200,250 1350,252 1240,302 700,334"
+     },
+     {
+      "id": "nose",
+      "label": "Engine bay & nose",
+      "poly": "0,120 380,95 450,108 405,300 200,308 0,292"
+     },
+     {
+      "id": "cabin",
+      "label": "Cabin & glass",
+      "poly": "500,82 700,30 900,8 1100,15 1300,95 780,88"
+     },
+     {
+      "id": "wheels",
+      "label": "Wheels",
+      "circles": [
+       [
+        605,
+        228,
+        100
+       ],
+       [
+        1290,
+        228,
+        72
+       ]
+      ]
+     }
+    ],
+    "modes": {
+     "sky": {
+      "img": "img/garage/chui-sky.webp",
+      "w": 1564,
+      "h": 306,
+      "zones": [
+       {
+        "id": "shell",
+        "label": "Body shell",
+        "poly": "0,110 560,70 1000,40 1400,95 1540,150 1560,215 1500,260 780,270 220,280 0,260"
+       },
+       {
+        "id": "underside",
+        "label": "Underside",
+        "poly": "200,250 780,258 1400,258 1520,262 1420,306 280,306"
+       },
+       {
+        "id": "nose",
+        "label": "Engine bay & nose",
+        "poly": "0,112 390,92 425,112 365,255 220,282 0,268"
+       },
+       {
+        "id": "cabin",
+        "label": "Cabin & glass",
+        "poly": "560,72 700,30 900,4 1100,8 1260,50 1400,96 900,94"
+       }
+      ]
+     },
+     "deep": {
+      "img": "img/garage/chui-sky.webp",
+      "w": 1564,
+      "h": 306,
+      "zones": [
+       {
+        "id": "shell",
+        "label": "Body shell",
+        "poly": "0,110 560,70 1000,40 1400,95 1540,150 1560,215 1500,260 780,270 220,280 0,260"
+       },
+       {
+        "id": "underside",
+        "label": "Underside",
+        "poly": "200,250 780,258 1400,258 1520,262 1420,306 280,306"
+       },
+       {
+        "id": "nose",
+        "label": "Engine bay & nose",
+        "poly": "0,112 390,92 425,112 365,255 220,282 0,268"
+       },
+       {
+        "id": "cabin",
+        "label": "Cabin & glass",
+        "poly": "560,72 700,30 900,4 1100,8 1260,50 1400,96 900,94"
+       }
+      ]
+     }
+    }
+   },
+   "landing": "img/garage/chui-sky.webp"
+  },
+  {
+   "id": "curiosity",
+   "name": "RSZ Curiosity",
+   "chassis": "Aerozep",
+   "sdp": [
+    350,
+    350
+   ],
+   "seats": 22,
+   "sp": "",
+   "value": "124000eb",
+   "modes": [
+    {
+     "id": "air",
+     "label": "Sky",
+     "speed": "30 MOVE · 150 MPH",
+     "img": "img/garage/curiosity.webp",
+     "via": ""
+    }
+   ],
+   "landSpeed": "30 MOVE · 150 MPH",
+   "gallery": [],
+   "mods": [
+    {
+     "name": "High Performance Engine Tuning",
+     "data": "",
+     "group": "engine",
+     "ref": "v_hpt",
+     "note": "",
+     "zone": "engines"
+    },
+    {
+     "name": "Titanic Hull",
+     "data": "",
+     "group": "armor",
+     "ref": "v_titanic",
+     "zone": "envelope"
+    },
+    {
+     "name": "Bulletproof Glass x2 + Blastproof Glass",
+     "data": "",
+     "group": "armor",
+     "ref": "v_glass,v_blast",
+     "note": "",
+     "zone": "bow"
+    },
+    {
+     "name": "Self Sealing Gasbag [FAB]",
+     "data": "",
+     "group": "armor",
+     "ref": "v_gasbag",
+     "zone": "envelope"
+    },
+    {
+     "name": "Security Upgrade [FAB]",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_security",
+     "note": "",
+     "zone": "bridge"
+    },
+    {
+     "name": "Cloaking Accelerator x2",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_cloakacc",
+     "note": "",
+     "zone": "envelope"
+    },
+    {
+     "name": "Advanced Cloaking Module",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_advcloak",
+     "note": "",
+     "zone": "envelope"
+    },
+    {
+     "name": "Radar/Sonar Countermeasures",
+     "data": "",
+     "group": "stealth",
+     "ref": "v_radarcm",
+     "note": "",
+     "zone": "envelope"
+    }
+   ],
+   "rooms": [
+    {
+     "name": "Housing Capacity x9",
+     "data": "",
+     "kind": "housing",
+     "count": 9,
+     "ref": "v_housing",
+     "zone": "decks"
+    },
+    {
+     "name": "Le Fou's Quarters [Luxury Room][FAB]",
+     "data": "Luxury Room is a room suitable for a king, CEO, or diplomat, and everyone can tell the difference.",
+     "kind": "luxury",
+     "zone": "decks"
+    },
+    {
+     "name": "Medical Wing [Complex Room][FAB]",
+     "data": "",
+     "kind": "medical",
+     "zone": "decks"
+    },
+    {
+     "name": "Cargo Bay [Complex Room][FAB]",
+     "data": "",
+     "kind": "cargo",
+     "zone": "decks",
+     "ref": "v_complex"
+    },
+    {
+     "name": "Hangar [FAB]",
+     "data": "",
+     "kind": "hangar",
+     "zone": "decks",
+     "ref": "v_hangar"
+    }
+   ],
+   "anatomy": {
+    "img": "img/garage/cut-zep.webp",
+    "w": 1672,
+    "h": 420,
+    "zones": [
+     {
+      "id": "envelope",
+      "label": "Hull & envelope",
+      "poly": "60,140 200,105 500,80 1350,115 1600,140 1600,230 60,230"
+     },
+     {
+      "id": "decks",
+      "label": "Decks",
+      "poly": "68,230 1600,230 1560,300 1350,318 350,332 70,278"
+     },
+     {
+      "id": "bow",
+      "label": "Bow gallery",
+      "poly": "18,150 60,140 250,140 350,180 262,205 72,210 40,180"
+     },
+     {
+      "id": "bridge",
+      "label": "Bridge",
+      "poly": "245,95 272,55 428,58 405,85 262,98"
+     },
+     {
+      "id": "engines",
+      "label": "Engines & fins",
+      "poly": "1560,140 1650,150 1650,290 1560,290",
+      "extra": [
+       "1350,115 1440,55 1598,58 1560,140",
+       "1360,318 1560,318 1592,322 1598,400 1420,395"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "advance": {
+  "perGig": 70,
+  "log": [
+   {
+    "name": "Rocker",
+    "from": 0,
+    "to": 8,
+    "kind": "role",
+    "cat": "role",
+    "skill": "role:Rocker",
+    "cost": 2160
+   },
+   {
+    "name": "Solo",
+    "from": 0,
+    "to": 6,
+    "kind": "role",
+    "cat": "role",
+    "skill": "role:Solo",
+    "cost": 1260
+   },
+   {
+    "name": "Medtech",
+    "from": 4,
+    "to": 6,
+    "kind": "role",
+    "cat": "role",
+    "skill": "role:Medtech",
+    "cost": 660
+   },
+   {
+    "name": "Kung Fu",
+    "from": 0,
+    "to": 10,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Hung Gar [Kung Fu]",
+    "cost": 2200
+   },
+   {
+    "name": "Tai Chi",
+    "from": 0,
+    "to": 10,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Tajiquan [Tai Chi]",
+    "cost": 2200
+   },
+   {
+    "name": "TKD",
+    "from": 6,
+    "to": 10,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Northern Shaolin [TKD]",
+    "cost": 1360
+   },
+   {
+    "name": "Kendo",
+    "from": 0,
+    "to": 8,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Wudang Jian [Kendo]",
+    "cost": 1440
+   },
+   {
+    "name": "Athletic",
+    "from": 4,
+    "to": 8,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Athletics (DEX)",
+    "cost": 520
+   },
+   {
+    "name": "Thrash Sambo",
+    "from": 0,
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Lung Ying [Thrash Sambo]",
+    "cost": 840
+   },
+   {
+    "name": "Choy Li Fut",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Choy Li Fut",
+    "cost": 400
+   },
+   {
+    "name": "Arasaka - Te",
+    "from": 0,
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Chu Gar [Arasaka-Te]",
+    "cost": 840
+   },
+   {
+    "name": "Arnis",
+    "from": 0,
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Xingyiquan [Arnis]",
+    "cost": 840
+   },
+   {
+    "name": "Brawling",
+    "from": 6,
+    "to": 8,
+    "kind": "skill",
+    "cat": "fighting",
+    "skill": "Brawling (DEX)",
+    "cost": 300
+   },
+   {
+    "name": "Melee",
+    "from": 6,
+    "to": 10,
+    "kind": "skill",
+    "cat": "fighting",
+    "skill": "Melee Weapon (DEX)",
+    "cost": 680
+   },
+   {
+    "name": "Evasion",
+    "from": 6,
+    "to": 8,
+    "kind": "skill",
+    "cat": "fighting",
+    "skill": "Evasion (DEX)",
+    "cost": 300
+   },
+   {
+    "name": "Resist Torture Drugs",
+    "from": 0,
+    "to": 4,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Resist Torture/Drugs (WILL)",
+    "cost": 200
+   },
+   {
+    "name": "Concentration",
+    "from": 6,
+    "to": 7,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Concentration (WILL)",
+    "cost": 140
+   },
+   {
+    "name": "Capoiera",
+    "from": 0,
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Hou Quan [Capoiera]",
+    "cost": 840
+   },
+   {
+    "name": "Endurance",
+    "from": 0,
+    "to": 6,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Endurance (WILL)",
+    "cost": 420
+   },
+   {
+    "name": "Contortionist",
+    "from": 0,
+    "to": 1,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Contortionist (DEX)",
+    "cost": 20
+   },
+   {
+    "name": "Karate",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Wuzuquan [Karate]",
+    "cost": 400
+   },
+   {
+    "name": "Krav Maga",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Jeet Kune Do [Krav Maga]",
+    "cost": 400
+   },
+   {
+    "name": "Muay Thai",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Sanshou [Muay Thai]",
+    "cost": 400
+   },
+   {
+    "name": "Silat",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Bak Mei [Silat]",
+    "cost": 400
+   },
+   {
+    "name": "Sumo",
+    "from": 0,
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Shuai Jiao [Sumo]",
+    "cost": 840
+   },
+   {
+    "name": "Sov",
+    "from": 0,
+    "to": 10,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Baguazhang [Sov System]",
+    "cost": 2200
+   },
+   {
+    "name": "Persuasion",
+    "from": 4,
+    "to": 6,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Persuasion (COOL)",
+    "cost": 220
+   },
+   {
+    "name": "Acting",
+    "from": 0,
+    "to": 4,
+    "kind": "skill",
+    "cat": "performance",
+    "skill": "Acting (COOL)",
+    "cost": 200
+   },
+   {
+    "name": "Human Perception",
+    "from": 6,
+    "to": 10,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Human Perception (EMP)[NYOZI]",
+    "cost": 680
+   },
+   {
+    "name": "Personal Grooming",
+    "from": 0,
+    "to": 3,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Personal Grooming (COOL)",
+    "cost": 120
+   },
+   {
+    "name": "Lip Reading",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Lip Reading (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Conceal Reveal",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Conceal/Reveal Object (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Wardrobe and Style",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Wardrobe & Style (COOL)",
+    "cost": 60
+   },
+   {
+    "name": "Local Expert - Morro Rock",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Morro Rock",
+    "cost": 60
+   },
+   {
+    "name": "Streetwise",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Streetwise (COOL)",
+    "cost": 60
+   },
+   {
+    "name": "Conversation",
+    "from": 2,
+    "to": 8,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Conversation (EMP) [NYOZI]",
+    "cost": 660
+   },
+   {
+    "name": "Animal Handling",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Animal Handling (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Heavy Weapons",
+    "from": 0,
+    "to": 2,
+    "kind": "x2",
+    "cat": "ranged",
+    "skill": "Heavy Weapons (x2) (REF)",
+    "cost": 120
+   },
+   {
+    "name": "Drive Land Vehicle",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "control",
+    "skill": "Drive Land Vehicle (REF)",
+    "cost": 60
+   },
+   {
+    "name": "Drive Air Vehicle",
+    "from": 0,
+    "to": 4,
+    "kind": "x2",
+    "cat": "control",
+    "skill": "Pilot Air Vehicle (x2) (REF)",
+    "cost": 400
+   },
+   {
+    "name": "Drive Sea Vehicle",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "control",
+    "skill": "Pilot Sea Vehicle (REF)",
+    "cost": 60
+   },
+   {
+    "name": "Tracking",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Tracking (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Chinese",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Mandarin",
+    "cost": 60,
+    "grp": "Languages"
+   },
+   {
+    "name": "Russian",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Russian",
+    "cost": 60,
+    "grp": "Languages"
+   },
+   {
+    "name": "Korean",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Korean",
+    "cost": 60,
+    "grp": "Languages"
+   },
+   {
+    "name": "French",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "French",
+    "cost": 60,
+    "grp": "Languages"
+   },
+   {
+    "name": "Spanish",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Spanish",
+    "cost": 60,
+    "grp": "Languages"
+   },
+   {
+    "name": "Arabic",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Arabic",
+    "cost": 30,
+    "grp": "Languages",
+    "note": "RUSH rule: half cost"
+   },
+   {
+    "name": "Swahilihi",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Swahili",
+    "cost": 30,
+    "grp": "Languages",
+    "note": "RUSH rule: half cost"
+   },
+   {
+    "name": "German",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "German",
+    "cost": 30,
+    "grp": "Languages",
+    "note": "RUSH rule: half cost"
+   },
+   {
+    "name": "English",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "English",
+    "cost": 30,
+    "grp": "Languages",
+    "note": "RUSH rule: half cost"
+   },
+   {
+    "name": "Sign Language",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Sign",
+    "cost": 30,
+    "grp": "Languages",
+    "note": "RUSH rule: half cost"
+   },
+   {
+    "name": "Wilderness Survival",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Wilderness Survival (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Chemistry",
+    "from": 4,
+    "to": 6,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Chemistry",
+    "cost": 220
+   },
+   {
+    "name": "Cybertech",
+    "from": 0,
+    "to": 6,
+    "kind": "skill",
+    "cat": "technique",
+    "skill": "Cybertech (TECH)",
+    "cost": 420
+   },
+   {
+    "name": "Deduction",
+    "from": 0,
+    "to": 4,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Deduction (INT)",
+    "cost": 200
+   },
+   {
+    "name": "Tactics",
+    "from": 0,
+    "to": 6,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Tactics (INT)",
+    "cost": 420
+   },
+   {
+    "name": "Library Search",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Library Search (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Cryptography",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Cryptography (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Psychology",
+    "from": 0,
+    "to": 6,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Psychology",
+    "cost": 420
+   },
+   {
+    "name": "Bureaucracy",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Bureaucracy (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Composition",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Composition (INT)",
+    "cost": 60
+   },
+   {
+    "name": "Weaponstech",
+    "from": 0,
+    "to": 2,
+    "kind": "skill",
+    "cat": "technique",
+    "skill": "Weaponstech (TECH)",
+    "cost": 60
+   }
+  ],
+  "plan": [
+   {
+    "name": "Rocker",
+    "to": 10,
+    "kind": "role",
+    "cat": "role",
+    "skill": "role:Rocker"
+   },
+   {
+    "name": "Concentration",
+    "to": 9,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Concentration (WILL)"
+   },
+   {
+    "name": "Perception",
+    "to": 6,
+    "kind": "skill",
+    "cat": "awareness",
+    "skill": "Perception (INT)"
+   },
+   {
+    "name": "Athletics",
+    "to": 10,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Athletics (DEX)"
+   },
+   {
+    "name": "Resist T/D",
+    "to": 6,
+    "kind": "skill",
+    "cat": "body",
+    "skill": "Resist Torture/Drugs (WILL)"
+   },
+   {
+    "name": "Drive Land",
+    "to": 4,
+    "kind": "skill",
+    "cat": "control",
+    "skill": "Drive Land Vehicle (REF)"
+   },
+   {
+    "name": "Pilot Air",
+    "to": 6,
+    "kind": "x2",
+    "cat": "control",
+    "skill": "Pilot Air Vehicle (x2) (REF)"
+   },
+   {
+    "name": "Pilot Sea",
+    "to": 4,
+    "kind": "skill",
+    "cat": "control",
+    "skill": "Pilot Sea Vehicle (REF)"
+   },
+   {
+    "name": "Accounting",
+    "to": 2,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Accounting (INT)"
+   },
+   {
+    "name": "Animal Hand",
+    "to": 4,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Animal Handling (INT)"
+   },
+   {
+    "name": "Composition",
+    "to": 6,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Composition (INT)"
+   },
+   {
+    "name": "Deduction",
+    "to": 6,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Deduction (INT)"
+   },
+   {
+    "name": "Education",
+    "to": 8,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Education (INT)"
+   },
+   {
+    "name": "Tactics",
+    "to": 8,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Tactics (INT)"
+   },
+   {
+    "name": "Wilderness",
+    "to": 4,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Wilderness Survival (INT)"
+   },
+   {
+    "name": "Local Expert: Santo Domingo",
+    "to": 3,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "South Night City"
+   },
+   {
+    "name": "Local Expert: North Heywood",
+    "to": 3,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "Morro Rock"
+   },
+   {
+    "name": "Local Expert: Outskirts",
+    "to": 3,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "",
+    "from": 0
+   },
+   {
+    "name": "Local Expert (University District)",
+    "to": 1,
+    "kind": "skill",
+    "cat": "education",
+    "skill": "",
+    "from": 0
+   },
+   {
+    "name": "Evasion",
+    "to": 10,
+    "kind": "skill",
+    "cat": "fighting",
+    "skill": "Evasion (DEX)"
+   },
+   {
+    "name": "Aikido",
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "",
+    "from": 0
+   },
+   {
+    "name": "MCT",
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "",
+    "from": 0
+   },
+   {
+    "name": "Silat",
+    "to": 8,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Bak Mei [Silat]"
+   },
+   {
+    "name": "Karate",
+    "to": 8,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Wuzuquan [Karate]"
+   },
+   {
+    "name": "Choy Li Fut",
+    "to": 8,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Choy Li Fut"
+   },
+   {
+    "name": "Krav Maga",
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Jeet Kune Do [Krav Maga]"
+   },
+   {
+    "name": "Muay Thai",
+    "to": 6,
+    "kind": "x2",
+    "cat": "fighting",
+    "skill": "Sanshou [Muay Thai]"
+   },
+   {
+    "name": "Bribery",
+    "to": 2,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Bribery (COOL)"
+   },
+   {
+    "name": "Interrogation",
+    "to": 3,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Interrogation (COOL)"
+   },
+   {
+    "name": "Person Groom",
+    "to": 7,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Personal Grooming (COOL)"
+   },
+   {
+    "name": "Streetwise",
+    "to": 4,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Streetwise (COOL)"
+   },
+   {
+    "name": "Wardrobe",
+    "to": 4,
+    "kind": "skill",
+    "cat": "social",
+    "skill": "Wardrobe & Style (COOL)"
+   },
+   {
+    "name": "Air Vehicle Tech",
+    "to": 2,
+    "kind": "skill",
+    "cat": "technique",
+    "skill": "Air Vehicle Tech (TECH)"
+   },
+   {
+    "name": "Basic Tech",
+    "to": 2,
+    "kind": "skill",
+    "cat": "technique",
+    "skill": "Basic Tech (TECH)"
+   }
+  ]
+ }
+}
