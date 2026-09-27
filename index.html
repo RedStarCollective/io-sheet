@@ -1264,6 +1264,14 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   .dname b{font-size:28px}
 }
 
+/* column headings sit exactly over their columns: same widths, no gaps, no right padding */
+.box:has(> .sk) > .hb,.box:has(> .tbl-wrap > .t) > .hb{gap:0;padding-right:0}
+.box:has(> .sk) > .hb .sp,.box:has(> .tbl-wrap > .t) > .hb .sp{margin-right:8px}
+.box:has(> .sk) > .hb .c{width:34px;flex:none}
+.box:has(> .tbl-wrap > .t) > .hb .c{width:48px;flex:none}
+.t td.n{width:48px;min-width:48px;max-width:48px;padding-left:2px;padding-right:2px}
+.t td.name{overflow-wrap:anywhere}
+
 /* ---------- responsive ---------- */
 @media (max-width:1320px){
   .dossier{grid-template-columns:300px 92px minmax(0,1fr) minmax(0,1fr);
@@ -2656,9 +2664,33 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     advFirst = false; advMark();
   }
 
+  /* Skills follow the stats: STAT is the current value of the stat named in the row (or its group,
+     e.g. "Language (INT)", "Martial Arts [x2] [DEX]"), and BASE = MOD + LVL + STAT. Rows with no stat stay as typed. */
+  var STAT_TAG = /[\(\[](INT|REF|DEX|TECH|COOL|WILL|LUCK|MOVE|BODY|EMP)[\)\]]/;
+  function deriveSkills(){
+    var sv = {}; (S.stats || []).forEach(function(s){ sv[s.k] = +s.v || 0; });
+    function fix(x, inherited){
+      var m = String(x.name || "").match(STAT_TAG), k = m ? m[1] : inherited;
+      if (!k || sv[k] == null) return;
+      x.stat = sv[k];
+      var mod = +x.mod || 0, lvl = +x.lvl || 0;
+      x.base = mod + lvl + x.stat;
+    }
+    (S.skills || []).forEach(function(col){ col.forEach(function(sec){
+      var parent = "";
+      (sec.rows || []).forEach(function(r){
+        var m = String(r.name || "").match(STAT_TAG);
+        if (r.items){ r.items.forEach(function(it){ fix(it, m ? m[1] : ""); }); return; }
+        if (r.sub){ parent = m ? m[1] : ""; return; }
+        fix(r, parent);
+      });
+    }); });
+  }
+
   function render(){
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
+    if (!editing && S) deriveSkills();
     var body = tab === "ware" ? chrome() : tab === "rep" ? repPage() : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
