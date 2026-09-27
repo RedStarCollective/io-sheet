@@ -79,9 +79,7 @@
  ],
  "sw": 25,
  "deathSave": 8,
- "crits": [
-  "TT Silver"
- ],
+ "crits": [],
  "skills": [
   [
    {
@@ -5274,5 +5272,10 @@
  "training": {
   "active": false,
   "skills": []
+ },
+ "tt": {
+  "active": true,
+  "tier": "silver",
+  "weeks": ""
  }
 }

@@ -1317,6 +1317,68 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .sk tr.practiced td:nth-child(2){color:var(--gold);font-weight:700}
 .sk tr.practiced td:nth-child(2) .dec{color:var(--gold)}
 .sk tr.practiced td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
+
+/* dossier: Trauma Team subscription card */
+.vit{display:flex;flex-direction:column;gap:12px}
+.ttbox .hb .prstate{margin-left:auto}
+.ttbody{padding:14px 14px 12px;display:flex;flex-direction:column;gap:12px}
+.ttstage{perspective:900px}
+.ttc{--fa:#7f878e;--fb:#f4f7f9;--fc:#9ea7ae;--tint:rgba(150,172,186,.12);position:relative;aspect-ratio:1.72/1;width:100%;max-width:440px;margin:0 auto;
+  clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px);
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.03) 38%,rgba(255,255,255,.07) 62%,rgba(255,255,255,.02)),var(--tint);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transform-style:preserve-3d;transition:transform .35s ease,filter .35s ease;container-type:inline-size}
+.ttc.t-platinum{--fa:#c9b58f;--fb:#fffaf0;--fc:#c7d8ea;--tint:rgba(214,196,160,.14)}
+.ttc.t-platinum::before{background:conic-gradient(from 200deg,#e9d7ae,#fffaf0,#c7d8ea,#e6cfee,#fffaf0,#d9c08e,#e9d7ae)}
+.ttc.t-platinum .tttier .big{background:linear-gradient(100deg,#d9c49a,#fffaf0 30%,#cfe0f0 50%,#ecd6f2 66%,#fff6e0 82%,#cdb68a);-webkit-background-clip:text;background-clip:text}
+.ttc::before{content:"";position:absolute;inset:0;padding:1px;background:linear-gradient(120deg,var(--fa),var(--fb) 30%,var(--fc) 55%,var(--fb) 75%,var(--fa));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;clip-path:inherit;pointer-events:none}
+.ttc .ttin{position:absolute;inset:7% 5% 8% 5%;background:rgba(6,5,5,.86);border:1px solid rgba(255,255,255,.08);overflow:hidden;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
+.ttc .ttcirc{position:absolute;inset:0;width:100%;height:100%;opacity:.16;color:var(--fb)}
+.ttc .ttgrid{position:relative;height:100%;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr auto;gap:0 3.2cqw;padding:4.2cqw 4.6cqw 3.4cqw}
+.ttmark{grid-row:1 / 3;width:19cqw;height:19cqw;align-self:start}
+.ttbrand{min-width:0}
+.ttbrand b{display:block;font:700 7.4cqw/0.95 var(--f-disp);letter-spacing:.01em;color:var(--red-hi);text-shadow:0 0 12px rgba(209,28,40,.35)}
+.ttbrand i{display:block;font:700 3.3cqw/1.1 var(--f-disp);font-style:normal;letter-spacing:.12em;color:var(--red-hi);margin-top:.6cqw}
+.ttbrand small{display:block;font:600 2.7cqw/1.2 var(--f-num);letter-spacing:.14em;color:#8d8781;margin-top:1.2cqw;text-transform:uppercase}
+.ttbrand small em{font-style:normal;background:linear-gradient(90deg,var(--fa),var(--fb),var(--fc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ttmid{grid-column:2;display:flex;align-items:center;gap:3cqw;min-width:0}
+.ttscan{flex:1;min-width:0;position:relative;border:1.5px solid rgba(255,255,255,.75);padding:1.2cqw 5.6cqw 1.2cqw 2cqw;clip-path:polygon(0 0,calc(100% - 5cqw) 0,100% 50%,calc(100% - 5cqw) 100%,0 100%)}
+.ttscan b{display:block;font:700 2.9cqw/1 var(--f-num);letter-spacing:.1em;color:#fff}
+.ttscan span{display:block;font:500 2.35cqw/1.2 var(--f-num);color:#cfc8c1;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tttag{flex:none;font:700 2.6cqw/1 var(--f-num);letter-spacing:.14em;padding:1.1cqw 1.6cqw;color:#000;background:var(--gold)}
+.ttc.off .tttag{background:var(--red-hi);color:#fff}
+.tttier{grid-column:1 / 3;display:flex;align-items:flex-end;justify-content:space-between;gap:3cqw;border-top:1px dashed rgba(255,255,255,.14);padding-top:2cqw}
+.tttier .big{font:700 8.6cqw/0.9 var(--f-disp);letter-spacing:.04em;background:linear-gradient(100deg,var(--fa),var(--fb) 35%,var(--fc) 60%,var(--fb) 80%,var(--fa));-webkit-background-clip:text;background-clip:text;color:transparent;text-transform:uppercase}
+.tttier .who{font:600 2.5cqw/1.2 var(--f-num);letter-spacing:.12em;color:#9b948e;text-transform:uppercase;margin-top:1cqw}
+.tttier .who b{color:#ece6df;font-weight:600}
+.ttwk{text-align:right;flex:none}
+.ttwk small{display:block;font:700 2.3cqw/1 var(--f-num);letter-spacing:.16em;color:#8d8781}
+.ttwk b{display:block;font:600 8.2cqw/1 var(--f-num);color:#fff;font-variant-numeric:tabular-nums}
+.ttwk b.due{color:var(--red-hi)}
+.ttwk span{display:block;font:600 2.3cqw/1 var(--f-num);letter-spacing:.1em;color:#8d8781;margin-top:.6cqw}
+.ttbar{position:absolute;left:0;right:0;bottom:0;height:3.2cqw;display:flex;align-items:stretch;gap:1.2cqw;padding:0 4.6cqw .8cqw}
+.ttbar .bc{flex:1;height:100%;fill:#e9e3dc;opacity:.55}
+.ttsaw{position:absolute;left:4.6cqw;right:4.6cqw;bottom:3.6cqw;height:1.2cqw;background:linear-gradient(135deg,transparent 50%,rgba(255,255,255,.35) 50%) 0 0/1.2cqw 100% repeat-x;opacity:.5}
+.ttslash{position:absolute;inset:0;display:none;pointer-events:none}
+.ttslash::before{content:"";position:absolute;left:-10%;right:-10%;top:50%;height:1.4cqw;background:var(--red-hi);transform:rotate(-24deg);box-shadow:0 0 14px rgba(209,28,40,.6)}
+.ttslash span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-24deg);font:700 3.4cqw/1 var(--f-disp);letter-spacing:.24em;color:#fff;background:var(--red);padding:1cqw 2.4cqw}
+.ttc.off{filter:saturate(.25) brightness(.72)}
+.ttc.off .ttslash{display:block}
+.ttc .shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.14) 48%,transparent 60%);transform:translateX(-120%);pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  .ttc:hover .shine{transition:transform 1.1s ease;transform:translateX(120%)}
+  .ttc:not(.off) .ttmark .pulse{stroke-dasharray:60;animation:ttpulse 2.4s linear infinite}
+}
+@keyframes ttpulse{from{stroke-dashoffset:120}to{stroke-dashoffset:0}}
+.ttctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.ttseg{display:inline-flex;border:1px solid var(--line)}
+.ttseg button{background:none;border:0;color:var(--ink-3);font:600 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;padding:8px 11px 7px;cursor:pointer}
+.ttseg button+button{border-left:1px solid var(--line)}
+.ttseg button[aria-pressed="true"]{color:#000;background:var(--gold)}
+.ttseg button:disabled{cursor:default}
+.ttwkc{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.ttctl .prsw{align-self:auto}
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
 .pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
@@ -1623,6 +1685,42 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     }).join("");
   }
 
+
+  /* Trauma Team subscription (core rulebook p. 224: Silver 500eb/mo, Executive 1,000eb/mo; Oak calls the top tier Platinum) */
+  var TT_TIERS = {silver:{label:"Silver", rate:"500eb / month", rule:"Surgery is charged at hospital rates. If you won't pay, they do what they can with Paramedic and drop you at the nearest hospital."},
+                  platinum:{label:"Platinum", rate:"1,000eb / month", rule:"Treatments that need Surgery are included at no extra cost."}};
+  function ttState(){ var t = S.tt || {}; return {active:!!t.active, tier:TT_TIERS[t.tier] ? t.tier : "silver", weeks:(t.weeks === "" || t.weeks == null) ? "" : Math.max(0, Math.round(+t.weeks) || 0)}; }
+  var TT_CIRC = '<svg class="ttcirc" viewBox="0 0 200 116" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".6">' +
+    '<path d="M0 20h40l8 8h60l6-6h86M0 96h30l10-10h50l8 8h102M150 0v18l10 10v40l-8 8v40M20 116V70l12-12h24M120 116v-20l10-10h30l10-10h30M60 0v12l8 8"/>' +
+    '<circle cx="48" cy="28" r="1.6"/><circle cx="114" cy="22" r="1.6"/><circle cx="160" cy="28" r="1.6"/><circle cx="56" cy="58" r="1.6"/><circle cx="170" cy="76" r="1.6"/></g></svg>';
+  var TT_MARK = '<svg class="ttmark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="#d11c28" stroke-width="3"/>' +
+    '<path d="M25 11h14v14h14v14H39v14H25V39H11V25h14z" fill="#9f0c17" stroke="#d11c28" stroke-width="2"/>' +
+    '<polyline class="pulse" points="13,33 22,33 26,26 31,41 35,29 38,33 51,33" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+  function ttBox(){
+    var t = ttState(), T = TT_TIERS[t.tier], lock = readOnly, wk = t.weeks === "" ? "—" : String(t.weeks).padStart(2, "0");
+    var card = '<div class="ttstage"><div class="ttc t-' + t.tier + (t.active ? '' : ' off') + '" role="img" aria-label="Trauma Team ' + T.label + ' card, ' + (t.active ? 'active' : 'inactive') + (t.weeks === "" ? '' : ', ' + t.weeks + ' weeks left') + '">' +
+      '<div class="ttin">' + TT_CIRC + '<div class="ttgrid">' + TT_MARK +
+        '<div class="ttbrand"><b>TRAUMA TEAM</b><i>MEMBERSHIP CARD</i><small>Response plan // <em>' + esc(T.label) + '</em></small></div>' +
+        '<div class="ttmid"><div class="ttscan"><b>ID SCAN // CARD ID</b><span>' + esc(String(S.sin || "").replace(/-[A-Z]+$/, "")) + '</span></div><span class="tttag">' + (t.active ? 'ACTIVE' : 'LAPSED') + '</span></div>' +
+        '<div class="tttier"><div><div class="big">' + esc(T.label) + '</div><div class="who">Member <b>' + esc(S.name || "") + '</b></div></div>' +
+          '<div class="ttwk"><small>WEEKS LEFT</small><b' + (t.active && t.weeks === 0 ? ' class="due"' : '') + '>' + wk + '</b><span>' + esc(T.rate) + '</span></div></div>' +
+      '</div><div class="ttsaw"></div><div class="ttbar">' + barcode(S.sin || "") + '</div></div>' +
+      '<div class="ttslash"><span>COVERAGE INACTIVE</span></div><div class="shine"></div></div></div>';
+    var ctl = lock ? '' : '<div class="ttctl">' +
+      '<button type="button" class="prsw" id="ttsw" aria-pressed="' + t.active + '"><i></i>' + (t.active ? 'Active' : 'Inactive') + '</button>' +
+      '<span class="ttseg" role="group" aria-label="Plan">' + Object.keys(TT_TIERS).map(function(k){ return '<button type="button" data-tt="' + k + '" aria-pressed="' + (t.tier === k) + '">' + TT_TIERS[k].label + '</button>'; }).join("") + '</span>' +
+      '<span class="ttwkc">Weeks<span class="ctr" role="group" aria-label="Weeks left"><button data-ttw="-1" aria-label="One week less"' + (!t.weeks ? ' disabled' : '') + '>−</button><output>' + (t.weeks === "" ? '–' : t.weeks) + '</output><button data-ttw="1" aria-label="One week more">+</button></span></span>' +
+    '</div>';
+    return '<section class="box ttbox"><div class="hb">Trauma Team<span class="prstate' + (t.active ? ' on' : '') + '">' + (t.active ? 'Active' : 'Inactive') + '</span></div><div class="ttbody">' + card + ctl +
+      '<p class="prule"><b>' + esc(T.label) + ':</b> ' + esc(T.rule) + ' Calling them is an Action (automatic through a registered Agent and Biomonitor when HP drops below BODY or a limb is lost); they arrive in d6 Rounds. Coverage can be used for one friend instead of yourself.</p>' +
+    '</div></section>';
+  }
+  function saveTT(){
+    render(); status("Unsaved");
+    clearTimeout(saveTimer);
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("tt", ttState()); }, 1200); return; }
+    saveTimer = setTimeout(persist, 1200);
+  }
   function vitals(){
     var hp = '<div><div class="sub2">Hit Points</div>' +
       '<div class="hp"><span class="n">' + f("hp.0",{num:1,label:"HP"}) + '</span><span class="of">out of</span><span class="n">' + f("hp.1",{num:1,label:"Max HP"}) + '</span></div>' +
@@ -1632,7 +1730,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div>' +
       (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>') +
       '</div>' + add("crits","Add entry") + '</div>';
-    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section></div>';
+    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + (editing ? '' : ttBox()) + '</div>';
   }
 
   var ICONS = {
@@ -2936,7 +3034,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var sw = g.find("Seriously Wounded"); if (sw){ var swv = numV(g.right(sw[0], sw[1])); if (typeof swv === "number") S.sw = swv; }
     var ds = g.find("Death Save"); if (ds){ var dv = numV(g.at(ds[0], ds[1] - 1)); if (typeof dv !== "number") dv = numV(g.right(ds[0], ds[1])); if (typeof dv === "number") S.deathSave = dv; }
     var cr = g.find("Critical Injuries & Addictions");
-    if (cr){ var list = []; for (var r = cr[0] + 1; r < cr[0] + 12; r++){ var t2 = g.at(r, cr[1]); if (t2 && !/^-2 to/i.test(t2)) list.push(t2); } S.crits = list; }
+    if (cr){ var list = []; for (var r = cr[0] + 1; r < cr[0] + 12; r++){ var t2 = g.at(r, cr[1]); if (t2 && !/^-2 to/i.test(t2) && !/^TT\b|trauma team/i.test(t2)) list.push(t2); } S.crits = list; }
     var er = g.find("Earned"); if (er){ var ev = numV(g.at(er[0] + 1, er[1])); if (typeof ev === "number") S.ip[1] = ev; }
     var tt = g.find("Tech Time Earned In Days"); if (tt){ var tv = numV(g.right(tt[0], tt[1])); if (tv !== "") S.techTime = tv; }
     var cm = g.find("Commission Time"); if (cm){ var cv = numV(g.right(cm[0], cm[1])); if (cv !== "") S.commission = cv; }
@@ -3092,6 +3190,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
       if (sc) syncPlan(Grid(sc));
+      if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       saved = clone(S);
       var d = new Date(j.updated || Date.now());
@@ -3106,11 +3205,12 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   document.addEventListener("visibilitychange", function(){ if (!document.hidden && HOSTED && SHEET_API && Date.now() - lastPull > 60000) pullSheet(true); });
 
   /* dose counters on the hosted copy save straight into the sheet */
-  function pushTraining(){
-    var t = trainingState();
+  function pushTraining(){ var t = trainingState(); return pushState("training", {active:t.active, skills:t.skills}); }
+  function pushState(type, data){
     status("Saving to sheet…");
-    return fetch(SHEET_API, {method:"POST", body:JSON.stringify({key:EDIT_KEY, type:"training", active:t.active, skills:t.skills})}).then(function(r){ return r.json(); }).then(function(j){
-      if (!j || !j.ok){ status(j && j.error === "unknown request" ? "Update the sheet script to save training" : j && j.error === "not allowed" ? "Key rejected, view only" : "Couldn't save to sheet"); return false; }
+    var body = {key:EDIT_KEY, type:type}; Object.keys(data).forEach(function(k){ body[k] = data[k]; });
+    return fetch(SHEET_API, {method:"POST", body:JSON.stringify(body)}).then(function(r){ return r.json(); }).then(function(j){
+      if (!j || !j.ok){ status(j && j.error === "unknown request" ? "Update the sheet script to save this" : j && j.error === "not allowed" ? "Key rejected, view only" : "Couldn't save to sheet"); return false; }
       saved = clone(S); status("Saved to sheet"); return true;
     }).catch(function(){ status("Couldn't reach the sheet"); return false; });
   }
@@ -3169,6 +3269,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
     if (b.dataset.tog){ if (editing) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
+    if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }
+    if (b.dataset.tt){ if (readOnly) return; var t2 = ttState(); t2.tier = b.dataset.tt; S.tt = t2; saveTT(); return; }
+    if (b.dataset.ttw){ if (readOnly) return; var t3 = ttState(); t3.weeks = Math.max(0, (+t3.weeks || 0) + (+b.dataset.ttw)); S.tt = t3; saveTT(); return; }
     if (b.id === "prsw"){ if (readOnly) return; var ts = trainingState(); ts.active = !ts.active; S.training = ts; saveTraining(); return; }
     if (b.dataset.prac != null){ if (readOnly) return; var tp = trainingState(), pn = b.dataset.prac, pi = tp.skills.indexOf(pn);
       if (pi >= 0) tp.skills.splice(pi, 1); else if (tp.skills.length < PRACTICE_MAX) tp.skills.push(pn); else return;

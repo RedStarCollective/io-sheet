@@ -14,8 +14,8 @@
  *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
- * Writing needs EDIT_KEY, and can only change pharma dose counts and the Training Area picks.
- * The Training Area picks are kept in Script Properties (TRAINING), not in a sheet cell.
+ * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks and the Trauma Team card.
+ * The Training Area and Trauma Team settings are kept in Script Properties (TRAINING, TT), not in sheet cells.
  */
 
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
@@ -36,7 +36,9 @@ function doGet() {
     if (sh) out.sheets[name] = sh.getDataRange().getDisplayValues();
     else out.missing.push(name);
   });
-  try { out.training = JSON.parse(PropertiesService.getScriptProperties().getProperty('TRAINING') || 'null'); } catch (err) { out.training = null; }
+  const props = PropertiesService.getScriptProperties();
+  try { out.training = JSON.parse(props.getProperty('TRAINING') || 'null'); } catch (err) { out.training = null; }
+  try { out.tt = JSON.parse(props.getProperty('TT') || 'null'); } catch (err) { out.tt = null; }
   return json_(out);
 }
 
@@ -48,6 +50,7 @@ function doPost(e) {
   if (body.type === 'ping') return json_({ ok: true });
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
   if (body.type === 'training') return json_(saveTraining_(body));
+  if (body.type === 'tt') return json_(saveTT_(body));
   return json_({ ok: false, error: 'unknown request' });
 }
 
@@ -85,6 +88,14 @@ function saveTraining_(body) {
   const t = { active: body.active === true, skills: skills, updated: new Date().toISOString() };
   PropertiesService.getScriptProperties().setProperty('TRAINING', JSON.stringify(t));
   return { ok: true, training: t };
+}
+
+/** Stores the Trauma Team card: active, tier (silver or platinum) and weeks left. */
+function saveTT_(body) {
+  const w = body.weeks === '' || body.weeks == null ? '' : Math.max(0, Math.min(520, Math.round(Number(body.weeks)) || 0));
+  const t = { active: body.active === true, tier: body.tier === 'platinum' ? 'platinum' : 'silver', weeks: w, updated: new Date().toISOString() };
+  PropertiesService.getScriptProperties().setProperty('TT', JSON.stringify(t));
+  return { ok: true, tt: t };
 }
 
 function json_(o) {
