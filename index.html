@@ -1280,6 +1280,8 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .box:has(> .tbl-wrap > .t) > .hb .c{width:48px;flex:none}
 .t td.n{width:48px;min-width:48px;max-width:48px;padding-left:2px;padding-right:2px}
 .t td.name{overflow-wrap:anywhere}
+.box.arm > .hb .c{width:38px!important}
+.box.arm .t td.n{width:38px;min-width:38px;max-width:38px}
 
 /* posse hero: opens zoomed on the upper body; tap the art to see the full figure */
 .phero{overflow:hidden;cursor:zoom-out}
@@ -1409,6 +1411,14 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .ttseg button[aria-pressed="true"]{color:#000;background:var(--gold)}
 .ttwkc{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 /* dossier: Nyozi (Vein Melters, Iō's own compound) */
+.sk tr.nyzsk td:nth-child(4),.sk tr.nyzsk td.base{color:var(--gold)!important;text-shadow:0 0 8px rgba(181,143,82,.75),0 0 2px rgba(243,213,142,.6)}
+.sk tr.nyzsk td:nth-child(4) .dec,.sk tr.nyzsk td.base .dec{color:inherit}
+.sk tr.nyzsk td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
+/* dossier: entrance (first open of the tab only; later re-renders don't replay it) */
+@media (prefers-reduced-motion:no-preference){
+  .dossier.dz-in .dzi{animation:dzin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--dz) * 45ms)}
+}
+@keyframes dzin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .nyz .rfl{margin:0;font-size:13.5px;line-height:1.4}
 .nyz .nyzfx{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .nyz .nyzfx b{font-family:var(--f-num);font-size:18px;letter-spacing:0;color:var(--ink)}
@@ -1621,6 +1631,8 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (blank(r.lvl) && !editing) cls.push("zero");
     if (ind) cls.push("ind");
     var prac = !editing && practicedSet()[r.name];
+    var stm = String(r.name || "").match(STAT_TAG);
+    if (!editing && nyoziOn() && stm && stm[1] === "EMP") cls.push("nyzsk");
     if (prac) cls.push("practiced");
     if (r.el && !editing) cls.push("master", "m-" + r.el);
     if (!editing && !r.el && formIcon(r.name)) cls.push("iconrow");
@@ -1628,7 +1640,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       : (!editing ? formIcon(r.name) : '');
     var nameCell = editing
       ? '<span class="flex"><button class="keybtn' + (r.bold ? ' on' : '') + '" data-key="' + p + '" title="Mark as key skill" aria-label="Key skill">★</button>' + f(p+".name",{label:"Skill"}) + (r.el !== undefined || ind ? sel(p+".el", ELEMENTS, "Element") : '') + del(p) + '</span>'
-      : '<span class="mname">' + badge + '<span>' + nm(r.name) + '</span></span>';
+      : '<span class="mname">' + badge + '<span>' + nm(String(r.name).replace(/\s*\[NYOZI\]/ig, "")) + '</span></span>';
     return '<tr class="' + cls.join(" ") + '"><td>' + nameCell + '</td><td' + (prac ? ' title="Training Area +1"' : '') + '>' + (prac ? '<span class="dec">' + ((+r.mod || 0) + 1) + '</span>' : f(p+".mod",{num:1})) + '</td><td>' + f(p+".lvl",{num:1}) + '</td><td>' + f(p+".stat",{num:1}) + '</td><td class="base">' + f(p+".base",{num:1}) + '</td></tr>';
   }
   function moreRow(key, isOpen, label){
@@ -1849,7 +1861,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       (m[2] ? '<span class="pn">' + esc(m[2]) + '</span>' : '') + (m[3] ? '<span class="tags">' + nm(m[3]) + '</span>' : '');
   }
   function weaponsArmor(){
-    var armor = '<section class="box"><div class="hb"><span class="sp">Armor</span><span class="c">Type</span><span class="c">SP</span><span class="c">Pen.</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
+    var armor = '<section class="box arm"><div class="hb"><span class="sp">Armor</span><span class="c">Type</span><span class="c">SP</span><span class="c">Pen.</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.armor.map(function(r,i){ var p="armor."+i; return '<tr><td class="name"><span class="flex">' + f(p+".name",{fmt:1}) + del(p) + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("armor","Add armor") + '<div class="pen">Penalty applies to REF, DEX &amp; MOVE</div></section>';
     var weapons = '<section class="box"><div class="hb"><span class="sp">Weapon</span><span class="c">DMG</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
@@ -2706,7 +2718,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   var ADV_KIND = [["skill","Skill"],["x2","×2 skill"],["role","Role rank"]];
   var ADV_UNIT = {skill:20, x2:40, role:60};
   var BRUSH = {earth:"土", fire:"火", water:"水", air:"风"};
-  var advSel = {cat:"", grp:"", i:-1}, advView = "map", skIdx = {}, advFirst = true;
+  var advSel = {cat:"", grp:"", i:-1}, advView = "map", skIdx = {}, advFirst = true, dzEnter = true;
   try { advView = localStorage.getItem("io-advview") || "map"; } catch(e){}
   TEMPLATES["advance.log"] = {name:"New improvement", from:0, to:1, kind:"skill", cat:"education", skill:"", cost:""};
   TEMPLATES["advance.plan"] = {name:"New goal", from:0, to:2, kind:"skill", cat:"education", skill:""};
@@ -3066,6 +3078,17 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (tab === "rep" && !editing) repApply();
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
     advAfter();
+    if (tab === "dossier" && dzEnter && !editing){
+      dzEnter = false;
+      var main = app.querySelector(".dossier"), lo = app.querySelector(".a-lo"), n = 0;
+      if (main){
+        main.classList.add("dz-in");
+        main.querySelectorAll(".portrait, .idcol > *, .stat, .skcol > .box, .vit .box, .wa > *, .lo > *, .ttwrap").forEach(function(el){
+          if (el.closest(".dzi")) return; el.classList.add("dzi"); el.style.setProperty("--dz", Math.min(n++, 24));
+        });
+        setTimeout(function(){ main.classList.remove("dz-in"); main.querySelectorAll(".dzi").forEach(function(el){ el.classList.remove("dzi"); }); }, 1800);
+      }
+    }
     window.scrollTo(0, y);
   }
 
@@ -3369,7 +3392,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (zoneSel && window.innerWidth <= 760){ var zp = document.getElementById("zpanel"); if (zp) zp.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }
       return;
     }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + tab); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + tab); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
