@@ -3291,6 +3291,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (!cv){ if (zr.raf){ cancelAnimationFrame(zr.raf); zr.raf = 0; } return; }
     if (zr.raf) return;
     var TAU = Math.PI * 2, off = document.createElement("canvas"), ox = off.getContext("2d");
+    /* Zolo run cycle: Oak's 8-frame pixel sprite strip (frames aligned on the body's centre of mass) */
+    var spr = zr.spr || (zr.spr = new Image()); if (!spr.src) spr.src = "img/zolo/zrun.webp";
+    var SPR_N = 8, SPR_AX = .571, SPR_FEET = .93, px = document.createElement("canvas"), pxc = px.getContext("2d");
     var seed = 7, pines = [], ticks = [];
     function rr(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
     for (var i = 0; i < 9; i++) pines.push({x:rr(), h:.35 + rr()*.5, w:.10 + rr()*.06});
@@ -3375,8 +3378,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (!W || !H){ zr.raf = requestAnimationFrame(frame); return; }
       if (cv.width !== Math.round(W*dpr) || cv.height !== Math.round(H*dpr)){ cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); }
       if (off.width !== cv.width || off.height !== cv.height){ off.width = cv.width; off.height = cv.height; }
-      var g = cv.getContext("2d"), k = reduce ? 1.3 : t/1000, per = .58, p = (k / per) % 1;
-      var s = Math.min(W / 3.9, H / 2.3), gy = H - Math.max(14, H*.1), speed = s * 4.6;
+      var g = cv.getContext("2d"), k = reduce ? 1.3 : t/1000, per = .66, p = (k / per) % 1;
+      var s = Math.min(W / 4.6, H / 2.3), gy = H - Math.max(14, H*.1), speed = s * 4.6;
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
       /* distant pines scroll slowly, ground ticks fast */
       g.fillStyle = "rgba(14,22,30,.9)";
@@ -3389,16 +3392,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       ticks.forEach(function(tk){ var x = ((tk.x*W - k*speed) % W + W) % W; g.fillRect(x, gy + 3, 1, tk.h*H*.5); });
       /* figures: drawn solid to an offscreen layer, then stamped with a cold rim glow */
       ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
-      ox.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 - s*1.05), dpr*gy); zolo(ox, p);
-      g.save(); g.shadowColor = "rgba(108,198,230,.75)"; g.shadowBlur = 7*dpr; g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(off, 0, 0); g.restore();
-      g.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 - s*1.05), dpr*gy); hair(g, p);
+      if (spr.complete && spr.naturalWidth){
+        var fw = spr.naturalWidth / SPR_N, fh = spr.naturalHeight, dh = s*1.9, dw = dh * fw / fh, fi = Math.floor(p * SPR_N) % SPR_N;
+        var zx = W*.5 - s*.78, dx = zx - dw*SPR_AX, dy = gy - dh*SPR_FEET;
+        g.save(); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.imageSmoothingEnabled = true; g.shadowColor = "rgba(108,198,230,.55)"; g.shadowBlur = 8*dpr;
+        g.drawImage(spr, fi*fw, 0, fw, fh, dx, dy, dw, dh); g.restore();
+      }
       ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
-      ox.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 + s*.82), dpr*gy); wolf(ox, (p + .15) % 1);
-      g.save(); g.shadowColor = "rgba(200,230,245,.6)"; g.shadowBlur = 10*dpr; g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(off, 0, 0); g.restore();
+      var pz = Math.max(2, Math.round(s*1.9/105));   /* one art-pixel, matched to the sprite */
+      var pw = Math.ceil(W/pz), ph2 = Math.ceil(H/pz); if (px.width !== pw || px.height !== ph2){ px.width = pw; px.height = ph2; }
+      pxc.setTransform(1, 0, 0, 1, 0, 0); pxc.clearRect(0, 0, pw, ph2);
+      pxc.setTransform(s/pz, 0, 0, s/pz, (W*.5 + s*1.0)/pz, gy/pz); wolf(pxc, (p + .15) % 1);
+      g.save(); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.imageSmoothingEnabled = false; g.shadowColor = "rgba(200,230,245,.55)"; g.shadowBlur = 9*dpr;
+      g.drawImage(px, 0, 0, pw, ph2, 0, 0, pw*pz, ph2*pz); g.restore();
       /* shadows on the ground */
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.fillStyle = "rgba(0,0,0,.35)";
-      g.beginPath(); g.ellipse(W*.5 - s*1.05, gy + 2, s*.35, 3, 0, 0, TAU); g.fill();
-      g.beginPath(); g.ellipse(W*.5 + s*.82, gy + 2, s*.5, 3, 0, 0, TAU); g.fill();
+      g.beginPath(); g.ellipse(W*.5 - s*.78, gy + 2, s*.35, 3, 0, 0, TAU); g.fill();
+      g.beginPath(); g.ellipse(W*.5 + s*1.0, gy + 2, s*.5, 3, 0, 0, TAU); g.fill();
       zr.raf = reduce ? 0 : requestAnimationFrame(frame);
     }
     zr.raf = requestAnimationFrame(frame);
