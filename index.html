@@ -1535,6 +1535,26 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
 .zrun canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media (min-width:1181px){ body.zolo .a-c1{align-self:stretch} body.zolo .zrun{flex:1 1 0;min-height:150px;height:auto;contain:size} }
 .zmask{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(7,9,11,.8)}
+/* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
+.zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
+.zpr .pract{position:static}
+.zpr .prtog{white-space:nowrap}
+.zpr .pract .hb{padding-right:7px}
+.zpr .prtog{gap:6px;font-size:13.5px}
+.zpr .prstate{font-size:9.5px;letter-spacing:.08em;padding:2px 5px 1px}
+.zpr .prbody{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:6;background:rgba(9,12,15,.97);border:1px solid var(--frame);box-shadow:0 -12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(108,198,230,.08)}
+@media (prefers-reduced-motion:no-preference){ .zpr .prbody{animation:zprUp .22s cubic-bezier(.2,.7,.2,1) both} @keyframes zprUp{from{opacity:0;transform:translateY(8px)}} }
+/* Zolo full-length portrait (desktop): standing figure, feet on a lit floor, head breaking the top frame */
+@media (min-width:881px){
+  .portrait.zfull{margin-top:26px;clip-path:inset(-7% 0 0 0);background:
+    radial-gradient(60% 34% at 50% 100%,rgba(108,198,230,.16),transparent 70%),
+    radial-gradient(80% 45% at 85% 0%,rgba(190,225,240,.10),transparent 70%),
+    linear-gradient(180deg,#121920 0%,#0b1015 62%,#06080a 100%)}
+  .portrait.zfull::before{content:"";position:absolute;left:8%;right:8%;bottom:26px;height:1px;background:linear-gradient(90deg,transparent,rgba(108,198,230,.5),transparent)}
+  .portrait.zfull::after{content:"";position:absolute;left:50%;bottom:16px;width:62%;height:22px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.75),transparent);z-index:0}
+  .portrait.zfull img{height:calc(100% + 18px);bottom:22px;left:50%;transform:translateX(-50.5%);z-index:1;filter:drop-shadow(0 0 1px rgba(160,215,235,.35)) drop-shadow(0 10px 18px rgba(0,0,0,.6))}
+  .portrait.zfull .zmask{left:auto;right:10px;top:10px;bottom:auto}
+}
 .zmask button{padding:6px 9px 5px;font-size:11px}
 body.zolo .chip{border-color:var(--frame);color:var(--ink-2)}
 .moonmark{width:34px;height:34px;flex:none}
@@ -1748,7 +1768,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   function idColumn(){
     var r = S.roles;
-    var zfig = '<figure class="portrait zpop"><img src="img/zolo/cut-' + (zMask ? 'mask' : 'open') + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ': white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back">' +
+    var zk = zMask ? "mask" : "open";
+    var zfig = '<figure class="portrait zpop zfull"><picture><source media="(max-width:880px)" srcset="img/zolo/cut-' + zk + '.webp"><img src="img/zolo/full-' + zk + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ', full length: white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back"></picture>' +
       '<span class="zmask ttseg" role="group" aria-label="Face"><button type="button" data-zmask="0" aria-pressed="' + !zMask + '">Face</button><button type="button" data-zmask="1" aria-pressed="' + zMask + '">Masked</button></span></figure>';
     var h = WHO === "zolo" ? zfig : '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
     h += '<div class="box idtab">' +
@@ -1777,7 +1798,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (r.bold) cls.push("key");
     if (blank(r.lvl) && !editing) cls.push("zero");
     if (ind) cls.push("ind");
-    var prac = !editing && practicedSet()[r.name];
+    var ps = !editing ? practicedSet() : {}, prac = ps[r.name] || (WHO === "zolo" && r.icon && ps[r.icon]);
     var stm = String(r.name || "").match(STAT_TAG);
     if (!editing && nyoziOn() && stm && stm[1] === "EMP") cls.push("nyzsk");
     if (prac) cls.push("practiced");
@@ -1789,7 +1810,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var nameCell = editing
       ? '<span class="flex"><button class="keybtn' + (r.bold ? ' on' : '') + '" data-key="' + p + '" title="Mark as key skill" aria-label="Key skill">★</button>' + f(p+".name",{label:"Skill"}) + (r.el !== undefined || ind ? sel(p+".el", ELEMENTS, "Element") : '') + del(p) + '</span>'
       : '<span class="mname">' + badge + '<span>' + nm(String(r.name).replace(/\s*\[NYOZI\]/ig, "")) + '</span></span>';
-    return '<tr class="' + cls.join(" ") + '"><td>' + nameCell + '</td><td' + (prac ? ' title="Training Area +1"' : '') + '>' + (prac ? '<span class="dec">' + ((+r.mod || 0) + 1) + '</span>' : f(p+".mod",{num:1})) + '</td><td>' + f(p+".lvl",{num:1}) + '</td><td>' + f(p+".stat",{num:1}) + '</td><td class="base">' + f(p+".base",{num:1}) + '</td></tr>';
+    return '<tr class="' + cls.join(" ") + '"><td>' + nameCell + '</td><td' + (prac ? ' title="Training Area +1"' : '') + '>' + (prac ? '<span class="dec">' + ((+r.mod || 0) + 1) + '</span>' : f(p+".mod",{num:1})) + '</td><td>' + f(p+".lvl",{num:1}) + '</td><td>' + f(p+".stat",{num:1}) + '</td><td class="base">' + (prac && WHO === "zolo" && !blank(r.base) ? '<span class="dec">' + ((+r.base || 0) + 1) + '</span>' : f(p+".base",{num:1})) + '</td></tr>';
   }
   function moreRow(key, isOpen, label){
     return '<tr class="more"><td colspan="5"><button class="tog" data-tog="' + key + '" aria-expanded="' + isOpen + '"><span class="chev">▶</span>' + (isOpen ? 'Hide' : esc(label)) + '</button></td></tr>';
@@ -1858,6 +1879,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     plain.sort(function(a, b){ return PRACTICE_SKILLS.indexOf(skBase(a)) - PRACTICE_SKILLS.indexOf(skBase(b)); });
     return {plain:plain, arts:arts};
   }
+  function zRowName(n){ var hit = ""; (S.skills || []).forEach(function(col){ col.forEach(function(g){ (g.rows || []).forEach(function(r){ if (!hit && (r.icon === n || r.name === n)) hit = r.name; }); }); }); return hit || n; }
   function trainingState(){ var t = S.training || {}; return {active:!!t.active, skills:(t.skills || []).slice(0, PRACTICE_MAX)}; }
   function practicedSet(){ var t = trainingState(), o = {}; if (t.active) t.skills.forEach(function(n){ o[n] = 1; }); return o; }
   function trainingBox(){
@@ -1866,7 +1888,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<span class="prstate' + (t.active ? ' on' : '') + '">' + (t.active ? 'Active' : 'Inactive') + '</span></button></div>';
     if (!isOpen) return '<section class="box pract">' + head + '</section>';
     var chip = function(n){ var on = t.skills.indexOf(n) >= 0, full = t.skills.length >= PRACTICE_MAX;
-      return '<button type="button" class="prc' + (on ? ' on' : '') + '" data-prac="' + esc(n) + '" aria-pressed="' + on + '"' + (lock || (!on && full) ? ' disabled' : '') + '>' + (PRACTICE_SKILLS.indexOf(skBase(n)) >= 0 ? esc(skBase(n)) : nm(n)) + '</button>'; };
+      return '<button type="button" class="prc' + (on ? ' on' : '') + '" data-prac="' + esc(n) + '" aria-pressed="' + on + '"' + (lock || (!on && full) ? ' disabled' : '') + '>' + (PRACTICE_SKILLS.indexOf(skBase(n)) >= 0 ? esc(skBase(n)) : nm(WHO === "zolo" ? zRowName(n) : n)) + '</button>'; };
     var o = practiceOptions(), grid;
     if (lock){
       grid = t.skills.length ? t.skills.map(chip).join("") : '<span class="prnone">No skills practiced.</span>';
@@ -1913,7 +1935,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -3836,7 +3858,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
-    if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zi = document.querySelector(".zpop img"); if (zi){ zi.src = "img/zolo/cut-" + (zMask ? "mask" : "open") + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
+    if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/full-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
