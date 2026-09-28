@@ -1527,7 +1527,12 @@ body.zolo .seg button{background:rgba(12,14,17,.85)}
 body.zolo .id{background:linear-gradient(90deg,rgba(108,198,230,.13),transparent)}
 body.zolo .hb::after{border-color:transparent var(--red-hi) transparent transparent}
 body.zolo .stat b{letter-spacing:.2em}
-body.zolo .portrait{background:#090a0c}
+body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,230,.10),transparent 70%),linear-gradient(180deg,#141b22,#07090b)}
+/* Zolo cut-out breaks out of the top of its frame; sides and bottom stay clipped */
+.portrait.zpop{overflow:visible;clip-path:inset(-18% 0 0 0);margin-top:38px}
+.portrait.zpop img{inset:auto;left:50%;bottom:0;top:auto;height:113%;width:auto;max-width:none;object-fit:initial;transform:translateX(-50%);filter:drop-shadow(0 6px 18px rgba(0,0,0,.55))}
+.zmask{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(7,9,11,.8)}
+.zmask button{padding:6px 9px 5px;font-size:11px}
 body.zolo .chip{border-color:var(--frame);color:var(--ink-2)}
 .moonmark{width:34px;height:34px;flex:none}
 body.zolo .tab[aria-current]{background:var(--red);color:#fff;box-shadow:0 0 18px rgba(108,198,230,.25)}
@@ -1701,7 +1706,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var TABS = ["Dossier","Ware","Case File","Rep","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
   var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier"];
-  var IO = null, WHO = "io", roIo = false;
+  var IO = null, WHO = "io", roIo = false, zMask = false;
   function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
   function setWho(w){
@@ -1740,7 +1745,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   function idColumn(){
     var r = S.roles;
-    var h = '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
+    var zfig = '<figure class="portrait zpop"><img src="img/zolo/cut-' + (zMask ? 'mask' : 'open') + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ': white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back">' +
+      '<span class="zmask ttseg" role="group" aria-label="Face"><button type="button" data-zmask="0" aria-pressed="' + !zMask + '">Face</button><button type="button" data-zmask="1" aria-pressed="' + zMask + '">Masked</button></span></figure>';
+    var h = WHO === "zolo" ? zfig : '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
     h += '<div class="box idtab">' +
       '<div class="h">Handle</div><div class="v full">' + f("handle",{label:"Handle"}) + '</div>' +
       '<div class="h">Role</div>' + r.map(function(x,i){ return '<div class="v">' + f("roles."+i+".role",{label:"Role"}) + '</div>'; }).join("") +
@@ -3633,6 +3640,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zi = document.querySelector(".zpop img"); if (zi){ zi.src = "img/zolo/cut-" + (zMask ? "mask" : "open") + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
@@ -3748,12 +3756,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     glow.addColorStop(0, "rgba(190,220,240,.20)"); glow.addColorStop(.35, "rgba(120,165,195,.07)"); glow.addColorStop(1, "rgba(120,165,195,0)");
     ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
     var len = Math.max(W,H)*1.5;
-    [[.62,.05,.06],[.52,.035,.045],[.74,.03,.05],[.43,.025,.035]].forEach(function(sh, i){
-      var ang = sh[0] + (still ? 0 : .012*Math.sin(k*.08 + i));
+    /* broad, soft god-rays: each shaft is three nested wedges (wide + faint outside, narrower + brighter inside) */
+    [[.60,.055,.20],[.47,.04,.15],[.76,.035,.16],[.36,.025,.11],[.88,.02,.10]].forEach(function(sh, i){
+      var ang = sh[0] + (still ? 0 : .018*Math.sin(k*.06 + i*1.7)), br = still ? 1 : .8 + .2*Math.sin(k*.11 + i*2.3);
       ctx.save(); ctx.translate(sx, sy); ctx.rotate(ang);
-      var gx = ctx.createLinearGradient(0, 0, 0, len);
-      gx.addColorStop(0, "rgba(200,225,240," + sh[1] + ")"); gx.addColorStop(1, "rgba(200,225,240,0)");
-      ctx.fillStyle = gx; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(8, 0); ctx.lineTo(len*sh[2], len); ctx.lineTo(-len*sh[2], len); ctx.closePath(); ctx.fill(); ctx.restore();
+      [[1, .35], [.62, .6], [.3, 1]].forEach(function(n){
+        var hw = len*sh[2]*n[0], gx = ctx.createLinearGradient(0, 0, 0, len);
+        gx.addColorStop(0, "rgba(205,230,245," + (sh[1]*n[1]*br) + ")"); gx.addColorStop(.55, "rgba(180,215,235," + (sh[1]*n[1]*br*.45) + ")"); gx.addColorStop(1, "rgba(180,215,235,0)");
+        ctx.fillStyle = gx; ctx.beginPath(); ctx.moveTo(-hw*.08, 0); ctx.lineTo(hw*.08, 0); ctx.lineTo(hw, len); ctx.lineTo(-hw, len); ctx.closePath(); ctx.fill();
+      });
+      ctx.restore();
     });
     ctx.drawImage(fcan, 0, 0, W, H);
     for (var m = 0; m < 3; m++){
