@@ -3255,7 +3255,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
      data/io.json stays the base (art, rules text, rep events, posse, vehicles); the sheet overlays the
      numbers and lists it owns. Visiting once with ?key=EDIT_KEY unlocks the dose counters on that device. */
   var SHEET_API = "https://script.google.com/macros/s/AKfycbxHyP13HOErUASVTbd0cN2Gkg5XJa05Y6oMGZVdqfvhvfCy7CeiTKtw25mBS1k_I30GVQ/exec";
-  var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator"};
+  var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator", casefile:"Case File"};
   function tabKey(t){ return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9&]+/g, " ").trim().toLowerCase(); }
   function sheetOf(j, name){ var k = tabKey(name); for (var n in j.sheets) if (tabKey(n) === k) return j.sheets[n]; return null; }
   var HOSTED = /github\.io$/.test(location.hostname) || /[?&]hosted=1/.test(location.search);
@@ -3475,6 +3475,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
       if (sc) syncPlan(Grid(sc));
+      var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
@@ -3491,6 +3492,35 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   document.addEventListener("visibilitychange", function(){ if (!document.hidden && HOSTED && SHEET_API && Date.now() - lastPull > 60000) pullSheet(true); });
 
   /* dose counters on the hosted copy save straight into the sheet */
+  /* "Case File" sheet tab: blocks start with a "## NAME" row in column A, then a header row, then data rows.
+     Columns are matched by header name, so they can be reordered. Rows with nothing in them are skipped. */
+  function syncCaseFile(rows){
+    var blocks = {}, cur = null;
+    (rows || []).forEach(function(row){
+      row = (row || []).map(function(v){ return v == null ? "" : String(v); });
+      var a = row[0].trim();
+      if (/^##\s*/.test(a)){ cur = {name:a.replace(/^##\s*/, "").trim().toLowerCase(), head:null, rows:[]}; blocks[cur.name] = cur; return; }
+      if (!cur) return;
+      if (!cur.head){ if (row.join("").trim()) cur.head = row.map(function(h){ return h.trim().toLowerCase(); }); return; }
+      if (!row.join("").trim()) return;
+      var o = {}; cur.head.forEach(function(h, i){ if (h) o[h] = (row[i] || "").replace(/\r/g, "").trim(); }); cur.rows.push(o);
+    });
+    var get = function(o){ var keys = [].slice.call(arguments, 1); for (var i = 0; i < keys.length; i++) if (o[keys[i]]) return o[keys[i]]; return ""; };
+    var paras = function(t){ t = String(t || "").trim(); if (!t) return []; var ps = t.split(/\n\s*\n/); if (ps.length === 1) ps = t.split(/\n/); return ps.map(function(x){ return x.trim(); }).filter(Boolean); };
+    var C = S.casefile = S.casefile || {};
+    var B = blocks["brief"];
+    if (B){ var BRIEF = {"origin":"origin","personality (sober)":"sober","personality (on drugs)":"drugs","values most":"values","life goal":"goal","most valued person":"person","most valued possession":"possession","family crisis":"crisis","childhood":"childhood","family background":"family"};
+      var I = {}; B.rows.forEach(function(o){ var k = BRIEF[(get(o, "field") || "").toLowerCase()]; if (k) I[k] = get(o, "answer"); }); C.intake = I; }
+    if (blocks["history"]) C.chapters = blocks["history"].rows.map(function(o){ return {era:get(o, "era"), title:get(o, "title"), text:paras(get(o, "text")), src:get(o, "source")}; }).filter(function(c){ return c.title || c.text.length; });
+    if (blocks["open threads"]) C.threads = blocks["open threads"].rows.map(function(o){ return {title:get(o, "title"), quote:get(o, "text"), src:get(o, "source")}; }).filter(function(t){ return t.title || t.quote; });
+    if (blocks["people"]) C.people = blocks["people"].rows.map(function(o){ var g = (get(o, "group") || "friends").toLowerCase(); return {group:/fam/.test(g) ? "family" : /lov/.test(g) ? "love" : "friends", name:get(o, "name"), role:get(o, "role"), text:get(o, "text"), posse:get(o, "posse id", "posse").toLowerCase()}; }).filter(function(x){ return x.name; });
+    if (blocks["enemies"]) C.enemies = blocks["enemies"].rows.map(function(o){ return {who:get(o, "who"), cause:get(o, "what caused it", "cause"), throw:get(o, "what they can throw", "throws"), happen:get(o, "what happens", "outcome")}; }).filter(function(e){ return e.who; });
+    var Pr = C.presentation = C.presentation || {};
+    if (blocks["presentation"]){ var PK = {"quote":"company","clothing style":"clothing","hairstyle":"hair"}; blocks["presentation"].rows.forEach(function(o){ var k = PK[(get(o, "field") || "").toLowerCase()]; if (k) Pr[k] = get(o, "answer"); }); }
+    if (blocks["outfits"]) Pr.outfits = blocks["outfits"].rows.map(function(o){ return {name:get(o, "name"), items:get(o, "pieces", "items"), art:get(o, "art")}; }).filter(function(x){ return x.name; });
+    if (blocks["papers"]){ var PS = {licensed:"license", license:"license", plate:"plate", registered:"registration", registration:"registration", forged:"forged"};
+      C.papers = blocks["papers"].rows.map(function(o){ var st = get(o, "status").toLowerCase(); return {name:get(o, "name"), kind:PS[st] || st || "license", term:get(o, "term"), count:+get(o, "count") || undefined, note:get(o, "note")}; }).filter(function(x){ return x.name; }); }
+  }
   function pushTraining(){ var t = trainingState(); return pushState("training", {active:t.active, skills:t.skills}); }
   function pushState(type, data){
     status("Saving to sheet…");
