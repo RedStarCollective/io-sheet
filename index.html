@@ -3286,6 +3286,54 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   /* Zolo & the white wolf: a procedural run cycle drawn in the gap under Education (no sprite sheet; silhouettes in code) */
   var zr = {raf:0, t0:0};
+  /* Night-city rooftops for Zolo's run. Tiles are 1.6x the panel wide and wrap seamlessly. */
+  var city = null;
+  function buildCity(W, H, gy, dpr){
+    var T = Math.max(W, 320) * 1.6, sd = 424242;
+    function r(){ sd = (sd * 16807) % 2147483647; return (sd - 1) / 2147483646; }
+    function tile(){ var c = document.createElement("canvas"); c.width = Math.round(T*dpr); c.height = Math.round(H*dpr); var x = c.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); return [c, x]; }
+    var far = tile(), mid = tile(), props = tile(), f = far[1], m = mid[1], p = props[1];
+    /* far skyline: tall slabs with sparse lit windows */
+    var haze = f.createLinearGradient(0, gy - H*.9, 0, gy); haze.addColorStop(0, "rgba(40,90,120,0)"); haze.addColorStop(1, "rgba(40,90,120,.18)");
+    f.fillStyle = haze; f.fillRect(0, 0, T, gy);
+    for (var x = 0; x < T - 10; ){
+      var w = 18 + r()*38, h = H*(.35 + r()*.5), top = gy - h;
+      if (x + w > T - 4) break;
+      f.fillStyle = "#0d141b"; f.fillRect(x, top, w, h);
+      if (r() < .35){ f.fillRect(x + w*.4, top - H*.07, 1.5, H*.07); f.fillStyle = "rgba(108,198,230,.8)"; f.fillRect(x + w*.4 - 1, top - H*.07, 3, 2); }
+      for (var wy = top + 5; wy < gy - 6; wy += 6) for (var wx = x + 3; wx < x + w - 3; wx += 5)
+        if (r() < .16){ f.fillStyle = r() < .85 ? "rgba(170,210,230," + (.18 + r()*.3) + ")" : "rgba(230,215,190,.4)"; f.fillRect(wx, wy, 2, 2); }
+      x += w + 2 + r()*10;
+    }
+    /* nearer blocks: shorter, darker, rooftop kit and the odd neon strip */
+    for (var x2 = 0; x2 < T - 10; ){
+      var w2 = 40 + r()*80, h2 = H*(.18 + r()*.32), t2 = gy - h2;
+      if (x2 + w2 > T - 4) break;
+      m.fillStyle = "#080c10"; m.fillRect(x2, t2, w2, h2);
+      m.fillStyle = "rgba(108,198,230,.10)"; m.fillRect(x2, t2, w2, 1);
+      if (r() < .45){ var ny = t2 + h2*(.2 + r()*.4); m.fillStyle = "rgba(108,198,230,.55)"; m.fillRect(x2 + w2*.15, ny, w2*(.25 + r()*.4), 2);
+        m.fillStyle = "rgba(108,198,230,.10)"; m.fillRect(x2 + w2*.1, ny - 5, w2*.6, 12); }
+      if (r() < .5){ m.fillStyle = "#080c10"; var tw = 10 + r()*12; m.fillRect(x2 + w2*.6, t2 - 12, tw, 12); m.fillRect(x2 + w2*.6 + 2, t2 - 16, 2, 4); m.fillRect(x2 + w2*.6 + tw - 4, t2 - 16, 2, 4); }
+      if (r() < .4){ m.fillRect(x2 + w2*.2, t2 - H*.12, 1.5, H*.12); m.fillStyle = "rgba(220,90,90,.8)"; m.fillRect(x2 + w2*.2 - 1, t2 - H*.12, 3, 3); }
+      for (var wy2 = t2 + 8; wy2 < gy - 8; wy2 += 9) for (var wx2 = x2 + 5; wx2 < x2 + w2 - 5; wx2 += 8)
+        if (r() < .08){ m.fillStyle = "rgba(170,210,230," + (.15 + r()*.25) + ")"; m.fillRect(wx2, wy2, 3, 3); }
+      x2 += w2 + 6 + r()*26;
+    }
+    /* the roof they run on: slab, parapet line, and kit that whips past */
+    p.fillStyle = "#06080b"; p.fillRect(0, gy, T, H - gy);
+    p.fillStyle = "rgba(108,198,230,.08)"; p.fillRect(0, gy + 1, T, 3);
+    for (var x3 = 20; x3 < T - 40; x3 += 70 + r()*140){
+      var kind = r(), ph = H*.08;
+      p.fillStyle = "#0b1117";
+      if (kind < .35){ var bw = 22 + r()*20, bh = ph*(.7 + r()*.7); p.fillRect(x3, gy - bh, bw, bh); p.fillStyle = "rgba(108,198,230,.18)"; p.fillRect(x3, gy - bh, bw, 1);
+        p.strokeStyle = "rgba(108,198,230,.12)"; p.beginPath(); p.arc(x3 + bw/2, gy - bh/2, bh*.3, 0, 6.2832); p.stroke(); }
+      else if (kind < .6){ p.fillRect(x3, gy - ph*1.6, 5, ph*1.6); p.fillRect(x3 - 3, gy - ph*1.6, 11, 3); }
+      else if (kind < .8){ p.fillRect(x3, gy - ph*.6, 30 + r()*30, ph*.6); p.fillStyle = "rgba(170,210,230,.25)"; p.fillRect(x3 + 3, gy - ph*.6 + 2, 3, 1); }
+      else { p.fillRect(x3, gy - ph*2.4, 1.5, ph*2.4); p.fillRect(x3 - 6, gy - ph*2, 13, 1.5); p.fillStyle = "rgba(108,198,230,.9)"; p.fillRect(x3 - 1, gy - ph*2.4 - 2, 3, 3); }
+    }
+    return {W:W, H:H, dpr:dpr, far:far[0], mid:mid[0], props:props[0]};
+  }
+
   function zrunInit(){
     var cv = document.getElementById("zrun");
     if (!cv){ if (zr.raf){ cancelAnimationFrame(zr.raf); zr.raf = 0; } return; }
@@ -3381,20 +3429,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (cv.width !== Math.round(W*dpr) || cv.height !== Math.round(H*dpr)){ cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); }
       if (off.width !== cv.width || off.height !== cv.height){ off.width = cv.width; off.height = cv.height; }
       var g = cv.getContext("2d"), k = reduce ? 1.3 : t/1000, per = .66, p = (k / per) % 1;
-      var s = Math.min(W / 5.0, H / 2.15), gy = H - Math.max(14, H*.1), speed = s * 8.5;
+      var s = Math.min(W / 5.0, H / 2.15), gy = H - Math.max(14, H*.1), speed = s * 13;
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
-      /* distant pines scroll slowly, ground ticks fast */
-      g.fillStyle = "rgba(14,22,30,.9)";
-      pines.forEach(function(pn){ var x = ((pn.x*W*1.4 - k*speed*.18) % (W*1.4) + W*1.4) % (W*1.4) - W*.2, h = pn.h*H*.55, w = pn.w*H;
-        g.beginPath(); g.moveTo(x, gy - h); g.lineTo(x + w*.5, gy); g.lineTo(x - w*.5, gy); g.closePath(); g.fill(); });
-      var mist = g.createLinearGradient(0, gy - H*.25, 0, gy); mist.addColorStop(0, "rgba(120,160,185,0)"); mist.addColorStop(1, "rgba(120,160,185,.10)");
-      g.fillStyle = mist; g.fillRect(0, gy - H*.25, W, H*.25);
-      g.fillStyle = "rgba(160,200,220,.35)"; g.fillRect(0, gy, W, 1);
-      g.fillStyle = "rgba(140,180,205,.25)";
-      ticks.forEach(function(tk){ var x = ((tk.x*W - k*speed) % W + W) % W; g.fillRect(x, gy + 3, 1, tk.h*H*.5); });
+      /* rooftop run: far skyline, nearer blocks, then the roof they run on (each a pre-rendered tile that scrolls) */
+      if (!city || city.W !== W || city.H !== H || city.dpr !== dpr) city = buildCity(W, H, gy, dpr);
+      [["far", .08], ["mid", .28], ["props", 1]].forEach(function(L){
+        var c = city[L[0]], T = c.width / dpr, x = -((k*speed*L[1]) % T);
+        g.drawImage(c, 0, 0, c.width, c.height, x, 0, T, H); g.drawImage(c, 0, 0, c.width, c.height, x + T, 0, T, H);
+        if (x + 2*T < W) g.drawImage(c, 0, 0, c.width, c.height, x + 2*T, 0, T, H);
+      });
+      g.fillStyle = "rgba(160,200,220,.4)"; g.fillRect(0, gy, W, 1);
+      g.fillStyle = "rgba(140,180,205,.22)";
+      ticks.forEach(function(tk){ var x = ((tk.x*W - k*speed) % W + W) % W; g.fillRect(x, gy + 4, tk.h*H*.9, 1); });
       /* figures: drawn solid to an offscreen layer, then stamped with a cold rim glow */
       ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
-      var fi24 = Math.floor(k * 35);
+      var fi24 = Math.floor(k * 46);
       /* speed streaks */
       g.save(); g.setTransform(dpr, 0, 0, dpr, 0, 0);
       streaks.forEach(function(st){ var x = ((st.x*W*1.5 - k*speed*st.v) % (W*1.5) + W*1.5) % (W*1.5) - W*.25, y = gy - st.y*H*.75;
