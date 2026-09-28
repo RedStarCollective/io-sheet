@@ -1531,6 +1531,9 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
 /* Zolo cut-out breaks out of the top of its frame; sides and bottom stay clipped */
 .portrait.zpop{overflow:visible;clip-path:inset(-18% 0 0 0);margin-top:38px}
 .portrait.zpop img{inset:auto;left:50%;bottom:0;top:auto;height:113%;width:auto;max-width:none;object-fit:initial;transform:translateX(-50%);filter:drop-shadow(0 6px 18px rgba(0,0,0,.55))}
+.zrun{position:relative;height:190px}
+.zrun canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (min-width:1181px){ body.zolo .a-c1{align-self:stretch} body.zolo .zrun{flex:1 1 0;min-height:150px;height:auto;contain:size} }
 .zmask{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(7,9,11,.8)}
 .zmask button{padding:6px 9px 5px;font-size:11px}
 body.zolo .chip{border-color:var(--frame);color:var(--ink-2)}
@@ -1910,7 +1913,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -3280,6 +3283,126 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     document.querySelectorAll(".cfidx button").forEach(function(bt){ bt.classList.toggle("on", bt.dataset.cfgo === best); });
   }
   window.addEventListener("scroll", function(){ if (tab === "casefile") cfSpy(); }, {passive:true});
+
+  /* Zolo & the white wolf: a procedural run cycle drawn in the gap under Education (no sprite sheet; silhouettes in code) */
+  var zr = {raf:0, t0:0};
+  function zrunInit(){
+    var cv = document.getElementById("zrun");
+    if (!cv){ if (zr.raf){ cancelAnimationFrame(zr.raf); zr.raf = 0; } return; }
+    if (zr.raf) return;
+    var TAU = Math.PI * 2, off = document.createElement("canvas"), ox = off.getContext("2d");
+    var seed = 7, pines = [], ticks = [];
+    function rr(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    for (var i = 0; i < 9; i++) pines.push({x:rr(), h:.35 + rr()*.5, w:.10 + rr()*.06});
+    for (var j = 0; j < 26; j++) ticks.push({x:rr(), h:.02 + rr()*.05});
+    function leg(g, hx, hy, l1, l2, a1, bend, w){
+      var kx = hx + Math.sin(a1)*l1, ky = hy + Math.cos(a1)*l1, a2 = a1 + bend, fx = kx + Math.sin(a2)*l2, fy = ky + Math.cos(a2)*l2;
+      g.lineWidth = w; g.beginPath(); g.moveTo(hx, hy); g.lineTo(kx, ky); g.stroke();
+      g.lineWidth = w*.72; g.beginPath(); g.moveTo(kx, ky); g.lineTo(fx, fy); g.stroke();
+    }
+    function ell(g, x, y, rx, ry, rot){ g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, TAU); g.fill(); }
+    function wolf(g, p){
+      var bob = Math.sin(p*TAU*2)*.025, flex = Math.sin(p*TAU)*.06;
+      g.save(); g.translate(0, bob);
+      g.fillStyle = g.strokeStyle = "#e9eef1"; g.lineCap = "round";
+      var legsF = [[.5, .08], [.6, 0]], legsH = [[0, .06], [.1, 0]];
+      legsH.concat(legsF).forEach(function(L, k){
+        var front = k >= 2, ph = (p + L[0]) * TAU, sw = Math.sin(ph), lift = Math.max(0, Math.cos(ph));
+        var hx = front ? .34 + flex*.5 : -.42 - flex*.5, hy = front ? -.66 : -.68;
+        g.globalAlpha = L[1] ? .55 : 1;
+        if (front) leg(g, hx, hy, .33, .36, -sw*.7, .15 + lift*1.0, .085);
+        else leg(g, hx, hy, .33, .38, -sw*.65 + .12, -(.3 + lift*.9), .10);
+      });
+      g.globalAlpha = 1;
+      ell(g, -.03, -.69, .50 + flex*.3, .16, -.03);
+      ell(g, .32, -.68, .19, .20);
+      ell(g, -.42, -.70, .18, .17);
+      ell(g, .52, -.84, .15, .10, -.75);
+      ell(g, .70, -.92, .14, .095, .05);
+      g.beginPath(); g.moveTo(.76, -.97); g.lineTo(.98, -.90); g.lineTo(.94, -.86); g.lineTo(.74, -.85); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(.62, -.98); g.lineTo(.63, -1.12); g.lineTo(.70, -1.0); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(.68, -.99); g.lineTo(.72, -1.11); g.lineTo(.76, -.99); g.closePath(); g.fill();
+      var tw = Math.sin(p*TAU + 1.2)*.08;
+      g.lineWidth = .09; g.beginPath(); g.moveTo(-.56, -.76); g.quadraticCurveTo(-.82, -.84 + tw, -1.05, -.74 + tw*1.6); g.stroke();
+      g.lineWidth = .05; g.beginPath(); g.moveTo(-.9, -.8 + tw*1.2); g.lineTo(-1.1, -.73 + tw*1.7); g.stroke();
+      g.fillStyle = "#0b0f13"; ell(g, .79, -.935, .018, .012);
+      g.restore();
+    }
+    function zolo(g, p){
+      var ph = p*TAU, bob = Math.abs(Math.sin(ph))*.05, hx = 0, hy = -.98 + bob;
+      g.save(); g.lineCap = "round"; g.lineJoin = "round";
+      var dark = "#0a0e12";
+      g.strokeStyle = g.fillStyle = dark;
+      /* far leg + far arm */
+      g.globalAlpha = .9;
+      leg(g, hx, hy, .46, .48, Math.sin(ph + Math.PI)*.62, -(.15 + Math.max(0, Math.cos(ph + Math.PI))*1.4), .12);
+      leg(g, .17, hy - .5, .27, .25, -Math.sin(ph)*.7 - .1, -1.3, .08);
+      g.globalAlpha = 1;
+      /* coat: trails behind, hem flutters */
+      var fl = Math.sin(ph*2)*.05, fl2 = Math.sin(ph*2 + 1.3)*.07;
+      g.beginPath(); g.moveTo(.26, -1.5 + bob); g.lineTo(.24, -1.0 + bob); g.lineTo(.06, -.62 + bob);
+      g.quadraticCurveTo(-.14, -.56 + fl, -.32, -.62 + fl2); g.quadraticCurveTo(-.42, -.7 + fl, -.48, -.78 + fl2*1.2);
+      g.quadraticCurveTo(-.26, -1.15 + bob, .04, -1.54 + bob); g.closePath(); g.fill();
+      /* torso + head */
+      g.lineWidth = .2; g.beginPath(); g.moveTo(hx, hy); g.lineTo(.2, -1.5 + bob); g.stroke();
+      g.beginPath(); g.arc(.27, -1.66 + bob, .1, 0, TAU); g.fill();
+      /* katanas across the back, hilts over the left shoulder */
+      g.lineWidth = .025; g.strokeStyle = "#1a2229";
+      g.beginPath(); g.moveTo(-.02, -1.72 + bob); g.lineTo(-.62, -.86 + bob); g.stroke();
+      g.beginPath(); g.moveTo(.05, -1.76 + bob); g.lineTo(-.5, -.8 + bob); g.stroke();
+      g.strokeStyle = "#cfd6db"; g.lineWidth = .03; g.setLineDash([.018, .014]);
+      g.beginPath(); g.moveTo(-.02, -1.72 + bob); g.lineTo(-.1, -1.6 + bob); g.stroke();
+      g.beginPath(); g.moveTo(.05, -1.76 + bob); g.lineTo(-.02, -1.64 + bob); g.stroke();
+      g.setLineDash([]);
+      /* near leg + near arm */
+      g.strokeStyle = g.fillStyle = dark;
+      leg(g, hx, hy, .46, .48, Math.sin(ph)*.62, -(.15 + Math.max(0, Math.cos(ph))*1.4), .13);
+      leg(g, .2, hy - .5, .27, .25, Math.sin(ph)*.7 - .1, -1.3, .085);
+      g.restore();
+    }
+    function hair(g, p){
+      var bob = Math.abs(Math.sin(p*TAU))*.05;
+      g.save(); g.fillStyle = "#e4e6e3";
+      g.beginPath(); g.arc(.27, -1.67 + bob, .1, Math.PI*1.02, Math.PI*1.98); g.fill();
+      g.beginPath(); g.ellipse(.21, -1.79 + bob, .045, .04, 0, 0, TAU); g.fill();
+      var sw = Math.sin(p*TAU*2)*.035;
+      g.beginPath(); g.moveTo(.19, -1.8 + bob); g.quadraticCurveTo(.07, -1.84 + bob + sw, -.06, -1.76 + bob + sw*1.6); g.quadraticCurveTo(.06, -1.77 + bob, .2, -1.76 + bob); g.closePath(); g.fill();
+      g.restore();
+    }
+    function frame(t){
+      if (!document.getElementById("zrun")){ zr.raf = 0; return; }
+      var W = cv.clientWidth, H = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!W || !H){ zr.raf = requestAnimationFrame(frame); return; }
+      if (cv.width !== Math.round(W*dpr) || cv.height !== Math.round(H*dpr)){ cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); }
+      if (off.width !== cv.width || off.height !== cv.height){ off.width = cv.width; off.height = cv.height; }
+      var g = cv.getContext("2d"), k = reduce ? 1.3 : t/1000, per = .58, p = (k / per) % 1;
+      var s = Math.min(W / 3.9, H / 2.3), gy = H - Math.max(14, H*.1), speed = s * 4.6;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+      /* distant pines scroll slowly, ground ticks fast */
+      g.fillStyle = "rgba(14,22,30,.9)";
+      pines.forEach(function(pn){ var x = ((pn.x*W*1.4 - k*speed*.18) % (W*1.4) + W*1.4) % (W*1.4) - W*.2, h = pn.h*H*.55, w = pn.w*H;
+        g.beginPath(); g.moveTo(x, gy - h); g.lineTo(x + w*.5, gy); g.lineTo(x - w*.5, gy); g.closePath(); g.fill(); });
+      var mist = g.createLinearGradient(0, gy - H*.25, 0, gy); mist.addColorStop(0, "rgba(120,160,185,0)"); mist.addColorStop(1, "rgba(120,160,185,.10)");
+      g.fillStyle = mist; g.fillRect(0, gy - H*.25, W, H*.25);
+      g.fillStyle = "rgba(160,200,220,.35)"; g.fillRect(0, gy, W, 1);
+      g.fillStyle = "rgba(140,180,205,.25)";
+      ticks.forEach(function(tk){ var x = ((tk.x*W - k*speed) % W + W) % W; g.fillRect(x, gy + 3, 1, tk.h*H*.5); });
+      /* figures: drawn solid to an offscreen layer, then stamped with a cold rim glow */
+      ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
+      ox.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 - s*1.05), dpr*gy); zolo(ox, p);
+      g.save(); g.shadowColor = "rgba(108,198,230,.75)"; g.shadowBlur = 7*dpr; g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(off, 0, 0); g.restore();
+      g.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 - s*1.05), dpr*gy); hair(g, p);
+      ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
+      ox.setTransform(dpr*s, 0, 0, dpr*s, dpr*(W*.5 + s*.82), dpr*gy); wolf(ox, (p + .15) % 1);
+      g.save(); g.shadowColor = "rgba(200,230,245,.6)"; g.shadowBlur = 10*dpr; g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(off, 0, 0); g.restore();
+      /* shadows on the ground */
+      g.setTransform(dpr, 0, 0, dpr, 0, 0); g.fillStyle = "rgba(0,0,0,.35)";
+      g.beginPath(); g.ellipse(W*.5 - s*1.05, gy + 2, s*.35, 3, 0, 0, TAU); g.fill();
+      g.beginPath(); g.ellipse(W*.5 + s*.82, gy + 2, s*.5, 3, 0, 0, TAU); g.fill();
+      zr.raf = reduce ? 0 : requestAnimationFrame(frame);
+    }
+    zr.raf = requestAnimationFrame(frame);
+  }
   function render(){
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
@@ -3291,6 +3414,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
     advAfter();
     cfAfter();
+    zrunInit();
     if (tab === "dossier" && dzEnter && !editing){
       dzEnter = false;
       var main = app.querySelector(".dossier"), lo = app.querySelector(".a-lo"), n = 0;
