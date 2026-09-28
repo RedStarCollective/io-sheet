@@ -3200,10 +3200,11 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var KIND = {license:"Licensed", plate:"Plate", registration:"Registered", forged:"Forged"};
     var pap = (C.papers || []).length ? '<div class="cfpl">' + C.papers.map(function(x){ return '<div><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span' + (x.kind === "forged" ? ' class="forged"' : '') + '>' + esc(KIND[x.kind] || x.kind) + (x.term ? ' · ' + esc(x.term) + ' term' : '') + '</span></div>'; }).join("") + '</div>' : none();
     var items = [["brief","Brief"],["threads","Open threads"],["people","People"],["history","History"],["presentation","Presentation"],["papers","Papers"]];
+    var bodies = {brief:brief, threads:thr, people:people, history:hist, presentation:pres, papers:pap};
+    items = items.filter(function(x){ return !!bodies[x[0]]; });
     var idx = '<nav class="cfidx" aria-label="Case file sections">' + items.map(function(x, i){ return '<button type="button" data-cfgo="' + x[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>0' + (i + 1) + '</i>' + x[1] + '</button>'; }).join("") + '</nav>';
     return '<main class="cf' + (cfEnter ? ' cf-in' : '') + '">' + idx + '<div class="cfdoc">' + head +
-      sec("brief", "01", "Brief", brief) + sec("threads", "02", "Open threads", thr) + sec("people", "03", "People", people) +
-      sec("history", "04", "History", hist) + sec("presentation", "05", "Presentation", pres) + sec("papers", "06", "Papers", pap) +
+      items.map(function(x, i){ return sec(x[0], "0" + (i + 1), x[1], bodies[x[0]]); }).join("") +
     '</div></main>';
   }
   function cfAfter(){
