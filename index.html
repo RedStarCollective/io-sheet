@@ -1429,124 +1429,92 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .stat.nyzon{box-shadow:inset 0 0 0 1px rgba(181,143,82,.55)}
 .stat.nyzon b{color:var(--gold)}
 
-/* ---------- case file (was Lifepath) ---------- */
-.cf{display:flex;flex-direction:column;gap:14px}
-.cfhead{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;padding:18px 22px;border:2px solid var(--frame);background:linear-gradient(90deg,rgba(159,12,23,.22),rgba(17,13,12,.85) 45%);clip-path:polygon(0 0,calc(100% - 21px) 0,100% 21px,100% 100%,0 100%)}
-.cfhead img{width:104px;height:124px;object-fit:cover;object-position:50% 12%;border:1px solid var(--frame);filter:saturate(.85)}
-.cfhead small{display:block;font:700 12px/1 var(--f-body);letter-spacing:.34em;color:var(--red-hi);text-transform:uppercase}
-.cfhead h2{margin:8px 0 2px;font:700 38px/1 var(--f-disp);letter-spacing:.04em;color:var(--ink)}
-.cfhead h2 em{font-style:normal;color:var(--ink-3);font-size:.62em;margin-left:10px;letter-spacing:.08em}
-.cfmeta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:13px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
-.cfmeta b{color:var(--ink);font-weight:600;letter-spacing:.04em;text-transform:none;font-size:14px;margin-left:6px}
-.cfaka{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.cfaka span{font:500 13px/1 var(--f-cond);color:var(--ink-2);border:1px solid var(--line);padding:4px 7px 3px;background:rgba(0,0,0,.35)}
-.cfno{text-align:right;align-self:start}
-.cfno span{display:block;font:700 11px/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase}
-.cfno b{display:block;font:600 15px/1 var(--f-num);letter-spacing:.14em;color:var(--gold);margin-top:6px}
-.cfno .bc{display:block;width:170px;height:26px;fill:#d8cfc6;margin:10px 0 0 auto;opacity:.85}
-.cfnav{position:sticky;top:0;z-index:5;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(180deg,rgba(8,6,5,.96),rgba(8,6,5,.88));padding:6px 0 0;border-bottom:2px solid var(--frame)}
-.cfnav::-webkit-scrollbar{display:none}
-.cfnav button{flex:none;background:var(--cell);border:1px solid var(--line);border-bottom:0;color:var(--ink-3);font:700 12px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;padding:9px 14px 8px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
-.cfnav button i{font-style:normal;font-family:var(--f-num);color:var(--red-hi);margin-right:7px;letter-spacing:.04em}
-.cfnav button:hover{color:var(--ink)}
-.cfnav button.on{background:var(--frame);color:#140f0e}
-.cfnav button.on i{color:#140f0e}
-.cfsec{scroll-margin-top:52px}
-.cfsec > .hb{display:flex;align-items:center;gap:10px}
-.cfsec > .hb i{font-style:normal;font-family:var(--f-num);color:var(--red-hi);font-size:13px}
-.cfsec > .hb em{margin-left:auto;font-style:normal;font-size:11px;letter-spacing:.2em;color:var(--ink-3);font-weight:700}
-.cfbody{padding:16px 18px 18px}
-/* intake */
-.cfintake{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line)}
-.cff{padding:12px 14px 13px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
-.cff:nth-child(3n){border-right:0}
-.cff span{display:block;font:700 11px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;margin-bottom:7px}
-.cff b{display:block;font:500 17px/1.25 var(--f-cond);color:var(--ink)}
-.cff.wide{grid-column:span 2}
-.cff.full{grid-column:1 / -1;border-right:0}
-.cfpers{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.cfpers span{margin:0}
+/* ---------- case file: "quiet document" (one reading column, type-only sections, margin index) ---------- */
+.cf{display:grid;grid-template-columns:180px minmax(0,780px);gap:56px;justify-content:center;padding:18px 0 40px}
+.cfidx{position:sticky;top:22px;align-self:start;display:flex;flex-direction:column;gap:2px;padding-top:120px}
+.cfidx button{all:unset;cursor:pointer;display:flex;gap:10px;align-items:baseline;padding:6px 0 6px 12px;border-left:2px solid transparent;font:600 14px/1.2 var(--f-body);letter-spacing:.06em;color:var(--ink-3)}
+.cfidx button i{font-style:normal;font:600 12px/1 var(--f-num);color:var(--ink-3);opacity:.7}
+.cfidx button:hover{color:var(--ink)}
+.cfidx button.on{color:var(--gold);border-left-color:var(--gold)}
+.cfidx button.on i{color:var(--gold);opacity:1}
+.cfidx button:focus-visible{outline:1px solid var(--gold)}
+.cfdoc{min-width:0}
+.cfhd{display:flex;gap:20px;align-items:center;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.cfhd img{width:78px;height:94px;object-fit:cover;object-position:50% 12%;flex:none;filter:saturate(.8)}
+.cfhd small{display:block;font:700 11px/1 var(--f-body);letter-spacing:.3em;color:var(--ink-3);text-transform:uppercase}
+.cfhd h2{margin:8px 0 6px;font:700 34px/1 var(--f-disp);letter-spacing:.03em;color:var(--ink)}
+.cfhd h2 em{font-style:normal;color:var(--ink-3);font-size:.6em;margin-left:8px}
+.cfhd p{margin:0;font-size:14.5px;color:var(--ink-3);letter-spacing:.03em}
+.cfhd p b{color:var(--ink-2);font-weight:600}
+.cfpers{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
 .cfpers .ttseg button{padding:5px 9px 4px;font-size:11px}
-.cff.pers b{min-height:1.25em}
-.cff.pers b.drug{color:var(--gold);text-shadow:0 0 10px rgba(181,143,82,.35)}
-/* history timeline */
-.cftl{position:relative;padding-left:26px}
-.cftl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--frame),var(--red) 60%,var(--frame))}
-.cfch{position:relative;margin-bottom:8px}
-.cfch::before{content:"";position:absolute;left:-23px;top:15px;width:10px;height:10px;background:var(--void);border:2px solid var(--gold);transform:rotate(45deg)}
-.cfch.open::before{background:var(--red-hi);border-color:var(--red-hi)}
-.cfch > button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:14px;align-items:baseline;width:100%;padding:10px 14px;background:rgba(17,13,12,.7);border:1px solid var(--line)}
-.cfch > button:hover{border-color:var(--frame)}
-.cfch > button:focus-visible{outline:1px solid var(--gold)}
-.cfch .era{font:600 13px/1.2 var(--f-num);letter-spacing:.08em;color:var(--gold)}
-.cfch .ttl b{display:block;font:700 18px/1.15 var(--f-disp);letter-spacing:.03em;color:var(--ink)}
-.cfch .ttl span{display:block;margin-top:4px;font-size:14px;line-height:1.35;color:var(--ink-3)}
-.cfch .chev{color:var(--red-hi);font-size:10px;transition:transform .2s}
-.cfch.open .chev{transform:rotate(90deg)}
-.cfch.open .ttl span{display:none}
-.cftext{border:1px solid var(--line);border-top:0;padding:14px 18px 12px 158px;background:rgba(8,6,5,.6)}
-.cftext p{margin:0 0 11px;font-size:15.5px;line-height:1.55;color:var(--ink-2);max-width:78ch}
-.cfsrc{font:700 11px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
-/* people */
-.cfgrp{margin-bottom:14px}
-.cfgrp:last-child{margin-bottom:0}
-.cfgrp h3{margin:0 0 8px;font:700 12px/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase;display:flex;gap:10px;align-items:center}
-.cfgrp h3::after{content:"";flex:1;height:1px;background:var(--line)}
-.cfppl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
-.cfp{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:12px 14px 12px;display:flex;flex-direction:column;gap:5px}
-.cfp b{font:700 17px/1.1 var(--f-disp);color:var(--ink)}
-.cfp span{font:700 11px/1.2 var(--f-body);letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
-.cfp p{margin:2px 0 0;font-size:14.5px;line-height:1.4;color:var(--ink-2)}
-.cfp button{align-self:flex-start;margin-top:6px;background:none;border:1px solid var(--frame);color:var(--gold);font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:6px 9px 5px;cursor:pointer}
-.cfp button:hover{background:var(--frame);color:#140f0e}
-.cfempty{border:1px dashed var(--line);padding:12px 14px;color:var(--ink-3);font-size:13px;letter-spacing:.06em}
-.cfthreat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid rgba(209,28,40,.45);background:linear-gradient(90deg,rgba(159,12,23,.16),rgba(17,13,12,.7) 60%);margin-bottom:8px}
-.cfthreat div{position:relative;padding:11px 14px 12px;border-left:1px solid var(--line);min-width:0}
-.cfthreat div:first-child{border-left:0}
-.cfthreat div + div::before{content:"▸";position:absolute;left:-7px;top:50%;transform:translateY(-50%);color:var(--red-hi);font-size:11px;background:var(--void);line-height:1}
-.cfthreat span{display:block;font:700 10.5px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px}
-.cfthreat b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
-.cfthreat div:first-child b{font:700 17px/1.15 var(--f-disp);color:#ff6b73}
+.cfpers span.v{font:500 17px/1.2 var(--f-cond);color:var(--ink)}
+.cfpers span.v.drug{color:var(--gold)}
+.cfs{padding-top:38px;scroll-margin-top:16px}
+.cfs > h3{display:flex;align-items:baseline;gap:12px;margin:0 0 16px;font:700 20px/1 var(--f-disp);letter-spacing:.04em;color:var(--ink)}
+.cfs > h3 i{font-style:normal;font:600 13px/1 var(--f-num);color:var(--ink-3)}
+.cfs > h3::after{content:"";flex:1;height:1px;background:var(--line);align-self:center}
+.cfs h4{margin:22px 0 8px;font:700 11px/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase}
+.cfs h4:first-of-type{margin-top:0}
+/* brief: two-column definition list */
+.cfdl{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;margin:0}
+.cfdl div{padding:11px 0 12px;border-bottom:1px solid var(--line);min-width:0}
+.cfdl dt{font:600 12px/1 var(--f-body);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:7px}
+.cfdl dd{margin:0;font:500 17px/1.3 var(--f-cond);color:var(--ink)}
 /* threads */
-.cfthr{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
-.cft{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:12px 14px 12px;display:flex;flex-direction:column;gap:8px}
-.cft .tt{display:flex;align-items:center;gap:8px}
-.cft .tt b{font:700 16px/1.1 var(--f-disp);color:var(--ink)}
-.cft .tt span{margin-left:auto;font:700 10px/1 var(--f-body);letter-spacing:.18em;color:#140f0e;background:var(--gold);padding:4px 6px 3px;text-transform:uppercase}
-.cft .rfl{margin:0;font-size:14px;line-height:1.4}
+.cfol{list-style:none;margin:0;padding:0;counter-reset:th}
+.cfol li{counter-increment:th;display:grid;grid-template-columns:34px minmax(0,1fr);padding:12px 0 14px;border-bottom:1px solid var(--line)}
+.cfol li::before{content:counter(th,decimal-leading-zero);font:600 13px/1.6 var(--f-num);color:var(--ink-3)}
+.cfol b{display:block;font:700 16px/1.3 var(--f-disp);letter-spacing:.02em;color:var(--ink)}
+.cfol q{display:block;margin-top:5px;font-style:italic;font-size:15px;line-height:1.45;color:var(--ink-2);quotes:"“" "”"}
+.cfol small{display:block;margin-top:5px;font-size:12px;letter-spacing:.08em;color:var(--ink-3)}
+/* people */
+.cfrow{display:grid;grid-template-columns:190px minmax(0,1fr);column-gap:20px;padding:10px 0 11px;border-bottom:1px solid var(--line)}
+.cfrow b{font:700 16px/1.25 var(--f-disp);color:var(--ink)}
+.cfrow b small{display:block;margin-top:3px;font:600 12px/1.2 var(--f-body);letter-spacing:.06em;color:var(--ink-3)}
+.cfrow p{margin:0;font-size:15px;line-height:1.45;color:var(--ink-2)}
+.cfrow .lnk{all:unset;cursor:pointer;margin-left:8px;font:600 13px/1 var(--f-body);letter-spacing:.06em;color:var(--gold);white-space:nowrap}
+.cfrow .lnk:hover{text-decoration:underline}
+.cfrow.enemy b{color:#ff5a64}
+.cfchain{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:15px;color:var(--ink-2)}
+.cfchain span i{font-style:normal;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:6px}
+.cfnone{padding:10px 0;color:var(--ink-3);font-size:14px;border-bottom:1px dashed var(--line)}
+/* history */
+.cftl{position:relative;margin:0 0 6px}
+.cftl::before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.cfch > button{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:14px;align-items:baseline;width:100%;padding:9px 0 9px 24px}
+.cfch > button::before{content:"";position:absolute;left:1px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--void);border:1px solid var(--ink-3)}
+.cfch.open > button::before{background:var(--gold);border-color:var(--gold)}
+.cfch > button:hover b{color:var(--gold)}
+.cfch > button:focus-visible{outline:1px solid var(--gold)}
+.cfch .era{font:600 13px/1.2 var(--f-num);color:var(--ink-3);letter-spacing:.04em}
+.cfch b{font:700 17px/1.2 var(--f-disp);letter-spacing:.02em;color:var(--ink);transition:color .15s}
+.cfch .chev{font-size:9px;color:var(--ink-3);transition:transform .2s}
+.cfch.open .chev{transform:rotate(90deg)}
+.cftext{padding:4px 0 16px 178px}
+.cftext p{margin:0 0 12px;font-size:15.5px;line-height:1.6;color:var(--ink-2)}
+.cftext small{font-size:12px;letter-spacing:.08em;color:var(--ink-3)}
 /* presentation */
-.cfpres{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px}
-.cfpres .rfl{margin:0 0 12px;font-size:15px;line-height:1.5}
-.cfpres .cfintake{grid-template-columns:1fr}
-.cfpres .cff{border-right:0}
-.cfout{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;align-content:start}
-.cfo{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:11px 13px;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--frame)}
-.cfo b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
-.cfo span{font-size:12.5px;line-height:1.35;color:var(--ink-3);letter-spacing:.02em}
+.cfquote{margin:0 0 20px;padding:2px 0 2px 18px;border-left:1px solid var(--ink-3);font-style:italic;font-size:17px;line-height:1.55;color:var(--ink-2)}
+.cfouts{display:grid;grid-template-columns:1fr 1fr;column-gap:36px}
+.cfouts div{padding:10px 0 11px;border-bottom:1px solid var(--line);min-width:0}
+.cfouts b{display:block;font:500 16px/1.3 var(--f-cond);color:var(--ink)}
+.cfouts span{display:block;margin-top:3px;font-size:13px;line-height:1.35;color:var(--ink-3)}
 /* papers */
-.cfpap{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
-.cfpap .cfpp:nth-child(odd){border-right:1px solid var(--line)}
-@media (max-width:900px){.cfpap{grid-template-columns:1fr}.cfpap .cfpp:nth-child(odd){border-right:0}}
-.cfpp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
-
-.cfpp b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
-.cfpp b small{font:500 13px/1 var(--f-body);color:var(--ink-3);margin-left:8px;letter-spacing:.04em}
-.cfpp .chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
-.cfchip{font:700 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:4px 7px 3px;border:1px solid var(--line);color:var(--ink-2)}
-.cfchip.ok{border-color:var(--frame);color:var(--gold)}
-.cfchip.forged{border-color:rgba(209,28,40,.6);color:#ff6b73;background:rgba(159,12,23,.14)}
-.cfchip.term{color:var(--ink)}
+.cfpl{display:grid;grid-template-columns:1fr 1fr;column-gap:36px}
+.cfpl div{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0 11px;border-bottom:1px solid var(--line)}
+.cfpl b{font:500 16px/1.3 var(--f-cond);color:var(--ink)}
+.cfpl b small{font:500 13px/1 var(--f-body);color:var(--ink-3);margin-left:6px}
+.cfpl span{flex:none;font-size:13px;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap}
+.cfpl span.forged{color:#ff5a64}
 @media (prefers-reduced-motion:no-preference){ .cf.cf-in .dzi{animation:dzin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--dz) * 60ms)} }
-@media (max-width:900px){
-  .cfhead{grid-template-columns:auto minmax(0,1fr)} .cfno{grid-column:1 / -1;text-align:left} .cfno .bc{margin-left:0}
-  .cfintake{grid-template-columns:1fr 1fr} .cff:nth-child(3n){border-right:1px solid var(--line)} .cff:nth-child(2n){border-right:0} .cff.wide{grid-column:1 / -1;border-right:0}
-  .cfpres{grid-template-columns:1fr} .cfthreat{grid-template-columns:1fr 1fr} .cfthreat div:nth-child(3){border-left:0} .cfthreat div:nth-child(n+3){border-top:1px solid var(--line)} .cfthreat div:nth-child(3)::before{display:none}
-  .cftext{padding-left:18px}
-}
-@media (max-width:600px){
-  .cfhead{padding:14px;gap:14px} .cfhead img{width:76px;height:92px} .cfhead h2{font-size:28px}
-  .cfch > button{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px} .cfch .era{grid-column:1 / -1}
-  .cfintake{grid-template-columns:1fr} .cff{border-right:0!important}
+@media (max-width:1100px){ .cf{grid-template-columns:minmax(0,780px);gap:0} .cfidx{position:static;flex-direction:row;flex-wrap:wrap;gap:4px 14px;padding:0 0 14px} .cfidx button{border-left:0;padding:4px 0;border-bottom:2px solid transparent} .cfidx button.on{border-bottom-color:var(--gold)} }
+@media (max-width:640px){
+  .cfdl,.cfouts,.cfpl{grid-template-columns:1fr}
+  .cfrow{grid-template-columns:1fr;row-gap:5px}
+  .cfch > button{grid-template-columns:minmax(0,1fr) auto;gap:2px 10px} .cfch .era{grid-column:1 / -1}
+  .cftext{padding-left:24px}
+  .cfhd{gap:14px} .cfhd img{width:62px;height:76px} .cfhd h2{font-size:26px}
 }
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
@@ -3197,57 +3165,46 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   function cfFirst(t){ var m = String(t || "").match(/^.*?[.!?](\s|$)/); return m ? m[0].trim() : String(t || ""); }
   function casePage(){
     var C = S.casefile || {}, I = C.intake || {}, own = !readOnly;
-    var sec = function(id, n, title, note, body){ return '<section class="box cfsec dzi" id="cf-' + id + '"><div class="hb"><i>' + n + '</i>' + title + (note ? '<em>' + note + '</em>' : '') + '</div><div class="cfbody">' + body + '</div></section>'; };
-    var fld = function(label, val, cls){ return val ? '<div class="cff' + (cls ? ' ' + cls : '') + '"><span>' + label + '</span><b>' + esc(val) + '</b></div>' : ''; };
-    var aka = String(S.aliases || "").split(",").map(function(x){ return x.trim(); }).filter(Boolean);
-    var head = '<header class="cfhead dzi"><img src="img/io-portrait.jpg" alt="Iō">' +
-      '<div><small>Case file // Subject</small><h2>SINGH, KŌRU<em>“' + esc(S.handle || "Iō") + '”</em></h2>' +
-        '<div class="cfmeta"><span>Origin<b>' + esc(I.origin || "") + '</b></span>' + (S.roles || []).map(function(r){ return '<span>' + esc(r.role) + '<b>' + esc(r.rank) + '</b></span>'; }).join("") + '</div>' +
-        (aka.length ? '<div class="cfaka">' + aka.map(function(a){ return '<span>' + esc(a) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
-      '<div class="cfno"><span>File no.</span><b>' + esc(S.sin || "") + '</b>' + barcode(S.sin || "") + '</div></header>';
-    var navItems = [["intake","Intake"],["history","History"],["people","People"],["threads","Open threads"],["presentation","Presentation"],["papers","Papers"]];
-    var nav = '<nav class="cfnav dzi" aria-label="Case file sections">' + navItems.map(function(x, i){ return '<button type="button" data-cfgo="' + x[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>0' + (i + 1) + '</i>' + x[1] + '</button>'; }).join("") + '</nav>';
-    // 01 intake
+    var none = function(){ return own ? '<div class="cfnone">Nothing on file yet.</div>' : ''; };
+    var sec = function(id, n, title, body){ return body ? '<section class="cfs dzi" id="cf-' + id + '"><h3><i>' + n + '</i>' + title + '</h3>' + body + '</section>' : ''; };
+    var dd = function(label, val){ return val ? '<div><dt>' + label + '</dt><dd>' + esc(val) + '</dd></div>' : ''; };
+    // header
     var persTxt = cfPers === "drugs" ? I.drugs : I.sober;
-    var intake = '<div class="cfintake">' +
-      '<div class="cff pers wide"><div class="cfpers"><span>Personality</span><span class="ttseg" role="group" aria-label="Personality state"><button type="button" data-cfpers="sober" aria-pressed="' + (cfPers === "sober") + '">Sober</button><button type="button" data-cfpers="drugs" aria-pressed="' + (cfPers === "drugs") + '">On drugs</button></span></div><b' + (cfPers === "drugs" ? ' class="drug"' : '') + '>' + esc(persTxt || "") + '</b></div>' +
-      fld("Values most", I.values) +
-      fld("Most valued person", I.person) + fld("Most valued possession", I.possession) + fld("Life goal", I.goal) +
-      fld("Family background", I.family, "wide") + fld("Family crisis", I.crisis) +
-      fld("Childhood environment", I.childhood, "full") +
-    '</div>';
-    // 02 history
-    var ch = (C.chapters || []).map(function(c, i){
-      var on = !!cfOpen[i];
-      return '<div class="cfch' + (on ? ' open' : '') + '"><button type="button" data-cfch="' + i + '" aria-expanded="' + on + '"><span class="era">' + esc(c.era) + '</span><span class="ttl"><b>' + esc(c.title) + '</b><span>' + esc(cfFirst((c.text || [])[0])) + '</span></span><span class="chev">▶</span></button>' +
-        (on ? '<div class="cftext">' + (c.text || []).map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '<div class="cfsrc">' + esc(c.src || "") + '</div></div>' : '') + '</div>';
-    }).join("");
-    var hist = ch ? '<div class="cftl">' + ch + '</div>' : (own ? '<div class="cfempty">No chapters on file yet.</div>' : '');
+    var head = '<header class="cfhd dzi"><img src="img/io-portrait.jpg" alt="Iō"><div style="min-width:0"><small>Case file</small><h2>Singh, Kōru<em>“' + esc(S.handle || "Iō") + '”</em></h2>' +
+      '<p><b>' + esc(I.origin || "") + '</b>' + (S.roles || []).map(function(r){ return ' · ' + esc(r.role) + ' ' + esc(r.rank); }).join("") + '</p>' +
+      '<div class="cfpers"><span class="ttseg" role="group" aria-label="Personality"><button type="button" data-cfpers="sober" aria-pressed="' + (cfPers === "sober") + '">Sober</button><button type="button" data-cfpers="drugs" aria-pressed="' + (cfPers === "drugs") + '">On drugs</button></span><span class="v' + (cfPers === "drugs" ? ' drug' : '') + '">' + esc(persTxt || "") + '</span></div></div></header>';
+    // 01 brief
+    var brief = '<dl class="cfdl">' + dd("Values most", I.values) + dd("Life goal", I.goal) + dd("Most valued person", I.person) + dd("Most valued possession", I.possession) + dd("Family crisis", I.crisis) + dd("Childhood", I.childhood) + '</dl>';
+    // 02 threads
+    var thr = (C.threads || []).length ? '<ol class="cfol">' + C.threads.map(function(t){ return '<li><div><b>' + esc(t.title) + '</b><q>' + esc(t.quote) + '</q><small>' + esc(t.src || "") + '</small></div></li>'; }).join("") + '</ol>' : none();
     // 03 people
     var P = C.people || [];
-    var pcard = function(x){ return '<div class="cfp"><b>' + esc(x.name) + '</b><span>' + esc(x.role || "") + '</span>' + (x.text ? '<p>' + esc(x.text) + '</p>' : '') + (x.posse && pById(x.posse) ? '<button type="button" data-cfposse="' + esc(x.posse) + '">Posse file →</button>' : '') + '</div>'; };
-    var grp = function(key, label){ var L = P.filter(function(x){ return x.group === key; }); if (!L.length && !own) return ''; return '<div class="cfgrp"><h3>' + label + '</h3>' + (L.length ? '<div class="cfppl">' + L.map(pcard).join("") + '</div>' : '<div class="cfempty">Nothing on file yet.</div>') + '</div>'; };
-    var threats = (C.enemies || []).map(function(e){ return '<div class="cfthreat"><div><span>Who</span><b>' + esc(e.who) + '</b></div><div><span>What caused it</span><b>' + esc(e.cause) + '</b></div><div><span>What they can throw</span><b>' + esc(e.throw) + '</b></div><div><span>What happens</span><b>' + esc(e.happen) + '</b></div></div>'; }).join("");
+    var prow = function(x){ return '<div class="cfrow"><b>' + esc(x.name) + '<small>' + esc(x.role || "") + '</small></b><p>' + esc(x.text || "") + (x.posse && pById(x.posse) ? '<button type="button" class="lnk" data-cfposse="' + esc(x.posse) + '">Posse file →</button>' : '') + '</p></div>'; };
+    var grp = function(key, label){ var L = P.filter(function(x){ return x.group === key; }); if (!L.length && !own) return ''; return '<h4>' + label + '</h4>' + (L.length ? L.map(prow).join("") : none()); };
+    var en = C.enemies || [];
     var people = grp("family", "Family") + grp("friends", "Friends") + grp("love", "Tragic love affairs") +
-      ((threats || own) ? '<div class="cfgrp"><h3>Enemies</h3>' + (threats || '<div class="cfempty">Nothing on file yet.</div>') + '</div>' : '');
-    // 04 threads
-    var thr = (C.threads || []).map(function(t){ return '<div class="cft"><div class="tt"><b>' + esc(t.title) + '</b><span>GM hook</span></div><p class="rfl">' + esc(t.quote) + '</p><div class="cfsrc">' + esc(t.src || "") + '</div></div>'; }).join("");
+      ((en.length || own) ? '<h4>Enemies</h4>' + (en.length ? en.map(function(e){ return '<div class="cfrow enemy"><b>' + esc(e.who) + '</b><div class="cfchain"><span><i>Cause</i>' + esc(e.cause) + '</span><span><i>Throws</i>' + esc(e.throw) + '</span><span><i>Outcome</i>' + esc(e.happen) + '</span></div></div>'; }).join("") : none()) : '');
+    // 04 history
+    var chap = function(c, i){ var on = !!cfOpen[i];
+      return '<div class="cfch' + (on ? ' open' : '') + '"><button type="button" data-cfch="' + i + '" aria-expanded="' + on + '"><span class="era">' + esc(c.era) + '</span><b>' + esc(c.title) + '</b><span class="chev">▶</span></button>' +
+        (on ? '<div class="cftext">' + (c.text || []).map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '<small>' + esc(c.src || "") + '</small></div>' : '') + '</div>'; };
+    var CH = C.chapters || [], split = CH.findIndex ? CH.findIndex(function(c){ return /^20\d\d/.test(c.era) || /night city/i.test(c.title); }) : -1;
+    if (split < 0) split = CH.length;
+    var hist = CH.length ? (split > 0 ? '<h4>Before Night City</h4><div class="cftl">' + CH.slice(0, split).map(function(c, i){ return chap(c, i); }).join("") + '</div>' : '') +
+      (split < CH.length ? '<h4>Night City</h4><div class="cftl">' + CH.slice(split).map(function(c, i){ return chap(c, i + split); }).join("") + '</div>' : '') : none();
     // 05 presentation
     var Pr = C.presentation || {};
-    var pres = '<div class="cfpres"><div>' + (Pr.company ? '<p class="rfl">' + esc(Pr.company) + '</p>' : '') + '<div class="cfintake">' + fld("Clothing style", Pr.clothing) + fld("Hairstyle", Pr.hair) + fld("Most valued possession", I.possession) + '</div></div>' +
-      '<div class="cfout">' + (Pr.outfits || []).map(function(o){ return '<div class="cfo"><b>' + esc(o.name) + '</b>' + (o.items ? '<span>' + esc(o.items) + '</span>' : '') + '</div>'; }).join("") + '</div></div>';
+    var pres = (Pr.company ? '<p class="cfquote">' + esc(Pr.company) + '</p>' : '') + '<dl class="cfdl">' + dd("Clothing style", Pr.clothing) + dd("Hairstyle", Pr.hair) + '</dl>' +
+      ((Pr.outfits || []).length ? '<h4 style="margin-top:22px">Outfits</h4><div class="cfouts">' + Pr.outfits.map(function(o){ return '<div><b>' + esc(o.name) + '</b>' + (o.items ? '<span>' + esc(o.items) + '</span>' : '') + '</div>'; }).join("") + '</div>' : '');
     // 06 papers
-    var KIND = {license:["Licensed","ok"], plate:["Plate","ok"], registration:["Registered","ok"], forged:["Forged","forged"]};
-    var pap = '<div class="cfpap">' + (C.papers || []).map(function(x){ var k = KIND[x.kind] || [x.kind, ""];
-      return '<div class="cfpp"><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span class="chips"><span class="cfchip ' + k[1] + '">' + esc(k[0]) + '</span>' + (x.term ? '<span class="cfchip term">' + esc(x.term) + ' term</span>' : '') + '</span></div>'; }).join("") + '</div>';
-    return '<main class="cf' + (cfEnter ? ' cf-in' : '') + '">' + head + nav +
-      sec("intake", "01", "Intake", "Lifepath", intake) +
-      sec("history", "02", "History", (C.chapters || []).length + " chapters · tap to open", hist) +
-      sec("people", "03", "People", "", people) +
-      ((thr || own) ? sec("threads", "04", "Open threads", "Loose ends for the GM", thr ? '<div class="cfthr">' + thr + '</div>' : '<div class="cfempty">Nothing on file yet.</div>') : '') +
-      sec("presentation", "05", "Presentation", "How he shows up", pres) +
-      sec("papers", "06", "Papers", "Licenses & permits", pap) +
-    '</main>';
+    var KIND = {license:"Licensed", plate:"Plate", registration:"Registered", forged:"Forged"};
+    var pap = (C.papers || []).length ? '<div class="cfpl">' + C.papers.map(function(x){ return '<div><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span' + (x.kind === "forged" ? ' class="forged"' : '') + '>' + esc(KIND[x.kind] || x.kind) + (x.term ? ' · ' + esc(x.term) + ' term' : '') + '</span></div>'; }).join("") + '</div>' : none();
+    var items = [["brief","Brief"],["threads","Open threads"],["people","People"],["history","History"],["presentation","Presentation"],["papers","Papers"]];
+    var idx = '<nav class="cfidx" aria-label="Case file sections">' + items.map(function(x, i){ return '<button type="button" data-cfgo="' + x[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>0' + (i + 1) + '</i>' + x[1] + '</button>'; }).join("") + '</nav>';
+    return '<main class="cf' + (cfEnter ? ' cf-in' : '') + '">' + idx + '<div class="cfdoc">' + head +
+      sec("brief", "01", "Brief", brief) + sec("threads", "02", "Open threads", thr) + sec("people", "03", "People", people) +
+      sec("history", "04", "History", hist) + sec("presentation", "05", "Presentation", pres) + sec("papers", "06", "Papers", pap) +
+    '</div></main>';
   }
   function cfAfter(){
     if (tab !== "casefile") return;
@@ -3261,10 +3218,10 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   }
   function cfSpy(){
     if (tab !== "casefile") return;
-    var best = "intake";
-    document.querySelectorAll(".cfsec").forEach(function(sct){ if (sct.getBoundingClientRect().top < 120) best = sct.id.slice(3); });
-    var secs = document.querySelectorAll(".cfsec"); if (secs.length && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6) best = secs[secs.length - 1].id.slice(3);
-    document.querySelectorAll(".cfnav button").forEach(function(bt){ bt.classList.toggle("on", bt.dataset.cfgo === best); });
+    var best = "brief";
+    document.querySelectorAll(".cfs").forEach(function(sct){ if (sct.getBoundingClientRect().top < 120) best = sct.id.slice(3); });
+    var secs = document.querySelectorAll(".cfs"); if (secs.length && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6) best = secs[secs.length - 1].id.slice(3);
+    document.querySelectorAll(".cfidx button").forEach(function(bt){ bt.classList.toggle("on", bt.dataset.cfgo === best); });
   }
   window.addEventListener("scroll", function(){ if (tab === "casefile") cfSpy(); }, {passive:true});
   function render(){
