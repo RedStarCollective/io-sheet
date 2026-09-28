@@ -3299,6 +3299,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     function rr(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
     for (var i = 0; i < 9; i++) pines.push({x:rr(), h:.35 + rr()*.5, w:.10 + rr()*.06});
     for (var j = 0; j < 26; j++) ticks.push({x:rr(), h:.02 + rr()*.05});
+    var streaks = []; for (var q = 0; q < 9; q++) streaks.push({x:rr(), y:.08 + rr()*.8, l:.12 + rr()*.2, v:1.6 + rr()*1.4, a:.10 + rr()*.14});
     function leg(g, hx, hy, l1, l2, a1, bend, w){
       var kx = hx + Math.sin(a1)*l1, ky = hy + Math.cos(a1)*l1, a2 = a1 + bend, fx = kx + Math.sin(a2)*l2, fy = ky + Math.cos(a2)*l2;
       g.lineWidth = w; g.beginPath(); g.moveTo(hx, hy); g.lineTo(kx, ky); g.stroke();
@@ -3374,13 +3375,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       g.restore();
     }
     function frame(t){
-      if (!document.getElementById("zrun")){ zr.raf = 0; return; }
+      cv = document.getElementById("zrun"); if (!cv){ zr.raf = 0; return; }
       var W = cv.clientWidth, H = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
       if (!W || !H){ zr.raf = requestAnimationFrame(frame); return; }
       if (cv.width !== Math.round(W*dpr) || cv.height !== Math.round(H*dpr)){ cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); }
       if (off.width !== cv.width || off.height !== cv.height){ off.width = cv.width; off.height = cv.height; }
       var g = cv.getContext("2d"), k = reduce ? 1.3 : t/1000, per = .66, p = (k / per) % 1;
-      var s = Math.min(W / 5.0, H / 2.15), gy = H - Math.max(14, H*.1), speed = s * 4.6;
+      var s = Math.min(W / 5.0, H / 2.15), gy = H - Math.max(14, H*.1), speed = s * 8.5;
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
       /* distant pines scroll slowly, ground ticks fast */
       g.fillStyle = "rgba(14,22,30,.9)";
@@ -3393,7 +3394,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       ticks.forEach(function(tk){ var x = ((tk.x*W - k*speed) % W + W) % W; g.fillRect(x, gy + 3, 1, tk.h*H*.5); });
       /* figures: drawn solid to an offscreen layer, then stamped with a cold rim glow */
       ox.setTransform(1, 0, 0, 1, 0, 0); ox.clearRect(0, 0, off.width, off.height);
-      var fi24 = Math.floor(k * 24);
+      var fi24 = Math.floor(k * 35);
+      /* speed streaks */
+      g.save(); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      streaks.forEach(function(st){ var x = ((st.x*W*1.5 - k*speed*st.v) % (W*1.5) + W*1.5) % (W*1.5) - W*.25, y = gy - st.y*H*.75;
+        var gr = g.createLinearGradient(x, 0, x + st.l*W, 0); gr.addColorStop(0, "rgba(170,210,230,0)"); gr.addColorStop(.3, "rgba(170,210,230," + st.a + ")"); gr.addColorStop(1, "rgba(170,210,230,0)");
+        g.fillStyle = gr; g.fillRect(x, y, st.l*W, 1); });
+      g.restore();
       [[sprW, 18, s*1.12, W*.5 + s*1.25, .976, "rgba(200,230,245,.45)", 6], [spr, 10, s*1.9, W*.5 - s*1.15, .992, "rgba(108,198,230,.5)", 7]].forEach(function(o){
         var im = o[0]; if (!(im.complete && im.naturalWidth)) return;
         var fw = im.naturalWidth / o[1], fh = im.naturalHeight, dh = o[2], dw = dh * fw / fh, fi = fi24 % o[1];
