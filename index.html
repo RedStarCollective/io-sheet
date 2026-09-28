@@ -1516,6 +1516,36 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   .cftext{padding-left:24px}
   .cfhd{gap:14px} .cfhd img{width:62px;height:76px} .cfhd h2{font-size:26px}
 }
+
+/* ---------- ZOLO: the moon to Iō's sun. Same bones, cold skin: ink black, bone and silver structure, one vermilion accent ---------- */
+body.zolo{--void:#07080a;--panel:#0d0f12;--cell:#15181c;--cell-2:#1c2025;--line:#2a2f36;--frame:#80868f;--hdr:#000;
+  --red:#b3261e;--red-dim:#3d1411;--red-hi:#e0402f;--gold:#dcd6c8;--gold-dim:#6e6b64;--ink:#eef0f2;--ink-2:#b8bdc4;--ink-3:#6e747c}
+body.zolo .topin{background:rgba(12,14,17,.84)}
+body.zolo .box,body.zolo .zall,body.zolo .zitem,body.zolo .rside,body.zolo .zpanel.empty{background:rgba(12,14,17,.78)}
+body.zolo .rcard{background:rgba(12,14,17,.82)}
+body.zolo .seg button{background:rgba(12,14,17,.85)}
+body.zolo .id{background:linear-gradient(90deg,rgba(179,38,30,.22),transparent)}
+body.zolo .hb::after{border-color:transparent var(--red-hi) transparent transparent}
+body.zolo .stat b{letter-spacing:.2em}
+body.zolo .portrait{background:#090a0c}
+body.zolo .chip{border-color:var(--frame);color:var(--ink-2)}
+.moonmark{width:34px;height:34px;flex:none}
+/* Zolo signature: finer silver frames, a vermilion seal on section titles, elements retuned to the moon palette */
+body.zolo{--earth:#d9cdb4;--fire:#e0402f;--water:#8fb4d8;--air:#e8ecf2}
+body.zolo .box,body.zolo .stat,body.zolo .rside,body.zolo .zpanel.empty{border-width:1px}
+body.zolo .topin{box-shadow:inset 0 0 0 1px var(--frame)}
+body.zolo .sec-title::before{content:"";width:13px;height:13px;flex:none;background:var(--red-hi);box-shadow:0 0 0 3px rgba(224,64,47,.18);transform:rotate(45deg);margin:0 4px 0 2px}
+body.zolo .sec-title::after{height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+body.zolo .hb{border-bottom:1px solid rgba(220,214,200,.12)}
+/* persona switch (header) */
+.whosw{display:inline-flex;border:1px solid var(--frame);background:rgba(0,0,0,.35)}
+.whosw button{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--ink-3);font:700 12px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px 7px;cursor:pointer}
+.whosw button + button{border-left:1px solid var(--frame)}
+.whosw button svg{width:14px;height:14px}
+.whosw button[aria-pressed="true"]{color:#140f0e;background:var(--gold)}
+body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold)}
+.whosw button:hover:not([aria-pressed="true"]){color:var(--ink)}
+.whosw button:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
 .pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
@@ -1667,33 +1697,50 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     return "";
   }
   var READY = ["dossier","ware","casefile","rep","posse","vehicles","advance"];
-  var tab = (location.hash || "").replace("#",""); if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
+  var tab = (location.hash || "").replace("#",""), bootWho = /^zolo/.test(tab) ? "zolo" : "io"; if (bootWho === "zolo") tab = tab.replace(/^zolo-?/, "") || "dossier"; if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
   var TABS = ["Dossier","Ware","Case File","Rep","Posse","Vehicles","HQ","Advance"];
+  /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
+  var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier"];
+  var IO = null, WHO = "io", roIo = false;
+  function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
+  function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
+  function setWho(w){
+    if (w === "zolo" && !(S && S.zolo) && !(IO && IO.zolo)) return;
+    if (w === "zolo" && WHO !== "zolo"){ IO = S; roIo = readOnly; WHO = "zolo"; editing = false; S = buildZ(); readOnly = true; }
+    else if (w === "io" && WHO === "zolo"){ WHO = "io"; S = IO; readOnly = roIo; }
+    document.body.classList.toggle("zolo", WHO === "zolo");
+    if (WHO === "zolo" && ZREADY.indexOf(tab) < 0) tab = "dossier";
+  }
+  var MOON = '<svg class="moonmark" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="mmg" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#f2eee4"/><stop offset=".7" stop-color="#cfc9bb"/><stop offset="1" stop-color="#9c978c"/></radialGradient></defs><circle cx="32" cy="32" r="27" fill="url(#mmg)"/><circle cx="43" cy="24" r="23" fill="#0b0c0e"/><circle cx="16" cy="38" r="2.4" fill="#e0402f"/></svg>';
+  var SUNICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></g></svg>';
+  var MOONICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.8 8.8 0 0 1 9.4 3.5a.6.6 0 0 0-.8-.7A9.8 9.8 0 1 0 21.2 15.4a.6.6 0 0 0-.7-.8z"/></svg>';
+  function whoSwitch(){ if (!((IO && IO.zolo) || (S && S.zolo))) return '';
+    return '<span class="whosw" role="group" aria-label="Persona"><button type="button" data-who="io" aria-pressed="' + (WHO === "io") + '">' + SUNICO + 'Iō</button><button type="button" data-who="zolo" aria-pressed="' + (WHO === "zolo") + '">' + MOONICO + 'Zolo</button></span>'; }
 
   function header(){
     return '' +
     '<div class="editbar" role="region" aria-label="Edit mode"><span>Edit mode · nothing saves until you press Save</span><span class="sp"></span>' +
       '<button class="btn" id="cancel">Cancel</button><button class="btn primary" id="save">Save</button></div>' +
     '<header class="top"><div class="topin">' +
-      '<div class="id">' + STAR + '<div><small>' + f("name",{label:"Name"}) + '</small><h1>' + f("handle",{label:"Handle"}) + '</h1>' +
+      '<div class="id">' + (WHO === "zolo" ? MOON : STAR) + '<div><small>' + f("name",{label:"Name"}) + '</small><h1>' + f("handle",{label:"Handle"}) + '</h1>' +
         '<span class="chip">' + f("origin",{label:"Origin"}) + '</span></div></div>' +
       '<div class="meta">' +
         '<div class="m"><b>Reputation</b><span class="gold">' + f("rep",{num:1,label:"Reputation"}) + '</span></div>' +
         '<div class="m"><b>IP available</b><span>' + (S.advance && S.ip ? '<span class="dec">' + (S.ip[0] = advAvail()) + '</span>' : f("ip.0",{num:1,label:"IP available"})) + '</span></div>' +
         '<div class="m"><b>Commission</b><span>' + f("commission",{num:1,label:"Commission time"}) + '</span></div>' +
         '<div class="m"><b>Cash</b><span class="gold">' + f("cash",{num:1,label:"Cash"}) + '<span class="u">eb</span></span></div>' +
-        '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
-          '<div class="sin-row"><span class="sin-tag">SIN</span><div>' + barcode(S.sin || "") + '<div class="sin-num">' + esc(S.sin || "") + '</div></div></div>') + '</div>' +
-        '<div class="actions">' + (readOnly ? '<span class="save-state" id="ss">View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') + '</span>' : '<span class="save-state" id="ss">' + (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '') + '</span>' + (editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>')) + '</div>' +
+        (S.sin || editing ? '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
+          '<div class="sin-row"><span class="sin-tag">SIN</span><div>' + barcode(S.sin || "") + '<div class="sin-num">' + esc(S.sin || "") + '</div></div></div>') + '</div>' : '<div class="code"></div>') +
+        '<div class="actions">' + whoSwitch() + (WHO === "zolo" ? '' : readOnly ? '<span class="save-state" id="ss">View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') + '</span>' : '<span class="save-state" id="ss">' + (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '') + '</span>' + (editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>')) + '</div>' +
       '</div>' +
     '</div></header>' +
-    '<nav class="tabs" aria-label="Sheet sections">' + TABS.map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = READY.indexOf(id) >= 0;
+    '<nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>';
   }
 
   function idColumn(){
     var r = S.roles;
-    var h = '<figure class="portrait"><img src="img/io-portrait.jpg" alt="Portrait of Iō: long black beard, top bun, gold cyberarm"></figure>';
+    var h = '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
     h += '<div class="box idtab">' +
       '<div class="h">Handle</div><div class="v full">' + f("handle",{label:"Handle"}) + '</div>' +
       '<div class="h">Role</div>' + r.map(function(x,i){ return '<div class="v">' + f("roles."+i+".role",{label:"Role"}) + '</div>'; }).join("") +
@@ -1725,9 +1772,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (!editing && nyoziOn() && stm && stm[1] === "EMP") cls.push("nyzsk");
     if (prac) cls.push("practiced");
     if (r.el && !editing) cls.push("master", "m-" + r.el);
-    if (!editing && !r.el && formIcon(r.name)) cls.push("iconrow");
+    if (!editing && !r.el && formIcon(r.icon || r.name)) cls.push("iconrow");
     var badge = r.el ? '<span class="elc el-' + esc(r.el) + '" title="' + esc(r.el) + '">' + ({earth:"土",fire:"火",water:"水",air:"风"}[r.el] || "") + '</span>'
-      : (!editing ? formIcon(r.name) : '');
+      : (!editing ? formIcon(r.icon || r.name) : '');
     var nameCell = editing
       ? '<span class="flex"><button class="keybtn' + (r.bold ? ' on' : '') + '" data-key="' + p + '" title="Mark as key skill" aria-label="Key skill">★</button>' + f(p+".name",{label:"Skill"}) + (r.el !== undefined || ind ? sel(p+".el", ELEMENTS, "Element") : '') + del(p) + '</span>'
       : '<span class="mname">' + badge + '<span>' + nm(String(r.name).replace(/\s*\[NYOZI\]/ig, "")) + '</span></span>';
@@ -1855,7 +1902,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing ? trainingBox() + nyoziBox() : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + '</div>';
     }).join("");
   }
 
@@ -1957,12 +2004,12 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var weapons = '<section class="box"><div class="hb"><span class="sp">Weapon</span><span class="c">DMG</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.weapons.map(function(r,i){ var p="weapons."+i; return '<tr><td class="name"><span class="flex">' + f(p+".name",{fmt:1}) + del(p) + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
-    var cyber = '<section class="box"><div class="hb"><span class="sp">Cyberweapon</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
+    var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">Cyberweapon</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.cyberweapons.map(function(r,i){ var p="cyberweapons."+i;
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + toneName(r) + '</span>';
         return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
-    var glitch = '<figure class="box glitch"><img src="img/io-glitch.webp" alt="Glitching animated portrait of Iō drinking tea" loading="lazy"><figcaption><span class="lab">Known aliases</span><div class="aka">' + String(S.aliases || "").split(",").map(function(a){ a = a.trim(); return a ? '<span>' + esc(a) + '</span>' : ''; }).join("") + '</div></figcaption></figure>';
+    var glitch = '<figure class="box glitch"><img src="' + esc(S.glitch || "img/io-glitch.webp") + '" alt="' + (WHO === "zolo" ? 'Zolo masked and hooded, katanas at his back, under the moon' : 'Glitching animated portrait of Iō drinking tea') + '" loading="lazy"><figcaption><span class="lab">Known aliases</span><div class="aka">' + String(S.aliases || "").split(",").map(function(a){ a = a.trim(); return a ? '<span>' + esc(a) + '</span>' : ''; }).join("") + '</div></figcaption></figure>';
     return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + weapons + cyber + glitch + '</div>';
   }
 
@@ -1988,7 +2035,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var con = '<section class="box"><div class="hb">Concealed Items</div><ul class="list">' +
       S.concealed.map(function(r,i){ var p="concealed."+i; return '<li><span class="flex" style="flex:1">' + f(p+".name",{fmt:1}) + del(p) + '</span><span class="where">' + f(p+".where") + '</span></li>'; }).join("") +
       '</ul>' + add("concealed","Add concealed item") + '</section>';
-    return '<div class="lo a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + inv + pharma() + '<div class="stack">' + thr + con + (editing ? '' : ttBox()) + '</div></div>';
+    return '<div class="lo a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + inv + pharma() + '<div class="stack">' + thr + con + (editing || WHO !== "io" ? '' : ttBox()) + '</div></div>';
   }
 
   var C39 = {"0":"nnnwwnwnn","1":"wnnwnnnnw","2":"nnwwnnnnw","3":"wnwwnnnnn","4":"nnnwwnnnw","5":"wnnwwnnnn","6":"nnwwwnnnn","7":"nnnwnnwnw","8":"wnnwnnwnn","9":"nnwwnnwnn",
@@ -3228,7 +3275,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   function render(){
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
-    if (!editing && S) deriveSkills();
+    if (!editing && S && WHO === "io") deriveSkills();
     var body = tab === "ware" ? chrome() : tab === "rep" ? repPage() : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
@@ -3255,7 +3302,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
      data/io.json stays the base (art, rules text, rep events, posse, vehicles); the sheet overlays the
      numbers and lists it owns. Visiting once with ?key=EDIT_KEY unlocks the dose counters on that device. */
   var SHEET_API = "https://script.google.com/macros/s/AKfycbxHyP13HOErUASVTbd0cN2Gkg5XJa05Y6oMGZVdqfvhvfCy7CeiTKtw25mBS1k_I30GVQ/exec";
-  var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator", casefile:"Case File"};
+  var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator", casefile:"Case File", zstats:"Stats & Skills Z"};
   function tabKey(t){ return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9&]+/g, " ").trim().toLowerCase(); }
   function sheetOf(j, name){ var k = tabKey(name); for (var n in j.sheets) if (tabKey(n) === k) return j.sheets[n]; return null; }
   var HOSTED = /github\.io$/.test(location.hostname) || /[?&]hosted=1/.test(location.search);
@@ -3471,6 +3518,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     if (!quiet){ syncInfo = "syncing…"; status(readOnly ? "View only · syncing…" : "Syncing…"); }
     fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(j){
       if (!j || !j.sheets) throw new Error("no data");
+      var zmode = WHO === "zolo"; if (zmode) S = IO;   /* always sync into Iō's data; Zolo's view is rebuilt after */
       var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
@@ -3479,7 +3527,10 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
+      var sz = sheetOf(j, SHEET_TABS.zstats);
+      if (sz && S.zolo){ var keepS = S; S = S.zolo; try { var gz = Grid(sz); syncStats(gz); syncGear(gz); } catch(e){} S = keepS; }
       saved = clone(S);
+      if (zmode){ IO = S; S = buildZ(); }
       var d = new Date(j.updated || Date.now());
       syncInfo = "synced " + d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
       if (!editing) render();
@@ -3580,7 +3631,8 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (zoneSel && window.innerWidth <= 760){ var zp = document.getElementById("zpanel"); if (zp) zp.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }
       return;
     }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + tab); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
@@ -3620,8 +3672,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   app.addEventListener("change", function(ev){ onField(ev); if (ev.target.tagName === "SELECT") render(); });
 
   fetch(DATA_PATH, {cache:"no-store"}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
-    S = d; saved = clone(d);
+    S = d; IO = d; saved = clone(d);
     if (HOSTED) readOnly = !(SHEET_API && EDIT_KEY); /* hosted copy: dose counters only with the edit key */
+    if (bootWho === "zolo") setWho("zolo");
     document.body.classList.add("boot");
     render();
     decode();
@@ -3637,7 +3690,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 (function(){
   "use strict";
   var c = document.getElementById("sky"); if (!c || !c.getContext) return;
-  var ctx = c.getContext("2d"), layers = [], W = 0, H = 0, dpr = 1, shoot = null, nextShoot = 0;
+  var ctx = c.getContext("2d"), layers = [], W = 0, H = 0, dpr = 1, shoot = null, nextShoot = 0, craters = [], clouds = [];
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   function rnd(seed){ return function(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
   var r = rnd(20450917);
@@ -3656,10 +3709,44 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       for (var i = 0; i < L.n; i++) stars.push({x:r()*W, y:r()*H, s:L.size[0]+r()*(L.size[1]-L.size[0]), a:L.alpha[0]+r()*(L.alpha[1]-L.alpha[0]), warm:r()<.18, ph:r()*6.28, tw:.4+r()*1.2});
       return {stars:stars, speed:L.speed};
     });
+    /* Zolo's moon: fixed craters and a few long ink-cloud bands */
+    var rc = rnd(740204); craters = [];
+    for (var i = 0; i < 26; i++){ var a = rc()*6.283, d = Math.pow(rc(), .7)*.82; craters.push({x:Math.cos(a)*d, y:Math.sin(a)*d, r:.03 + rc()*.13, o:.05 + rc()*.12}); }
+    clouds = [{y:.02, h:.10, w:1.9, sp:.006, ph:.1, o:.78}, {y:.16, h:.06, w:1.5, sp:.009, ph:.6, o:.62}, {y:-.12, h:.05, w:1.3, sp:.004, ph:.35, o:.45}];
+  }
+  function moon(t){
+    var R = Math.min(W, H) * (W < 700 ? .34 : .27), cx = W * (W < 700 ? .74 : .80), cy = H * .22;
+    var halo = ctx.createRadialGradient(cx, cy, R*.9, cx, cy, R*3.2);
+    halo.addColorStop(0, "rgba(206,210,220,.16)"); halo.addColorStop(.35, "rgba(150,160,180,.06)"); halo.addColorStop(1, "rgba(150,160,180,0)");
+    ctx.fillStyle = halo; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.2832); ctx.clip();
+    var body = ctx.createRadialGradient(cx - R*.3, cy - R*.3, R*.1, cx, cy, R*1.05);
+    body.addColorStop(0, "#f1ede3"); body.addColorStop(.62, "#d5cfc1"); body.addColorStop(1, "#8f8b83");
+    ctx.fillStyle = body; ctx.fillRect(cx - R, cy - R, R*2, R*2);
+    craters.forEach(function(k){ var g = ctx.createRadialGradient(cx + k.x*R, cy + k.y*R, 0, cx + k.x*R, cy + k.y*R, k.r*R);
+      g.addColorStop(0, "rgba(90,88,84," + k.o + ")"); g.addColorStop(.8, "rgba(90,88,84," + (k.o*.6) + ")"); g.addColorStop(1, "rgba(90,88,84,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx + k.x*R, cy + k.y*R, k.r*R, 0, 6.2832); ctx.fill(); });
+    var limb = ctx.createRadialGradient(cx - R*.35, cy - R*.4, R*.4, cx, cy, R*1.02);
+    limb.addColorStop(0, "rgba(10,12,16,0)"); limb.addColorStop(.75, "rgba(10,12,16,.10)"); limb.addColorStop(1, "rgba(10,12,16,.55)");
+    ctx.fillStyle = limb; ctx.fillRect(cx - R, cy - R, R*2, R*2);
+    ctx.restore();
+    /* ink clouds drift across the face */
+    var k2 = t/1000;
+    clouds.forEach(function(cl){
+      var x = cx + (((cl.ph + (still ? 0 : k2*cl.sp)) % 1) * 2 - 1) * R * 2.2, y = cy + cl.y*R*3;
+      ctx.save(); ctx.translate(x, y); ctx.scale(cl.w * 3.2, 1);
+      var g = ctx.createRadialGradient(0, 0, 0, 0, 0, cl.h*R*3);
+      g.addColorStop(0, "rgba(7,8,10," + cl.o + ")"); g.addColorStop(.55, "rgba(7,8,10," + (cl.o*.55) + ")"); g.addColorStop(1, "rgba(7,8,10,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, cl.h*R*3, 0, 6.2832); ctx.fill(); ctx.restore();
+    });
   }
   function nebula(t){
     var k = t/1000;
-    var blobs = [
+    var blobs = document.body.classList.contains("zolo") ? [
+      [W*(.16+.03*Math.sin(k*.021)), H*(.14+.03*Math.cos(k*.017)), Math.max(W,H)*.55, "70,86,112", .09],
+      [W*(.52+.04*Math.cos(k*.013)), H*(.62+.04*Math.sin(k*.019)), Math.max(W,H)*.45, "179,38,30", .035],
+      [W*(.88+.02*Math.sin(k*.011)), H*(.08+.02*Math.sin(k*.023)), Math.max(W,H)*.35, "220,214,200", .04]
+    ] : [
       [W*(.16+.03*Math.sin(k*.021)), H*(.14+.03*Math.cos(k*.017)), Math.max(W,H)*.55, "120,20,28", .09],
       [W*(.62+.04*Math.cos(k*.013)), H*(.42+.04*Math.sin(k*.019)), Math.max(W,H)*.45, "70,30,60", .06],
       [W*(.88+.02*Math.sin(k*.011)), H*(.08+.02*Math.sin(k*.023)), Math.max(W,H)*.35, "181,143,82", .035]
@@ -3675,13 +3762,14 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     var dt = lastT ? Math.min((t - lastT)/1000, .1) : 0; lastT = t;
     ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.clearRect(0,0,W,H);
+    var zo = document.body.classList.contains("zolo");
     nebula(t);
     layers.forEach(function(L){
       L.stars.forEach(function(st){
         if (!still){ st.x -= L.speed * dt; if (st.x < -3) { st.x = W + 3; st.y = Math.random()*H; } }
         var a = st.a * (still ? 1 : .55 + .45*Math.sin(st.ph + t/1000*st.tw));
         ctx.globalAlpha = a;
-        ctx.fillStyle = st.warm ? "#f3d9a8" : "#e9ecf5";
+        ctx.fillStyle = st.warm && !zo ? "#f3d9a8" : "#e9ecf5";
         ctx.beginPath(); ctx.arc(st.x, st.y, st.s, 0, 6.2832); ctx.fill();
         if (st.s > 1.4){ ctx.globalAlpha = a*.22; ctx.fillRect(st.x-4, st.y-.3, 8, .6); ctx.fillRect(st.x-.3, st.y-4, .6, 8); }
       });
@@ -3700,6 +3788,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       }
     }
     ctx.globalAlpha = 1;
+    if (zo){ moon(t); return; }
     /* planet limb with sunlit rim, and a slowly turning orbital ring */
     var R = Math.max(W, H) * 1.05, cx = W * .78, cy = H + R * .80;
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.2832); ctx.fillStyle = "#0a0706"; ctx.fill();

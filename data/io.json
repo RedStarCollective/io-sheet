@@ -5529,5 +5529,1218 @@
     "note": "Shared with C1"
    }
   ]
+ },
+ "zolo": {
+  "handle": "Zolo",
+  "name": "Alias of Iō",
+  "origin": "Zhanshi · Unnamed Solo of OJT",
+  "aliases": "Zhanshi, Unnamed Solo of OJT",
+  "stats": [
+   {
+    "k": "INT",
+    "v": 8
+   },
+   {
+    "k": "REF",
+    "v": 8
+   },
+   {
+    "k": "DEX",
+    "v": 8
+   },
+   {
+    "k": "TECH",
+    "v": 8
+   },
+   {
+    "k": "COOL",
+    "v": 8
+   },
+   {
+    "k": "WILL",
+    "v": 8
+   },
+   {
+    "k": "LUCK",
+    "v": 3,
+    "max": 3
+   },
+   {
+    "k": "MOVE",
+    "v": 9
+   },
+   {
+    "k": "BODY",
+    "v": 8
+   },
+   {
+    "k": "EMP",
+    "v": 3,
+    "max": 8
+   }
+  ],
+  "roles": [
+   {
+    "role": "Solo",
+    "ability": "Combat Awareness",
+    "rank": 6
+   },
+   {
+    "role": "Medtech",
+    "ability": "Medicine",
+    "rank": 6
+   },
+   {
+    "role": "Rocker",
+    "ability": "Charismatic Impact",
+    "rank": 8
+   }
+  ],
+  "humanity": [
+   31,
+   32
+  ],
+  "hp": [
+   50,
+   50
+  ],
+  "sw": 25,
+  "deathSave": 8,
+  "crits": [],
+  "skills": [
+   [
+    {
+     "title": "Awareness Skills",
+     "rows": [
+      {
+       "name": "Concentration (WILL)",
+       "mod": 1,
+       "lvl": 7,
+       "stat": 8,
+       "base": 16,
+       "bold": true
+      },
+      {
+       "name": "Conceal/Reveal Object (INT)",
+       "mod": 2,
+       "lvl": 2,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Lip Reading (INT)",
+       "mod": 2,
+       "lvl": 2,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Perception (INT)",
+       "mod": 2,
+       "lvl": 4,
+       "stat": 8,
+       "base": 14,
+       "bold": true
+      },
+      {
+       "name": "Tracking (INT)",
+       "mod": 2,
+       "lvl": 2,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "Body Skills",
+     "rows": [
+      {
+       "name": "Athletics (DEX)",
+       "mod": "",
+       "lvl": 8,
+       "stat": 8,
+       "base": 16,
+       "bold": true
+      },
+      {
+       "name": "Contortionist (DEX)",
+       "mod": 1,
+       "lvl": 1,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Dance (DEX)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Endurance (WILL)",
+       "mod": 2,
+       "lvl": 4,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Resist Torture/Drugs (WILL)",
+       "mod": 4,
+       "lvl": 4,
+       "stat": 8,
+       "base": 16,
+       "bold": false
+      },
+      {
+       "name": "Stealth (DEX)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": true
+      }
+     ]
+    },
+    {
+     "title": "Control Skills",
+     "rows": [
+      {
+       "name": "Drive Land Vehicle (REF)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Pilot Air Vehicle (x2) (REF)",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Pilot Sea Vehicle (REF)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Riding (REF)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "Education Skills",
+     "rows": [
+      {
+       "name": "Accounting (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Animal Handling (INT)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Bureaucracy (INT)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Business (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Composition (INT)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Criminology (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Cryptography (INT)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Deduction (INT)",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Education (INT)",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": true
+      },
+      {
+       "name": "Gamble (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "title": "Education Skills",
+     "rows": [
+      {
+       "name": "Language (INT)",
+       "sub": true,
+       "collapse": true,
+       "items": [
+        {
+         "name": "The Word [Native]",
+         "mod": "",
+         "lvl": 4,
+         "stat": 8,
+         "base": 12,
+         "bold": false
+        },
+        {
+         "name": "Streetslang",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": true
+        },
+        {
+         "name": "French",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Russian",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Korean",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Spanish",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Mandarin",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Arabic",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "German",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Swahili",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "English",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        },
+        {
+         "name": "Sign",
+         "mod": "",
+         "lvl": 2,
+         "stat": 8,
+         "base": 10,
+         "bold": false
+        }
+       ],
+       "pin": 1
+      },
+      {
+       "name": "Library Search (INT)",
+       "mod": 2,
+       "lvl": 2,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Local Expert (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": "",
+       "base": "",
+       "bold": false,
+       "sub": true
+      },
+      {
+       "name": "South Night City",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Morro Rock",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Science (INT)",
+       "mod": "",
+       "lvl": "",
+       "stat": "",
+       "base": "",
+       "bold": false,
+       "sub": true
+      },
+      {
+       "name": "Chemistry",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Psychology",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Tactics (INT)",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Wilderness Survival (INT)",
+       "mod": 2,
+       "lvl": 2,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "Fighting Skills",
+     "rows": [
+      {
+       "name": "Brawling (DEX)",
+       "mod": "",
+       "lvl": 8,
+       "stat": 8,
+       "base": 16,
+       "bold": true
+      },
+      {
+       "name": "Evasion (DEX)",
+       "mod": "",
+       "lvl": 8,
+       "stat": 8,
+       "base": 16,
+       "bold": true
+      },
+      {
+       "name": "Melee Weapon (DEX)",
+       "mod": "",
+       "lvl": 10,
+       "stat": 8,
+       "base": 18,
+       "bold": false
+      },
+      {
+       "name": "Martial Arts [x2] [DEX]",
+       "mod": "",
+       "lvl": "",
+       "stat": "",
+       "base": "",
+       "bold": false,
+       "sub": true
+      },
+      {
+       "name": "Kung Fu",
+       "mod": "",
+       "lvl": 10,
+       "stat": 8,
+       "base": 18,
+       "bold": false,
+       "el": "earth",
+       "icon": "Hung Gar [Kung Fu]"
+      },
+      {
+       "name": "Taekwando",
+       "mod": "",
+       "lvl": 10,
+       "stat": 8,
+       "base": 18,
+       "bold": false,
+       "el": "fire",
+       "icon": "Northern Shaolin [TKD]"
+      },
+      {
+       "name": "Tai Chi",
+       "mod": "",
+       "lvl": 10,
+       "stat": 8,
+       "base": 18,
+       "bold": false,
+       "el": "water",
+       "icon": "Tajiquan [Tai Chi]"
+      },
+      {
+       "name": "Sov System",
+       "mod": "",
+       "lvl": 10,
+       "stat": 8,
+       "base": 18,
+       "bold": false,
+       "el": "air",
+       "icon": "Baguazhang [Sov System]"
+      },
+      {
+       "name": "Kendo",
+       "mod": "",
+       "lvl": 8,
+       "stat": 8,
+       "base": 16,
+       "bold": false,
+       "icon": "Wudang Jian [Kendo]"
+      },
+      {
+       "name": "Thrash Sambo",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false,
+       "icon": "Lung Ying [Thrash Sambo]"
+      },
+      {
+       "name": "Arnis",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false,
+       "icon": "Xingyiquan [Arnis]"
+      },
+      {
+       "name": "Capoiera",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false,
+       "icon": "Hou Quan [Capoiera]"
+      },
+      {
+       "name": "Arasaka-Te",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false,
+       "icon": "Chu Gar [Arasaka-Te]"
+      },
+      {
+       "name": "Sumo",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false,
+       "icon": "Shuai Jiao [Sumo]"
+      },
+      {
+       "name": "Choy Li Fut",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false,
+       "icon": "Choy Li Fut"
+      },
+      {
+       "name": "Silat",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false,
+       "icon": "Bak Mei [Silat]"
+      },
+      {
+       "name": "Karate",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false,
+       "icon": "Wuzuquan [Karate]"
+      },
+      {
+       "name": "Krav Maga",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false,
+       "icon": "Jeet Kune Do [Krav Maga]"
+      },
+      {
+       "name": "Muay Thai",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false,
+       "icon": "Sanshou [Muay Thai]"
+      }
+     ]
+    },
+    {
+     "title": "Performance Skills",
+     "rows": [
+      {
+       "name": "Acting (COOL)",
+       "mod": "",
+       "lvl": 4,
+       "stat": 8,
+       "base": 12,
+       "bold": false
+      },
+      {
+       "name": "Play Instrument (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": "",
+       "base": "",
+       "bold": false,
+       "sub": true
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "title": "Ranged Weapon Skills",
+     "rows": [
+      {
+       "name": "Archery (REF)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Autofire (x2) (REF)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Handgun (REF)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Heavy Weapons (x2) (REF)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Shoulder Arms (REF)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "Social Skills",
+     "rows": [
+      {
+       "name": "Bribery (COOL)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Conversation (EMP)",
+       "mod": 2,
+       "lvl": 8,
+       "stat": 8,
+       "base": 18,
+       "bold": true
+      },
+      {
+       "name": "Human Perception (EMP)",
+       "mod": 2,
+       "lvl": 10,
+       "stat": 8,
+       "base": 20,
+       "bold": true
+      },
+      {
+       "name": "Interrogation (COOL)",
+       "mod": 2,
+       "lvl": 1,
+       "stat": 8,
+       "base": 11,
+       "bold": false
+      },
+      {
+       "name": "Persuasion (COOL)",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": true
+      },
+      {
+       "name": "Personal Grooming (COOL)",
+       "mod": 3,
+       "lvl": 3,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Streetwise (COOL)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Trading (COOL)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Wardrobe & Style (COOL)",
+       "mod": 4,
+       "lvl": 2,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "Technique Skills",
+     "rows": [
+      {
+       "name": "Air Vehicle Tech (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Basic Tech (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Cybertech (TECH)",
+       "mod": "",
+       "lvl": 6,
+       "stat": 8,
+       "base": 14,
+       "bold": false
+      },
+      {
+       "name": "Demolitions (x2) (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Electronics/Security Tech (x2) (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "First Aid (TECH)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": true
+      },
+      {
+       "name": "Forgery (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Land Vehicle Tech (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Paint/Draw/Sculpt (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Paramedic (x2) (TECH)",
+       "mod": 2,
+       "lvl": 6,
+       "stat": 8,
+       "base": 16,
+       "bold": false
+      },
+      {
+       "name": "Photography/Film (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Pick Lock (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Pick Pocket (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Sea Vehicle Tech (TECH)",
+       "mod": "",
+       "lvl": "",
+       "stat": 8,
+       "base": 8,
+       "bold": false
+      },
+      {
+       "name": "Weaponstech (TECH)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      }
+     ]
+    },
+    {
+     "title": "MedTech Specialties",
+     "rows": [
+      {
+       "name": "Surgery (TECH)",
+       "mod": "",
+       "lvl": 2,
+       "stat": 8,
+       "base": 10,
+       "bold": false
+      },
+      {
+       "name": "Pharmaceuticals",
+       "mod": "",
+       "lvl": 5,
+       "stat": 8,
+       "base": "",
+       "bold": false,
+       "kinds": [
+        "LastChance",
+        "Nyozi",
+        "RapidDetox",
+        "Sedative",
+        "Speedheal"
+       ]
+      },
+      {
+       "name": "Medical Tech (Calculated)",
+       "mod": "",
+       "lvl": 5,
+       "stat": 8,
+       "base": 13,
+       "bold": false
+      }
+     ]
+    }
+   ]
+  ],
+  "armor": [
+   {
+    "name": "Fleshweave [BIOWARE] [UPG] [ADV]",
+    "loc": "Head",
+    "sp": 10,
+    "pen": ""
+   },
+   {
+    "name": "Fleshweave [BIOWARE] [UPG] [ADV]",
+    "loc": "Body",
+    "sp": 10,
+    "pen": ""
+   }
+  ],
+  "weapons": [
+   {
+    "name": "MARTIAL ARTS",
+    "dmg": "4d6",
+    "rof": 2
+   },
+   {
+    "name": "Z's Real Silver Sword [PQ HM, Precise, Armor Shredding, Cyberweapon, Fragile]",
+    "dmg": "3d6",
+    "rof": 2
+   },
+   {
+    "name": "Z's Real Steel Bigger Sword [PQ VHM Cleave, Reach, Fragile, Unwieldy]",
+    "dmg": "4d6",
+    "rof": 1
+   },
+   {
+    "name": "Mall Ninja Stars [PQ HM Fragile, Thrown, Concealable]",
+    "dmg": "3d6",
+    "rof": 2
+   },
+   {
+    "name": "Cuddlefish Ultra Snag'em [Sailor Moon]",
+    "dmg": "1d6",
+    "rof": 2
+   }
+  ],
+  "cyberweapons": [],
+  "inventory": [
+   "Bug Detector",
+   "Disposable Phone [2]",
+   "Medscanner",
+   "Ion Cuffs [FAB]",
+   "Bio Pill",
+   "Mag Speakers [4]",
+   "Agent",
+   "Ziggurat City Database",
+   "Car [NYOTA]",
+   "Signal Jammer [FAB]",
+   "Professional Disguise Kit",
+   "Control Node, Nyota"
+  ],
+  "throwables": [
+   {
+    "name": "Smoke Grenade",
+    "n": 1
+   },
+   {
+    "name": "Sov Oil Grenade",
+    "n": 1
+   },
+   {
+    "name": "Concussion Grenade",
+    "n": 1
+   },
+   {
+    "name": "Rave Grenade",
+    "n": 1
+   },
+   {
+    "name": "Incendiary Grenade",
+    "n": 1
+   },
+   {
+    "name": "Incendiary Grenade [PALM BOMB]",
+    "n": 1
+   },
+   {
+    "name": "Electric Bolas",
+    "n": 1
+   },
+   {
+    "name": "Mall Ninja Stars [PQ HM Fragile, Thrown, Concealable]",
+    "n": 1
+   },
+   {
+    "name": "Counterweights",
+    "n": 0
+   }
+  ],
+  "concealed": [
+   {
+    "name": "Mall Ninja Stars [PQ HM Fragile, Thrown, Concealable]",
+    "where": "Inside Jacket"
+   },
+   {
+    "name": "Pharma & Drugs",
+    "where": "Inside Medtech Bag"
+   },
+   {
+    "name": "Cuddlefish Ultra Snag'em [Sailor Moon]",
+    "where": "Inside Jacket"
+   }
+  ],
+  "repEvents": [
+   {
+    "text": "Exfil'd a team and their prototype out of a massive Militech checkpoint.",
+    "lvl": 4
+   },
+   {
+    "text": "Kanzaki's knows he was involved with the rescue of Killer Kang Gama and Zhang Ha-Il from Execition",
+    "lvl": 3
+   },
+   {
+    "text": "Aided a Cargo Container Community in New Westbrook in repelling Raffen during the Winter Storm.",
+    "lvl": 2
+   },
+   {
+    "text": "For getting demolished by an Etobicoke soccer mom at a pachinko parlour.",
+    "lvl": 2
+   }
+  ],
+  "commission": 3,
+  "cash": 450,
+  "ip": [
+   190,
+   27880
+  ],
+  "pharma": [
+   {
+    "name": "Lastchance",
+    "n": 1,
+    "head": false
+   },
+   {
+    "name": "Rapid Detox",
+    "n": 2,
+    "head": false
+   },
+   {
+    "name": "Speedheal",
+    "n": 6,
+    "head": false
+   },
+   {
+    "name": "Nyozi",
+    "n": 5,
+    "head": false
+   },
+   {
+    "name": "Sedative",
+    "n": 8,
+    "head": false
+   },
+   {
+    "name": "Streetdrugs",
+    "n": "",
+    "head": true
+   },
+   {
+    "name": "Primetime",
+    "n": 6,
+    "head": false
+   },
+   {
+    "name": "Boost",
+    "n": 1,
+    "head": false
+   },
+   {
+    "name": "Red Lace",
+    "n": 5,
+    "head": false
+   },
+   {
+    "name": "White Lace",
+    "n": 7,
+    "head": false
+   },
+   {
+    "name": "Piranha Smash [FAB]",
+    "n": 10,
+    "head": false
+   },
+   {
+    "name": "Synthcoke",
+    "n": 4,
+    "head": false
+   },
+   {
+    "name": "9-Volt",
+    "n": 0,
+    "head": false
+   },
+   {
+    "name": "Bliss",
+    "n": 6,
+    "head": false
+   },
+   {
+    "name": "InSense",
+    "n": 6,
+    "head": false
+   },
+   {
+    "name": "Neurochems",
+    "n": "",
+    "head": true
+   },
+   {
+    "name": "Stealth",
+    "n": 0,
+    "head": false
+   },
+   {
+    "name": "Tracking",
+    "n": 0,
+    "head": false
+   },
+   {
+    "name": "Poisons",
+    "n": "",
+    "head": true
+   },
+   {
+    "name": "Brain Fog [FAB]",
+    "n": 4,
+    "head": false
+   },
+   {
+    "name": "Distilling C.",
+    "n": 0,
+    "head": false
+   }
+  ],
+  "rep": 4,
+  "portrait": "img/zolo/portrait.jpg",
+  "glitch": "img/zolo/side.webp"
  }
 }

@@ -22,7 +22,7 @@
  */
 
 // Only these tabs are ever sent to the page. Update the names here if you rename a tab.
-const TABS = ['Stats & Skills [Iō]', 'Skill Improvements', 'Skill Improvement Calculator', 'Case File'];
+const TABS = ['Stats & Skills [Iō]', 'Skill Improvements', 'Skill Improvement Calculator', 'Case File', 'Stats & Skills Z', 'Ware Z'];
 
 // Tab names are matched loosely (spaces, brackets, capitals and accents ignored), so "Stats & Skills Io" still counts.
 function tabKey_(s) { return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9&]+/g, ' ').trim().toLowerCase(); }
