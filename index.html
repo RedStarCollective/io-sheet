@@ -1428,6 +1428,126 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .stat.nyzon .pair span:first-child{color:var(--gold);text-shadow:0 0 10px rgba(181,143,82,.45)}
 .stat.nyzon{box-shadow:inset 0 0 0 1px rgba(181,143,82,.55)}
 .stat.nyzon b{color:var(--gold)}
+
+/* ---------- case file (was Lifepath) ---------- */
+.cf{display:flex;flex-direction:column;gap:14px}
+.cfhead{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;padding:18px 22px;border:2px solid var(--frame);background:linear-gradient(90deg,rgba(159,12,23,.22),rgba(17,13,12,.85) 45%);clip-path:polygon(0 0,calc(100% - 21px) 0,100% 21px,100% 100%,0 100%)}
+.cfhead img{width:104px;height:124px;object-fit:cover;object-position:50% 12%;border:1px solid var(--frame);filter:saturate(.85)}
+.cfhead small{display:block;font:700 12px/1 var(--f-body);letter-spacing:.34em;color:var(--red-hi);text-transform:uppercase}
+.cfhead h2{margin:8px 0 2px;font:700 38px/1 var(--f-disp);letter-spacing:.04em;color:var(--ink)}
+.cfhead h2 em{font-style:normal;color:var(--ink-3);font-size:.62em;margin-left:10px;letter-spacing:.08em}
+.cfmeta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:13px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+.cfmeta b{color:var(--ink);font-weight:600;letter-spacing:.04em;text-transform:none;font-size:14px;margin-left:6px}
+.cfaka{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.cfaka span{font:500 13px/1 var(--f-cond);color:var(--ink-2);border:1px solid var(--line);padding:4px 7px 3px;background:rgba(0,0,0,.35)}
+.cfno{text-align:right;align-self:start}
+.cfno span{display:block;font:700 11px/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase}
+.cfno b{display:block;font:600 15px/1 var(--f-num);letter-spacing:.14em;color:var(--gold);margin-top:6px}
+.cfno .bc{display:block;width:170px;height:26px;fill:#d8cfc6;margin:10px 0 0 auto;opacity:.85}
+.cfnav{position:sticky;top:0;z-index:5;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(180deg,rgba(8,6,5,.96),rgba(8,6,5,.88));padding:6px 0 0;border-bottom:2px solid var(--frame)}
+.cfnav::-webkit-scrollbar{display:none}
+.cfnav button{flex:none;background:var(--cell);border:1px solid var(--line);border-bottom:0;color:var(--ink-3);font:700 12px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;padding:9px 14px 8px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+.cfnav button i{font-style:normal;font-family:var(--f-num);color:var(--red-hi);margin-right:7px;letter-spacing:.04em}
+.cfnav button:hover{color:var(--ink)}
+.cfnav button.on{background:var(--frame);color:#140f0e}
+.cfnav button.on i{color:#140f0e}
+.cfsec{scroll-margin-top:52px}
+.cfsec > .hb{display:flex;align-items:center;gap:10px}
+.cfsec > .hb i{font-style:normal;font-family:var(--f-num);color:var(--red-hi);font-size:13px}
+.cfsec > .hb em{margin-left:auto;font-style:normal;font-size:11px;letter-spacing:.2em;color:var(--ink-3);font-weight:700}
+.cfbody{padding:16px 18px 18px}
+/* intake */
+.cfintake{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line)}
+.cff{padding:12px 14px 13px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.cff:nth-child(3n){border-right:0}
+.cff span{display:block;font:700 11px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;margin-bottom:7px}
+.cff b{display:block;font:500 17px/1.25 var(--f-cond);color:var(--ink)}
+.cff.wide{grid-column:span 2}
+.cff.full{grid-column:1 / -1;border-right:0}
+.cfpers{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cfpers span{margin:0}
+.cfpers .ttseg button{padding:5px 9px 4px;font-size:11px}
+.cff.pers b{min-height:1.25em}
+.cff.pers b.drug{color:var(--gold);text-shadow:0 0 10px rgba(181,143,82,.35)}
+/* history timeline */
+.cftl{position:relative;padding-left:26px}
+.cftl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--frame),var(--red) 60%,var(--frame))}
+.cfch{position:relative;margin-bottom:8px}
+.cfch::before{content:"";position:absolute;left:-23px;top:15px;width:10px;height:10px;background:var(--void);border:2px solid var(--gold);transform:rotate(45deg)}
+.cfch.open::before{background:var(--red-hi);border-color:var(--red-hi)}
+.cfch > button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:14px;align-items:baseline;width:100%;padding:10px 14px;background:rgba(17,13,12,.7);border:1px solid var(--line)}
+.cfch > button:hover{border-color:var(--frame)}
+.cfch > button:focus-visible{outline:1px solid var(--gold)}
+.cfch .era{font:600 13px/1.2 var(--f-num);letter-spacing:.08em;color:var(--gold)}
+.cfch .ttl b{display:block;font:700 18px/1.15 var(--f-disp);letter-spacing:.03em;color:var(--ink)}
+.cfch .ttl span{display:block;margin-top:4px;font-size:14px;line-height:1.35;color:var(--ink-3)}
+.cfch .chev{color:var(--red-hi);font-size:10px;transition:transform .2s}
+.cfch.open .chev{transform:rotate(90deg)}
+.cfch.open .ttl span{display:none}
+.cftext{border:1px solid var(--line);border-top:0;padding:14px 18px 12px 158px;background:rgba(8,6,5,.6)}
+.cftext p{margin:0 0 11px;font-size:15.5px;line-height:1.55;color:var(--ink-2);max-width:78ch}
+.cfsrc{font:700 11px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+/* people */
+.cfgrp{margin-bottom:14px}
+.cfgrp:last-child{margin-bottom:0}
+.cfgrp h3{margin:0 0 8px;font:700 12px/1 var(--f-body);letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase;display:flex;gap:10px;align-items:center}
+.cfgrp h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.cfppl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.cfp{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:12px 14px 12px;display:flex;flex-direction:column;gap:5px}
+.cfp b{font:700 17px/1.1 var(--f-disp);color:var(--ink)}
+.cfp span{font:700 11px/1.2 var(--f-body);letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
+.cfp p{margin:2px 0 0;font-size:14.5px;line-height:1.4;color:var(--ink-2)}
+.cfp button{align-self:flex-start;margin-top:6px;background:none;border:1px solid var(--frame);color:var(--gold);font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:6px 9px 5px;cursor:pointer}
+.cfp button:hover{background:var(--frame);color:#140f0e}
+.cfempty{border:1px dashed var(--line);padding:12px 14px;color:var(--ink-3);font-size:13px;letter-spacing:.06em}
+.cfthreat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid rgba(209,28,40,.45);background:linear-gradient(90deg,rgba(159,12,23,.16),rgba(17,13,12,.7) 60%);margin-bottom:8px}
+.cfthreat div{position:relative;padding:11px 14px 12px;border-left:1px solid var(--line);min-width:0}
+.cfthreat div:first-child{border-left:0}
+.cfthreat div + div::before{content:"▸";position:absolute;left:-7px;top:50%;transform:translateY(-50%);color:var(--red-hi);font-size:11px;background:var(--void);line-height:1}
+.cfthreat span{display:block;font:700 10.5px/1 var(--f-body);letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px}
+.cfthreat b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
+.cfthreat div:first-child b{font:700 17px/1.15 var(--f-disp);color:#ff6b73}
+/* threads */
+.cfthr{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.cft{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:12px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.cft .tt{display:flex;align-items:center;gap:8px}
+.cft .tt b{font:700 16px/1.1 var(--f-disp);color:var(--ink)}
+.cft .tt span{margin-left:auto;font:700 10px/1 var(--f-body);letter-spacing:.18em;color:#140f0e;background:var(--gold);padding:4px 6px 3px;text-transform:uppercase}
+.cft .rfl{margin:0;font-size:14px;line-height:1.4}
+/* presentation */
+.cfpres{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px}
+.cfpres .rfl{margin:0 0 12px;font-size:15px;line-height:1.5}
+.cfpres .cfintake{grid-template-columns:1fr}
+.cfpres .cff{border-right:0}
+.cfout{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;align-content:start}
+.cfo{border:1px solid var(--line);background:rgba(17,13,12,.7);padding:11px 13px;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--frame)}
+.cfo b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
+.cfo span{font-size:12.5px;line-height:1.35;color:var(--ink-3);letter-spacing:.02em}
+/* papers */
+.cfpap{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.cfpap .cfpp:nth-child(odd){border-right:1px solid var(--line)}
+@media (max-width:900px){.cfpap{grid-template-columns:1fr}.cfpap .cfpp:nth-child(odd){border-right:0}}
+.cfpp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+
+.cfpp b{font:600 16px/1.2 var(--f-cond);color:var(--ink)}
+.cfpp b small{font:500 13px/1 var(--f-body);color:var(--ink-3);margin-left:8px;letter-spacing:.04em}
+.cfpp .chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.cfchip{font:700 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:4px 7px 3px;border:1px solid var(--line);color:var(--ink-2)}
+.cfchip.ok{border-color:var(--frame);color:var(--gold)}
+.cfchip.forged{border-color:rgba(209,28,40,.6);color:#ff6b73;background:rgba(159,12,23,.14)}
+.cfchip.term{color:var(--ink)}
+@media (prefers-reduced-motion:no-preference){ .cf.cf-in .dzi{animation:dzin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--dz) * 60ms)} }
+@media (max-width:900px){
+  .cfhead{grid-template-columns:auto minmax(0,1fr)} .cfno{grid-column:1 / -1;text-align:left} .cfno .bc{margin-left:0}
+  .cfintake{grid-template-columns:1fr 1fr} .cff:nth-child(3n){border-right:1px solid var(--line)} .cff:nth-child(2n){border-right:0} .cff.wide{grid-column:1 / -1;border-right:0}
+  .cfpres{grid-template-columns:1fr} .cfthreat{grid-template-columns:1fr 1fr} .cfthreat div:nth-child(3){border-left:0} .cfthreat div:nth-child(n+3){border-top:1px solid var(--line)} .cfthreat div:nth-child(3)::before{display:none}
+  .cftext{padding-left:18px}
+}
+@media (max-width:600px){
+  .cfhead{padding:14px;gap:14px} .cfhead img{width:76px;height:92px} .cfhead h2{font-size:28px}
+  .cfch > button{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px} .cfch .era{grid-column:1 / -1}
+  .cfintake{grid-template-columns:1fr} .cff{border-right:0!important}
+}
 /* posse: companion stat card */
 [data-ptab="stats"] .pp-stats{display:flex}
 .pcard.has-stats[data-ptab="stats"] .pink{transform:translateX(96px)}
@@ -1578,9 +1698,9 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     for (var k in GI) if (String(name).indexOf(k) === 0) return '<svg class="gi" viewBox="' + GI[k].v + '" aria-hidden="true">' + GI[k].b + '</svg>';
     return "";
   }
-  var READY = ["dossier","ware","rep","posse","vehicles","advance"];
-  var tab = (location.hash || "").replace("#",""); if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (READY.indexOf(tab) < 0) tab = "dossier";
-  var TABS = ["Dossier","Ware","Lifepath","Rep","Posse","Vehicles","HQ","Advance"];
+  var READY = ["dossier","ware","casefile","rep","posse","vehicles","advance"];
+  var tab = (location.hash || "").replace("#",""); if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
+  var TABS = ["Dossier","Ware","Case File","Rep","Posse","Vehicles","HQ","Advance"];
 
   function header(){
     return '' +
@@ -1599,7 +1719,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
         '<div class="actions">' + (readOnly ? '<span class="save-state" id="ss">View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') + '</span>' : '<span class="save-state" id="ss">' + (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '') + '</span>' + (editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>')) + '</div>' +
       '</div>' +
     '</div></header>' +
-    '<nav class="tabs" aria-label="Sheet sections">' + TABS.map(function(t){ var id = t.toLowerCase(), live = READY.indexOf(id) >= 0;
+    '<nav class="tabs" aria-label="Sheet sections">' + TABS.map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = READY.indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>';
   }
 
@@ -2431,6 +2551,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       (hasStd ? '<p class="pstd"><span class="lab">Standard issue</span>' + std.map(esc).join(" · ") + '</p>' : '');
     var paras = String(m.bio || "").split(/\n\s*\n/).filter(function(x){ return x.trim(); });
     var bio = paras.length ? '<div class="pbio">' + paras.map(function(t, i){ return '<p style="--d:' + Math.min(i, 8) + '">' + esc(t) + '</p>'; }).join("") + '</div>' : '<p class="zhint">No write-up for ' + esc(m.name) + ' yet.</p>';
+    if ((m.papers || []).length) kit += '<h3 class="zh">Papers</h3><ul class="pgear">' + m.papers.map(function(x){ return '<li><b>' + esc(x.name) + '</b><span>' + ({forged:"Forged", license:"Licensed", registration:"Registered", plate:"Plate"}[x.kind] || "") + '</span></li>'; }).join("") + '</ul>';
     if (m.block) kit = blockKit(m.block);
     if (!kit) kit = '<p class="zhint">Nothing Iō bought for ' + esc(m.name) + ' is tracked yet.</p>';
     var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : "profile";
@@ -2720,7 +2841,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
   var ADV_KIND = [["skill","Skill"],["x2","×2 skill"],["role","Role rank"]];
   var ADV_UNIT = {skill:20, x2:40, role:60};
   var BRUSH = {earth:"土", fire:"火", water:"水", air:"风"};
-  var advSel = {cat:"", grp:"", i:-1}, advView = "map", skIdx = {}, advFirst = true, dzEnter = true;
+  var advSel = {cat:"", grp:"", i:-1}, advView = "map", skIdx = {}, advFirst = true, dzEnter = true, cfEnter = true;
   try { advView = localStorage.getItem("io-advview") || "map"; } catch(e){}
   TEMPLATES["advance.log"] = {name:"New improvement", from:0, to:1, kind:"skill", cat:"education", skill:"", cost:""};
   TEMPLATES["advance.plan"] = {name:"New goal", from:0, to:2, kind:"skill", cat:"education", skill:""};
@@ -3070,16 +3191,93 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
     }); });
   }
 
+
+  /* ---------- Case File (was Lifepath): a GM-facing file on Iō, built from lists so new material slots in ---------- */
+  var cfOpen = {}, cfPers = "sober";
+  function cfFirst(t){ var m = String(t || "").match(/^.*?[.!?](\s|$)/); return m ? m[0].trim() : String(t || ""); }
+  function casePage(){
+    var C = S.casefile || {}, I = C.intake || {}, own = !readOnly;
+    var sec = function(id, n, title, note, body){ return '<section class="box cfsec dzi" id="cf-' + id + '"><div class="hb"><i>' + n + '</i>' + title + (note ? '<em>' + note + '</em>' : '') + '</div><div class="cfbody">' + body + '</div></section>'; };
+    var fld = function(label, val, cls){ return val ? '<div class="cff' + (cls ? ' ' + cls : '') + '"><span>' + label + '</span><b>' + esc(val) + '</b></div>' : ''; };
+    var aka = String(S.aliases || "").split(",").map(function(x){ return x.trim(); }).filter(Boolean);
+    var head = '<header class="cfhead dzi"><img src="img/io-portrait.jpg" alt="Iō">' +
+      '<div><small>Case file // Subject</small><h2>SINGH, KŌRU<em>“' + esc(S.handle || "Iō") + '”</em></h2>' +
+        '<div class="cfmeta"><span>Origin<b>' + esc(I.origin || "") + '</b></span>' + (S.roles || []).map(function(r){ return '<span>' + esc(r.role) + '<b>' + esc(r.rank) + '</b></span>'; }).join("") + '</div>' +
+        (aka.length ? '<div class="cfaka">' + aka.map(function(a){ return '<span>' + esc(a) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
+      '<div class="cfno"><span>File no.</span><b>' + esc(S.sin || "") + '</b>' + barcode(S.sin || "") + '</div></header>';
+    var navItems = [["intake","Intake"],["history","History"],["people","People"],["threads","Open threads"],["presentation","Presentation"],["papers","Papers"]];
+    var nav = '<nav class="cfnav dzi" aria-label="Case file sections">' + navItems.map(function(x, i){ return '<button type="button" data-cfgo="' + x[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>0' + (i + 1) + '</i>' + x[1] + '</button>'; }).join("") + '</nav>';
+    // 01 intake
+    var persTxt = cfPers === "drugs" ? I.drugs : I.sober;
+    var intake = '<div class="cfintake">' +
+      '<div class="cff pers wide"><div class="cfpers"><span>Personality</span><span class="ttseg" role="group" aria-label="Personality state"><button type="button" data-cfpers="sober" aria-pressed="' + (cfPers === "sober") + '">Sober</button><button type="button" data-cfpers="drugs" aria-pressed="' + (cfPers === "drugs") + '">On drugs</button></span></div><b' + (cfPers === "drugs" ? ' class="drug"' : '') + '>' + esc(persTxt || "") + '</b></div>' +
+      fld("Values most", I.values) +
+      fld("Most valued person", I.person) + fld("Most valued possession", I.possession) + fld("Life goal", I.goal) +
+      fld("Family background", I.family, "wide") + fld("Family crisis", I.crisis) +
+      fld("Childhood environment", I.childhood, "full") +
+    '</div>';
+    // 02 history
+    var ch = (C.chapters || []).map(function(c, i){
+      var on = !!cfOpen[i];
+      return '<div class="cfch' + (on ? ' open' : '') + '"><button type="button" data-cfch="' + i + '" aria-expanded="' + on + '"><span class="era">' + esc(c.era) + '</span><span class="ttl"><b>' + esc(c.title) + '</b><span>' + esc(cfFirst((c.text || [])[0])) + '</span></span><span class="chev">▶</span></button>' +
+        (on ? '<div class="cftext">' + (c.text || []).map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '<div class="cfsrc">' + esc(c.src || "") + '</div></div>' : '') + '</div>';
+    }).join("");
+    var hist = ch ? '<div class="cftl">' + ch + '</div>' : (own ? '<div class="cfempty">No chapters on file yet.</div>' : '');
+    // 03 people
+    var P = C.people || [];
+    var pcard = function(x){ return '<div class="cfp"><b>' + esc(x.name) + '</b><span>' + esc(x.role || "") + '</span>' + (x.text ? '<p>' + esc(x.text) + '</p>' : '') + (x.posse && pById(x.posse) ? '<button type="button" data-cfposse="' + esc(x.posse) + '">Posse file →</button>' : '') + '</div>'; };
+    var grp = function(key, label){ var L = P.filter(function(x){ return x.group === key; }); if (!L.length && !own) return ''; return '<div class="cfgrp"><h3>' + label + '</h3>' + (L.length ? '<div class="cfppl">' + L.map(pcard).join("") + '</div>' : '<div class="cfempty">Nothing on file yet.</div>') + '</div>'; };
+    var threats = (C.enemies || []).map(function(e){ return '<div class="cfthreat"><div><span>Who</span><b>' + esc(e.who) + '</b></div><div><span>What caused it</span><b>' + esc(e.cause) + '</b></div><div><span>What they can throw</span><b>' + esc(e.throw) + '</b></div><div><span>What happens</span><b>' + esc(e.happen) + '</b></div></div>'; }).join("");
+    var people = grp("family", "Family") + grp("friends", "Friends") + grp("love", "Tragic love affairs") +
+      ((threats || own) ? '<div class="cfgrp"><h3>Enemies</h3>' + (threats || '<div class="cfempty">Nothing on file yet.</div>') + '</div>' : '');
+    // 04 threads
+    var thr = (C.threads || []).map(function(t){ return '<div class="cft"><div class="tt"><b>' + esc(t.title) + '</b><span>GM hook</span></div><p class="rfl">' + esc(t.quote) + '</p><div class="cfsrc">' + esc(t.src || "") + '</div></div>'; }).join("");
+    // 05 presentation
+    var Pr = C.presentation || {};
+    var pres = '<div class="cfpres"><div>' + (Pr.company ? '<p class="rfl">' + esc(Pr.company) + '</p>' : '') + '<div class="cfintake">' + fld("Clothing style", Pr.clothing) + fld("Hairstyle", Pr.hair) + fld("Most valued possession", I.possession) + '</div></div>' +
+      '<div class="cfout">' + (Pr.outfits || []).map(function(o){ return '<div class="cfo"><b>' + esc(o.name) + '</b>' + (o.items ? '<span>' + esc(o.items) + '</span>' : '') + '</div>'; }).join("") + '</div></div>';
+    // 06 papers
+    var KIND = {license:["Licensed","ok"], plate:["Plate","ok"], registration:["Registered","ok"], forged:["Forged","forged"]};
+    var pap = '<div class="cfpap">' + (C.papers || []).map(function(x){ var k = KIND[x.kind] || [x.kind, ""];
+      return '<div class="cfpp"><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span class="chips"><span class="cfchip ' + k[1] + '">' + esc(k[0]) + '</span>' + (x.term ? '<span class="cfchip term">' + esc(x.term) + ' term</span>' : '') + '</span></div>'; }).join("") + '</div>';
+    return '<main class="cf' + (cfEnter ? ' cf-in' : '') + '">' + head + nav +
+      sec("intake", "01", "Intake", "Lifepath", intake) +
+      sec("history", "02", "History", (C.chapters || []).length + " chapters · tap to open", hist) +
+      sec("people", "03", "People", "", people) +
+      ((thr || own) ? sec("threads", "04", "Open threads", "Loose ends for the GM", thr ? '<div class="cfthr">' + thr + '</div>' : '<div class="cfempty">Nothing on file yet.</div>') : '') +
+      sec("presentation", "05", "Presentation", "How he shows up", pres) +
+      sec("papers", "06", "Papers", "Licenses & permits", pap) +
+    '</main>';
+  }
+  function cfAfter(){
+    if (tab !== "casefile") return;
+    var main = app.querySelector(".cf"); if (!main) return;
+    if (main.classList.contains("cf-in")){
+      cfEnter = false; var n = 0;
+      main.querySelectorAll(".dzi").forEach(function(el){ el.style.setProperty("--dz", Math.min(n++, 10)); });
+      setTimeout(function(){ main.classList.remove("cf-in"); }, 1400);
+    }
+    cfSpy();
+  }
+  function cfSpy(){
+    if (tab !== "casefile") return;
+    var best = "intake";
+    document.querySelectorAll(".cfsec").forEach(function(sct){ if (sct.getBoundingClientRect().top < 120) best = sct.id.slice(3); });
+    var secs = document.querySelectorAll(".cfsec"); if (secs.length && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6) best = secs[secs.length - 1].id.slice(3);
+    document.querySelectorAll(".cfnav button").forEach(function(bt){ bt.classList.toggle("on", bt.dataset.cfgo === best); });
+  }
+  window.addEventListener("scroll", function(){ if (tab === "casefile") cfSpy(); }, {passive:true});
   function render(){
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S) deriveSkills();
-    var body = tab === "ware" ? chrome() : tab === "rep" ? repPage() : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
+    var body = tab === "ware" ? chrome() : tab === "rep" ? repPage() : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
     if (tab === "rep" && !editing) repApply();
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
     advAfter();
+    cfAfter();
     if (tab === "dossier" && dzEnter && !editing){
       dzEnter = false;
       var main = app.querySelector(".dossier"), lo = app.querySelector(".a-lo"), n = 0;
@@ -3394,12 +3592,16 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
       if (zoneSel && window.innerWidth <= 760){ var zp = document.getElementById("zpanel"); if (zp) zp.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }
       return;
     }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + tab); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + tab); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
     if (b.dataset.tog){ if (editing) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
     if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
+    if (b.dataset.cfch != null){ var ci = +b.dataset.cfch; cfOpen[ci] = !cfOpen[ci]; render(); return; }
+    if (b.dataset.cfpers){ cfPers = b.dataset.cfpers; render(); return; }
+    if (b.dataset.cfgo){ var tg = document.getElementById("cf-" + b.dataset.cfgo); if (tg) tg.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); return; }
+    if (b.dataset.cfposse){ tab = "posse"; posseSel = b.dataset.cfposse; pTab = "profile"; try { history.replaceState(null, "", "#posse"); } catch(e){} render(); window.scrollTo(0, 0); return; }
     if (b.id === "nyzsw"){ if (readOnly) return; S.nyozi = {active:!nyoziOn()}; saveNyozi(); return; }
     if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }
     if (b.dataset.tt){ if (readOnly) return; var t2 = ttState(); t2.tier = b.dataset.tt; S.tt = t2; saveTT(); return; }
