@@ -2407,7 +2407,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var ANCH_Z = {"head": [49.6, 4.3], "eyes": [51.8, 7.5], "ears": [60.3, 7.2], "armR": [12.7, 33.9], "armL": [87.2, 34.6], "legR": [33.0, 62.7], "legL": [68.8, 63.0], "torso": [50.3, 24.0], "legs": [50.2, 62.8], "bodyL": [11.1, 23.9], "bodyR": [87.0, 23.9]};
   function FIG(){ return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m2/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body.webp", skel:"", m:"img/io/m/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi"}; }
+    : {img:"img/io/ware-body2.webp", skel:"", nomask:true, m:"img/io/m/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
@@ -2470,7 +2470,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b></button>'; }).join("") + '</nav>';
     var sz = zoneById(sel), on = sz ? (sz.regions || []) : [];
     if (sel === "limbs") on = ["armR", "armL", "legR", "legL"];
-    var layers = RLAYERS.map(function(r){
+    var layers = F.nomask ? "" : RLAYERS.map(function(r){
       return (F.skel ? '<i class="xr xr-' + r + '" style="--m:url(' + F.m + r + '.png)"></i>' : '') + '<i class="rg rg-' + r + '" style="--m:url(' + F.m + r + '.png)"></i><span class="rgw rgw-' + r + '"><i class="rge" style="--m:url(' + F.m + r + '-e.png)"></i></span>'; }).join("");
     var tag = "";
     if (sz && on.length && sel !== "limbs"){
@@ -2479,7 +2479,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + '" id="bodyfig"' + (F.skel ? ' style="--sk:url(' + F.skel + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
-      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure></div>';
+      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure></div>';
     if (!editing && (sel === "all" || sel === "limbs")) return aroundHTML(nav, stage, sel);
     var panel;
     if (!sel && !editing) panel = overview();
@@ -2494,6 +2494,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function loadRMap(){ var src = FIG().m + "map.png"; if (RMAPS[src] !== undefined){ RMAP = RMAPS[src]; return; } RMAPS[src] = null; RMAP = null;
     var im = new Image(); im.onload = function(){ try { var c = document.createElement("canvas"); c.width = im.width; c.height = im.height; var x = c.getContext("2d"); x.drawImage(im, 0, 0); RMAPS[src] = {w:im.width, h:im.height, d:x.getImageData(0, 0, im.width, im.height).data}; if (FIG().m + "map.png" === src) RMAP = RMAPS[src]; } catch(e){} }; im.src = src; }
   function regionAt(fig, ev){
+    if (FIG().nomask) return "";
     loadRMap(); if (!RMAP) return "";
     var R = fig.getBoundingClientRect(), u = (ev.clientX - R.left) / R.width, v = (ev.clientY - R.top) / R.height;
     if (u < 0 || v < 0 || u >= 1 || v >= 1) return "";
