@@ -1600,6 +1600,8 @@ body.zolo .lrow:not(:disabled):hover{background:rgba(108,198,230,.08)}
 .bodyfig[data-hov~="legL"] .xr-legL{opacity:.7}.bodyfig[data-sel~="legL"] .xr-legL{opacity:1}
 
 body.zolo .bodyfig{--zc:#6cc6e6;--zc2:rgba(108,198,230,.14)}
+/* Iō: his titanium skeleton glows warm, not cold */
+body:not(.zolo) .bodyfig .xr{filter:drop-shadow(0 0 4px rgba(226,184,108,.35))}
 body.zolo .bodyfig.tone-gold{--zc:#d9dde0;--zc2:rgba(217,221,224,.12)}
 .bodyfig.xray .rg{filter:opacity(.4)}
 body.zolo .zitem.on{background:rgba(31,111,143,.28)}
@@ -2396,18 +2398,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<div class="meters"><p class="lab">Capacity</p>' + (info ? meter("Neural Link", usedSlots(info), +info.cap, "5 + 1 Tailoring") : '') + meter("Internal", inner, 8, "7 + 1 Tailoring") + '</div>' +
       '<p class="lab" style="margin:2px 0 0">Tags · hover or tap for meaning</p><div class="legend">' + ["BIOWARE","ADV","FAB","UPG","INFOLINKED","REACH"].map(function(k){ return '<button type="button" class="chip2 tip ' + TAGC[k] + '" data-tip="' + k + '">' + esc(TAGDEF[k].t) + '</button>'; }).join("") + '</div></div>';
   }
-  var RBOX_IO = {"body": [1.4, 0.3, 98.4, 99.4], "torso": [26.0, 16.9, 74.7, 40.1], "legs": [6.1, 40.1, 96.6, 99.4], "armL": [74.5, 18.9, 98.4, 59.6], "armR": [1.4, 18.7, 25.9, 59.5], "head": [32.7, 0.3, 68.8, 16.9], "ears": [36.8, 8.8, 58.5, 12.0], "eyes": [40.2, 10.6, 53.9, 11.4]};
+  var RBOX_IO = {"body": [1.5, 0.3, 98.3, 99.4], "torso": [26.0, 16.0, 74.8, 39.0], "legs": [6.1, 39.1, 96.6, 99.4], "armL": [74.6, 17.9, 98.3, 58.9], "armR": [1.5, 17.7, 25.8, 58.6], "head": [32.6, 0.3, 68.7, 15.9], "ears": [36.8, 8.4, 58.6, 11.4], "eyes": [40.2, 10.0, 53.9, 10.8]};
   var RORDER = ["body","torso","legs","armL","armR","head","ears","eyes"];
   var RLAYERS = RORDER.concat(["legR","legL"]);
   /* where each group sits around the figure, and where its wire lands (percent of the figure) */
   var LIMBSIDE = {"right cyberarm":["L","armR"], "left arm":["R","armL"], "right leg":["L","legR"], "left leg":["R","legL"]};
-  var ANCH_IO = {"head": [47.8, 5.3], "eyes": [47.0, 11.0], "ears": [57.5, 9.9], "armR": [13.6, 38.1], "armL": [87.0, 38.0], "legR": [32.5, 65.7], "legL": [69.4, 66.4], "torso": [50.2, 28.1], "legs": [51.5, 66.0], "bodyL": [11.5, 28.0], "bodyR": [91.2, 28.0]};
+  var ANCH_IO = {"head": [47.8, 5.0], "eyes": [46.9, 10.4], "ears": [57.5, 9.4], "armR": [13.5, 37.2], "armL": [87.0, 37.1], "legR": [32.5, 65.0], "legL": [69.3, 65.7], "torso": [50.3, 27.1], "legs": [51.5, 65.4], "bodyL": [11.4, 27.1], "bodyR": [91.3, 27.1]};
   /* Zolo's figure: his own art, region masks drawn on it, and the aligned metal skeleton for the x-ray layer */
   var RBOX_Z = {"body": [1.6, 0.6, 98.2, 99.3], "torso": [24.8, 13.0, 76.2, 35.7], "legs": [11.2, 35.8, 97.9, 99.3], "armL": [74.6, 15.6, 98.2, 55.1], "armR": [1.6, 15.4, 24.8, 55.1], "head": [34.1, 0.6, 63.7, 12.9], "ears": [39.3, 6.2, 61.3, 8.9], "eyes": [46.6, 7.1, 57.0, 7.9]};
   var ANCH_Z = {"head": [49.6, 4.3], "eyes": [51.8, 7.5], "ears": [60.3, 7.2], "armR": [12.7, 33.9], "armL": [87.2, 34.6], "legR": [33.0, 62.7], "legL": [68.8, 63.0], "torso": [50.3, 24.0], "legs": [50.2, 62.8], "bodyL": [11.1, 23.9], "bodyR": [87.0, 23.9]};
   function FIG(){ return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m2/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body2.webp", skel:"", nomask:true, m:"img/io/m/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi"}; }
+    : {img:"img/io/ware-body2.webp", skel:"img/io/ware-skel2.webp", m:"img/io/m2/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
