@@ -1551,6 +1551,31 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
   .a-vit > .iovid{flex:1 1 0;contain:size;min-height:160px}
 }
 @media (max-width:1320px){ .iovid{aspect-ratio:16/9;min-height:0} .a-vit{display:flex;flex-direction:column;gap:12px} }
+.idtab .v.mut{color:var(--ink-3)}
+/* Zolo Rep */
+body.zolo .lrow.cur{background:linear-gradient(90deg,rgba(31,111,143,.45),rgba(31,111,143,.06))}
+body.zolo .lrow:not(:disabled):hover{background:rgba(108,198,230,.08)}
+.zrep .rephero{grid-template-columns:300px minmax(0,1.25fr) minmax(0,.8fr);position:relative}
+.zrfig{margin:0;position:relative;min-height:320px;overflow:visible}
+.zrfig img{position:absolute;left:50%;bottom:0;height:calc(100% + 30px);width:auto;max-width:none;transform:translateX(-50%);filter:drop-shadow(0 0 1px rgba(160,215,235,.35)) drop-shadow(0 10px 18px rgba(0,0,0,.6));
+  -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent)}
+.zrfig::after{content:"";position:absolute;left:10%;right:10%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(108,198,230,.5),transparent)}
+.zrep .sec-title .rshown{margin-left:auto;font-family:var(--f-body);font-size:13px;letter-spacing:.06em;text-transform:none;color:var(--ink-3)}
+.zrep .sec-title .rclear{font-size:11px}
+.zrboard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.zrc{display:grid;grid-template-columns:104px minmax(0,1fr);background:rgba(12,14,17,.78);border:1px solid var(--line);border-left:2px solid var(--red-hi);min-height:120px}
+.zrc.zbig{grid-column:1/-1;border-color:var(--frame);border-left-color:var(--red-hi);box-shadow:0 0 0 1px rgba(108,198,230,.08),0 10px 30px rgba(0,0,0,.45)}
+.zrl{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-right:1px solid var(--line);padding:12px 6px}
+.zrl b{font-family:var(--f-num);font-weight:600;font-size:40px;line-height:1;color:var(--ink)}
+.zrc.zbig .zrl b{font-size:58px;color:var(--red-hi);text-shadow:0 0 18px rgba(108,198,230,.35)}
+.zrl span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-align:center;line-height:1.25}
+.zrt{padding:14px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.zrt p{margin:0;font-family:var(--f-cond);font-size:19px;line-height:1.3;color:var(--ink)}
+.zrc.zbig .zrt p{font-family:var(--f-disp);font-size:24px;letter-spacing:.01em}
+.zrt small{font-size:12.5px;font-style:italic;color:var(--ink-3)}
+@media (prefers-reduced-motion:no-preference){ .zrc{animation:dzin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--n) * 70ms + 120ms)} .zrfig img{animation:heroin .6s cubic-bezier(.2,.7,.2,1) both} }
+@media (max-width:1180px){ .zrep .rephero{grid-template-columns:300px minmax(0,1fr)} .zrfig{display:none} .zrboard{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:760px){ .zrboard{grid-template-columns:minmax(0,1fr)} .zrc{grid-template-columns:70px minmax(0,1fr)} .zrc.zbig .zrt p{font-size:20px} }
 /* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
 .zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
 .zpr .pract{position:static}
@@ -1748,7 +1773,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var tab = (location.hash || "").replace("#",""), bootWho = /^zolo/.test(tab) ? "zolo" : "io"; if (bootWho === "zolo") tab = tab.replace(/^zolo-?/, "") || "dossier"; if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
   var TABS = ["Dossier","Ware","Case File","Rep","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
-  var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier"];
+  var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","rep"];
   var IO = null, WHO = "io", roIo = false, zMask = false;
   function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
@@ -1757,6 +1782,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (w === "zolo" && WHO !== "zolo"){ IO = S; roIo = readOnly; WHO = "zolo"; editing = false; S = buildZ(); readOnly = true; }
     else if (w === "io" && WHO === "zolo"){ WHO = "io"; S = IO; readOnly = roIo; }
     document.body.classList.toggle("zolo", WHO === "zolo");
+    try { window.dispatchEvent(new Event("resize")); } catch(e){}   /* the sky redraws in the right theme even with reduced motion */
     if (WHO === "zolo" && ZREADY.indexOf(tab) < 0) tab = "dossier";
   }
   var MOON = '<svg class="moonmark" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="mmg" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#f2eee4"/><stop offset=".7" stop-color="#cfc9bb"/><stop offset="1" stop-color="#9c978c"/></radialGradient></defs><circle cx="32" cy="32" r="27" fill="url(#mmg)"/><circle cx="43" cy="24" r="23" fill="#0b0c0e"/><circle cx="16" cy="38" r="2.4" fill="#6cc6e6"/></svg>';
@@ -1786,6 +1812,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>';
   }
 
+  /* Zolo: his Rocker side stays in the background */
+  function zMut(x){ return WHO === "zolo" && !editing && /rocker/i.test(String(x && x.role || "")) ? ' mut' : ''; }
   function idColumn(){
     var r = S.roles;
     var zk = zMask ? "mask" : "open";
@@ -1794,8 +1822,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var h = WHO === "zolo" ? zfig : '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
     h += '<div class="box idtab">' +
       '<div class="h">Handle</div><div class="v full">' + f("handle",{label:"Handle"}) + '</div>' +
-      '<div class="h">Role</div>' + r.map(function(x,i){ return '<div class="v">' + f("roles."+i+".role",{label:"Role"}) + '</div>'; }).join("") +
-      '<div class="h">Special Ability</div>' + r.map(function(x,i){ return '<div class="v small">' + f("roles."+i+".ability",{label:"Ability"}) + '</div>'; }).join("") +
+      '<div class="h">Role</div>' + r.map(function(x,i){ return '<div class="v' + zMut(x) + '">' + f("roles."+i+".role",{label:"Role"}) + '</div>'; }).join("") +
+      '<div class="h">Special Ability</div>' + r.map(function(x,i){ return '<div class="v small' + zMut(x) + '">' + f("roles."+i+".ability",{label:"Ability"}) + '</div>'; }).join("") +
       '<div class="h">Special Ability Rank</div>' + r.map(function(x,i){ return '<div class="v rank">' + f("roles."+i+".rank",{num:1,label:"Rank"}) + '</div>'; }).join("") +
       '<div class="h">Humanity</div><div class="hum" style="grid-column:1/-1"><span class="n cur">' + f("humanity.0",{num:1,label:"Humanity"}) + '</span><span class="of">out of</span><span class="n">' + f("humanity.1",{num:1,label:"Max humanity"}) + '</span></div>' +
       '</div>';
@@ -2536,6 +2564,20 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var bar = '<div class="rbar"><div class="seg"><button type="button" class="' + (repView === "time" ? 'on' : '') + '" data-repview="time">Timeline</button><button type="button" class="' + (repView === "reach" ? 'on' : '') + '" data-repview="reach">By reach</button></div>' +
       '<span class="rshown" id="rshown"></span><button type="button" class="rclear" id="rclear" hidden>Clear filters</button></div>';
     return '<main class="rep">' + hero + '<div class="rbody"><div class="rfeed">' + bar + '<div id="rfeed">' + repFeed() + '</div><p class="rnone" id="rnone" hidden>Nothing matches. Clear the filters to see every event.</p></div>' + repSide() + '</div></main>';
+  }
+  /* Zolo's Rep: only a handful of events, no dates or links, and a name nobody can put a face to.
+     Dial + ladder as on Iō's page, his masked cut-out in place of the filmstrip, and the events as a ranked board. */
+  function zRepPage(){
+    var E = RE().map(function(e, i){ return [e, i]; }).sort(function(a, b){ return (+b[0].lvl || 0) - (+a[0].lvl || 0); });
+    var top = E.length ? +E[0][0].lvl : 0;
+    var cards = E.map(function(x, n){ var e = x[0], l = +e.lvl || 0;
+      return '<article class="rev zrc' + (l === top ? ' zbig' : '') + '" data-i="' + x[1] + '" data-l="' + l + '" data-k="" data-w="||" data-q="' + esc(String(e.text || "").toLowerCase()) + '" style="--n:' + n + '">' +
+        '<div class="zrl"><b class="dec">' + l + '</b><span>' + esc(RTIER[l] || "") + '</span></div>' +
+        '<div class="zrt"><p>' + esc(e.text || "") + '</p><small>' + esc(REACH[l] || "") + '</small></div></article>'; }).join("");
+    var fig = '<figure class="zrfig" aria-hidden="true"><img src="img/zolo/hip-mask.webp" alt=""></figure>';
+    return '<main class="rep zrep">' + '<div class="rephero">' + repDial() + repLadder() + fig + '</div>' +
+      '<h2 class="sec-title"><span class="glx">Rep events</span><span class="rshown" id="rshown"></span><button type="button" class="rclear" id="rclear" hidden>Clear filter</button></h2>' +
+      '<div class="zrboard">' + (cards || '<p class="zhint">No rep events on file.</p>') + '</div><p class="rnone" id="rnone" hidden>Nothing at that level.</p></main>';
   }
   function repApply(){
     var root = document.querySelector(".rep"); if (!root) return;
@@ -3536,7 +3578,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S && WHO === "io") deriveSkills();
-    var body = tab === "ware" ? chrome() : tab === "rep" ? repPage() : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
+    var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" && WHO === "io" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
     if (tab === "rep" && !editing) repApply();
@@ -3895,7 +3937,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
-    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
