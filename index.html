@@ -1535,6 +1535,20 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
 .zrun canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media (min-width:1181px){ body.zolo .a-c1{align-self:stretch} body.zolo .zrun{flex:1 1 0;min-height:150px;height:auto;contain:size} }
 .zmask{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(7,9,11,.8)}
+/* Iō: animation panels (under Nyozi, under Condition). They take the column's leftover height and never set it. */
+.iovid{position:relative;margin:0;border:2px solid var(--frame);background:#000;overflow:hidden;min-height:150px}
+.iovid::after{content:"";position:absolute;top:0;right:0;border-style:solid;border-width:0 11px 11px 0;border-color:transparent var(--frame) transparent transparent;z-index:1}
+.iovid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.iv-arena video{object-position:50% 22%}
+.iv-kata video{object-position:50% 62%}
+@media (min-width:1321px){
+  body:not(.zolo) .a-c1{align-self:stretch}
+  .a-c1 > .iovid{flex:1 1 0;contain:size;min-height:100px}
+  body:not(.zolo) .a-vit{align-self:stretch;display:flex;flex-direction:column;gap:12px}
+  .a-vit > .box{flex:none}
+  .a-vit > .iovid{flex:1 1 0;contain:size;min-height:160px}
+}
+@media (max-width:1320px){ .iovid{aspect-ratio:16/9;min-height:0} .a-vit{display:flex;flex-direction:column;gap:12px} }
 /* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
 .zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
 .zpr .pract{position:static}
@@ -1932,11 +1946,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (HOSTED){ saveTimer = setTimeout(pushTraining, 1200); return; }
     saveTimer = setTimeout(persist, 1200);
   }
+  /* Oak's animations for Iō's Dossier: looping muted video (converted from his GIFs), filling the leftover space in their column */
+  function ioVid(id, label){
+    return '<figure class="iovid iv-' + id + '"><video poster="img/io/' + id + '.webp" muted loop playsinline' + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '" aria-label="' + esc(label) + '"><source src="img/io/' + id + '.webm" type="video/webm"><source src="img/io/' + id + '.mp4" type="video/mp4"></video></figure>';
+  }
   function skills(){
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -2017,7 +2035,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div>' +
       (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>') +
       '</div>' + add("crits","Add entry") + '</div>';
-    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section></div>';
+    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + (!editing && WHO === "io" ? ioVid("kata", "Iō running his elemental forms: fire, then lightning") : '') + '</div>';
   }
 
   var ICONS = {
@@ -3510,6 +3528,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     advAfter();
     cfAfter();
     zrunInit();
+    if (!reduce) app.querySelectorAll(".iovid video").forEach(function(v){ v.muted = true; var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); });
     if (tab === "dossier" && dzEnter && !editing){
       dzEnter = false;
       var main = app.querySelector(".dossier"), lo = app.querySelector(".a-lo"), n = 0;
