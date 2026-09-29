@@ -1604,22 +1604,35 @@ body.zolo .bodyfig.tone-gold{--zc:#d9dde0;--zc2:rgba(217,221,224,.12)}
 body.zolo .bodyfig .rg{filter:opacity(.4)}
 body.zolo .zitem.on{background:rgba(31,111,143,.28)}
 body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(0 0 1px rgba(160,215,235,.25))}
-/* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left */
+/* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
+   .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
+.ioemb,.iogold,.iosmoke{display:none}
 @media (min-width:881px){
   body:not(.zolo) .portrait.iop{overflow:visible;margin-top:40px;container-type:size;background:
     radial-gradient(70% 42% at 50% 34%,rgba(159,12,23,.20),transparent 70%),
     radial-gradient(60% 30% at 50% 100%,rgba(181,143,82,.12),transparent 70%),
     linear-gradient(180deg,#1a1211 0%,#0e0a09 60%,#070504 100%)}
-  .portrait.iop img{position:absolute;inset:auto;left:50%;bottom:0;top:auto;width:auto;max-width:none;object-fit:initial;z-index:1;transform:translateX(-50%);
+  .portrait.iop .iopw{position:absolute;left:50%;bottom:0;aspect-ratio:var(--ar);transform:translateX(-50%);transform-origin:50% 100%;z-index:1}
+  .portrait.iop .iopw img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;
     filter:drop-shadow(0 0 1px rgba(226,184,108,.28)) drop-shadow(0 10px 18px rgba(0,0,0,.65))}
-  .portrait.iop-stare{clip-path:inset(-60px 0 0 0)}
-  .portrait.iop-stare img{height:calc(100cqh + 44px);transform:translateX(-49%)}
-  .portrait.iop-standing{clip-path:inset(-60px 0 0 0)}
-  .portrait.iop-standing img{height:calc(100cqh + 44px);transform:translateX(-50%)}
+  .portrait.iop-stare,.portrait.iop-standing{clip-path:inset(-60px 0 0 0)}
+  .portrait.iop-stare .iopw{height:calc(100cqh + 44px);transform:translateX(-49%)}
+  .portrait.iop-standing .iopw{height:calc(100cqh + 44px)}
   .portrait.iop-fist{clip-path:inset(-60px 0 0 -60%)}
-  .portrait.iop-fist img{height:min(calc(100cqh + 56px), 215cqw);transform:translateX(-55%)}
+  .portrait.iop-fist .iopw{height:min(calc(100cqh + 56px), 215cqw);transform:translateX(-55%)}
+  .ioemb{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .iogold{display:block;position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.9;
+    background:linear-gradient(105deg,transparent 42%,rgba(255,236,190,0) 44%,rgba(255,236,190,.55) 50%,rgba(255,236,190,0) 56%,transparent 58%) 120% 0/320% 100% no-repeat;
+    -webkit-mask:var(--gm) center/100% 100% no-repeat;mask:var(--gm) center/100% 100% no-repeat}
+  .iosmoke{display:block;position:absolute;left:-70%;top:-45%;width:170%;height:100%;pointer-events:none}
   body:not(.zolo){overflow-x:clip}
   .portrait.iop .iopsw{left:auto;right:10px;bottom:10px;z-index:3}
+}
+@media (min-width:881px) and (prefers-reduced-motion:no-preference){
+  .portrait.iop .iopw{animation:iobreathe 5.2s ease-in-out infinite}
+  @keyframes iobreathe{0%,100%{scale:1 1}50%{scale:1.004 1.009}}
+  .iogold{animation:iosheen 7s ease-in-out infinite}
+  @keyframes iosheen{0%,55%{background-position:120% 0}85%,100%{background-position:-20% 0}}
 }
 @media (max-width:880px){ .portrait .iopsw{display:none} }
 /* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
@@ -1864,9 +1877,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function zMut(x){ return WHO === "zolo" && !editing && /rocker/i.test(String(x && x.role || "")) ? ' mut' : ''; }
   /* Iō's portrait: cut-outs that break out of the frame like Zolo's. Three candidates while Oak picks one. */
   var IOP = {
-    stare:{src:"img/io-stare.webp", alt:"Iō, chest up: long black beard, top bun, gold cyberarm, staring down the viewer"},
-    standing:{src:"img/io-standing.webp", alt:"Iō standing, from just below the waist up: black gi, red sash, gold cyberarm, hands behind his back"},
-    fist:{src:"img/io-fist.webp", alt:"Iō from the hip up, gold cyber-fist raised, long black beard and top bun"}};
+    stare:{src:"img/io-stare.webp", w:740, h:1150, alt:"Iō, chest up: long black beard, top bun, gold cyberarm, staring down the viewer"},
+    standing:{src:"img/io-standing.webp", w:723, h:1150, alt:"Iō standing, from just below the waist up: black gi, red sash, gold cyberarm, hands behind his back"},
+    fist:{src:"img/io-fist.webp", w:679, h:1250, mouth:[.38,.237], alt:"Iō from the hip up, gold cyber-fist raised, long black beard and top bun"}};
   var IOPK = "fist"; try { var q = localStorage.getItem("io-portrait"); if (IOP[q]) IOPK = q; } catch(e){}
   var IOPL = [["stare","Stare"],["standing","Standing"],["fist","Fist"]];
   function idColumn(){
@@ -1875,7 +1888,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var zfig = '<figure class="portrait zpop zfull"><picture><source media="(max-width:880px)" srcset="img/zolo/cut-' + zk + '.webp"><img src="img/zolo/hip-' + zk + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ', from the hip up: white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back"></picture>' +
       '<span class="zmask ttseg" role="group" aria-label="Face"><button type="button" data-zmask="0" aria-pressed="' + !zMask + '">Face</button><button type="button" data-zmask="1" aria-pressed="' + zMask + '">Masked</button></span></figure>';
     var io = IOP[IOPK] || IOP.fist;
-    var iofig = '<figure class="portrait iop iop-' + IOPK + '"><picture><source media="(max-width:880px)" srcset="' + esc(S.portrait || "img/io-portrait.jpg") + '"><img src="' + io.src + '" alt="' + esc(io.alt) + '"></picture>' +
+    var iofig = '<figure class="portrait iop iop-' + IOPK + '"><canvas class="ioemb" aria-hidden="true"></canvas><span class="iopw" style="--ar:' + io.w + '/' + io.h + '"><picture><source media="(max-width:880px)" srcset="' + esc(S.portrait || "img/io-portrait.jpg") + '"><img src="' + io.src + '" alt="' + esc(io.alt) + '"></picture>' +
+      '<i class="iogold" aria-hidden="true" style="--gm:url(img/io-' + IOPK + '-gold.png)"></i>' + (io.mouth ? '<canvas class="iosmoke" aria-hidden="true"></canvas>' : '') + '</span>' +
       '<span class="zmask ttseg iopsw" role="group" aria-label="Portrait">' + IOPL.map(function(o){ return '<button type="button" data-iop="' + o[0] + '" aria-pressed="' + (IOPK === o[0]) + '">' + o[1] + '</button>'; }).join("") + '</span></figure>';
     var h = WHO === "zolo" ? zfig : iofig;
     h += '<div class="box idtab">' +
@@ -3499,6 +3513,58 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return {W:W, H:H, dpr:dpr, far:far[0], mid:mid[0], props:props[0]};
   }
 
+  /* Iō portrait effects: embers rising behind every version; on Fist, a slow exhale of smoke from his mouth */
+  var iofx = {raf:0, emb:[], smoke:[], last:0, nextPuff:0};
+  function ioFxInit(){
+    if (reduce || iofx.raf) return;
+    if (!document.querySelector(".portrait.iop .ioemb")) return;
+    function frame(t){
+      var fig = document.querySelector(".portrait.iop"); if (!fig){ iofx.raf = 0; return; }
+      var dt = iofx.last ? Math.min((t - iofx.last) / 1000, .05) : 0; iofx.last = t;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var ce = fig.querySelector(".ioemb");
+      if (ce && ce.clientWidth){
+        var W = ce.clientWidth, H = ce.clientHeight;
+        if (ce.width !== Math.round(W*dpr) || ce.height !== Math.round(H*dpr)){ ce.width = Math.round(W*dpr); ce.height = Math.round(H*dpr); }
+        var g = ce.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
+        while (iofx.emb.length < 22) iofx.emb.push({x:Math.random()*W, y:H*(.3 + Math.random()*.9), v:10 + Math.random()*22, r:.7 + Math.random()*1.5, ph:Math.random()*6.28, gold:Math.random() < .55});
+        iofx.emb.forEach(function(p){
+          p.y -= p.v*dt; p.x += Math.sin(t/1000*.8 + p.ph)*6*dt;
+          if (p.y < -10){ p.y = H + 10; p.x = Math.random()*W; }
+          var a = Math.min(1, (H - p.y)/(H*.25)) * Math.min(1, p.y/(H*.35)) * (.55 + .45*Math.sin(t/1000*3 + p.ph));
+          g.globalAlpha = Math.max(0, a) * .8; g.fillStyle = p.gold ? "#e2b86c" : "#e0323c";
+          g.shadowColor = g.fillStyle; g.shadowBlur = 6;
+          g.beginPath(); g.arc(p.x, p.y, p.r, 0, 6.2832); g.fill();
+        });
+        g.globalAlpha = 1; g.shadowBlur = 0;
+      }
+      var cs = fig.querySelector(".iosmoke"), io = IOP[IOPK];
+      if (cs && io.mouth && cs.clientWidth){
+        var W2 = cs.clientWidth, H2 = cs.clientHeight, wrap = cs.parentNode, ww = wrap.clientWidth, wh = wrap.clientHeight, k = wh / 700;
+        if (cs.width !== Math.round(W2*dpr) || cs.height !== Math.round(H2*dpr)){ cs.width = Math.round(W2*dpr); cs.height = Math.round(H2*dpr); }
+        var mx = io.mouth[0]*ww - cs.offsetLeft, my = io.mouth[1]*wh - cs.offsetTop;
+        var cyc = (t/1000) % 6.5;
+        if (cyc < 2.4 && t > iofx.nextPuff){
+          iofx.nextPuff = t + 55;
+          var push = 1 - cyc/2.4;
+          iofx.smoke.push({x:mx + (Math.random()-.5)*4*k, y:my + (Math.random()-.5)*3*k, vx:-(14 + Math.random()*16)*k*(.6 + push*.8), vy:-(8 + Math.random()*14)*k, r0:(3 + Math.random()*3)*k, life:0, max:2.6 + Math.random()*1.4, sd:Math.random()*6.28});
+        }
+        var c = cs.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,W2,H2);
+        iofx.smoke = iofx.smoke.filter(function(p){ return p.life < p.max; });
+        iofx.smoke.forEach(function(p){
+          p.life += dt; var u = Math.min(1, p.life / p.max);
+          p.vy -= 6*k*dt; p.vx *= (1 - .35*dt);
+          p.x += (p.vx + Math.sin(p.life*2.2 + p.sd)*9*k) * dt; p.y += p.vy * dt;
+          var r = p.r0 + u*44*k, a = .27 * Math.pow(1 - u, 1.5) * Math.min(1, u*8);
+          var gr = c.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+          gr.addColorStop(0, "rgba(206,204,210," + a + ")"); gr.addColorStop(.6, "rgba(170,168,176," + (a*.45) + ")"); gr.addColorStop(1, "rgba(150,150,160,0)");
+          c.fillStyle = gr; c.beginPath(); c.arc(p.x, p.y, r, 0, 6.2832); c.fill();
+        });
+      }
+      iofx.raf = requestAnimationFrame(frame);
+    }
+    iofx.last = 0; iofx.raf = requestAnimationFrame(frame);
+  }
   function zrunInit(){
     var cv = document.getElementById("zrun");
     if (!cv){ if (zr.raf){ cancelAnimationFrame(zr.raf); zr.raf = 0; } return; }
@@ -3652,6 +3718,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     advAfter();
     cfAfter();
     zrunInit();
+    ioFxInit();
     ioVidAfter();
     if (tab === "dossier" && dzEnter && !editing){
       dzEnter = false;
@@ -4002,10 +4069,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
-    if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){}
-      var pf = document.querySelector(".portrait.iop"), pi = pf && pf.querySelector("img");
-      if (pf){ pf.className = "portrait iop iop-" + IOPK; pi.src = IOP[IOPK].src; pi.alt = IOP[IOPK].alt; }
-      document.querySelectorAll("[data-iop]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.iop === IOPK)); }); return; }
+    if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
