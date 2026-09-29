@@ -1604,6 +1604,24 @@ body.zolo .bodyfig.tone-gold{--zc:#d9dde0;--zc2:rgba(217,221,224,.12)}
 body.zolo .bodyfig .rg{filter:opacity(.4)}
 body.zolo .zitem.on{background:rgba(31,111,143,.28)}
 body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(0 0 1px rgba(160,215,235,.25))}
+/* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left */
+@media (min-width:881px){
+  body:not(.zolo) .portrait.iop{overflow:visible;margin-top:40px;container-type:size;background:
+    radial-gradient(70% 42% at 50% 34%,rgba(159,12,23,.20),transparent 70%),
+    radial-gradient(60% 30% at 50% 100%,rgba(181,143,82,.12),transparent 70%),
+    linear-gradient(180deg,#1a1211 0%,#0e0a09 60%,#070504 100%)}
+  .portrait.iop img{position:absolute;inset:auto;left:50%;bottom:0;top:auto;width:auto;max-width:none;object-fit:initial;z-index:1;transform:translateX(-50%);
+    filter:drop-shadow(0 0 1px rgba(226,184,108,.28)) drop-shadow(0 10px 18px rgba(0,0,0,.65))}
+  .portrait.iop-stare{clip-path:inset(-60px 0 0 0)}
+  .portrait.iop-stare img{height:calc(100cqh + 44px);transform:translateX(-49%)}
+  .portrait.iop-standing{clip-path:inset(-60px 0 0 0)}
+  .portrait.iop-standing img{height:calc(100cqh + 44px);transform:translateX(-50%)}
+  .portrait.iop-fist{clip-path:inset(-60px 0 0 -60%)}
+  .portrait.iop-fist img{height:min(calc(100cqh + 56px), 215cqw);transform:translateX(-55%)}
+  body:not(.zolo){overflow-x:clip}
+  .portrait.iop .iopsw{left:auto;right:10px;bottom:10px;z-index:3}
+}
+@media (max-width:880px){ .portrait .iopsw{display:none} }
 /* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
 .zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
 .zpr .pract{position:static}
@@ -1844,12 +1862,22 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   /* Zolo: his Rocker side stays in the background */
   function zMut(x){ return WHO === "zolo" && !editing && /rocker/i.test(String(x && x.role || "")) ? ' mut' : ''; }
+  /* Iō's portrait: cut-outs that break out of the frame like Zolo's. Three candidates while Oak picks one. */
+  var IOP = {
+    stare:{src:"img/io-stare.webp", alt:"Iō, chest up: long black beard, top bun, gold cyberarm, staring down the viewer"},
+    standing:{src:"img/io-standing.webp", alt:"Iō standing, from just below the waist up: black gi, red sash, gold cyberarm, hands behind his back"},
+    fist:{src:"img/io-fist.webp", alt:"Iō from the hip up, gold cyber-fist raised, long black beard and top bun"}};
+  var IOPK = "fist"; try { var q = localStorage.getItem("io-portrait"); if (IOP[q]) IOPK = q; } catch(e){}
+  var IOPL = [["stare","Stare"],["standing","Standing"],["fist","Fist"]];
   function idColumn(){
     var r = S.roles;
     var zk = zMask ? "mask" : "open";
     var zfig = '<figure class="portrait zpop zfull"><picture><source media="(max-width:880px)" srcset="img/zolo/cut-' + zk + '.webp"><img src="img/zolo/hip-' + zk + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ', from the hip up: white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back"></picture>' +
       '<span class="zmask ttseg" role="group" aria-label="Face"><button type="button" data-zmask="0" aria-pressed="' + !zMask + '">Face</button><button type="button" data-zmask="1" aria-pressed="' + zMask + '">Masked</button></span></figure>';
-    var h = WHO === "zolo" ? zfig : '<figure class="portrait"><img src="' + esc(S.portrait || "img/io-portrait.jpg") + '" alt="' + (WHO === "zolo" ? 'Portrait of Zolo: white hair in a top knot, black layered coat, against a pale moon' : 'Portrait of Iō: long black beard, top bun, gold cyberarm') + '"></figure>';
+    var io = IOP[IOPK] || IOP.fist;
+    var iofig = '<figure class="portrait iop iop-' + IOPK + '"><picture><source media="(max-width:880px)" srcset="' + esc(S.portrait || "img/io-portrait.jpg") + '"><img src="' + io.src + '" alt="' + esc(io.alt) + '"></picture>' +
+      '<span class="zmask ttseg iopsw" role="group" aria-label="Portrait">' + IOPL.map(function(o){ return '<button type="button" data-iop="' + o[0] + '" aria-pressed="' + (IOPK === o[0]) + '">' + o[1] + '</button>'; }).join("") + '</span></figure>';
+    var h = WHO === "zolo" ? zfig : iofig;
     h += '<div class="box idtab">' +
       '<div class="h">Handle</div><div class="v full">' + f("handle",{label:"Handle"}) + '</div>' +
       '<div class="h">Role</div>' + r.map(function(x,i){ return '<div class="v' + zMut(x) + '">' + f("roles."+i+".role",{label:"Role"}) + '</div>'; }).join("") +
@@ -3974,6 +4002,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){}
+      var pf = document.querySelector(".portrait.iop"), pi = pf && pf.querySelector("img");
+      if (pf){ pf.className = "portrait iop iop-" + IOPK; pi.src = IOP[IOPK].src; pi.alt = IOP[IOPK].alt; }
+      document.querySelectorAll("[data-iop]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.iop === IOPK)); }); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
