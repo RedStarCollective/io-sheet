@@ -740,14 +740,18 @@ select.ed{width:auto;padding:0 2px}
 .rk-contest{--kc:var(--kc-contest)}.rk-shield{--kc:var(--kc-shield)}.rk-red{--kc:var(--kc-red)}.rk-ops{--kc:var(--kc-ops)}
 .rephero{display:grid;grid-template-columns:300px minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:stretch;margin-bottom:22px}
 .rephero .box{display:flex;flex-direction:column}
-.repdial .dialin{position:relative;display:flex;justify-content:center;padding:14px 0 0}
-.dial{width:200px;height:auto;overflow:visible}
-.dial path{fill:none;stroke:var(--line);stroke-width:12}
-.dial path.on{stroke:var(--red-hi);filter:drop-shadow(0 0 4px rgba(209,28,40,.55))}
-.dial path.on:nth-child(n+7){stroke:var(--gold)}
-.dialnum{position:absolute;left:0;right:0;top:48px;text-align:center;line-height:1}
-.dialnum .dec{font-family:var(--f-num);font-size:64px;font-weight:600;color:var(--ink)}
-.dialnum small{display:block;margin-top:6px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.repdial .dialin{display:flex;align-items:flex-end;justify-content:center;gap:18px;padding:26px 16px 14px}
+.rsig{display:flex;align-items:flex-end;gap:5px;height:130px}
+.rsig i{width:13px;background:var(--line);transition:background .3s}
+.rsig i.on{background:var(--red-hi);box-shadow:0 0 8px rgba(209,28,40,.45)}
+.rsig i.on.hi{background:var(--gold);box-shadow:0 0 8px rgba(181,143,82,.45)}
+.rsig i.cur{outline:1px solid var(--ink);outline-offset:2px}
+body.zolo .rsig i.on{box-shadow:0 0 8px rgba(108,198,230,.45)}
+body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
+@media (prefers-reduced-motion:no-preference){ .rsig i{animation:sigup .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 45ms);transform-origin:50% 100%} @keyframes sigup{from{transform:scaleY(0)}} }
+.dialnum{line-height:.85;text-align:left;padding-bottom:2px}
+.dialnum .dec{display:block;font-family:var(--f-num);font-size:78px;font-weight:600;color:var(--ink)}
+.dialnum small{display:block;margin-top:8px;white-space:nowrap;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
 .dialq{margin:0 16px 12px;text-align:center;font-size:15px;line-height:1.35;color:var(--ink-2);font-style:italic}
 .rtiles{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line);margin-top:auto}
 .rtile{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
@@ -2576,14 +2580,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fdate(d){ if (!d) return ""; var p = String(d).split("-"); return p.length < 2 ? esc(d) : MON[+p[1] - 1] + " " + p[2].replace(/^0/, "") + ", " + p[0]; }
   function whoCounts(){ var c = {}; RE().forEach(function(e){ (e.who || []).forEach(function(w){ c[w] = (c[w] || 0) + 1; }); }); return Object.keys(c).map(function(k){ return [k, c[k]]; }).sort(function(a, b){ return b[1] - a[1] || a[0].localeCompare(b[0]); }); }
   function repDial(){
-    var r = repNum(), segs = "", R = 74, C = 90, gap = 4;
-    for (var i = 0; i < 10; i++){
-      var a0 = (-225 + i * 27 + gap / 2) * Math.PI / 180, a1 = (-225 + (i + 1) * 27 - gap / 2) * Math.PI / 180;
-      segs += '<path class="' + (i < r ? 'on' : '') + '" d="M' + (C + R * Math.cos(a0)).toFixed(1) + ' ' + (C + R * Math.sin(a0)).toFixed(1) + ' A' + R + ' ' + R + ' 0 0 1 ' + (C + R * Math.cos(a1)).toFixed(1) + ' ' + (C + R * Math.sin(a1)).toFixed(1) + '"/>';
-    }
-    var cool = statV("COOL"), pct = Math.max(0, Math.min(100, (r - 1) * 10));
+    var r = repNum(), bars = "";
+    for (var i = 1; i <= 10; i++) bars += '<i class="' + (i <= r ? 'on' : '') + (i >= 7 ? ' hi' : '') + (i === r ? ' cur' : '') + '" style="height:' + (14 + i * 11) + 'px;--i:' + i + '" title="' + i + ' · ' + esc(RTIER[i]) + '"></i>';
+    var cool = statV("COOL");
     return '<section class="box repdial"><div class="hb"><span class="sp">Reputation</span></div><div class="dialin">' +
-      '<svg viewBox="0 0 180 160" class="dial" aria-hidden="true">' + segs + '</svg>' +
+      '<div class="rsig" aria-hidden="true">' + bars + '</div>' +
       '<div class="dialnum"><span class="dec">' + r + '</span><small>' + esc(RTIER[r] || "") + '</small></div></div>' +
       '<p class="dialq">' + esc(REACH[r] || "") + '</p>' +
       '<div class="rtiles"><div class="rtile"><b>' + (cool + r) + '<i>+d10</i></b><span>Facedown</span><em>COOL ' + cool + ' + REP ' + r + '</em></div></div></section>';
