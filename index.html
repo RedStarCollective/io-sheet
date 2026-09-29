@@ -1538,8 +1538,8 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
 /* Iō: animation panels (under Nyozi, under Condition). They take the column's leftover height and never set it. */
 .iovid{position:relative;margin:0;background:transparent;min-height:150px}
 .iovid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:lighten;filter:saturate(.88) contrast(1.06);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 12%,#000 86%,transparent);-webkit-mask-composite:source-in;
-  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 12%,#000 86%,transparent);mask-composite:intersect}
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 3.5%,#000 96.5%,transparent),linear-gradient(180deg,transparent,#000 5%,#000 94%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 3.5%,#000 96.5%,transparent),linear-gradient(180deg,transparent,#000 5%,#000 94%,transparent);mask-composite:intersect}
 .iovid::after{content:"";position:absolute;left:6%;right:6%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--frame),transparent);pointer-events:none}
 .iv-arena video{object-position:50% 22%}
 .iv-kata video{object-position:50% 62%}
@@ -1555,10 +1555,13 @@ body.zolo .portrait{background:radial-gradient(90% 70% at 50% 30%,rgba(108,198,2
 .zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
 .zpr .pract{position:static}
 .zpr .prtog{white-space:nowrap}
-.zpr .pract .hb{padding-right:7px}
-.zpr .prtog{gap:6px;font-size:13.5px}
-.zpr .prstate{font-size:9.5px;letter-spacing:.08em;padding:2px 5px 1px}
-.zpr .prbody{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:6;background:rgba(9,12,15,.97);border:1px solid var(--frame);box-shadow:0 -12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(108,198,230,.08)}
+.zpr .pract .hb{padding-right:17px}   /* clears the corner notch */
+.zpr .prtog{gap:6px;font-size:13.5px;min-width:0}
+.prstate i{font-style:normal}.prstate .sm{display:none}
+.zpr .prstate{font-size:10px;letter-spacing:.12em;padding:1px 6px 0;flex:none}
+.zpr .prstate .lg{display:none}.zpr .prstate .sm{display:inline}
+.zpr .prtog > span:not(.prstate):not(.chev){overflow:hidden;text-overflow:ellipsis}
+.zpr .prbody{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:6;background:var(--panel);border:1px solid var(--frame);box-shadow:0 -12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(108,198,230,.08)}
 @media (prefers-reduced-motion:no-preference){ .zpr .prbody{animation:zprUp .22s cubic-bezier(.2,.7,.2,1) both} @keyframes zprUp{from{opacity:0;transform:translateY(8px)}} }
 /* Zolo hip-up portrait (desktop): cut at the hip, head and both swords break out of the frame; the stats rail sits over the hilts */
 @media (min-width:881px){
@@ -1902,7 +1905,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function trainingBox(){
     var t = trainingState(), isOpen = !!open.training, lock = readOnly;
     var head = '<div class="hb"><button class="prtog" data-tog="training" aria-expanded="' + isOpen + '"><span class="chev">▶</span>Training Area' +
-      '<span class="prstate' + (t.active ? ' on' : '') + '">' + (t.active ? 'Active' : 'Inactive') + '</span></button></div>';
+      '<span class="prstate' + (t.active ? ' on' : '') + '" title="' + (t.active ? 'Active' : 'Inactive') + '"><i class="lg">' + (t.active ? 'Active' : 'Inactive') + '</i><i class="sm">' + (t.active ? 'On' : 'Off') + '</i></span></button></div>';
     if (!isOpen) return '<section class="box pract">' + head + '</section>';
     var chip = function(n){ var on = t.skills.indexOf(n) >= 0, full = t.skills.length >= PRACTICE_MAX;
       return '<button type="button" class="prc' + (on ? ' on' : '') + '" data-prac="' + esc(n) + '" aria-pressed="' + on + '"' + (lock || (!on && full) ? ' disabled' : '') + '>' + (PRACTICE_SKILLS.indexOf(skBase(n)) >= 0 ? esc(skBase(n)) : nm(WHO === "zolo" ? zRowName(n) : n)) + '</button>'; };
@@ -1927,7 +1930,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var emp = (S.stats || []).filter(function(x){ return x.k === "EMP"; })[0] || {v:"", max:""};
     var doses = ((S.pharma || []).filter(function(x){ return /^nyozi$/i.test(String(x.name).trim()); })[0] || {}).n;
     var head = '<div class="hb"><button class="prtog" data-tog="nyozi" aria-expanded="' + isOpen + '"><span class="chev">▶</span>Nyozi' +
-      '<span class="prstate' + (on ? ' on' : '') + '">' + (on ? 'Active' : 'Inactive') + '</span></button></div>';
+      '<span class="prstate' + (on ? ' on' : '') + '" title="' + (on ? 'Active' : 'Inactive') + '"><i class="lg">' + (on ? 'Active' : 'Inactive') + '</i><i class="sm">' + (on ? 'On' : 'Off') + '</i></span></button></div>';
     if (!isOpen) return '<section class="box pract nyz">' + head + '</section>';
     return '<section class="box pract nyz">' + head + '<div class="prbody">' +
       '<button type="button" class="prsw" id="nyzsw" aria-pressed="' + on + '"' + (lock ? ' disabled' : '') + '><i></i>' + (on ? 'Active' : 'Inactive') + '</button>' +
@@ -1952,11 +1955,22 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function ioVid(id, label){
     return '<figure class="iovid iv-' + id + '"><video poster="img/io/' + id + '.webp" muted loop playsinline' + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '" aria-label="' + esc(label) + '"><source src="img/io/' + id + '.webm" type="video/webm"><source src="img/io/' + id + '.mp4" type="video/mp4"></video></figure>';
   }
+  var ioVids = {}, ioIO = window.IntersectionObserver ? new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target; if (reduce) return; if (e.isIntersecting){ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); } else v.pause(); }); }) : null;
+  function ioVidAfter(){
+    app.querySelectorAll(".iovid").forEach(function(fig){
+      var id = (fig.className.match(/iv-(\w+)/) || [])[1], fresh = fig.querySelector("video"); if (!id || !fresh) return;
+      var v = ioVids[id];
+      if (v && v !== fresh){ fig.replaceChild(v, fresh); } else if (!v){ v = ioVids[id] = fresh; if (ioIO) ioIO.observe(v); }
+      v.muted = true;
+      if (!reduce && !ioIO){ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }
+      else if (!reduce && ioIO){ var r = v.getBoundingClientRect(); if (r.bottom > 0 && r.top < window.innerHeight){ var p2 = v.play(); if (p2 && p2.catch) p2.catch(function(){}); } }
+    });
+  }
   function skills(){
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? trainingBox() + nyoziBox() + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -3530,7 +3544,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     advAfter();
     cfAfter();
     zrunInit();
-    if (!reduce) app.querySelectorAll(".iovid video").forEach(function(v){ v.muted = true; var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); });
+    ioVidAfter();
     if (tab === "dossier" && dzEnter && !editing){
       dzEnter = false;
       var main = app.querySelector(".dossier"), lo = app.querySelector(".a-lo"), n = 0;
