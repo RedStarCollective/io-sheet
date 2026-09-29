@@ -1615,10 +1615,12 @@ body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(
   .portrait.iop .iopw{position:absolute;left:50%;bottom:0;aspect-ratio:var(--ar);transform:translateX(-50%);transform-origin:50% 100%;z-index:1}
   .portrait.iop .iopw img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;
     filter:drop-shadow(0 0 1px rgba(226,184,108,.28)) drop-shadow(0 10px 18px rgba(0,0,0,.65))}
-  .portrait.iop-stare,.portrait.iop-standing{clip-path:inset(-60px 0 0 0)}
+  /* like Zolo: out past the frame on both sides; the left runs into the page margin, the right slides under the stats rail */
+  .portrait.iop-stare,.portrait.iop-standing{clip-path:inset(-60px -106px 0 -60%)}
+  body:not(.zolo) .a-st{position:relative;z-index:2}
   .portrait.iop-stare .iopw{height:calc(100cqh + 44px);transform:translateX(-49%)}
   .portrait.iop-standing .iopw{height:calc(100cqh + 44px)}
-  .portrait.iop-fist{clip-path:inset(-60px 0 0 -60%)}
+  .portrait.iop-fist{clip-path:inset(-60px -106px 0 -60%)}
   .portrait.iop-fist .iopw{height:min(calc(100cqh + 56px), 215cqw);transform:translateX(-55%)}
   .ioemb{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
   .iogold{display:block;position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.9;
