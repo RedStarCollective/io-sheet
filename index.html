@@ -1600,6 +1600,15 @@ body.zolo .lrow:not(:disabled):hover{background:rgba(108,198,230,.08)}
 .bodyfig[data-hov~="legL"] .xr-legL{opacity:.7}.bodyfig[data-sel~="legL"] .xr-legL{opacity:1}
 
 body.zolo .bodyfig{--zc:#6cc6e6;--zc2:rgba(108,198,230,.14)}
+/* front/back turn (Iō) */
+.vwsw{position:absolute;right:0;top:0;z-index:5}
+.vwsw button{padding:6px 12px 5px;font-size:11px}
+.ring .vwsw{top:-2px}
+@media (prefers-reduced-motion:no-preference){
+  .bodyfig.turnout{transition:transform .22s cubic-bezier(.5,0,.8,.4),filter .22s;transform:perspective(900px) rotateY(90deg);filter:brightness(1.6)}
+  .bodyfig.turnin{animation:turnin .38s cubic-bezier(.2,.7,.2,1)}
+  @keyframes turnin{from{transform:perspective(900px) rotateY(-90deg);filter:brightness(1.6)}to{transform:none;filter:none}}
+}
 /* scan depth switch under the figure (Iō) */
 .xlsw{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);z-index:5}
 .xlsw button{padding:6px 12px 5px;font-size:11px}
@@ -2411,7 +2420,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var RBOX_Z = {"body": [1.6, 0.6, 98.2, 99.3], "torso": [24.8, 13.0, 76.2, 35.7], "legs": [11.2, 35.8, 97.9, 99.3], "armL": [74.6, 15.6, 98.2, 55.1], "armR": [1.6, 15.4, 24.8, 55.1], "head": [34.1, 0.6, 63.7, 12.9], "ears": [39.3, 6.2, 61.3, 8.9], "eyes": [46.6, 7.1, 57.0, 7.9]};
   var ANCH_Z = {"head": [49.6, 4.3], "eyes": [51.8, 7.5], "ears": [60.3, 7.2], "armR": [12.7, 33.9], "armL": [87.2, 34.6], "legR": [33.0, 62.7], "legL": [68.8, 63.0], "torso": [50.3, 24.0], "legs": [50.2, 62.8], "bodyL": [11.1, 23.9], "bodyR": [87.0, 23.9]};
   var XL = "bone"; try { XL = localStorage.getItem("io-xlayer") || "bone"; } catch(e){}
-  function FIG(){ return WHO === "zolo"
+  /* Iō's back: same page, turned around (his cyberarm is on the viewer's right from behind) */
+  var RBOX_IOB = {"body": [1.2, 0.5, 98.6, 99.4], "torso": [24.7, 15.5, 72.1, 39.5], "legs": [7.1, 39.6, 90.8, 99.4], "armL": [1.2, 18.1, 24.6, 59.6], "armR": [71.8, 17.6, 98.6, 59.7], "head": [35.1, 0.5, 61.9, 15.4], "ears": [40.0, 10.1, 60.4, 11.9], "eyes": [44.5, 9.7, 54.8, 10.9]};
+  var ANCH_IOB = {"head": [49.7, 5.0], "eyes": [49.7, 10.3], "ears": [59.7, 10.9], "armR": [85.0, 37.3], "armL": [12.8, 37.4], "legR": [67.9, 65.7], "legL": [31.9, 65.5], "torso": [48.5, 27.2], "legs": [49.5, 65.6], "bodyL": [9.9, 27.2], "bodyR": [85.6, 27.2]};
+  var VIEW = "front"; try { VIEW = localStorage.getItem("io-view") || "front"; } catch(e){}
+  function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back.webp", skel:"", m:"img/io/mb/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
+    return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m2/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
     : {img:"img/io/ware-body4.webp", skel:"img/io/ware-skel5.webp", mus:"img/io/ware-mus5.webp", m:"img/io/m4/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
@@ -2420,7 +2434,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     function limbGroups(side){
       var zi = idx.limbs, z = Z[zi], out = [];
       if (!z) return out;
-      z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()] || ["R", "legs"]; if (m[0] === side) out.push([gi, m[1]]); });
+      z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()] || ["R", "legs"]; if (FIG().back) m = [m[0] === "L" ? "R" : "L", m[1]]; if (m[0] === side) out.push([gi, m[1]]); });
       return out;
     }
     function col(side){
@@ -2486,6 +2500,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + '" id="bodyfig"' + (F.skel ? ' style="--sk:url(' + (F.mus && XL === "muscle" ? F.mus : F.skel) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
       (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure>' +
+      (WHO !== "zolo" ? '<span class="vwsw ttseg" role="group" aria-label="View"><button type="button" data-view="front" aria-pressed="' + !F.back + '">Front</button><button type="button" data-view="back" aria-pressed="' + !!F.back + '">Back</button></span>' : '') +
       (F.mus ? '<span class="xlsw ttseg" role="group" aria-label="Scan depth"><button type="button" data-xl="muscle" aria-pressed="' + (XL === "muscle") + '">Muscle</button><button type="button" data-xl="bone" aria-pressed="' + (XL !== "muscle") + '">Bone</button></span>' : '') + '</div>';
     if (!editing && (sel === "all" || sel === "limbs")) return aroundHTML(nav, stage, sel);
     var panel;
@@ -4059,6 +4074,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
+      var bf0 = document.getElementById("bodyfig");
+      if (reduce || !bf0){ render(); return; }
+      bf0.classList.add("turnout"); setTimeout(function(){ render(); var n = document.getElementById("bodyfig"); if (n){ n.classList.add("turnin"); setTimeout(function(){ n.classList.remove("turnin"); }, 400); } }, 220); return; }
     if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.mus) bf.style.setProperty("--sk", "url(" + (XL === "muscle" ? F2.mus : F2.skel) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
