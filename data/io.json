@@ -6741,6 +6741,875 @@
   ],
   "rep": 4,
   "portrait": "img/zolo/portrait.jpg",
-  "glitch": "img/zolo/side.webp"
+  "glitch": "img/zolo/side.webp",
+  "chrome": {
+   "zones": [
+    {
+     "id": "neural",
+     "label": "Neural Link",
+     "regions": [
+      "head"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "InfoLink & Neuralware",
+       "items": [
+        {
+         "name": "InfoLink",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "infolink",
+         "setup": "Thought-to-text capability.",
+         "cap": 6,
+         "children": [
+          {
+           "name": "Chipware Socket x2",
+           "kind": "cyber",
+           "tags": [
+            "UPG",
+            "INFOLINKED"
+           ],
+           "ref": "socket",
+           "setup": "A quad socket installed at the base of the neck that allows quick installation of four pieces of Chipware.",
+           "slots": 0,
+           "children": [
+            {
+             "name": "Control Chip",
+             "kind": "chip",
+             "tags": [],
+             "ref": "controlchip",
+             "setup": ""
+            },
+            {
+             "name": "Olfactory Boost",
+             "kind": "chip",
+             "tags": [
+              "UPG"
+             ],
+             "ref": "",
+             "setup": ""
+            },
+            {
+             "name": "Skill Chip x3",
+             "kind": "chip",
+             "tags": [
+              "UPG"
+             ],
+             "ref": "",
+             "setup": "Drive Land · Pilot Air Vehicle · Heavy Weapons."
+            },
+            {
+             "name": "Chip Vault",
+             "kind": "chip",
+             "tags": [],
+             "ref": "",
+             "setup": "Segotari Mindgames, Chemical Analyzer."
+            }
+           ]
+          },
+          {
+           "name": "Kaliarov",
+           "kind": "bio",
+           "tags": [
+            "BIOWARE"
+           ],
+           "ref": "",
+           "setup": "A user may reallocate their Combat Awareness points in Combat, once, without an action."
+          },
+          {
+           "name": "Neurochemical Memory Receptors",
+           "kind": "bio",
+           "tags": [
+            "BIOWARE"
+           ],
+           "ref": "nmr",
+           "setup": "",
+           "slots": 1
+          },
+          {
+           "name": "Quickfix Co-Processor",
+           "kind": "cyber",
+           "tags": [
+            "FAB"
+           ],
+           "ref": "quickfix",
+           "setup": "",
+           "slots": 1
+          },
+          {
+           "name": "Interface Plugs",
+           "kind": "cyber",
+           "tags": [
+            "UPG"
+           ],
+           "ref": "plugs,plugdrive",
+           "setup": "Plugs in the wrist of the cyberarm. Has Cyberdrive Upgrade, allowing another chip slot.",
+           "slots": 0
+          }
+         ],
+         "capnote": "5 + 1 from Physiological Tailoring"
+        },
+        {
+         "kind": "enh",
+         "enh": "ssc",
+         "note": "Human Perception, Conversation, and Interrogation +2."
+        },
+        {
+         "kind": "enh",
+         "enh": "trauma",
+         "note": "Takes half HL."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "optics",
+     "label": "Cyberoptics",
+     "regions": [
+      "eyes"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "Right Eye",
+       "items": [
+        {
+         "name": "Cat Eyes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "cateyes",
+         "setup": ""
+        },
+        {
+         "name": "Chromatic Eyes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "chromatic",
+         "setup": ""
+        }
+       ]
+      },
+      {
+       "title": "Left Eye",
+       "items": [
+        {
+         "name": "Cat Eyes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "cateyes",
+         "setup": ""
+        },
+        {
+         "name": "Chromatic Eyes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "chromatic",
+         "setup": ""
+        }
+       ]
+      },
+      {
+       "title": "Right Smart Lens",
+       "items": [
+        {
+         "name": "Smart Lens",
+         "kind": "worn",
+         "tags": [
+          "UPG"
+         ],
+         "ref": "chyron",
+         "setup": "Chyron w/ Enhanced HUD.",
+         "children": [
+          {
+           "name": "Milimeter Wave Scanner",
+           "kind": "cyber",
+           "tags": [
+            "UPG"
+           ],
+           "ref": "mmwave",
+           "setup": "2m. Sees items concealed under thin materials other than metal, skin, or Realskinn. With an Action, can switch modes to see through Thin Cover within 20m."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "title": "Left Smart Lens",
+       "items": [
+        {
+         "name": "Smart Lens",
+         "kind": "worn",
+         "tags": [
+          "UPG"
+         ],
+         "ref": "chyron",
+         "setup": "Chyron w/ Enhanced HUD.",
+         "children": [
+          {
+           "name": "Targeting Scope",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "targeting",
+           "setup": "Aimed Shots have +1 to check."
+          },
+          {
+           "name": "Optical Tracking Controller",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "otc",
+           "setup": "Allows user to control Agent with eye."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "audio",
+     "label": "Cyberaudio",
+     "regions": [
+      "ears"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "Cyberaudio",
+       "items": [
+        {
+         "name": "Nano Auditory Rebuild",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "nanoaud",
+         "setup": ""
+        },
+        {
+         "name": "Echolocation",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE",
+          "ADV"
+         ],
+         "ref": "echo",
+         "setup": "",
+         "children": [
+          {
+           "kind": "enh",
+           "enh": "vibres",
+           "note": "Touch a flat surface to sense movement within 30m."
+          }
+         ]
+        },
+        {
+         "kind": "link",
+         "to": "gear",
+         "label": "Smart Ears (Gear Items)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "limbs",
+     "label": "Cyberlimbs",
+     "regions": [
+      "armR",
+      "armL",
+      "legs"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "Right Cyberarm",
+       "items": [
+        {
+         "name": "Cyberarm",
+         "kind": "cyber",
+         "tags": [
+          "FAB",
+          "UPG"
+         ],
+         "ref": "cyberarm,force",
+         "setup": "Strikethrough Piston Upgrade.",
+         "children": [
+          {
+           "name": "Superchrome®",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "superchrome",
+           "setup": "Orbital Titanium. +2 to Wardrobe and Style."
+          },
+          {
+           "name": "Concealment Sleeve",
+           "kind": "cyber",
+           "tags": [
+            "FAB"
+           ],
+           "ref": "",
+           "setup": "Used for when incognito/Galileo. Presents as Realskinn and biological to cyberscanners."
+          },
+          {
+           "name": "Holo-Palm",
+           "kind": "cyber",
+           "tags": [
+            "UPG"
+           ],
+           "ref": "",
+           "setup": "Consumer Ergonomics. Soda can sized hologram."
+          },
+          {
+           "name": "Palm Bomb",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "palmbomb",
+           "setup": ""
+          },
+          {
+           "name": "Popup Melee [Faisal's Magi-Palm]",
+           "kind": "cyber",
+           "tags": [
+            "UPG",
+            "REACH"
+           ],
+           "ref": "popup",
+           "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Three modes: Ignis, Frigus, and Fulgur."
+          },
+          {
+           "name": "Medical Hand",
+           "kind": "cyber",
+           "tags": [
+            "UPG"
+           ],
+           "ref": "medhand",
+           "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
+          },
+          {
+           "name": "Quick Change Mount",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "qcm",
+           "setup": ""
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "title": "Left Arm",
+       "items": [
+        {
+         "name": "Bone Density Augmentation",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "bonedensity",
+         "setup": ""
+        },
+        {
+         "kind": "enh",
+         "enh": "vibres",
+         "note": "Can detect movement up to 30m. Can click teeth for echolocation at inaudible frequencies."
+        },
+        {
+         "kind": "enh",
+         "enh": "axolotl",
+         "note": "DV 17 to Quickfix a Dismembered Leg, Hand, or Arm. Treated as their Broken equivalent."
+        }
+       ]
+      },
+      {
+       "title": "Right Leg",
+       "items": [
+        {
+         "name": "Bone Density Augmentation",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "bonedensity",
+         "setup": ""
+        },
+        {
+         "name": "Spider Grip",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "spider",
+         "setup": ""
+        },
+        {
+         "kind": "enh",
+         "enh": "vibres",
+         "note": "Can detect movement up to 30m. Can click teeth for echolocation at inaudible frequencies."
+        },
+        {
+         "kind": "enh",
+         "enh": "axolotl",
+         "note": "DV 17 to Quickfix a Dismembered Leg, Hand, or Arm. Treated as their Broken equivalent."
+        },
+        {
+         "kind": "enh",
+         "enh": "adaptive",
+         "note": "Ignores Jump Penalty, Run Action adds 6m."
+        }
+       ]
+      },
+      {
+       "title": "Left Leg",
+       "items": [
+        {
+         "name": "Bone Density Augmentation",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "bonedensity",
+         "setup": ""
+        },
+        {
+         "name": "Spider Grip",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "spider",
+         "setup": ""
+        },
+        {
+         "kind": "enh",
+         "enh": "vibres",
+         "note": "Can detect movement up to 30m. Can click teeth for echolocation at inaudible frequencies."
+        },
+        {
+         "kind": "enh",
+         "enh": "axolotl",
+         "note": "DV 17 to Quickfix a Dismembered Leg, Hand, or Arm. Treated as their Broken equivalent."
+        },
+        {
+         "kind": "enh",
+         "enh": "adaptive",
+         "note": "Ignores Jump Penalty, Run Action adds 6m."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "internal",
+     "label": "Internal Ware",
+     "regions": [
+      "torso",
+      "head"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "Internal Cyberware",
+       "items": [
+        {
+         "name": "Flame Breath",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "flame",
+         "setup": "Functions as Flamethrower [ROF 2, 4d6 damage, 2 uses/24hr regeneration].",
+         "slots": 1
+        },
+        {
+         "name": "Cyberspine",
+         "kind": "cyber",
+         "tags": [
+          "FAB"
+         ],
+         "ref": "cyberspine",
+         "setup": "Immune to the effect and bonus damage of the Spinal Injury Critical Injury. +1 to Contortionist Skill Checks.",
+         "slots": 3
+        },
+        {
+         "name": "Cyberskull",
+         "kind": "cyber",
+         "tags": [
+          "FAB"
+         ],
+         "ref": "cyberskull",
+         "setup": "Head is no longer considered a 2x weak point. Immune to Cracked Skull and Broken Jaw Crits.",
+         "slots": 3
+        },
+        {
+         "kind": "enh",
+         "enh": "reservoir",
+         "note": "x3. Trauma: Speedheal · Combat: Red Lace · Voluntary: RapiDetox."
+        },
+        {
+         "kind": "enh",
+         "enh": "venom",
+         "note": "Red River. Once per day."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "external",
+     "label": "External Ware",
+     "regions": [
+      "body"
+     ],
+     "tone": "gold",
+     "groups": [
+      {
+       "title": "External Cyberware",
+       "items": [
+        {
+         "name": "Fleshweave",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE",
+          "UPG"
+         ],
+         "ref": "fleshweave",
+         "setup": "User’s body and head are armored at SP8. Regenerates to full in 10 minutes.",
+         "children": [
+          {
+           "kind": "enh",
+           "enh": "hemo",
+           "note": "Fleshweave SP is increased to 10. Regenerates 1 SP every 30 sec. out of combat."
+          }
+         ]
+        },
+        {
+         "name": "Dermatech Draco-Skin",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "draco",
+         "setup": ""
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "fashion",
+     "label": "Fashionware",
+     "regions": [
+      "body"
+     ],
+     "tone": "gold",
+     "groups": [
+      {
+       "title": "Fashionware",
+       "items": [
+        {
+         "name": "Biomonitor",
+         "kind": "cyber",
+         "tags": [
+          "INFOLINKED"
+         ],
+         "ref": "biomon",
+         "setup": ""
+        },
+        {
+         "name": "Oral, Follicle, and Dermal Symbiotes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "symb",
+         "setup": "+3 Personal Grooming."
+        },
+        {
+         "name": "Shift Tacts x2",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "",
+         "setup": "Eclipse Iris on Spaceman Gatorade. Galileo gray."
+        },
+        {
+         "name": "Highrider Ritual Scarring & Tattoos",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "",
+         "setup": "Reflavor of Light Tattoos, x2 installs."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "borg",
+     "label": "Borgware",
+     "regions": [
+      "body"
+     ],
+     "tone": "",
+     "groups": [
+      {
+       "title": "Borgware",
+       "items": [
+        {
+         "name": "“Armstrong” Myoskeletal Nanomatrix",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "armstrong",
+         "setup": "",
+         "count": "x3",
+         "children": [
+          {
+           "name": "Armstrong Dermal Plating Upgrade",
+           "kind": "upgrade",
+           "tags": [],
+           "ref": "armplate",
+           "setup": "While the nanomatrix is active, head and body are armored at SP13."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "adv",
+     "label": "Advanced Bioware",
+     "regions": [
+      "body"
+     ],
+     "tone": "adv",
+     "groups": [
+      {
+       "title": "Advanced Bioware",
+       "note": "No slots · no Humanity Loss",
+       "items": [
+        {
+         "name": "Physiological Tailoring",
+         "kind": "adv",
+         "tags": [
+          "ADV"
+         ],
+         "ref": "tailoring",
+         "setup": "",
+         "children": [
+          {
+           "name": "Cornucopia Stimulant Processor",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "cornucopia",
+           "setup": "RTD +4, Doubled duration for pharmas and streetdrugs."
+          },
+          {
+           "name": "Healing Factor",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "healing",
+           "setup": ""
+          },
+          {
+           "name": "Nociception Filter",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "nocic",
+           "setup": ""
+          },
+          {
+           "name": "Physiological Enhancement x13",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "physenh",
+           "setup": "REF +6 · BODY +6 · MOVE +1."
+          },
+          {
+           "name": "Synaesthetic Social Cortex",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "ssc",
+           "setup": "",
+           "feeds": [
+            "Nano Auditory Rebuild",
+            "Echolocation",
+            "Chromatic Eyes"
+           ],
+           "links": [
+            "audio",
+            "optics"
+           ],
+           "id": "ssc"
+          },
+          {
+           "name": "Trauma Dampening",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "trauma",
+           "setup": "",
+           "links": [
+            "neural"
+           ],
+           "id": "trauma"
+          },
+          {
+           "name": "Vibrational Resonance",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "vibres",
+           "setup": "",
+           "links": [
+            "audio",
+            "limbs"
+           ],
+           "id": "vibres"
+          },
+          {
+           "name": "Axolotl Limb Grafting",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "axolotl",
+           "setup": "",
+           "links": [
+            "limbs"
+           ],
+           "id": "axolotl"
+          },
+          {
+           "name": "Adaptive Musculature",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "adaptive",
+           "setup": "",
+           "links": [
+            "limbs"
+           ],
+           "id": "adaptive"
+          },
+          {
+           "name": "Fleshweave Hemolattice",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "hemo",
+           "setup": "",
+           "links": [
+            "external"
+           ],
+           "id": "hemo"
+          },
+          {
+           "name": "Advanced Reservoir System x3",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "reservoir",
+           "setup": "",
+           "links": [
+            "internal"
+           ],
+           "id": "reservoir"
+          },
+          {
+           "name": "Venom Gland",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "venom",
+           "setup": "",
+           "links": [
+            "internal"
+           ],
+           "id": "venom"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "gear",
+     "label": "Gear",
+     "regions": [
+      "head"
+     ],
+     "tone": "gold",
+     "groups": [
+      {
+       "title": "Gear Items",
+       "items": [
+        {
+         "name": "Smart Ears",
+         "kind": "worn",
+         "tags": [
+          "FAB"
+         ],
+         "ref": "smartears",
+         "setup": "Fashioned as two bone conduction devices under beard attached to jaw.",
+         "cap": 2,
+         "children": [
+          {
+           "name": "Raven Drake",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "agent",
+           "setup": "Standard Internal Agent.",
+           "slots": 1
+          },
+          {
+           "name": "Radio Scanner/Music Player",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "radio",
+           "setup": "",
+           "slots": 0
+          },
+          {
+           "name": "Signal Jammer",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "",
+           "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle on/off: Free Action. (Affects you too).",
+           "slots": 1
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
  }
 }
