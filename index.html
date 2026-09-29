@@ -1606,12 +1606,9 @@ body.zolo .zitem.on{background:rgba(31,111,143,.28)}
 body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(0 0 1px rgba(160,215,235,.25))}
 /* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
    .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
-.ioemb,.iogold,.iosmoke{display:none}
+.iogold,.iosmoke{display:none}
 @media (min-width:881px){
-  body:not(.zolo) .portrait.iop{overflow:visible;margin-top:40px;container-type:size;background:
-    radial-gradient(70% 42% at 50% 34%,rgba(159,12,23,.20),transparent 70%),
-    radial-gradient(60% 30% at 50% 100%,rgba(181,143,82,.12),transparent 70%),
-    linear-gradient(180deg,#1a1211 0%,#0e0a09 60%,#070504 100%)}
+  body:not(.zolo) .portrait.iop{overflow:visible;margin-top:40px;container-type:size;background:transparent}   /* the space sky shows behind him */
   .portrait.iop .iopw{position:absolute;left:50%;bottom:0;aspect-ratio:var(--ar);transform:translateX(-50%);transform-origin:50% 100%;z-index:1}
   .portrait.iop .iopw img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;
     filter:drop-shadow(0 0 1px rgba(226,184,108,.28)) drop-shadow(0 10px 18px rgba(0,0,0,.65))}
@@ -1622,7 +1619,6 @@ body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(
   .portrait.iop-standing .iopw{height:calc(100cqh + 44px)}
   .portrait.iop-fist{clip-path:inset(-60px -106px 0 -60%)}
   .portrait.iop-fist .iopw{height:min(calc(100cqh + 56px), 215cqw);transform:translateX(-55%)}
-  .ioemb{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
   .iogold{display:block;position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.9;
     background:linear-gradient(105deg,transparent 42%,rgba(255,236,190,0) 44%,rgba(255,236,190,.55) 50%,rgba(255,236,190,0) 56%,transparent 58%) 120% 0/320% 100% no-repeat;
     -webkit-mask:var(--gm) center/100% 100% no-repeat;mask:var(--gm) center/100% 100% no-repeat}
@@ -1890,7 +1886,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var zfig = '<figure class="portrait zpop zfull"><picture><source media="(max-width:880px)" srcset="img/zolo/cut-' + zk + '.webp"><img src="img/zolo/hip-' + zk + '.webp" alt="Zolo' + (zMask ? ', hooded and masked' : '') + ', from the hip up: white hair in a top knot, black layered coat with 死星七四 down the sleeve, katanas at his back"></picture>' +
       '<span class="zmask ttseg" role="group" aria-label="Face"><button type="button" data-zmask="0" aria-pressed="' + !zMask + '">Face</button><button type="button" data-zmask="1" aria-pressed="' + zMask + '">Masked</button></span></figure>';
     var io = IOP[IOPK] || IOP.fist;
-    var iofig = '<figure class="portrait iop iop-' + IOPK + '"><canvas class="ioemb" aria-hidden="true"></canvas><span class="iopw" style="--ar:' + io.w + '/' + io.h + '"><picture><source media="(max-width:880px)" srcset="' + esc(S.portrait || "img/io-portrait.jpg") + '"><img src="' + io.src + '" alt="' + esc(io.alt) + '"></picture>' +
+    var iofig = '<figure class="portrait iop iop-' + IOPK + '"><span class="iopw" style="--ar:' + io.w + '/' + io.h + '"><picture><source media="(max-width:880px)" srcset="' + esc(S.portrait || "img/io-portrait.jpg") + '"><img src="' + io.src + '" alt="' + esc(io.alt) + '"></picture>' +
       '<i class="iogold" aria-hidden="true" style="--gm:url(img/io-' + IOPK + '-gold.png)"></i>' + (io.mouth ? '<canvas class="iosmoke" aria-hidden="true"></canvas>' : '') + '</span>' +
       '<span class="zmask ttseg iopsw" role="group" aria-label="Portrait">' + IOPL.map(function(o){ return '<button type="button" data-iop="' + o[0] + '" aria-pressed="' + (IOPK === o[0]) + '">' + o[1] + '</button>'; }).join("") + '</span></figure>';
     var h = WHO === "zolo" ? zfig : iofig;
@@ -3515,31 +3511,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return {W:W, H:H, dpr:dpr, far:far[0], mid:mid[0], props:props[0]};
   }
 
-  /* Iō portrait effects: embers rising behind every version; on Fist, a slow exhale of smoke from his mouth */
-  var iofx = {raf:0, emb:[], smoke:[], last:0, nextPuff:0};
+  /* Iō portrait effects: on Fist, a slow exhale of smoke from his mouth */
+  var iofx = {raf:0, smoke:[], last:0, nextPuff:0};
   function ioFxInit(){
     if (reduce || iofx.raf) return;
-    if (!document.querySelector(".portrait.iop .ioemb")) return;
+    if (!document.querySelector(".portrait.iop .iosmoke")) return;
     function frame(t){
       var fig = document.querySelector(".portrait.iop"); if (!fig){ iofx.raf = 0; return; }
       var dt = iofx.last ? Math.min((t - iofx.last) / 1000, .05) : 0; iofx.last = t;
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      var ce = fig.querySelector(".ioemb");
-      if (ce && ce.clientWidth){
-        var W = ce.clientWidth, H = ce.clientHeight;
-        if (ce.width !== Math.round(W*dpr) || ce.height !== Math.round(H*dpr)){ ce.width = Math.round(W*dpr); ce.height = Math.round(H*dpr); }
-        var g = ce.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
-        while (iofx.emb.length < 22) iofx.emb.push({x:Math.random()*W, y:H*(.3 + Math.random()*.9), v:10 + Math.random()*22, r:.7 + Math.random()*1.5, ph:Math.random()*6.28, gold:Math.random() < .55});
-        iofx.emb.forEach(function(p){
-          p.y -= p.v*dt; p.x += Math.sin(t/1000*.8 + p.ph)*6*dt;
-          if (p.y < -10){ p.y = H + 10; p.x = Math.random()*W; }
-          var a = Math.min(1, (H - p.y)/(H*.25)) * Math.min(1, p.y/(H*.35)) * (.55 + .45*Math.sin(t/1000*3 + p.ph));
-          g.globalAlpha = Math.max(0, a) * .8; g.fillStyle = p.gold ? "#e2b86c" : "#e0323c";
-          g.shadowColor = g.fillStyle; g.shadowBlur = 6;
-          g.beginPath(); g.arc(p.x, p.y, p.r, 0, 6.2832); g.fill();
-        });
-        g.globalAlpha = 1; g.shadowBlur = 0;
-      }
       var cs = fig.querySelector(".iosmoke"), io = IOP[IOPK];
       if (cs && io.mouth && cs.clientWidth){
         var W2 = cs.clientWidth, H2 = cs.clientHeight, wrap = cs.parentNode, ww = wrap.clientWidth, wh = wrap.clientHeight, k = wh / 700;
