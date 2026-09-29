@@ -1600,6 +1600,9 @@ body.zolo .lrow:not(:disabled):hover{background:rgba(108,198,230,.08)}
 .bodyfig[data-hov~="legL"] .xr-legL{opacity:.7}.bodyfig[data-sel~="legL"] .xr-legL{opacity:1}
 
 body.zolo .bodyfig{--zc:#6cc6e6;--zc2:rgba(108,198,230,.14)}
+/* scan depth switch under the figure (Iō) */
+.xlsw{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);z-index:5}
+.xlsw button{padding:6px 12px 5px;font-size:11px}
 /* Iō: his titanium skeleton glows warm, not cold */
 body:not(.zolo) .bodyfig .xr{filter:drop-shadow(0 0 4px rgba(226,184,108,.35))}
 body.zolo .bodyfig.tone-gold{--zc:#d9dde0;--zc2:rgba(217,221,224,.12)}
@@ -2407,9 +2410,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Zolo's figure: his own art, region masks drawn on it, and the aligned metal skeleton for the x-ray layer */
   var RBOX_Z = {"body": [1.6, 0.6, 98.2, 99.3], "torso": [24.8, 13.0, 76.2, 35.7], "legs": [11.2, 35.8, 97.9, 99.3], "armL": [74.6, 15.6, 98.2, 55.1], "armR": [1.6, 15.4, 24.8, 55.1], "head": [34.1, 0.6, 63.7, 12.9], "ears": [39.3, 6.2, 61.3, 8.9], "eyes": [46.6, 7.1, 57.0, 7.9]};
   var ANCH_Z = {"head": [49.6, 4.3], "eyes": [51.8, 7.5], "ears": [60.3, 7.2], "armR": [12.7, 33.9], "armL": [87.2, 34.6], "legR": [33.0, 62.7], "legL": [68.8, 63.0], "torso": [50.3, 24.0], "legs": [50.2, 62.8], "bodyL": [11.1, 23.9], "bodyR": [87.0, 23.9]};
+  var XL = "bone"; try { XL = localStorage.getItem("io-xlayer") || "bone"; } catch(e){}
   function FIG(){ return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m2/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body2.webp", skel:"img/io/ware-skel2.webp", m:"img/io/m2/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
+    : {img:"img/io/ware-body2.webp", skel:"img/io/ware-skel3.webp", mus:"img/io/ware-mus2.webp", m:"img/io/m2/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
@@ -2479,9 +2483,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var bx = F.rbox[on[0]], tx = Math.min(bx[2], 80), ty = on[0] === "body" ? 20 : Math.max(bx[1], 2);
       tag = '<span class="rtag" style="left:' + tx + '%;top:' + ty + '%"><b>' + esc(sz.label) + '</b><em>' + zoneCount(sz) + '</em></span>';
     }
-    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + '" id="bodyfig"' + (F.skel ? ' style="--sk:url(' + F.skel + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
+    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + '" id="bodyfig"' + (F.skel ? ' style="--sk:url(' + (F.mus && XL === "muscle" ? F.mus : F.skel) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
-      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure></div>';
+      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure>' +
+      (F.mus ? '<span class="xlsw ttseg" role="group" aria-label="Scan depth"><button type="button" data-xl="muscle" aria-pressed="' + (XL === "muscle") + '">Muscle</button><button type="button" data-xl="bone" aria-pressed="' + (XL !== "muscle") + '">Bone</button></span>' : '') + '</div>';
     if (!editing && (sel === "all" || sel === "limbs")) return aroundHTML(nav, stage, sel);
     var panel;
     if (!sel && !editing) panel = overview();
@@ -4054,6 +4059,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.mus) bf.style.setProperty("--sk", "url(" + (XL === "muscle" ? F2.mus : F2.skel) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
