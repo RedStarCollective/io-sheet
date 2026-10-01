@@ -473,6 +473,7 @@ select.ed{width:auto;padding:0 2px}
 .ptabs button[aria-selected="true"]{color:var(--ink)}
 .pink{position:absolute;left:14px;bottom:-1px;width:96px;height:2px;background:var(--red-hi);transition:transform .3s cubic-bezier(.3,.7,.2,1)}
 [data-ptab="kit"] .pink{transform:translateX(96px)}
+.ptabs.noprof .pink{margin-left:-96px}   /* no Profile tab for view-only visitors: indicator starts at the first remaining tab */
 .ppane{display:none}
 [data-ptab="profile"] .pp-profile,[data-ptab="kit"] .pp-kit{display:flex}
 .pbio p{margin:0 0 .9em;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:68ch}
@@ -3397,16 +3398,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if ((m.papers || []).length) kit += '<h3 class="zh">Papers</h3><ul class="pgear">' + m.papers.map(function(x){ return '<li><b>' + esc(x.name) + '</b><span>' + ({forged:"Forged", license:"Licensed", registration:"Registered", plate:"Plate"}[x.kind] || "") + '</span></li>'; }).join("") + '</ul>';
     if (m.block) kit = blockKit(m.block);
     if (!kit) kit = '<p class="zhint">Nothing Iō bought for ' + esc(m.name) + ' is tracked yet.</p>';
-    var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : "profile";
+    var adm = isAdmin();   /* Profile write-ups are hidden from view-only visitors for now */
+    var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : adm ? "profile" : m.block ? "stats" : "kit";
     return '<section class="box pcard' + (m.block ? ' has-stats' : '') + '" data-ptab="' + t + '"><div class="phead"><div><h2>' + esc(m.name) + '</h2>' +
       (m.title ? '<p class="ptitle">' + esc(m.title) + '</p>' : '<span class="chip">' + esc(m.role) + '</span>') +
-      ((m.facts || []).length ? '<div class="pfacts">' + m.facts.map(function(f2){ return '<span>' + esc(f2) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
+      (adm && (m.facts || []).length ? '<div class="pfacts">' + m.facts.map(function(f2){ return '<span>' + esc(f2) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
       '<button type="button" class="pclose" data-pclose="1" aria-label="Back to the whole posse">×</button></div>' +
-      '<div class="ptabs" role="tablist"><button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button>' +
+      '<div class="ptabs' + (adm ? '' : ' noprof') + '" role="tablist">' + (adm ? '<button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button>' : '') +
         (m.block ? '<button type="button" role="tab" data-ptabbtn="stats" aria-selected="' + (t === "stats") + '">Stats</button>' : '') +
         '<button type="button" role="tab" data-ptabbtn="kit" aria-selected="' + (t === "kit") + '">' + (m.block ? 'Ware' : 'Kit') + '</button><span class="pink"></span></div>' +
-      '<div class="pbody ppane pp-profile">' + bio + '</div>' + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
+      (adm ? '<div class="pbody ppane pp-profile">' + bio + '</div>' : '') + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
   }
+  function isAdmin(){ return !(WHO === "zolo" ? roIo : readOnly); }
   function roster(){
     var std = stdGear();
     return '<section class="box pcard"><div class="hb"><span class="sp">The Posse</span><span class="gnote">' + PM().length + ' members</span></div>' +
