@@ -32,7 +32,8 @@ function findTab_(ss, name) {
   return ss.getSheets().filter(function (sh) { return tabKey_(sh.getName()) === want; })[0] || null;
 }
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.beat) return beat_(e.parameter);   // visitor heartbeat: answered before any sheet work
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const out = { updated: new Date().toISOString(), sheets: {}, missing: [] };
   TABS.forEach(function (name) {
@@ -62,6 +63,7 @@ function doPost(e) {
     PropertiesService.getScriptProperties().setProperty('NYOZI', JSON.stringify(n));
     return json_({ ok: true, nyozi: n });
   }
+  if (body.type === 'presence') return json_(presence_());
   if (body.type === 'hosting') {
     const h = { open: body.open !== false, updated: new Date().toISOString() };
     PropertiesService.getScriptProperties().setProperty('HOSTING', JSON.stringify(h));
@@ -628,3 +630,33 @@ const CASEFILE_SEED = [
 "Shared with C1"
 ]
 ];
+
+
+/**
+ * Who's looking (for the page's viewer avatars). Visitors send a small heartbeat every ~40s while the page is open.
+ * Kept in the script cache for a few minutes only. No names, accounts or addresses: just a random id per browser tab,
+ * which tab of the sheet it's on, and Iō or Zolo. Only the edit-key holder can read the list.
+ */
+const PRESENCE_TTL_MS = 75000;
+function readPresence_() { let m = {}; try { m = JSON.parse(CacheService.getScriptCache().get('PRESENCE') || '{}'); } catch (err) {} return m; }
+function beat_(p) {
+  const id = String(p.beat).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 24);
+  if (!id) return json_({ ok: false });
+  const lock = LockService.getScriptLock();
+  try { lock.waitLock(3000); } catch (err) { return json_({ ok: false, error: 'busy' }); }
+  try {
+    const now = Date.now(), m = readPresence_();
+    Object.keys(m).forEach(function (k) { if (now - m[k].t > PRESENCE_TTL_MS) delete m[k]; });
+    if (p.bye) delete m[id];
+    else m[id] = { t: now, since: (m[id] && m[id].since) || now, tab: String(p.tab || '').slice(0, 20), who: String(p.who || '').slice(0, 8) };
+    CacheService.getScriptCache().put('PRESENCE', JSON.stringify(m), 600);
+    if (!p.bye) PropertiesService.getScriptProperties().setProperty('LAST_SEEN', String(now));
+  } finally { lock.releaseLock(); }
+  return json_({ ok: true });
+}
+function presence_() {
+  const now = Date.now(), m = readPresence_();
+  const viewers = Object.keys(m).filter(function (k) { return now - m[k].t <= PRESENCE_TTL_MS; })
+    .map(function (k) { return { id: k, tab: m[k].tab, who: m[k].who, since: m[k].since, ago: now - m[k].t }; });
+  return { ok: true, viewers: viewers, lastSeen: Number(PropertiesService.getScriptProperties().getProperty('LAST_SEEN') || 0), now: now };
+}

@@ -473,7 +473,6 @@ select.ed{width:auto;padding:0 2px}
 .ptabs button[aria-selected="true"]{color:var(--ink)}
 .pink{position:absolute;left:14px;bottom:-1px;width:96px;height:2px;background:var(--red-hi);transition:transform .3s cubic-bezier(.3,.7,.2,1)}
 [data-ptab="kit"] .pink{transform:translateX(96px)}
-.ptabs.noprof .pink{margin-left:-96px}   /* no Profile tab for view-only visitors: indicator starts at the first remaining tab */
 .ppane{display:none}
 [data-ptab="profile"] .pp-profile,[data-ptab="kit"] .pp-kit{display:flex}
 .pbio p{margin:0 0 .9em;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:68ch}
@@ -2106,6 +2105,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 .hostgate.wait .lab{animation:hgp 1.2s ease-in-out infinite alternate}
 @keyframes hgp{from{opacity:.35}}
 
+
+/* Viewers (edit-key holder only) */
+.vwrs{display:flex;align-items:center;position:relative}
+.vw-none{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap}
+.vw-btn{display:flex;align-items:center;gap:8px;background:none;border:0;padding:2px 4px;cursor:pointer;color:var(--ink-2);font:inherit}
+.vw-dots{display:flex}
+.vw-dot{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;font-style:normal;font-family:var(--f-disp);font-size:12px;font-weight:700;color:#fff;background:hsl(var(--vh),55%,38%);box-shadow:0 0 0 2px var(--panel),0 0 0 3px hsl(var(--vh),70%,60%)}
+.vw-dots .vw-dot + .vw-dot{margin-left:-7px}
+.vw-dot.more{background:var(--cell-2);box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--frame);color:var(--ink-2);font-size:11px}
+.vw-n{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.vw-btn:hover .vw-n{color:var(--ink)}
+.vw-list{position:fixed;top:var(--vy,60px);left:var(--vx,0px);z-index:60;min-width:250px;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--frame);box-shadow:0 12px 30px rgba(0,0,0,.6);padding:6px 0}
+.vw-row{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:6px 12px}
+.vw-row .vw-dot{grid-row:1/3}
+.vw-row b{font-family:var(--f-cond);font-size:15px;font-weight:600;color:var(--ink);line-height:1.1}
+.vw-row em{font-style:normal;font-size:12px;color:var(--ink-3)}
+
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -2216,10 +2232,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<div class="m"><b>Cash</b><span class="gold">' + f("cash",{num:1,label:"Cash"}) + '<span class="u">eb</span></span></div>' +
         (S.sin || editing ? '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
           '<div class="sin-row"><span class="sin-tag">SIN</span><div>' + barcode(S.sin || "") + '<div class="sin-num">' + esc(S.sin || "") + '</div></div></div>') + '</div>' : '<div class="code"></div>') +
-        '<div class="actions">' + hostSwitch() + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
+        '<div class="actions">' + viewersChip() + hostSwitch() + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
       '</div>' +
     '</div></header>' +
-    '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS.filter(function(t){ return t !== "Ware" || isAdmin(); }) : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
+    '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>' +
       /* sheet sync / save status: sits in the open space under the header, right side of the tab row */
       (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '')) + '</span>') + '</div>';
@@ -3411,16 +3427,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if ((m.papers || []).length) kit += '<h3 class="zh">Papers</h3><ul class="pgear">' + m.papers.map(function(x){ return '<li><b>' + esc(x.name) + '</b><span>' + ({forged:"Forged", license:"Licensed", registration:"Registered", plate:"Plate"}[x.kind] || "") + '</span></li>'; }).join("") + '</ul>';
     if (m.block) kit = blockKit(m.block);
     if (!kit) kit = '<p class="zhint">Nothing Iō bought for ' + esc(m.name) + ' is tracked yet.</p>';
-    var adm = isAdmin();   /* Profile write-ups are hidden from view-only visitors for now */
-    var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : adm ? "profile" : m.block ? "stats" : "kit";
+    var t = pTab === "kit" ? "kit" : pTab === "stats" && m.block ? "stats" : "profile";
     return '<section class="box pcard' + (m.block ? ' has-stats' : '') + '" data-ptab="' + t + '"><div class="phead"><div><h2>' + esc(m.name) + '</h2>' +
       (m.title ? '<p class="ptitle">' + esc(m.title) + '</p>' : '<span class="chip">' + esc(m.role) + '</span>') +
-      (adm && (m.facts || []).length ? '<div class="pfacts">' + m.facts.map(function(f2){ return '<span>' + esc(f2) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
+      ((m.facts || []).length ? '<div class="pfacts">' + m.facts.map(function(f2){ return '<span>' + esc(f2) + '</span>'; }).join("") + '</div>' : '') + '</div>' +
       '<button type="button" class="pclose" data-pclose="1" aria-label="Back to the whole posse">×</button></div>' +
-      '<div class="ptabs' + (adm ? '' : ' noprof') + '" role="tablist">' + (adm ? '<button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button>' : '') +
+      '<div class="ptabs" role="tablist"><button type="button" role="tab" data-ptabbtn="profile" aria-selected="' + (t === "profile") + '">Profile</button>' +
         (m.block ? '<button type="button" role="tab" data-ptabbtn="stats" aria-selected="' + (t === "stats") + '">Stats</button>' : '') +
         '<button type="button" role="tab" data-ptabbtn="kit" aria-selected="' + (t === "kit") + '">' + (m.block ? 'Ware' : 'Kit') + '</button><span class="pink"></span></div>' +
-      (adm ? '<div class="pbody ppane pp-profile">' + bio + '</div>' : '') + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
+      '<div class="pbody ppane pp-profile">' + bio + '</div>' + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
   }
   function isAdmin(){ return !(WHO === "zolo" ? roIo : readOnly); }
   /* Public switch (GitHub copy): the edit-key holder can close the page to everyone else. Stored in the sheet script (HOSTING). */
@@ -3429,6 +3444,56 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return '<main class="hostgate"><section class="box"><div class="hb"><span class="sp">Iō · Sheet closed</span></div>' +
       '<div class="hgbody"><svg class="star" viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#b30f1b" points="50,2 60.4,32 92,26 71,50 92,74 60.4,68 50,98 39.6,68 8,74 29,50 8,26 39.6,32"/></svg>' +
       '<p class="hgt">Offline for now</p><p class="hgs">This sheet isn\'t public at the moment. Check back later.</p></div></section></main>';
+  }
+  /* Viewers, Google-Sheets style. Visitors (no edit key) send a heartbeat to the sheet script every 40s while the page is
+     visible; the edit-key holder polls the list every 20s and sees an avatar per open tab. Ids are random per browser tab. */
+  var SID = ""; try { SID = sessionStorage.getItem("io-sid") || ""; } catch(e){}
+  if (!SID){ SID = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); try { sessionStorage.setItem("io-sid", SID); } catch(e){} }
+  var beatT = 0, beatAt = 0, beatTab = "", VW = null, vwT = 0, vwOpen = false;
+  var VROLES = ["Netrunner","Fixer","Nomad","Rockerboy","Medtech","Techie","Solo","Exec","Lawman","Media"];
+  function vHash(id){ var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return h; }
+  var VADJ = ["Neon","Chrome","Ghost","Static","Rust","Glass","Silent","Velvet","Iron","Midnight"];
+  function vName(id){ var h = vHash(id); return VADJ[Math.floor(h / 10) % VADJ.length] + " " + VROLES[h % VROLES.length]; }
+  function vHue(id){ return (vHash(id) * 47) % 360; }
+  function vTab(v){ var t = String(v.tab || ""); var lab = {dossier:"Dossier", ware:"Ware", casefile:"Case File", rep:"Rep", fans:"Fans", posse:"Posse", vehicles:"Vehicles", advance:"Advance", closed:"the closed screen"}[t] || t || "the page"; return (v.who === "zolo" && t !== "closed" ? "Zolo · " : "") + lab; }
+  function vAgo(ms){ var m = Math.round(ms / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 1440 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " d ago"; }
+  function sendBeat(bye){
+    if (!HOSTED || !SHEET_API || isAdmin() || (hostWait && !bye)) return;   /* wait until we know what they're seeing */
+    var t = !hostOpen ? "closed" : tab;
+    beatAt = Date.now(); beatTab = t;
+    try { fetch(SHEET_API + "?beat=" + encodeURIComponent(SID) + "&tab=" + encodeURIComponent(t) + "&who=" + WHO + (bye ? "&bye=1" : ""), {cache:"no-store", keepalive:!!bye}).catch(function(){}); } catch(e){}
+  }
+  function beatLoop(){ clearTimeout(beatT); if (!document.hidden) sendBeat(); beatT = setTimeout(beatLoop, 40000); }
+  var beatD = 0;
+  function beatOnRender(){   /* tell the script promptly when the visitor changes tab (at most one beat per 3s) */
+    if (!HOSTED || isAdmin() || hostWait) return; var t = !hostOpen ? "closed" : tab; if (t === beatTab) return;
+    clearTimeout(beatD); beatD = setTimeout(function(){ sendBeat(); }, Math.max(0, 3000 - (Date.now() - beatAt)));
+  }
+  document.addEventListener("visibilitychange", function(){ if (!HOSTED) return; if (document.hidden){ if (!isAdmin()) sendBeat(true); } else { if (isAdmin()) pollViewers(); else beatLoop(); } });
+  window.addEventListener("pagehide", function(){ if (HOSTED && !isAdmin()) sendBeat(true); });
+  function pollViewers(){
+    clearTimeout(vwT);
+    if (!HOSTED || !SHEET_API || !EDIT_KEY || !isAdmin()) return;
+    if (!document.hidden) fetch(SHEET_API, {method:"POST", body:JSON.stringify({key:EDIT_KEY, type:"presence"})}).then(function(r){ return r.json(); }).then(function(j){
+      VW = j && j.ok ? j : (j && j.error === "unknown request" ? {old:true} : VW); paintViewers();
+    }).catch(function(){});
+    vwT = setTimeout(pollViewers, 20000);
+  }
+  window.addEventListener("scroll", function(){ if (vwOpen){ vwOpen = false; paintViewers(); } }, {passive:true});
+  document.addEventListener("click", function(ev){ if (!document.contains(ev.target)) return; if (vwOpen && !(ev.target.closest && ev.target.closest(".vwrs,#vwpop"))){ vwOpen = false; paintViewers(); } });
+  function viewersChip(){ return (HOSTED && EDIT_KEY && isAdmin()) ? '<span class="vwrs" id="vwrs"></span>' : ''; }
+  function paintViewers(){
+    var el = document.getElementById("vwrs"); if (!el){ var p0 = document.getElementById("vwpop"); if (p0) p0.innerHTML = ""; return; }
+    if (!VW){ el.innerHTML = '<span class="vw-none">Checking viewers…</span>'; return; }
+    if (VW.old){ el.innerHTML = '<span class="vw-none" title="Paste the new Code.gs into Apps Script and deploy a new version">Viewers: update script</span>'; return; }
+    var L = (VW.viewers || []).slice().sort(function(a, b){ return a.since - b.since; });
+    if (!L.length){ vwOpen = false; var p1 = document.getElementById("vwpop"); if (p1) p1.innerHTML = ""; el.innerHTML = '<span class="vw-none">No one else here' + (VW.lastSeen ? ' · last visit ' + vAgo(VW.now - VW.lastSeen) : '') + '</span>'; return; }
+    var dots = L.slice(0, 4).map(function(v){ var n = vName(v.id); return '<i class="vw-dot" style="--vh:' + vHue(v.id) + '" title="' + esc(n + " · on " + vTab(v)) + '">' + n.split(" ").pop().charAt(0) + '</i>'; }).join("") + (L.length > 4 ? '<i class="vw-dot more">+' + (L.length - 4) + '</i>' : '');
+    var list = '<span class="vw-list" role="dialog" aria-label="People viewing">' + L.map(function(v){ return '<span class="vw-row"><i class="vw-dot" style="--vh:' + vHue(v.id) + '">' + vName(v.id).split(" ").pop().charAt(0) + '</i><b>' + esc(vName(v.id)) + '</b><em>on ' + esc(vTab(v)) + ' · here ' + esc(vAgo(VW.now - v.since).replace(" ago", "").replace("just now", "<1 min")) + '</em></span>'; }).join("") + '</span>';
+    el.innerHTML = '<button type="button" class="vw-btn" data-vw="1" aria-expanded="' + vwOpen + '"><span class="vw-dots">' + dots + '</span><span class="vw-n">' + L.length + ' viewing</span></button>';
+    var pop = document.getElementById("vwpop"); if (!pop){ pop = document.createElement("div"); pop.id = "vwpop"; document.body.appendChild(pop); }   /* outside the header: its cut-corner shape would crop the list */
+    pop.innerHTML = vwOpen ? list : '';
+    if (vwOpen){ var bt = el.querySelector(".vw-btn"), ls = pop.querySelector(".vw-list"); if (bt && ls){ var R = bt.getBoundingClientRect(); ls.style.setProperty("--vy", Math.round(R.bottom + 8) + "px"); ls.style.setProperty("--vx", Math.round(Math.max(8, Math.min(R.left, window.innerWidth - ls.offsetWidth - 8))) + "px"); } }
   }
   function hostSwitch(){ if (!HOSTED || !isAdmin() || !EDIT_KEY) return '';
     return '<button class="btn hostsw' + (hostOpen ? '' : ' off') + '" data-hosting="1" aria-pressed="' + hostOpen + '" title="Whether people without the edit key can see this page">Public: ' + (hostOpen ? 'On' : 'Off') + '</button>'; }
@@ -4354,8 +4419,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     zr.draw = function(ms, loop){ zr.loop = loop || null; cancelAnimationFrame(zr.raf); frame(ms); cancelAnimationFrame(zr.raf); zr.raf = 1; zr.loop = null; return low; }; window.__zolorun = zr;
   }
   function render(){
-    if (HOSTED && !isAdmin() && (hostWait || !hostOpen)){ app.innerHTML = hostWait ? '<main class="hostgate wait" aria-busy="true"><p class="lab">Connecting…</p></main>' : closedPage(); return; }
-    if (WHO === "zolo" && tab === "ware" && !isAdmin()){ tab = "dossier"; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} }   /* Zolo's Ware is a work in progress: only the edit-key holder sees it for now */
+    if (HOSTED && !isAdmin() && (hostWait || !hostOpen)){ app.innerHTML = hostWait ? '<main class="hostgate wait" aria-busy="true"><p class="lab">Connecting…</p></main>' : closedPage(); beatOnRender(); return; }
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S && WHO === "io") deriveSkills();
@@ -4381,6 +4445,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         setTimeout(function(){ main.classList.remove("dz-in"); main.querySelectorAll(".dzi").forEach(function(el){ el.classList.remove("dzi"); }); }, 1800);
       }
     }
+    paintViewers(); beatOnRender();
     window.scrollTo(0, y);
   }
 
@@ -4732,6 +4797,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   app.addEventListener("click", function(ev){
     var b = ev.target.closest("button"); if (!b) return;
+    if (b.dataset.vw){ vwOpen = !vwOpen; paintViewers(); return; }
     if (b.dataset.hosting){ var was = hostOpen; hostOpen = !hostOpen; render(); pushState("hosting", {open:hostOpen}).then(function(ok){ if (!ok){ hostOpen = was; render(); } else status(hostOpen ? "Page is public" : "Page closed to visitors"); }); return; }
     if (b.dataset.go && tab === "ware"){
       zoneSel = b.dataset.go; hlId = b.dataset.hl || ""; pulseNext = true;
@@ -4806,6 +4872,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     decode();
     setTimeout(function(){ document.body.classList.remove("boot"); }, 900);
     if (HOSTED) pullSheet();
+    if (HOSTED){ if (isAdmin()) pollViewers(); else beatLoop(); }
   }).catch(function(){
     app.innerHTML = '<div class="err">Couldn\'t load Iō\'s data file. Reload the page to try again.</div>';
   });
