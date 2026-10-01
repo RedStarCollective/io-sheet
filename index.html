@@ -1668,6 +1668,70 @@ body.zolo .rtag.ltag:hover,body.zolo .rtag.ltag.on{background:rgba(8,20,26,.92)}
   body:not(.zolo) .portrait.iop::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-2px;height:2px;z-index:2;pointer-events:none;
     background:linear-gradient(90deg,transparent,var(--gold) 14%,#e2c18a 50%,var(--gold) 86%,transparent);box-shadow:0 0 10px rgba(226,184,108,.45),0 0 2px rgba(226,184,108,.8)}
 }
+/* Ware: tag meaning on click, one line under the item's name (Oct 1, round 2) */
+.chip2.tagb{cursor:pointer}
+.chip2.tagb.on{background:rgba(255,255,255,.09);box-shadow:inset 0 0 0 1px currentColor}
+.tagln{margin:5px 0 1px;padding-left:8px;border-left:2px solid var(--line);font-size:12.5px;line-height:1.35;color:var(--ink-2)}
+.tagln b{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-right:3px;border:0;padding:0}
+@media (prefers-reduced-motion:no-preference){ .tagln{animation:wsin .2s ease-out} }
+/* scanner lens: muscle outside, nerves in the middle, bone at the centre */
+.bodyfig{--zp:#f0cf8e}
+body.zolo .bodyfig{--zp:#9fe0f5}
+.lens{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;transition:opacity .25s;--lx:-999px;--ly:-999px;--lr:25px}
+.lens.on{opacity:1}
+.lens i{position:absolute;inset:0}
+.ln-mus,.ln-nrv,.ln-bone{background:var(--li) center/100% 100% no-repeat,rgba(9,7,7,.92);
+  -webkit-mask:var(--rg),var(--lm) center/100% 100% no-repeat;-webkit-mask-composite:source-in;mask:var(--rg),var(--lm) center/100% 100% no-repeat;mask-composite:intersect}
+.ln-bone{--rg:radial-gradient(circle at var(--lx) var(--ly),#000 calc(var(--lr) * 1.3),transparent calc(var(--lr) * 1.3 + 1px))}
+.ln-nrv{--rg:radial-gradient(circle at var(--lx) var(--ly),transparent calc(var(--lr) * 1.3),#000 calc(var(--lr) * 1.3 + 1px),#000 calc(var(--lr) * 2.25),transparent calc(var(--lr) * 2.25 + 1px))}
+.ln-mus{--rg:radial-gradient(circle at var(--lx) var(--ly),transparent calc(var(--lr) * 2.25),#000 calc(var(--lr) * 2.25 + 1px),#000 calc(var(--lr) * 3.3),transparent calc(var(--lr) * 3.3 + 1.5px))}
+.ln-nrv{filter:drop-shadow(0 0 3px rgba(240,207,142,.35))}
+.ln-ring{background:radial-gradient(circle at var(--lx) var(--ly),
+  transparent calc(var(--lr) * 1.3 - 1px),rgba(240,207,142,.55) calc(var(--lr) * 1.3),transparent calc(var(--lr) * 1.3 + 1px),
+  transparent calc(var(--lr) * 2.25 - 1px),rgba(240,207,142,.4) calc(var(--lr) * 2.25),transparent calc(var(--lr) * 2.25 + 1px),
+  transparent calc(var(--lr) * 3.3 - 1px),rgba(240,207,142,.85) calc(var(--lr) * 3.3),rgba(240,207,142,.18) calc(var(--lr) * 3.3 + 2px),transparent calc(var(--lr) * 3.3 + 9px))}
+.bodyfig.lensing .xr{opacity:0}.bodyfig.lensing[data-sel~="body"] .xr-body{opacity:1}.bodyfig.lensing[data-sel~="torso"] .xr-torso{opacity:1}.bodyfig.lensing[data-sel~="legs"] .xr-legs{opacity:1}.bodyfig.lensing[data-sel~="armL"] .xr-armL{opacity:1}.bodyfig.lensing[data-sel~="armR"] .xr-armR{opacity:1}.bodyfig.lensing[data-sel~="head"] .xr-head{opacity:1}.bodyfig.lensing[data-sel~="ears"] .xr-ears{opacity:1}.bodyfig.lensing[data-sel~="eyes"] .xr-eyes{opacity:1}.bodyfig.lensing[data-sel~="legR"] .xr-legR{opacity:1}.bodyfig.lensing[data-sel~="legL"] .xr-legL{opacity:1}
+/* neural pulse */
+.npulse{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:4;filter:drop-shadow(0 0 3px var(--zp)) drop-shadow(0 0 7px var(--zp))}
+.np-trail{fill:none;stroke:var(--zp);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;opacity:.85;stroke-dasharray:100;stroke-dashoffset:100;animation:nptrail .7s cubic-bezier(.4,0,.7,1) forwards,npfade .7s .8s forwards}
+.np-head{fill:none;stroke:#fff6dc;stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:9 200;stroke-dashoffset:9;animation:nphead .7s cubic-bezier(.4,0,.7,1) forwards}
+@keyframes nptrail{to{stroke-dashoffset:0}}
+@keyframes nphead{85%{opacity:1}to{stroke-dashoffset:-95;opacity:0}}
+@keyframes npfade{to{opacity:0}}
+.np-hit{position:absolute;width:0;height:0;z-index:4;pointer-events:none}
+.np-hit::before,.np-hit::after{content:"";position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%) scale(.2);opacity:0;animation:nphit .8s .62s ease-out forwards}
+.np-hit::before{border:1.5px solid var(--zp);box-shadow:0 0 10px var(--zp)}
+.np-hit::after{background:radial-gradient(circle,#fff6dc,var(--zp) 40%,transparent 70%);animation-name:npcore;animation-duration:.5s}
+.np-hit.big::before{animation-name:nphitbig}
+@keyframes nphit{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(5)}}
+@keyframes nphitbig{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(14)}}
+@keyframes npcore{0%{opacity:1;transform:translate(-50%,-50%) scale(.5)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.2)}}
+.bodyfig.zin .xr,.bodyfig.zin .rgw:not(.rgw-body),.bodyfig.zin .rtag{animation:zin .95s both}
+.bodyfig.zin .rg{animation:zin .95s both,scanr 1.6s linear infinite}
+@keyframes zin{0%,70%{opacity:0}}
+/* boot scan: a line passes down him, skin above it, muscle, nerves and bone riding just behind it, a ghost below */
+@property --bp{syntax:'<percentage>';inherits:true;initial-value:120%}
+.bodyfig.boot{animation:wbp 1.75s cubic-bezier(.42,.08,.45,1) var(--bt,0ms) both}
+@keyframes wbp{from{--bp:-6%}to{--bp:122%}}
+.bodyfig.boot #bodyimg{-webkit-mask-image:linear-gradient(180deg,#000 calc(var(--bp) - 17%),rgba(0,0,0,.07) calc(var(--bp) - 1%));mask-image:linear-gradient(180deg,#000 calc(var(--bp) - 17%),rgba(0,0,0,.07) calc(var(--bp) - 1%))}
+.bodyfig.boot .xsweep,.bodyfig.boot .sweep{display:none}
+.bodyfig.boot .rgw-body{animation:wedge 1.9s var(--bt,0ms) both}
+.bodyfig.boot .rgw-body .rge{background:var(--zp)}
+@keyframes wedge{0%,70%{opacity:.75}100%{opacity:.28}}
+.wscan{position:absolute;inset:0;pointer-events:none;z-index:3}
+.wscan i{position:absolute;inset:0}
+.ws-mus,.ws-nrv,.ws-bone{background:var(--li) center/100% 100% no-repeat,rgba(9,7,7,.9);
+  -webkit-mask:var(--bd),var(--lm) center/100% 100% no-repeat;-webkit-mask-composite:source-in;mask:var(--bd),var(--lm) center/100% 100% no-repeat;mask-composite:intersect}
+.ws-mus{--bd:linear-gradient(180deg,transparent calc(var(--bp) - 18%),#000 calc(var(--bp) - 15.5%),#000 calc(var(--bp) - 12%),transparent calc(var(--bp) - 10.5%))}
+.ws-nrv{--bd:linear-gradient(180deg,transparent calc(var(--bp) - 12%),#000 calc(var(--bp) - 10.5%),#000 calc(var(--bp) - 6.5%),transparent calc(var(--bp) - 5%))}
+.ws-bone{--bd:linear-gradient(180deg,transparent calc(var(--bp) - 6.5%),#000 calc(var(--bp) - 5%),#000 calc(var(--bp) - .8%),transparent var(--bp))}
+.ws-line{top:var(--bp)!important;bottom:auto!important;left:-7%!important;right:-7%!important;height:2px;background:linear-gradient(90deg,transparent,var(--zp) 18%,#fff6dc 50%,var(--zp) 82%,transparent);box-shadow:0 0 12px var(--zp),0 0 2px #fff6dc}
+.ws-line::before{content:"";position:absolute;left:12%;right:12%;bottom:100%;height:46px;background:linear-gradient(0deg,rgba(240,207,142,.16),transparent)}
+body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14),transparent)}
+.wboot .znav,.wboot .vwsw,.wboot .xlsw{animation:wsin .45s ease-out calc(var(--bt,0ms) + .95s) both}
+.wboot .zpanel{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
+.wboot .ring .side{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
+@keyframes wsin{from{opacity:0;transform:translateY(8px)}}
 /* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
    .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
 .iogold,.iosmoke{display:none}
@@ -2386,7 +2450,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var TAGC = {BIOWARE:"t-bio", UPG:"t-upg", FAB:"t-fab", ADV:"t-adv", INFOLINKED:"t-link", REACH:"t-reach"};
   var KINDS = [["cyber","Cyberware"],["bio","Bioware"],["adv","Advanced Bioware"],["worn","Worn"],["chip","Chipware"],["upgrade","Upgrade"]];
   var zoneSel = "", hlId = "";
-  try { zoneSel = localStorage.getItem("io-zone") || ""; } catch(e){}
+  /* the Ware tab always opens on Hide all (Oak, Oct 1): no restore of the last selection */
+  var wareBoot = true, pulseNext = false, bootT0 = 0;
   function CZ(){ return (S.chrome && S.chrome.zones) || []; }
   function isNode(it){ return it && it.kind !== "enh" && it.kind !== "link"; }
   function walk(items, fn){ (items || []).forEach(function(it){ if (isNode(it)){ fn(it); walk(it.children, fn); } }); }
@@ -2435,11 +2500,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   /* inline rules drop-downs (Oak, Oct 1: no floating card on the Ware page) */
   var XOPEN = {};
-  function tagSpan(k){ var key = String(k).toUpperCase(); return '<span class="chip2 ' + (TAGC[key] || '') + '">' + esc(k) + '</span>'; }
+  function tagSpan(k){ var key = String(k).toUpperCase(); return TAGDEF[key] ? '<button type="button" class="chip2 tagb ' + (TAGC[key] || '') + '" data-tagx="' + key + '" aria-expanded="false">' + esc(k) + '</button>' : '<span class="chip2">' + esc(k) + '</span>'; }
   function xpandHTML(refs, tags, on){
     var keys = String(refs || "").split(",").filter(Boolean), body = keys.map(refHTML).join("");
-    var td = (tags || []).map(function(k){ var t = TAGDEF[String(k).toUpperCase()]; return t ? '<li><span class="chip2 ' + (TAGC[String(k).toUpperCase()] || '') + '">' + esc(t.t) + '</span><span>' + esc(t.d) + '</span></li>' : ''; }).join("");
-    return '<div class="xpand' + (on ? ' on' : '') + '"><div class="xpin">' + (body || '<p class="rsrc xnone">Source text isn’t in the reference library yet.</p>') + (td ? '<ul class="xtags">' + td + '</ul>' : '') + '</div></div>';
+    return '<div class="xpand' + (on ? ' on' : '') + '"><div class="xpin">' + (body || '<p class="rsrc xnone">Source text isn’t in the reference library yet.</p>') + '</div></div>';
   }
   function xToggle(row){
     var p = row.dataset.x, li = row.parentNode, ex = li.querySelector(":scope > .xpand");
@@ -2456,6 +2520,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (td){ tagOpen = tagOpen === td.dataset.tagdef ? "" : td.dataset.tagdef; var box = document.getElementById("tagdef");
       [].forEach.call(document.querySelectorAll("[data-tagdef]"), function(b){ var o = b.dataset.tagdef === tagOpen; b.classList.toggle("on", o); b.setAttribute("aria-expanded", String(o)); });
       if (box){ box.hidden = !tagOpen; box.innerHTML = tagOpen ? '<b class="chip2 ' + TAGC[tagOpen] + '">' + esc(TAGDEF[tagOpen].t) + '</b><p>' + esc(TAGDEF[tagOpen].d) + '</p>' : ''; } return; }
+    var tx = ev.target.closest && ev.target.closest("[data-tagx]");
+    if (tx){ var nr = tx.closest(".nrow"), nh = nr && nr.querySelector(".nh"), old = nr && nr.querySelector(":scope > .tagln"), same = old && old.dataset.k === tx.dataset.tagx;
+      if (old) old.remove(); [].forEach.call(nr ? nr.querySelectorAll("[data-tagx]") : [], function(b){ b.setAttribute("aria-expanded", "false"); b.classList.remove("on"); });
+      if (!same && nh){ var t = TAGDEF[tx.dataset.tagx], ln = document.createElement("p"); ln.className = "tagln"; ln.dataset.k = tx.dataset.tagx; ln.innerHTML = '<b class="' + (TAGC[tx.dataset.tagx] || '') + '">' + esc(t.t) + '</b> ' + esc(t.d); nh.insertAdjacentElement("afterend", ln); tx.setAttribute("aria-expanded", "true"); tx.classList.add("on"); }
+      drawWires(); return; }
     if (ev.target.closest && ev.target.closest("button, a")) return;
     var row = ev.target.closest && ev.target.closest(".xrow"); if (row) xToggle(row);
   });
@@ -2494,7 +2563,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back3.webp", skel:"", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel6.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
+    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel6.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
@@ -2520,7 +2589,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       }).join("") + '</div>';
     }
     var head = '';
-    return '<main class="chrome2 ring ring-' + (sel === "limbs" ? "limbs" : "all") + '" id="chrome2">' + nav + head + '<div class="ringgrid">' + col("L") + stage + col("R") + '</div><svg class="wires" id="wires" aria-hidden="true"></svg></main>';
+    return '<main class="chrome2 ring ring-' + (sel === "limbs" ? "limbs" : "all") + (/ boot/.test(stage) ? ' wboot' : '') + '" id="chrome2">' + nav + head + '<div class="ringgrid">' + col("L") + stage + col("R") + '</div><svg class="wires" id="wires" aria-hidden="true"></svg></main>';
   }
   function drawWires(){
     var root = document.getElementById("chrome2"), svg = document.getElementById("wires"), fig = document.getElementById("bodyfig");
@@ -2546,7 +2615,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   var wr = 0; window.addEventListener("scroll", function(){ if (tab !== "ware" || wr) return; wr = requestAnimationFrame(function(){ wr = 0; if (document.querySelector(".ring")) drawWires(); }); }, {passive:true});
   var wt; window.addEventListener("resize", function(){ clearTimeout(wt); wt = setTimeout(function(){ if (tab === "ware") drawWires(); }, 100); });
-  var limbSel = ""; try { limbSel = localStorage.getItem("io-limb") || ""; } catch(e){}
+  var limbSel = "";
   var LIMBS = ["armR","armL","legR","legL"];
   function limbGroup(r){ var z = zoneById("limbs"), out = null; if (z) z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()]; if (m && m[1] === r) out = [g, gi]; }); return out; }
   function limbName(r){ var g = limbGroup(r); return g ? g[0].title : r; }
@@ -2558,7 +2627,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var A = FIG().anch, R = fig.getBoundingClientRect(), u = (ev.clientX - R.left) / R.width * 100;
     return Math.abs(u - A.legR[0]) < Math.abs(u - A.legL[0]) ? "legR" : "legL";
   }
-  function setLimb(r){ limbSel = r || ""; try { localStorage.setItem("io-limb", limbSel); } catch(e){} }
+  function setLimb(r){ limbSel = r || ""; }
   var RZONE = {head:"neural", eyes:"optics", ears:"audio", armR:"limbs", armL:"limbs", legs:"limbs", torso:"internal", body:"external"};
   function zoneById(id){ return CZ().filter(function(z){ return z.id === id; })[0]; }
   function chrome(){
@@ -2581,9 +2650,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var bx = F.rbox[on[0]], tx = Math.min(bx[2], 80), ty = on[0] === "body" ? 20 : Math.max(bx[1], 2);
       tag = '<span class="rtag" style="left:' + tx + '%;top:' + ty + '%"><b>' + esc(sz.label) + '</b><em>' + zoneCount(sz) + '</em></span>';
     }
-    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + '" id="bodyfig"' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
+    var now = Date.now(); if (wareBoot){ bootT0 = now; wareBoot = false; }
+    var boot = !editing && !reduce && now - bootT0 < 2200, bootEl = now - bootT0;   /* a re-render mid-scan (sheet sync, rules load) picks the scan up where it was */
+    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + (boot ? ' boot' : '') + '" id="bodyfig"' + (boot ? ' data-bt="' + bootEl + '"' : '') + '' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
-      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure>' +
+      (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers +
+      (F.lens && !reduce ? '<span class="lens" id="lens" aria-hidden="true" style="--lm:url(' + F.lens + ')"><i class="ln-mus" style="--li:url(' + F.mus + ')"></i><i class="ln-nrv" style="--li:url(' + F.nerve + ')"></i><i class="ln-bone" style="--li:url(' + F.skel + ')"></i><i class="ln-ring"></i></span>' : '') +
+      (boot ? '<span class="wscan" aria-hidden="true">' + (F.lens ? '<i class="ws-mus" style="--li:url(' + F.mus + ');--lm:url(' + F.lens + ')"></i><i class="ws-nrv" style="--li:url(' + F.nerve + ');--lm:url(' + F.lens + ')"></i><i class="ws-bone" style="--li:url(' + F.skel + ');--lm:url(' + F.lens + ')"></i>' : '') + '<i class="ws-line"></i></span>' : '') +
+      '<svg class="npulse" id="npulse" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>' + tag + '<span class="htag" id="htag"></span></figure>' +
       (WHO !== "zolo" ? '<span class="vwsw ttseg" role="group" aria-label="View"><button type="button" data-view="front" aria-pressed="' + !F.back + '">Front</button><button type="button" data-view="back" aria-pressed="' + !!F.back + '">Back</button></span>' : '') +
       (F.mus ? '<span class="xlsw ttseg" role="group" aria-label="Scan depth"><button type="button" data-xl="muscle" aria-pressed="' + (XL === "muscle") + '">Muscle</button>' + (F.nerve ? '<button type="button" data-xl="nerve" aria-pressed="' + (XL === "nerve") + '">Nerves</button>' : '') + '<button type="button" data-xl="bone" aria-pressed="' + (XL !== "muscle" && !(XL === "nerve" && F.nerve)) + '">Bone</button></span>' : '') + '</div>';
     if (!editing && sel === "all") return aroundHTML(nav, stage, sel);
@@ -2599,7 +2673,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var list = (sel === "all" || editing) ? Z.map(function(z, i){ return [z, i]; }) : Z.map(function(z, i){ return [z, i]; }).filter(function(x){ return x[0].id === sel; });
       panel = '<div class="zpanel" id="zpanel">' + list.map(function(x){ return zoneHTML(x[0], x[1], list.length === 1); }).join("") + '</div>';
     }
-    return '<main class="chrome2" id="chrome2">' + nav + stage + panel + '</main>';
+    return '<main class="chrome2' + (boot ? ' wboot' : '') + '" id="chrome2">' + nav + stage + panel + '</main>';
   }
   /* region hit-testing from a small label map */
   var RMAPS = {}, RMAP = null;
@@ -2642,14 +2716,70 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var fig = ev.target.closest && ev.target.closest("#bodyfig"); if (!fig) return;
     if (ev.target.closest("[data-limb]")) return;
     var rg = regionAt(fig, ev), lm = limbAt(fig, ev, rg), zid = RZONE[rg] || ""; if (!zid) return;
-    if (lm){ if (zoneSel === "limbs" && limbSel === lm){ setLimb(""); } else { zoneSel = "limbs"; setLimb(lm); } try { localStorage.setItem("io-zone", zoneSel); } catch(e){} render(); return; }
-    zoneSel = zid === zoneSel ? "" : zid;
+    if (lm){ if (zoneSel === "limbs" && limbSel === lm){ setLimb(""); } else { zoneSel = "limbs"; setLimb(lm); } pulseNext = true; render(); return; }
+    zoneSel = zid === zoneSel ? "" : zid; pulseNext = true;
     try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
     render();
     if (zoneSel && window.innerWidth <= 760){ var zp = document.getElementById("zpanel"); if (zp) zp.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }
   });
+
+  /* Scanner lens (Iō front): a round scan follows the pointer over him and peels him in rings,
+     muscle outside, nerves in the middle, bone at the centre. Mouse and pen only. */
+  var lensSt = {x:0, y:0, tx:0, ty:0, raf:0, on:false};
+  function lensFrame(){
+    var L = document.getElementById("lens"); if (!L){ lensSt.raf = 0; return; }
+    lensSt.x += (lensSt.tx - lensSt.x) * .35; lensSt.y += (lensSt.ty - lensSt.y) * .35;
+    L.style.setProperty("--lx", lensSt.x.toFixed(1) + "px"); L.style.setProperty("--ly", lensSt.y.toFixed(1) + "px");
+    if (Math.abs(lensSt.tx - lensSt.x) + Math.abs(lensSt.ty - lensSt.y) > .3) lensSt.raf = requestAnimationFrame(lensFrame); else lensSt.raf = 0;
+  }
+  document.addEventListener("pointermove", function(ev){
+    if (tab !== "ware" || ev.pointerType === "touch") return;
+    var L = document.getElementById("lens"), fig = document.getElementById("bodyfig"); if (!L || !fig) return;
+    var R = fig.getBoundingClientRect(), x = ev.clientX - R.left, y = ev.clientY - R.top;
+    var inside = x >= 0 && y >= 0 && x <= R.width && y <= R.height && !fig.classList.contains("boot") && !(ev.target.closest && ev.target.closest(".ltag,.vwsw,.xlsw"));
+    if (inside){ L.style.setProperty("--lr", (R.height * .03).toFixed(1) + "px"); if (!lensSt.on){ lensSt.x = x; lensSt.y = y; } lensSt.tx = x; lensSt.ty = y; if (!lensSt.raf) lensSt.raf = requestAnimationFrame(lensFrame); }
+    if (inside !== lensSt.on){ lensSt.on = inside; L.classList.toggle("on", inside); fig.classList.toggle("lensing", inside); }
+  });
+
+  /* Neural pulse: picking a part of him sends a signal from the brain, down the spine, out to that part; it lights when the signal lands */
+  function pulsePaths(F, regs){
+    var A = F.anch, B = F.rbox, sx = A.torso[0], brain = [A.head[0], A.head[1] + 2], neck = [sx, B.torso[1] - 1], pelvis = [sx, B.legs[1] + 1], out = [];
+    function shoulder(r){ var b = B[r], inner = Math.abs(b[0] - sx) < Math.abs(b[2] - sx) ? b[0] : b[2]; return [inner + (inner < sx ? -1 : 1) * 1, b[1] + 3]; }
+    regs.forEach(function(r){
+      var t = A[r] || (r === "legs" ? A.legs : null);
+      if (r === "head") out.push({pts:[neck, brain], end:brain, burst:1});
+      else if (r === "eyes" || r === "ears") out.push({pts:[brain, A[r]], end:A[r]});
+      else if (r === "armR" || r === "armL"){ var sh = shoulder(r); out.push({pts:[brain, neck, [sh[0], neck[1] + 2], sh, A[r]], end:A[r]}); }
+      else if (r === "legR" || r === "legL" || r === "legs"){ var lp = r === "legs" ? [A.legR, A.legL] : [A[r]]; lp.forEach(function(a){ out.push({pts:[brain, neck, pelvis, [a[0], pelvis[1] + 4], a], end:a}); }); }
+      else if (r === "torso") out.push({pts:[brain, neck, A.torso], end:A.torso});
+      else if (r === "body") out.push({pts:[brain, neck, pelvis], end:A.torso, burst:1});
+    });
+    return out;
+  }
+  function firePulse(fig){
+    var svg = fig.querySelector("#npulse"); if (!svg) return;
+    var regs = (fig.dataset.sel || "").split(" ").filter(Boolean); if (!regs.length) return;
+    if (regs.indexOf("body") >= 0) regs = ["body"];
+    if (regs.indexOf("eyes") >= 0 || regs.indexOf("ears") >= 0) regs = regs.filter(function(r){ return r !== "head"; });
+    var P = pulsePaths(FIG(), regs), html = "", dots = "";
+    P.forEach(function(p, i){
+      var d = "M" + p.pts.map(function(q){ return q[0].toFixed(2) + " " + q[1].toFixed(2); }).join(" L");
+      if (p.pts.length > 1) html += '<path class="np-trail" pathLength="100" d="' + d + '"/><path class="np-head" pathLength="100" d="' + d + '"/>';
+      dots += '<span class="np-hit' + (p.burst ? ' big' : '') + '" style="left:' + p.end[0] + '%;top:' + p.end[1] + '%"></span>';
+    });
+    svg.innerHTML = html;
+    [].forEach.call(fig.querySelectorAll(".np-hit"), function(n){ n.remove(); });
+    svg.insertAdjacentHTML("afterend", dots);
+    fig.classList.remove("zin"); void fig.offsetWidth; fig.classList.add("zin");
+    clearTimeout(fig._zt); fig._zt = setTimeout(function(){ fig.classList.remove("zin"); svg.innerHTML = ""; [].forEach.call(fig.querySelectorAll(".np-hit"), function(n){ n.remove(); }); }, 1800);
+  }
+  function wareReset(){ zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
   function wireUp(){
     var img = document.getElementById("bodyimg");
+    var bf = document.getElementById("bodyfig");
+    if (bf && bf.classList.contains("boot")){ var el0 = +bf.dataset.bt || 0; bf.style.setProperty("--bt", (-el0) + "ms"); var m0 = document.getElementById("chrome2"); if (m0) m0.style.setProperty("--bt", (-el0) + "ms"); }
+    if (bf && bf.classList.contains("boot")) setTimeout(function(){ bf.classList.remove("boot"); var m = document.getElementById("chrome2"); if (m) m.classList.remove("wboot"); var w = bf.querySelector(".wscan"); if (w) w.remove(); }, Math.max(0, 2250 - (+bf.dataset.bt || 0)));
+    if (pulseNext){ pulseNext = false; if (bf && !reduce) firePulse(bf); }
     if (img && !img.complete) img.addEventListener("load", drawWires, {once:true});
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWires);
     requestAnimationFrame(function(){
@@ -4157,20 +4287,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   app.addEventListener("click", function(ev){
     var b = ev.target.closest("button"); if (!b) return;
     if (b.dataset.go && tab === "ware"){
-      zoneSel = b.dataset.go; hlId = b.dataset.hl || "";
+      zoneSel = b.dataset.go; hlId = b.dataset.hl || ""; pulseNext = true;
       try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
       hideCard(true); render(); return;
     }
-    if (b.dataset.limb && tab === "ware"){ setLimb(limbSel === b.dataset.limb ? "" : b.dataset.limb); zoneSel = "limbs"; try { localStorage.setItem("io-zone", zoneSel); } catch(e){} render(); return; }
+    if (b.dataset.limb && tab === "ware"){ setLimb(limbSel === b.dataset.limb ? "" : b.dataset.limb); zoneSel = "limbs"; pulseNext = true; render(); return; }
     if (b.dataset.zone !== undefined && tab === "ware"){
       if (b.dataset.zone === "limbs" && zoneSel !== "limbs") setLimb("");
-      zoneSel = (b.dataset.zone === zoneSel && b.dataset.zone !== "all") ? "" : b.dataset.zone;
+      zoneSel = (b.dataset.zone === zoneSel && b.dataset.zone !== "all") ? "" : b.dataset.zone; pulseNext = true;
       try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
       render();
       if (zoneSel && window.innerWidth <= 760){ var zp = document.getElementById("zpanel"); if (zp) zp.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); }
       return;
     }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
@@ -4178,7 +4309,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel) bf.style.setProperty("--sk", "url(" + XLSRC(F2) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
-    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
