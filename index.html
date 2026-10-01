@@ -2093,6 +2093,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 @keyframes nmS{0%{opacity:0;background-position:0 0,0 -10%}12%{opacity:.7}40%{opacity:.3}74%{opacity:.3}84%{opacity:.8}100%{opacity:0;background-position:0 0,0 130%}}
 @keyframes nmB{0%{transform:none}2%{transform:translateX(5px)}4%{transform:translateX(-4px)}6%{transform:translateX(3px)}8%{transform:none}43%{transform:translateX(-3px)}46%{transform:none}76%{transform:translateX(-5px)}80%{transform:translateX(6px)}84%{transform:translateX(-3px)}88%,100%{transform:none}}
 
+
+/* Public switch + closed page (GitHub copy) */
+.btn.hostsw{border-color:var(--frame);color:var(--gold)}
+.btn.hostsw.off{background:var(--red);border-color:var(--red);color:#fff}
+.hostgate{min-height:70vh;display:grid;place-items:center;padding:20px}
+.hostgate .box{width:min(440px,100%)}
+.hgbody{display:flex;flex-direction:column;align-items:center;gap:6px;padding:30px 24px 32px;text-align:center}
+.hgbody .star{width:46px;height:46px;color:var(--red-hi);margin-bottom:8px}
+.hgt{margin:0;font-family:var(--f-disp);font-size:26px;letter-spacing:.06em;text-transform:uppercase}
+.hgs{margin:0;color:var(--ink-3);font-size:15px}
+.hostgate.wait .lab{animation:hgp 1.2s ease-in-out infinite alternate}
+@keyframes hgp{from{opacity:.35}}
+
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -2203,7 +2216,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<div class="m"><b>Cash</b><span class="gold">' + f("cash",{num:1,label:"Cash"}) + '<span class="u">eb</span></span></div>' +
         (S.sin || editing ? '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
           '<div class="sin-row"><span class="sin-tag">SIN</span><div>' + barcode(S.sin || "") + '<div class="sin-num">' + esc(S.sin || "") + '</div></div></div>') + '</div>' : '<div class="code"></div>') +
-        '<div class="actions">' + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
+        '<div class="actions">' + hostSwitch() + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
       '</div>' +
     '</div></header>' +
     '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS.filter(function(t){ return t !== "Ware" || isAdmin(); }) : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
@@ -3410,6 +3423,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       (adm ? '<div class="pbody ppane pp-profile">' + bio + '</div>' : '') + (m.block ? '<div class="pbody ppane pp-stats">' + blockStats(m.block) + '</div>' : '') + '<div class="pbody ppane pp-kit">' + kit + '</div></section>';
   }
   function isAdmin(){ return !(WHO === "zolo" ? roIo : readOnly); }
+  /* Public switch (GitHub copy): the edit-key holder can close the page to everyone else. Stored in the sheet script (HOSTING). */
+  var hostOpen = true, hostWait = false;
+  function closedPage(){
+    return '<main class="hostgate"><section class="box"><div class="hb"><span class="sp">Iō · Sheet closed</span></div>' +
+      '<div class="hgbody"><svg class="star" viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#b30f1b" points="50,2 60.4,32 92,26 71,50 92,74 60.4,68 50,98 39.6,68 8,74 29,50 8,26 39.6,32"/></svg>' +
+      '<p class="hgt">Offline for now</p><p class="hgs">This sheet isn\'t public at the moment. Check back later.</p></div></section></main>';
+  }
+  function hostSwitch(){ if (!HOSTED || !isAdmin() || !EDIT_KEY) return '';
+    return '<button class="btn hostsw' + (hostOpen ? '' : ' off') + '" data-hosting="1" aria-pressed="' + hostOpen + '" title="Whether people without the edit key can see this page">Public: ' + (hostOpen ? 'On' : 'Off') + '</button>'; }
   function roster(){
     var std = stdGear();
     return '<section class="box pcard"><div class="hb"><span class="sp">The Posse</span><span class="gnote">' + PM().length + ' members</span></div>' +
@@ -4332,6 +4354,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     zr.draw = function(ms, loop){ zr.loop = loop || null; cancelAnimationFrame(zr.raf); frame(ms); cancelAnimationFrame(zr.raf); zr.raf = 1; zr.loop = null; return low; }; window.__zolorun = zr;
   }
   function render(){
+    if (HOSTED && !isAdmin() && (hostWait || !hostOpen)){ app.innerHTML = hostWait ? '<main class="hostgate wait" aria-busy="true"><p class="lab">Connecting…</p></main>' : closedPage(); return; }
     if (WHO === "zolo" && tab === "ware" && !isAdmin()){ tab = "dossier"; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} }   /* Zolo's Ware is a work in progress: only the edit-key holder sees it for now */
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
@@ -4591,6 +4614,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (sc) syncPlan(Grid(sc));
       var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
+      if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       var sz = sheetOf(j, SHEET_TABS.zstats);
@@ -4613,7 +4637,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       applySheet(j);
       sheetCache.save(j);
       var d = new Date(j.updated || Date.now());
-      pullSheet.retried = false; clearTimeout(offlineT);
+      pullSheet.retried = false; clearTimeout(offlineT); hostWait = false;
       syncInfo = "synced " + d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
       if (!editing) render();
       status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
@@ -4624,6 +4648,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       pullSheet.retried = false;
       syncInfo = sheetCache.at ? "offline · showing copy from " + sheetCache.when() : "offline (" + why + ")";
       clearTimeout(offlineT); offlineT = setTimeout(function(){ if (!document.hidden) pullSheet(true); }, 120000);   /* keep trying every 2 minutes */
+      if (hostWait){ hostWait = false; render(); }
       status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
       var se = document.querySelector(".save-state"); if (se) se.title = String(err && err.message || err);
     });
@@ -4707,6 +4732,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
   app.addEventListener("click", function(ev){
     var b = ev.target.closest("button"); if (!b) return;
+    if (b.dataset.hosting){ var was = hostOpen; hostOpen = !hostOpen; render(); pushState("hosting", {open:hostOpen}).then(function(ok){ if (!ok){ hostOpen = was; render(); } else status(hostOpen ? "Page is public" : "Page closed to visitors"); }); return; }
     if (b.dataset.go && tab === "ware"){
       zoneSel = b.dataset.go; hlId = b.dataset.hl || ""; pulseNext = true;
       try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
@@ -4773,6 +4799,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     S = d; IO = d; saved = clone(d);
     if (HOSTED) readOnly = !(SHEET_API && EDIT_KEY); /* hosted copy: dose counters only with the edit key */
     if (HOSTED && SHEET_API){ var cj = sheetCache.load(); if (cj){ try { applySheet(cj); syncInfo = "copy from " + sheetCache.when(); } catch(e){ try { console.error("[Io sheet] saved copy unreadable:", e); } catch(e2){} } } }
+    if (HOSTED && SHEET_API && readOnly && !sheetCache.at) hostWait = true;   /* first visit: hold the page until we know whether it's public */
     if (bootWho === "zolo") setWho("zolo");
     document.body.classList.add("boot");
     render();

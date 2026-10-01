@@ -14,8 +14,9 @@
  *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
- * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks, the Trauma Team card and the Nyozi switch.
- * These page settings are kept in Script Properties (TRAINING, TT, NYOZI), not in sheet cells.
+ * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks, the Trauma Team card, the Nyozi switch and the Public switch.
+ * These page settings are kept in Script Properties (TRAINING, TT, NYOZI, HOSTING), not in sheet cells.
+ * HOSTING is the page's Public switch: when it's off, people without the edit key see a "Sheet closed" screen.
  *
  * Case File tab: run setupCaseFile() once (pick it in the function menu at the top, then Run).
  * It creates a "Case File" tab filled with what's on the site now. After that the site reads the tab.
@@ -43,6 +44,7 @@ function doGet() {
   try { out.training = JSON.parse(props.getProperty('TRAINING') || 'null'); } catch (err) { out.training = null; }
   try { out.tt = JSON.parse(props.getProperty('TT') || 'null'); } catch (err) { out.tt = null; }
   try { out.nyozi = JSON.parse(props.getProperty('NYOZI') || 'null'); } catch (err) { out.nyozi = null; }
+  try { out.hosting = JSON.parse(props.getProperty('HOSTING') || 'null'); } catch (err) { out.hosting = null; }
   return json_(out);
 }
 
@@ -59,6 +61,11 @@ function doPost(e) {
     const n = { active: body.active === true, updated: new Date().toISOString() };
     PropertiesService.getScriptProperties().setProperty('NYOZI', JSON.stringify(n));
     return json_({ ok: true, nyozi: n });
+  }
+  if (body.type === 'hosting') {
+    const h = { open: body.open !== false, updated: new Date().toISOString() };
+    PropertiesService.getScriptProperties().setProperty('HOSTING', JSON.stringify(h));
+    return json_({ ok: true, hosting: h });
   }
   return json_({ ok: false, error: 'unknown request' });
 }
