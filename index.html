@@ -4570,17 +4570,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     S.advance.plan = plan.filter(function(p, j){ return !drop[j]; });
   }
 
-  function pullSheet(quiet){
-    if (!SHEET_API) return;
-    lastPull = Date.now();
-    if (!quiet){ syncInfo = "syncing…"; status(readOnly ? "View only · syncing…" : "Syncing…"); }
-    var stage = "connect";
-    fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){
-      stage = "reply";
-      return r.text().then(function(t){ try { return JSON.parse(t); } catch(e){ throw new Error("Google sent back a " + r.status + " page instead of data: " + t.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160)); } });
-    }).then(function(j){
-      stage = "read";
-      if (!j || !j.sheets) throw new Error("the reply had no sheet data");
+  /* Last good sheet reply, kept in this browser. When Google won't answer, the page shows this instead of the older built-in data. */
+  var sheetCache = {
+    key: "io-sheetcache-v1", at: 0,
+    save: function(j){ this.at = Date.now(); try { localStorage.setItem(this.key, JSON.stringify({at:this.at, j:j})); } catch(e){} },
+    load: function(){ try { var c = JSON.parse(localStorage.getItem(this.key) || "null"); if (c && c.j && c.j.sheets){ this.at = c.at || 0; return c.j; } } catch(e){} return null; },
+    when: function(){ if (!this.at) return ""; var d = new Date(this.at), t = d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"}); return d.toDateString() === new Date().toDateString() ? t : d.toLocaleDateString([], {month:"short", day:"numeric"}) + " " + t; }
+  };
+  function applySheet(j){
       var zmode = WHO === "zolo"; if (zmode) S = IO;   /* always sync into Iō's data; Zolo's view is rebuilt after */
       var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
@@ -4594,8 +4591,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (sz && S.zolo){ var keepS = S; S = S.zolo; try { var gz = Grid(sz); syncStats(gz); syncGear(gz); } catch(e){} S = keepS; }
       saved = clone(S);
       if (zmode){ IO = S; S = buildZ(); }
+  }
+  var offlineT = 0;
+  function pullSheet(quiet){
+    if (!SHEET_API) return;
+    lastPull = Date.now();
+    if (!quiet){ syncInfo = "syncing…"; status(readOnly ? "View only · syncing…" : "Syncing…"); }
+    var stage = "connect";
+    fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){
+      stage = "reply";
+      return r.text().then(function(t){ try { return JSON.parse(t); } catch(e){ throw new Error("Google sent back a " + r.status + " page instead of data: " + t.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160)); } });
+    }).then(function(j){
+      stage = "read";
+      if (!j || !j.sheets) throw new Error("the reply had no sheet data");
+      applySheet(j);
+      sheetCache.save(j);
       var d = new Date(j.updated || Date.now());
-      pullSheet.retried = false;
+      pullSheet.retried = false; clearTimeout(offlineT);
       syncInfo = "synced " + d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
       if (!editing) render();
       status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
@@ -4604,7 +4616,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       try { console.error("[Io sheet] sync failed (" + why + "):", err); } catch(e){}
       if (!pullSheet.retried){ pullSheet.retried = true; syncInfo = "retrying…"; status(readOnly ? "View only · " + why + ", retrying…" : "Sheet: " + why + ", retrying…"); setTimeout(function(){ pullSheet(true); }, 4000); return; }
       pullSheet.retried = false;
-      syncInfo = "offline (" + why + ")";
+      syncInfo = sheetCache.at ? "offline · showing copy from " + sheetCache.when() : "offline (" + why + ")";
+      clearTimeout(offlineT); offlineT = setTimeout(function(){ if (!document.hidden) pullSheet(true); }, 120000);   /* keep trying every 2 minutes */
       status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
       var se = document.querySelector(".save-state"); if (se) se.title = String(err && err.message || err);
     });
@@ -4753,6 +4766,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   fetch(DATA_PATH, {cache:"no-store"}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     S = d; IO = d; saved = clone(d);
     if (HOSTED) readOnly = !(SHEET_API && EDIT_KEY); /* hosted copy: dose counters only with the edit key */
+    if (HOSTED && SHEET_API){ var cj = sheetCache.load(); if (cj){ try { applySheet(cj); syncInfo = "copy from " + sheetCache.when(); } catch(e){ try { console.error("[Io sheet] saved copy unreadable:", e); } catch(e2){} } } }
     if (bootWho === "zolo") setWho("zolo");
     document.body.classList.add("boot");
     render();
