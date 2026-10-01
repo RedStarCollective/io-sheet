@@ -4574,8 +4574,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (!SHEET_API) return;
     lastPull = Date.now();
     if (!quiet){ syncInfo = "syncing…"; status(readOnly ? "View only · syncing…" : "Syncing…"); }
-    fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(j){
-      if (!j || !j.sheets) throw new Error("no data");
+    var stage = "connect";
+    fetch(SHEET_API + (SHEET_API.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), {cache:"no-store"}).then(function(r){
+      stage = "reply";
+      return r.text().then(function(t){ try { return JSON.parse(t); } catch(e){ throw new Error("Google sent back a " + r.status + " page instead of data: " + t.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160)); } });
+    }).then(function(j){
+      stage = "read";
+      if (!j || !j.sheets) throw new Error("the reply had no sheet data");
       var zmode = WHO === "zolo"; if (zmode) S = IO;   /* always sync into Iō's data; Zolo's view is rebuilt after */
       var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
@@ -4590,12 +4595,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       saved = clone(S);
       if (zmode){ IO = S; S = buildZ(); }
       var d = new Date(j.updated || Date.now());
+      pullSheet.retried = false;
       syncInfo = "synced " + d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
       if (!editing) render();
       status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
-    }).catch(function(){
-      syncInfo = "sheet offline";
-      status(readOnly ? "View only · sheet offline" : "Sheet offline");
+    }).catch(function(err){
+      var why = stage === "connect" ? "couldn't reach Google" : stage === "reply" ? "Google sent an error page" : "couldn't read the sheet";
+      try { console.error("[Io sheet] sync failed (" + why + "):", err); } catch(e){}
+      if (!pullSheet.retried){ pullSheet.retried = true; syncInfo = "retrying…"; status(readOnly ? "View only · " + why + ", retrying…" : "Sheet: " + why + ", retrying…"); setTimeout(function(){ pullSheet(true); }, 4000); return; }
+      pullSheet.retried = false;
+      syncInfo = "offline (" + why + ")";
+      status(readOnly ? "View only · " + syncInfo : "Sheet " + syncInfo);
+      var se = document.querySelector(".save-state"); if (se) se.title = String(err && err.message || err);
     });
   }
   document.addEventListener("visibilitychange", function(){ if (!document.hidden && HOSTED && SHEET_API && Date.now() - lastPull > 60000) pullSheet(true); });
