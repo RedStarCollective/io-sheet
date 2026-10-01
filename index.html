@@ -1860,31 +1860,6 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fc-gig{transform:translate(calc(var(--px,0) * -18px),calc(var(--py,0) * -14px));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .fc-art{transition:filter .3s,transform .5s cubic-bezier(.2,.7,.2,1)}
 .fcard.tilt .fc-art,.fcard.tilt .fc-gig,.fcard.big .fc-art,.fcard.big .fc-gig{transition:filter .3s,transform .08s linear}
-/* galaxy speckle: a field of tiny stars and rings in the foil, lit in rainbow where the light hits */
-.fc-gal{position:absolute;inset:0;clip-path:var(--cut);pointer-events:none;transform:translateZ(51px);mix-blend-mode:color-dodge;opacity:0;transition:opacity .35s;
-  background:linear-gradient(125deg,#ff7a7a,#ffd36b 18%,#7dffb6 36%,#6bc8ff 54%,#c07bff 72%,#ff7ac0 90%) var(--mx,50%) var(--my,50%)/300% 300%;
-  -webkit-mask:url(img/fans/speckle.png) calc(var(--px,0) * -24px) calc(var(--py,0) * -24px)/180px 180px,radial-gradient(circle at var(--mx,50%) var(--my,50%),#000,rgba(0,0,0,.3) 45%,transparent 78%);-webkit-mask-composite:source-in;
-  mask:url(img/fans/speckle.png) calc(var(--px,0) * -24px) calc(var(--py,0) * -24px)/180px 180px,radial-gradient(circle at var(--mx,50%) var(--my,50%),#000,rgba(0,0,0,.3) 45%,transparent 78%);mask-composite:intersect}
-.fcard:hover .fc-gal,.fcard.tilt .fc-gal{opacity:.85}
-.fcard.foil .fc-gal{opacity:.4}
-.fcard.foil:hover .fc-gal,.fcard.foil.tilt .fc-gal,.fcard.big.spin .fc-gal{opacity:1}
-/* flares */
-.fl-rsc{position:absolute;left:-8%;right:-8%;top:-5.714%;bottom:-5.714%;width:116%;height:111.43%;overflow:visible;pointer-events:none;transform:translateZ(8px)}
-.fl-dots{fill:none;stroke:#e3141f;stroke-width:.75;stroke-linecap:round;stroke-dasharray:0 1.15;opacity:.7;vector-effect:none}
-.fl-run{fill:none;stroke:#ff4a55;stroke-width:.55;stroke-linecap:round;stroke-dasharray:7 93;filter:drop-shadow(0 0 1.5px #ff2b38)}
-.fl-dust{position:absolute;inset:0;pointer-events:none;transform:translateZ(8px)}
-.fl-dust i{position:absolute;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:#f8e2a2;opacity:0;scale:var(--s);
-  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 3px #f3d58e)}
-@media (prefers-reduced-motion:no-preference){
-  .fl-dots{animation:fldots 40s linear infinite}
-  .fl-run{animation:flrun 7s linear infinite}
-  .fl-run.r2{animation-delay:-3.5s}
-  @keyframes fldots{to{stroke-dashoffset:-11.5}}
-  @keyframes flrun{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
-  .fl-dust i{animation:fldust 3.6s ease-out infinite;animation-delay:var(--d)}
-  @keyframes fldust{0%{opacity:0;transform:translate(0,0) rotate(0)}18%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(120deg)}}
-}
-@media (prefers-reduced-motion:reduce){ .fl-run{display:none} .fl-dust i{opacity:.6} }
 /* spotlight */
 body.fnlock{overflow:hidden}
 .fnspot{position:fixed;inset:0;z-index:70;display:grid;place-items:center;opacity:0;transition:opacity .24s}
@@ -3139,31 +3114,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
     var ar = f.w && f.h ? f.w / f.h : .8;
-    return '<span class="fc-flip">' + fnFlare(f) + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
+    return '<span class="fc-flip"><span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
-      '<span class="fc-foil" aria-hidden="true"></span><span class="fc-gal" aria-hidden="true"></span>' +
+      '<span class="fc-foil" aria-hidden="true"></span>' +
       '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + (f.foil ? '<span class="fc-star" title="Foil">★</span>' : '') + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
   /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
-  /* flares around the frame: RSC members get a slow ring of red dots with two runners; foil fans shed gold stardust */
-  var FL_PATH = "M-2 -2 H47.5 L52 2.5 V72 H2.5 L-2 67.5 Z";
-  function fnFlare(f){
-    var h = "";
-    if (f.rsc) h += '<svg class="fl-rsc" viewBox="-4 -4 58 78" preserveAspectRatio="none" aria-hidden="true"><path class="fl-dots" pathLength="100" d="' + FL_PATH + '"/><path class="fl-run" pathLength="100" d="' + FL_PATH + '"/><path class="fl-run r2" pathLength="100" d="' + FL_PATH + '"/></svg>';
-    if (f.foil){
-      var d = "";
-      for (var k = 0; k < 14; k++){
-        var side = k % 4, t = ((k * 37) % 100) / 100, x, y, dx, dy, j = ((k * 53) % 7) - 3;
-        if (side === 0){ x = t * 100; y = -2; dx = j * 3; dy = -26 - (k % 3) * 8; }
-        else if (side === 1){ x = 102; y = t * 100; dx = 22 + (k % 3) * 8; dy = j * 3; }
-        else if (side === 2){ x = t * 100; y = 102; dx = j * 3; dy = 22 + (k % 3) * 8; }
-        else { x = -2; y = t * 100; dx = -22 - (k % 3) * 8; dy = j * 3; }
-        d += '<i style="left:' + x.toFixed(1) + '%;top:' + y.toFixed(1) + '%;--dx:' + dx + 'px;--dy:' + dy + 'px;--d:' + (-(k * .53) % 3.6).toFixed(2) + 's;--s:' + (.6 + (k % 4) * .18).toFixed(2) + '"></i>';
-      }
-      h += '<span class="fl-dust" aria-hidden="true">' + d + '</span>';
-    }
-    return h;
-  }
   /* card backs: RSC members get the red star; everyone else gets a typographic back in their GM's colour */
   function fnBack(i){
     var f = FL()[i] || {}, no = String(i + 1).padStart(3, "0");
