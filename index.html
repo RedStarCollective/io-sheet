@@ -1953,7 +1953,9 @@ body.fnlock{overflow:hidden}
 }
 @media (max-width:880px){ .portrait .iopsw{display:none} }
 /* Zolo: Training Area + Nyozi as one slim row under Performance; open panels rise over the column instead of pushing the row down */
-.zpr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;position:relative}
+.zpr{display:grid;grid-template-columns:repeat(auto-fit,minmax(182px,1fr));gap:10px;position:relative}   /* side by side when there's room, stacked when the column gets narrow */
+.prtog .prl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zpr .prtog{overflow:hidden}
 .zpr .pract{position:static}
 .zpr .prtog{white-space:nowrap}
 .zpr .pract .hb{padding-right:17px}   /* clears the corner notch */
@@ -2340,7 +2342,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function practicedSet(){ var t = trainingState(), o = {}; if (t.active) t.skills.forEach(function(n){ o[n] = 1; }); return o; }
   function trainingBox(){
     var t = trainingState(), isOpen = !!open.training, lock = readOnly;
-    var head = '<div class="hb"><button class="prtog" data-tog="training" aria-expanded="' + isOpen + '"><span class="chev">▶</span>Training Area' +
+    var head = '<div class="hb"><button class="prtog" data-tog="training" aria-expanded="' + isOpen + '"><span class="chev">▶</span><span class="prl">Training Area</span>' +
       '<span class="prstate' + (t.active ? ' on' : '') + '" title="' + (t.active ? 'Active' : 'Inactive') + '"><i class="lg">' + (t.active ? 'Active' : 'Inactive') + '</i><i class="sm">' + (t.active ? 'On' : 'Off') + '</i></span></button></div>';
     if (!isOpen) return '<section class="box pract">' + head + '</section>';
     var chip = function(n){ var on = t.skills.indexOf(n) >= 0, full = t.skills.length >= PRACTICE_MAX;
@@ -2365,7 +2367,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var on = nyoziOn(), isOpen = !!open.nyozi, lock = readOnly;
     var emp = (S.stats || []).filter(function(x){ return x.k === "EMP"; })[0] || {v:"", max:""};
     var doses = ((S.pharma || []).filter(function(x){ return /^nyozi$/i.test(String(x.name).trim()); })[0] || {}).n;
-    var head = '<div class="hb"><button class="prtog" data-tog="nyozi" aria-expanded="' + isOpen + '"><span class="chev">▶</span>Nyozi' +
+    var head = '<div class="hb"><button class="prtog" data-tog="nyozi" aria-expanded="' + isOpen + '"><span class="chev">▶</span><span class="prl">Nyozi</span>' +
       '<span class="prstate' + (on ? ' on' : '') + '" title="' + (on ? 'Active' : 'Inactive') + '"><i class="lg">' + (on ? 'Active' : 'Inactive') + '</i><i class="sm">' + (on ? 'On' : 'Off') + '</i></span></button></div>';
     if (!isOpen) return '<section class="box pract nyz">' + head + '</section>';
     return '<section class="box pract nyz">' + head + '<div class="prbody">' +
