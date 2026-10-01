@@ -2071,6 +2071,25 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   .boot .box,.boot .stat{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
   @keyframes rise{from{transform:translateY(5px);filter:brightness(1.8) saturate(0)}to{transform:none;filter:none}}
 }
+/* Nanomatrix glitch */
+.bodyfig .nano{position:absolute;inset:0;pointer-events:none;display:none}
+.bodyfig.glitching .nano{display:block}
+.nano i{position:absolute;inset:0;background:var(--nm) center/100% 100% no-repeat;opacity:0}
+.nano .nm-r,.nano .nm-c{mix-blend-mode:screen}
+.nano .nm-r{filter:brightness(.9) sepia(1) saturate(6) hue-rotate(-50deg)}
+.nano .nm-c{filter:brightness(.9) sepia(1) saturate(6) hue-rotate(140deg)}
+.nano .nm-s{background:repeating-linear-gradient(180deg,rgba(255,255,255,.16) 0 1px,transparent 1px 4px),linear-gradient(180deg,transparent 0,rgba(195,164,255,.45) 1.2%,transparent 2.4%) 0 -10%/100% 40% no-repeat;-webkit-mask:var(--nm) center/100% 100% no-repeat;mask:var(--nm) center/100% 100% no-repeat;mix-blend-mode:screen}
+.bodyfig.glitching .nm-a{animation:nmA 1.7s steps(1,end) both}
+.bodyfig.glitching .nm-r{animation:nmR 1.7s steps(1,end) both}
+.bodyfig.glitching .nm-c{animation:nmC 1.7s steps(1,end) both}
+.bodyfig.glitching .nm-s{animation:nmS 1.7s linear both}
+.bodyfig.glitching #bodyimg{animation:nmB 1.7s steps(1,end) both}
+@keyframes nmA{0%{opacity:0}2%{opacity:1;clip-path:inset(14% 0 74% 0);transform:translateX(-12px)}4%{opacity:1;clip-path:inset(58% 0 28% 0);transform:translateX(9px)}6%{opacity:0}8%{opacity:1;clip-path:inset(0 0 52% 0);transform:translateX(-5px)}10%{opacity:1;clip-path:inset(33% 0 0 0);transform:translateX(6px)}12%{opacity:1;clip-path:inset(0 0 18% 0);transform:translateX(-2px)}14%{opacity:1;clip-path:inset(0);transform:none}43%{opacity:0}44%{opacity:1;clip-path:inset(0 0 61% 0);transform:translateX(4px)}45%{opacity:1;clip-path:inset(0);transform:none}76%{opacity:1;clip-path:inset(0 0 38% 0);transform:translateX(7px)}79%{opacity:1;clip-path:inset(64% 0 6% 0);transform:translateX(-10px)}82%{opacity:1;clip-path:inset(22% 0 63% 0);transform:translateX(5px)}84%{opacity:0}86%{opacity:1;clip-path:inset(80% 0 12% 0);transform:translateX(-14px)}88%,100%{opacity:0}}
+@keyframes nmR{0%{opacity:0}2%{opacity:0.38;transform:translate(-7px,1px);clip-path:inset(10% 0 60% 0)}6%{opacity:0.30;transform:translate(-5px,0);clip-path:inset(40% 0 20% 0)}10%{opacity:0.25;transform:translate(-3px,0);clip-path:inset(0)}14%{opacity:0}43%{opacity:0.30;transform:translate(-6px,0);clip-path:inset(0 0 55% 0)}46%{opacity:0}76%{opacity:0.28;transform:translate(-5px,0);clip-path:inset(20% 0 30% 0)}82%{opacity:0.35;transform:translate(-9px,0);clip-path:inset(55% 0 10% 0)}88%,100%{opacity:0}}
+@keyframes nmC{0%{opacity:0}2%{opacity:0.38;transform:translate(7px,-1px);clip-path:inset(20% 0 50% 0)}6%{opacity:0.30;transform:translate(5px,0);clip-path:inset(0 0 45% 0)}10%{opacity:0.25;transform:translate(3px,0);clip-path:inset(0)}14%{opacity:0}43%{opacity:0.30;transform:translate(6px,0);clip-path:inset(30% 0 20% 0)}46%{opacity:0}76%{opacity:0.28;transform:translate(5px,0);clip-path:inset(0 0 50% 0)}82%{opacity:0.35;transform:translate(9px,0);clip-path:inset(10% 0 70% 0)}88%,100%{opacity:0}}
+@keyframes nmS{0%{opacity:0;background-position:0 0,0 -10%}12%{opacity:.7}40%{opacity:.3}74%{opacity:.3}84%{opacity:.8}100%{opacity:0;background-position:0 0,0 130%}}
+@keyframes nmB{0%{transform:none}2%{transform:translateX(5px)}4%{transform:translateX(-4px)}6%{transform:translateX(3px)}8%{transform:none}43%{transform:translateX(-3px)}46%{transform:none}76%{transform:translateX(-5px)}80%{transform:translateX(6px)}84%{transform:translateX(-3px)}88%,100%{transform:none}}
+
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -2754,7 +2773,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back3.webp", skel:"", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel6.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
+    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel6.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
@@ -2845,6 +2864,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var boot = !editing && !reduce && now - bootT0 < 2200, bootEl = now - bootT0;   /* a re-render mid-scan (sheet sync, rules load) picks the scan up where it was */
     var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (F.skel ? ' xray' : '') + (boot ? ' boot' : '') + '" id="bodyfig"' + (boot ? ' data-bt="' + bootEl + '"' : '') + '' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
+      (F.nano && !reduce ? '<span class="nano" aria-hidden="true" style="--nm:url(' + F.nano + ')"><i class="nm-r"></i><i class="nm-c"></i><i class="nm-a"></i><i class="nm-s"></i></span>' : '') +
       (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers +
       (F.lens && !reduce ? '<span class="lens" id="lens" aria-hidden="true" style="--lm:url(' + F.lens + ')"><i class="ln-mus" style="--li:url(' + F.mus + ')"></i><i class="ln-nrv" style="--li:url(' + F.nerve + ')"></i><i class="ln-bone" style="--li:url(' + F.skel + ')"></i><i class="ln-ring"></i></span>' : '') +
       (boot ? '<span class="wscan" aria-hidden="true">' + (F.lens ? '<i class="ws-mus" style="--li:url(' + F.mus + ');--lm:url(' + F.lens + ')"></i><i class="ws-nrv" style="--li:url(' + F.nerve + ');--lm:url(' + F.lens + ')"></i><i class="ws-bone" style="--li:url(' + F.skel + ');--lm:url(' + F.lens + ')"></i>' : '') + '<i class="ws-line"></i></span>' : '') +
@@ -2964,6 +2984,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     fig.classList.remove("zin"); void fig.offsetWidth; fig.classList.add("zin");
     clearTimeout(fig._zt); fig._zt = setTimeout(function(){ fig.classList.remove("zin"); svg.innerHTML = ""; [].forEach.call(fig.querySelectorAll(".np-hit"), function(n){ n.remove(); }); }, 1800);
   }
+  /* Nanomatrix glitch: every so often the signal slips and, for about a second, the figure shows the nanomatrix under the tattoos */
+  var nanoT = 0;
+  function nanoGlitch(bf){
+    bf.classList.remove("glitching"); void bf.offsetWidth; bf.classList.add("glitching");
+    clearTimeout(bf._gt); bf._gt = setTimeout(function(){ bf.classList.remove("glitching"); }, 1750);
+  }
+  function nanoArm(ms){
+    clearTimeout(nanoT);
+    nanoT = setTimeout(function(){
+      var bf = document.getElementById("bodyfig");
+      if (tab !== "ware" || !bf || !bf.querySelector(".nano")){ nanoT = 0; return; }
+      if (!document.hidden && !bf.classList.contains("boot") && !bf.classList.contains("lensing")) nanoGlitch(bf);
+      nanoArm(9000 + Math.random() * 7000);
+    }, ms);
+  }
   function wareReset(){ zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
   function wireUp(){
     var img = document.getElementById("bodyimg");
@@ -2971,6 +3006,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (bf && bf.classList.contains("boot")){ var el0 = +bf.dataset.bt || 0; bf.style.setProperty("--bt", (-el0) + "ms"); var m0 = document.getElementById("chrome2"); if (m0) m0.style.setProperty("--bt", (-el0) + "ms"); }
     if (bf && bf.classList.contains("boot")) setTimeout(function(){ bf.classList.remove("boot"); var m = document.getElementById("chrome2"); if (m) m.classList.remove("wboot"); var w = bf.querySelector(".wscan"); if (w) w.remove(); }, Math.max(0, 2250 - (+bf.dataset.bt || 0)));
     if (pulseNext){ pulseNext = false; if (bf && !reduce) firePulse(bf); }
+    if (bf && bf.querySelector(".nano")){ if (bf.classList.contains("boot")) nanoArm(Math.max(0, 2250 - (+bf.dataset.bt || 0)) + 1600); else if (!nanoT) nanoArm(6000 + Math.random() * 4000); }
     if (img && !img.complete) img.addEventListener("load", drawWires, {once:true});
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWires);
     requestAnimationFrame(function(){
