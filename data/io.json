@@ -7611,5 +7611,194 @@
     }
    ]
   }
+ },
+ "fans": {
+  "wip": true,
+  "total": 102,
+  "gigs": 47,
+  "gms": 24,
+  "note": "Note for GMs: This is for tracking fans made on different tables and for offtable. A GM is never expected to use these or abide by the stats provided by the respective GM.",
+  "list": [
+   {
+    "name": "Kerubo Whetu",
+    "gm": "Rache",
+    "gig": "STARBORNE SHOWDOWN, Die For Metal",
+    "story": "Highrider fan that now works at with the RSC as Alain's chosen Highrider liason.",
+    "img": "img/fans/kerubo-whetu.webp",
+    "w": 612,
+    "h": 720
+   },
+   {
+    "name": "James Moore",
+    "gm": "TAC",
+    "gig": "Eagle 1 is Down",
+    "story": "FBC murder machine James Moore is now a fan of Don Quixote and IO, they  are free to try and use their rocker ranks to get help from him in the future",
+    "img": "img/fans/james-moore.webp",
+    "w": 285,
+    "h": 295
+   },
+   {
+    "name": "Lunatic",
+    "gm": "Alan",
+    "gig": "Emergency Contracts",
+    "story": "They were hired for a gig to take a cyberpsycho out, Io elected to try to help her, treat her, instead of kill her. They oriented accordingly and she's now a fairly important part of the RSC's security and medical infrastructure.",
+    "img": "img/fans/lunatic.webp",
+    "w": 505,
+    "h": 720
+   },
+   {
+    "name": "Avery",
+    "gm": "Valk",
+    "gig": "Cult of Asymmetry",
+    "story": "A former devotee of the Havenite cult, became a contact of Io's and fan. Over the last two years she's slowly been deprogrammed and become a valued fullmember of the RSC.",
+    "img": "img/fans/avery.webp",
+    "w": 480,
+    "h": 720
+   },
+   {
+    "name": "Feanor",
+    "gm": "Akrasia",
+    "gig": "Elves Versus Clowns",
+    "story": "The leader of the Line of Feanor, a protector gang in southern SNC, is in a close alliance with the RSC with mutual aid agreements in place. Was convinced after Io, Le Fou and the RSC defended them from a Bozo attack.",
+    "img": "img/fans/feanor.webp",
+    "w": 969,
+    "h": 675
+   },
+   {
+    "name": "Linda Yamamoto",
+    "gm": "Asuka",
+    "gig": "Gales of November Base Boosted Phonk Mix",
+    "story": "Segotari Exec in Counterintel. Kevin's Mom. On again, off again private martial arts trainee. Occasionally goes by \"Panther Zero.\" Nature or degree of relationship between Io and her is not something he'll comment on.",
+    "img": "img/fans/linda-yamamoto.webp",
+    "w": 649,
+    "h": 720
+   },
+   {
+    "name": "Red Guardian",
+    "gm": "Hando",
+    "gig": "My Body is a Castle",
+    "story": "Formerly a Captain America poserganger and leader of a small guardian gang in Heywood. Was made a fan of Io's on a following gig as he's worked to slowly radicalize him.",
+    "img": "img/fans/red-guardian.webp",
+    "w": 786,
+    "h": 720
+   },
+   {
+    "name": "Misty",
+    "gm": "Rache",
+    "gig": "The Ultimate Weapon",
+    "story": "Bartender at the Leylines. Slowly radicalized and shown the light of Marxiism. Top Ranked ELO player, at one point.",
+    "img": "img/fans/misty.webp",
+    "w": 625,
+    "h": 720
+   },
+   {
+    "name": "Evangeline",
+    "gm": "Alex",
+    "gig": "Eyes On Me, More Than One Way",
+    "story": "A Fixer that works with NCPD, they go on a mission of vengeance and she's convinced to maybe embrace another way.",
+    "img": "img/fans/evangeline.webp",
+    "w": 376,
+    "h": 530
+   },
+   {
+    "name": "Delilah Tinubu",
+    "gm": "Alex",
+    "gig": "Heart Beat",
+    "story": "Formerly Jezebel Twist. Io helped her get out from a very dangerous situation. She now has a job at fitness center on Morro Rock and spends her time at the People's Center. Training. Io is likely going to take her under as an apprentice.",
+    "img": "img/fans/delilah-tinubu.webp",
+    "w": 383,
+    "h": 594
+   },
+   {
+    "name": "Marco Rojas",
+    "gm": "Nun",
+    "gig": "War Dogs",
+    "story": "Leader of a self-organized cell in the SNC and fan of Iō. Is trying to create collective action in his own community in SNC and the University District. He's a former soldier, became a firefighter after the 4th corporate war to make a difference, was disillusioned by working for the city, and is using his skills to make a real change",
+    "img": "img/fans/marco-rojas.webp",
+    "w": 667,
+    "h": 720
+   },
+   {
+    "name": "Marcel Salahuddin",
+    "gm": "HipHorror",
+    "gig": "Exodus",
+    "story": "Hot Zone survivor. Medtech",
+    "img": "img/fans/marcel-salahuddin.webp",
+    "w": 255,
+    "h": 333
+   },
+   {
+    "name": "Bjork the Orc",
+    "gm": "Alex",
+    "gig": "The Silk Road",
+    "story": "Medtech who hid the corpse of Jason Bride for Io. Cryotank was stolen and then Io found him a replacement.",
+    "img": "img/fans/bjork-the-orc.webp",
+    "w": 723,
+    "h": 550
+   },
+   {
+    "name": "Old Rio",
+    "gm": "Nano",
+    "gig": "In The Heights: Gentrifying Geriatrics",
+    "story": "Saved Old Rio's restuarant from a hostile takeover. Io does autograph signings there and general events. Rio lets him use the venue on occasion for meetings and other things. Nomar grew up with Papa Rio's as a neighborhood fixture",
+    "img": "img/fans/old-rio.webp",
+    "w": 448,
+    "h": 720
+   },
+   {
+    "name": "MiMi Muramasa",
+    "gm": "Asuka",
+    "gig": "Guerilla Gardening",
+    "story": "Netrunner, spy, and former member of the Muramasa Queens Ladies Team. She was convinced to fake her death in the aftermath of this gig. Io's been focused on helping her build a new life and a real sense of community.",
+    "img": "img/fans/mimi-muramasa.webp",
+    "w": 494,
+    "h": 644
+   },
+   {
+    "name": "Mama Silver",
+    "gm": "Lia",
+    "gig": "Plata, Plata, Plata",
+    "story": "Heywood Fixer. Owner of The Threadbare. Left a good impression after helping to repel Top/SEC from her bar.",
+    "img": "img/fans/mama-silver.webp",
+    "w": 490,
+    "h": 464
+   },
+   {
+    "name": "Ellie",
+    "gm": "Lia",
+    "gig": "Blood For Blood",
+    "story": "12 year old volunteer with the Gardeners. Io helped her after the dead tomato incident. Dog?!",
+    "img": "img/fans/ellie.webp",
+    "w": 322,
+    "h": 720
+   },
+   {
+    "name": "Happy",
+    "gm": "Valk",
+    "gig": "Dying of Laughter",
+    "story": "A former ex Julliard turned jaded Bozo that was recruited by Io in the aftermath of the following gig. Is a sort of secret friend of the RSC's. More details here.",
+    "img": "img/fans/happy.webp",
+    "w": 684,
+    "h": 720
+   },
+   {
+    "name": "Morrow [They/Them]",
+    "gm": "Valk",
+    "gig": "Cult of Asymmetry",
+    "story": "Speaker for the dead. When someone in SNC dies. RSC, community, or just someone with nobody else. Morrow collects stories, writes something true, and speaks it at the service. Quiet, eerie, reliable.",
+    "img": "img/fans/morrow-they.webp",
+    "w": 681,
+    "h": 720
+   },
+   {
+    "name": "Spit",
+    "gm": "Valk",
+    "gig": "Cult of Asymmetry",
+    "story": "Flash fiction writer for the RSC zines. Cold-mean, not angry-mean. The wolfen claws are a bit; she likes making people nervous with them. Her other bit is worse: she'll try anything once and films herself doing it, jackass stunts that are a headache because she keeps recruiting volunteers and people get hurt. Runs the monthly open mic.",
+    "img": "img/fans/spit.webp",
+    "w": 438,
+    "h": 586
+   }
+  ]
  }
 }

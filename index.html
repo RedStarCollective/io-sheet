@@ -1732,6 +1732,118 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .wboot .zpanel{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
 .wboot .ring .side{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
 @keyframes wsin{from{opacity:0;transform:translateY(8px)}}
+/* ---------- FANS (work in progress): collectible cards ---------- */
+.fans{position:relative;z-index:2}
+.fnhead{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;padding:30px 0 20px;margin-bottom:18px;border-bottom:1px solid var(--frame)}
+.fnhead::after{content:"";position:absolute;left:0;bottom:-1px;width:180px;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.fnghost{position:absolute;right:2%;top:-10px;font:700 clamp(80px,12vw,190px)/1 var(--f-disp);letter-spacing:.1em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(181,143,82,.13);pointer-events:none;user-select:none;white-space:nowrap}
+.fntitle{position:relative}
+.fntitle .lab{margin:0 0 4px;color:var(--gold)}
+.fntitle h2{margin:0;font:700 46px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.fnstats{margin:10px 0 0;display:flex;align-items:baseline;gap:8px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.fnstats b{font:600 22px/1 var(--f-num);letter-spacing:0;color:var(--ink)}
+.fnstats i{width:5px;height:5px;background:var(--frame);transform:rotate(45deg);margin:0 6px;align-self:center}
+.fnwip{position:relative;max-width:440px;padding:10px 14px 11px 16px;border:1px solid rgba(181,143,82,.45);background:repeating-linear-gradient(-45deg,rgba(181,143,82,.07) 0 9px,transparent 9px 18px),rgba(12,9,8,.7);font-size:13.5px;line-height:1.4;color:var(--ink-2)}
+.fnwip-t{display:flex;align-items:center;gap:8px;margin-bottom:3px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.fnwip-t::before{content:"";width:7px;height:7px;background:var(--gold);box-shadow:0 0 8px var(--gold);transform:rotate(45deg)}
+.fnbar{display:grid;grid-template-columns:240px minmax(0,1fr) auto;gap:20px;align-items:start;margin-bottom:12px}
+.fnsearch{display:block}
+.fnsearch .lab{display:block;margin:0 0 6px}
+.fnsearch input{width:100%;font:inherit;font-size:15px;background:var(--cell);border:1px solid var(--line);color:var(--ink);padding:7px 9px}
+.fnsearch input:focus{outline:0;border-color:var(--gold)}
+.fngms{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.fngms .lab{width:100%;margin:0 0 1px}
+.fngm{display:inline-flex;align-items:center;gap:7px;font:600 13.5px/1 var(--f-body);cursor:pointer;background:rgba(17,13,12,.74);border:1px solid var(--line);color:var(--ink-2);padding:6px 10px 5px;transition:border-color .15s,background .15s,color .15s}
+.fngm i{width:7px;height:7px;transform:rotate(45deg);background:hsl(var(--h) 65% 60%)}
+.fngm b{font:600 11px var(--f-num);color:var(--ink-3)}
+.fngm:hover{border-color:var(--frame);color:var(--ink)}
+.fngm.on{color:#fff;border-color:hsl(var(--h,38) 60% 55%);background:hsla(var(--h,38),60%,40%,.24)}
+.fngm.on b{color:#fff}
+.fnshown{align-self:end;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap;padding-bottom:6px}
+.fngrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:56px 22px;padding-top:44px}
+.fnnote{margin:40px 0 0;max-width:720px;font-size:13px;line-height:1.45;font-style:italic;color:var(--ink-3)}
+/* the card */
+.fcard{--cut:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));position:relative;display:block;width:100%;aspect-ratio:5/7;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;perspective:900px}
+.fc-in{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.fcard.tilt .fc-in{transition:transform .08s linear}
+.fc-bg{position:absolute;inset:0;clip-path:var(--cut);overflow:hidden;
+  background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),
+    radial-gradient(120% 70% at 50% 28%,hsl(var(--h) 42% 25%),hsl(var(--h) 34% 9%) 66%,#070505)}
+.fc-gig{position:absolute;right:8px;top:30px;writing-mode:vertical-rl;font:700 30px/1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px hsla(var(--h),70%,66%,.32)}
+.fc-aw{position:absolute;inset:0;transform:translateZ(26px);pointer-events:none;clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px))}
+.fc-art{position:absolute;left:50%;bottom:0;height:112%;width:auto;max-width:none;object-fit:contain;object-position:50% 100%;transform:translateX(-50%);filter:drop-shadow(0 10px 14px rgba(0,0,0,.6));pointer-events:none;transition:filter .3s}
+.fc-art.wide{height:auto;width:112%}
+.fc-none{position:absolute;inset:0;display:grid;place-items:center;font:700 90px/1 var(--f-disp);color:hsla(var(--h),50%,60%,.25)}
+.fc-foil{position:absolute;inset:0;clip-path:var(--cut);opacity:0;transition:opacity .35s;mix-blend-mode:color-dodge;pointer-events:none;transform:translateZ(30px);
+  background:linear-gradient(115deg,transparent 22%,hsla(calc(var(--h) + 40),100%,70%,.32) 38%,rgba(255,255,255,.42) 47%,hsla(calc(var(--h) + 170),100%,70%,.28) 56%,transparent 74%) var(--mx,50%) var(--my,50%)/260% 260% no-repeat}
+.fc-plate{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 11px;clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));transform:translateZ(36px);
+  background:linear-gradient(0deg,rgba(6,5,5,.97) 34%,rgba(6,5,5,.78) 62%,transparent)}
+.fc-plate b{display:block;font:600 19px/1.05 var(--f-cond);color:var(--ink)}
+.fc-plate b .bt{font-size:12px}
+.fc-plate em{display:block;margin-top:4px;font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:hsl(var(--h) 70% 72%)}
+.fc-meta{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:4px}
+.fc-meta em{margin:0!important;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:760px){ .fngrid .fc-no{display:none} }
+.fc-no{font:600 10px/1 var(--f-num);letter-spacing:.1em;color:hsl(var(--h) 55% 62%);white-space:nowrap}
+.fc-no i{font-style:normal;color:var(--ink-3)}
+.fc-edge{position:absolute;inset:0;clip-path:var(--cut);padding:1.5px;pointer-events:none;transform:translateZ(36px);
+  background:linear-gradient(160deg,hsla(var(--h),75%,68%,.95),hsla(var(--h),40%,32%,.55) 38%,hsla(var(--h),40%,28%,.5) 62%,hsla(var(--h),75%,62%,.9));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.fcard:hover .fc-foil,.fcard.tilt .fc-foil{opacity:.6}
+.fcard:hover .fc-art{filter:drop-shadow(0 0 1px hsla(var(--h),80%,75%,.7)) drop-shadow(0 12px 16px rgba(0,0,0,.65))}
+.fcard:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.fcard.fghost{cursor:default}
+.fghost .fc-bg{background:repeating-linear-gradient(-45deg,rgba(181,143,82,.06) 0 10px,transparent 10px 20px),rgba(12,9,8,.6);outline:1px dashed rgba(181,143,82,.45);outline-offset:-1px}
+.fgh{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px}
+.fgh b{font:600 44px/1 var(--f-num);color:var(--gold)}
+.fgh em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+@media (prefers-reduced-motion:no-preference){
+  .fngrid.deal .fcard{animation:fdeal .75s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--n) * 55ms + 80ms)}
+  @keyframes fdeal{from{opacity:0;transform:translateY(46px) rotateX(38deg) scale(.9)}}
+}
+/* spotlight */
+body.fnlock{overflow:hidden}
+.fnspot{position:fixed;inset:0;z-index:70;display:grid;place-items:center;opacity:0;transition:opacity .24s}
+.fnspot.on{opacity:1}
+.fns-back{position:absolute;inset:0;background:rgba(5,4,4,.84);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.fns-in{position:relative;display:grid;grid-template-columns:minmax(0,350px) minmax(0,460px);gap:52px;align-items:center;padding:70px 48px 36px;max-width:calc(100vw - 32px);max-height:calc(100vh - 24px);overflow-y:auto;scrollbar-width:thin}
+.fcard.big{cursor:default}
+.fcard.big .fc-plate b{font-size:28px}
+.fcard.big .fc-gig{font-size:46px;top:36px}
+.fcard.big .fc-no{font-size:12px}
+.fns-info .lab{display:flex;gap:10px;align-items:center;margin:0;color:var(--ink-3)}
+.fns-info .lab .fc-no{font-size:11px}
+.fns-info h2{margin:8px 0 18px;font:700 42px/1 var(--f-disp);letter-spacing:.03em;text-transform:uppercase}
+.fns-info h2 .bt{font-size:.4em;letter-spacing:.08em}
+.fns-dl{margin:0 0 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fns-dl dt{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.fns-dl dd{margin:0;font:500 18px/1.25 var(--f-cond);color:var(--ink)}
+.fns-gm{display:inline-flex;align-items:center;gap:8px;font:600 15px/1 var(--f-body);cursor:pointer;background:hsla(var(--h),60%,40%,.2);border:1px solid hsl(var(--h) 60% 55%);color:#fff;padding:6px 10px 5px}
+.fns-gm i{width:8px;height:8px;transform:rotate(45deg);background:hsl(var(--h) 65% 60%)}
+.fns-gm:hover{background:hsla(var(--h),60%,40%,.35)}
+.fns-story{margin:0;padding-left:14px;border-left:2px solid hsl(var(--h) 60% 55%);font-size:16.5px;line-height:1.6;color:var(--ink-2)}
+.fns-story.none{color:var(--ink-3);font-style:italic}
+.fns-nav{display:flex;align-items:center;gap:12px;margin-top:24px;font:600 12px var(--f-num);color:var(--ink-3)}
+.fns-nav button{width:36px;height:32px;font:inherit;font-size:15px;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--line);color:var(--ink-2)}
+.fns-nav button:hover{border-color:var(--gold);color:var(--gold)}
+.fns-x{position:absolute;top:14px;right:14px;width:36px;height:36px;font-size:22px;line-height:1;cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--ink-3)}
+.fns-x:hover{color:var(--ink);border-color:var(--frame)}
+@media (prefers-reduced-motion:no-preference){
+  .fnspot.on .fns-card{animation:fnsin .5s cubic-bezier(.2,.7,.2,1) both}
+  .fnspot.on .fns-info{animation:fnsinfo .45s cubic-bezier(.2,.7,.2,1) .08s both}
+  @keyframes fnsin{from{opacity:0;transform:translateY(26px) scale(.9) rotateY(-16deg)}}
+  @keyframes fnsinfo{from{opacity:0;transform:translateX(18px)}}
+}
+@media (max-width:1000px){ .fnbar{grid-template-columns:minmax(0,1fr)} .fnshown{padding:0} }
+@media (max-width:760px){
+  .fntitle h2{font-size:34px}
+  .fngrid{grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:40px 12px}
+  .fc-plate b{font-size:16px}
+  .fc-gig{font-size:22px}
+  .fns-in{grid-template-columns:minmax(0,1fr);gap:22px;padding:64px 20px 28px;align-items:start}
+  .fns-card{width:min(250px,70vw);justify-self:center}
+  .fns-info h2{font-size:30px}
+}
 /* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
    .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
 .iogold,.iosmoke{display:none}
@@ -1954,9 +2066,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     for (var k in GI) if (String(name).indexOf(k) === 0) return '<svg class="gi" viewBox="' + GI[k].v + '" aria-hidden="true">' + GI[k].b + '</svg>';
     return "";
   }
-  var READY = ["dossier","ware","casefile","rep","posse","vehicles","advance"];
+  var READY = ["dossier","ware","casefile","rep","fans","posse","vehicles","advance"];
   var tab = (location.hash || "").replace("#",""), bootWho = /^zolo/.test(tab) ? "zolo" : "io"; if (bootWho === "zolo") tab = tab.replace(/^zolo-?/, "") || "dossier"; if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
-  var TABS = ["Dossier","Ware","Case File","Rep","Posse","Vehicles","HQ","Advance"];
+  var TABS = ["Dossier","Ware","Case File","Rep","Fans","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
   var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];
   var IO = null, WHO = "io", roIo = false, zMask = false;
@@ -2933,6 +3045,100 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.id === "rclear"){ RF = {kind:"", who:"", lvl:0, q:""}; var qi = document.getElementById("repq"); if (qi) qi.value = ""; repApply(); return; }
   });
   app.addEventListener("input", function(ev){ if (tab === "rep" && ev.target.id === "repq"){ RF.q = ev.target.value; repApply(); } });
+
+
+  /* ---------- FANS (work in progress): collectible cards, one per fan; filter by GM; a spotlight on click ---------- */
+  var FN = {gm:"", q:"", open:-1}, fnEnter = true;
+  var FN_HUES = [355, 40, 192, 272, 145, 22, 318, 212, 58, 168, 300, 8, 232, 95, 335, 180, 250, 30, 125, 285, 200, 345, 75, 155];
+  function FL(){ return (S.fans && S.fans.list) || []; }
+  function fnGMs(){ var c = {}; FL().forEach(function(f){ var g = f.gm || "Unknown"; c[g] = (c[g] || 0) + 1; }); return Object.keys(c).sort(function(a, b){ return c[b] - c[a] || a.localeCompare(b); }).map(function(g){ return [g, c[g]]; }); }
+  function fnHue(gm){ var all = fnGMs().map(function(x){ return x[0]; }).sort(), i = all.indexOf(gm || "Unknown"); return FN_HUES[(i < 0 ? 0 : i) % FN_HUES.length]; }
+  function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
+  function fanCard(f, i, big){
+    var ar = f.w && f.h ? f.w / f.h : .8;
+    return '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span>' +
+      (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
+      '<span class="fc-foil" aria-hidden="true"></span>' +
+      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span><span class="fc-edge" aria-hidden="true"></span></span>';
+  }
+  function fnMatch(f){
+    var q = FN.q.trim().toLowerCase();
+    return (!FN.gm || (f.gm || "Unknown") === FN.gm) && (!q || [f.name, f.gm, f.gig, f.story].join(" ").toLowerCase().indexOf(q) >= 0);
+  }
+  function fansPage(){
+    var L = FL(), F = S.fans || {}, gms = fnGMs(), left = Math.max(0, (F.total || L.length) - L.length);
+    var head = '<header class="fnhead"><div class="fnghost" aria-hidden="true">Fans</div>' +
+      '<div class="fntitle"><p class="lab">The following</p><h2>Fans of Iō</h2>' +
+      '<p class="fnstats"><b class="dec">' + (F.total || L.length) + '</b> fans <i></i> <b class="dec">' + (F.gigs || "") + '</b> gigs <i></i> <b class="dec">' + (F.gms || gms.length) + '</b> GMs</p></div>' +
+      (F.wip ? '<div class="fnwip" role="note"><span class="fnwip-t">Work in progress</span><span>' + L.length + ' of ' + (F.total || L.length) + ' fans are on the page so far. The roster, the art and this layout will change as Oak finishes them.</span></div>' : '') + '</header>';
+    var bar = '<div class="fnbar"><label class="fnsearch"><span class="lab">Search</span><input type="search" id="fnq" placeholder="Name, gig or GM" value="' + esc(FN.q) + '"></label>' +
+      '<div class="fngms" role="group" aria-label="Filter by GM"><span class="lab">GM</span><button type="button" class="fngm' + (!FN.gm ? ' on' : '') + '" data-fngm="">All<b>' + L.length + '</b></button>' +
+      gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
+      '</div><span class="fnshown" id="fnshown"></span></div>';
+    var grid = '<div class="fngrid' + (fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
+      return '<button type="button" class="fcard" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
+      (left ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
+      '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
+    var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
+    fnEnter = false;
+    return '<main class="fans">' + head + bar + grid + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
+  }
+  function fnApply(){
+    var shown = 0, L = FL();
+    [].forEach.call(document.querySelectorAll(".fngrid .fcard[data-fan]"), function(c){ var ok = fnMatch(L[+c.dataset.fan]); c.hidden = !ok; if (ok) shown++; });
+    var gh = document.querySelector(".fghost"); if (gh) gh.hidden = !!(FN.gm || FN.q.trim());
+    [].forEach.call(document.querySelectorAll("[data-fngm]"), function(b){ var on = b.dataset.fngm === FN.gm; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
+    var s = document.getElementById("fnshown"); if (s) s.textContent = (FN.gm || FN.q.trim()) ? shown + " of " + L.length : "";
+    var n = document.getElementById("fnnone"); if (n) n.hidden = shown > 0;
+  }
+  function fnVisible(){ return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
+  function fnOpen(i){
+    var sp = document.getElementById("fnspot"), f = FL()[i]; if (!sp || !f) return;
+    FN.open = i;
+    var vis = fnVisible(), k = vis.indexOf(i);
+    sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnHue(f.gm) + '">' +
+      '<div class="fns-card"><div class="fcard big" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
+      '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
+        '<dl class="fns-dl"><div><dt>Won at</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
+        (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
+        '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
+      '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
+    sp.hidden = false; document.body.classList.add("fnlock");
+    requestAnimationFrame(function(){ sp.classList.add("on"); var x = sp.querySelector(".fns-x"); if (x) x.focus({preventScroll:true}); });
+  }
+  function fnClose(){
+    var sp = document.getElementById("fnspot"); if (!sp || sp.hidden) return;
+    var back = FN.open; FN.open = -1; sp.classList.remove("on"); document.body.classList.remove("fnlock");
+    setTimeout(function(){ if (FN.open < 0){ sp.hidden = true; sp.innerHTML = ""; } }, reduce ? 0 : 240);
+    var c = document.querySelector('.fcard[data-fan="' + back + '"]'); if (c) c.focus({preventScroll:true});
+  }
+  function fansAfter(){ fnApply(); }
+  app.addEventListener("click", function(ev){
+    if (tab !== "fans") return;
+    var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep]"); if (!t) return;
+    if (t.dataset.fngm != null){ FN.gm = FN.gm === t.dataset.fngm && t.dataset.fngm ? "" : t.dataset.fngm; if (t.dataset.fnclose) fnClose(); fnApply(); return; }
+    if (t.dataset.fnclose){ fnClose(); return; }
+    if (t.dataset.fnstep){ var v = fnVisible(), k = v.indexOf(FN.open); if (v.length) fnOpen(v[(k + (+t.dataset.fnstep) + v.length) % v.length]); return; }
+    if (t.dataset.fan != null && !t.closest(".fnspot")) fnOpen(+t.dataset.fan);
+  });
+  app.addEventListener("input", function(ev){ if (tab === "fans" && ev.target.id === "fnq"){ FN.q = ev.target.value; fnApply(); } });
+  document.addEventListener("keydown", function(ev){
+    if (tab !== "fans" || FN.open < 0) return;
+    if (ev.key === "Escape"){ fnClose(); return; }
+    if (ev.key === "ArrowRight" || ev.key === "ArrowLeft"){ var v = fnVisible(), k = v.indexOf(FN.open); if (v.length) fnOpen(v[(k + (ev.key === "ArrowRight" ? 1 : -1) + v.length) % v.length]); }
+  });
+  /* tilt + holo sheen follow the pointer (mouse and pen) */
+  document.addEventListener("pointermove", function(ev){
+    if (tab !== "fans" || reduce || ev.pointerType === "touch") return;
+    var c = ev.target.closest && ev.target.closest(".fcard:not(.fghost)"); 
+    if (fnTilt && fnTilt !== c){ fnTilt.style.removeProperty("--rx"); fnTilt.style.removeProperty("--ry"); fnTilt.classList.remove("tilt"); fnTilt = null; }
+    if (!c) return;
+    var R = c.getBoundingClientRect(), x = (ev.clientX - R.left) / R.width, y = (ev.clientY - R.top) / R.height, k = c.classList.contains("big") ? 9 : 12;
+    c.style.setProperty("--rx", ((.5 - y) * k).toFixed(2) + "deg"); c.style.setProperty("--ry", ((x - .5) * k).toFixed(2) + "deg");
+    c.style.setProperty("--mx", (x * 100).toFixed(1) + "%"); c.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+    c.classList.add("tilt"); fnTilt = c;
+  });
+  var fnTilt = null;
 
   /* ---------- POSSE ---------- */
   var posseSel = "", pTab = "profile";
@@ -3940,9 +4146,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S && WHO === "io") deriveSkills();
-    var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
+    var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : tab === "fans" ? fansPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" && WHO === "io" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
+    if (tab === "fans") fansAfter();
     if (tab === "rep" && !editing) repApply();
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
     advAfter();
@@ -4301,7 +4508,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
