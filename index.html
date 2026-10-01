@@ -4359,7 +4359,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
      On *.github.io the page reads Oak's Google Sheet through an Apps Script web app (apps-script/Code.gs).
      data/io.json stays the base (art, rules text, rep events, posse, vehicles); the sheet overlays the
      numbers and lists it owns. Visiting once with ?key=EDIT_KEY unlocks the dose counters on that device. */
-  var SHEET_API = "https://script.google.com/macros/s/AKfycbxHyP13HOErUASVTbd0cN2Gkg5XJa05Y6oMGZVdqfvhvfCy7CeiTKtw25mBS1k_I30GVQ/exec";
+  var SHEET_API = "https://script.google.com/macros/s/AKfycbz4dPcrgWGzW-czBU4sbL_uwaQvVnnNovPVL11CY_pl34H98hqUEYBBgOzzkwsH-p1soA/exec";
   var SHEET_TABS = {stats:"Stats & Skills [Iō]", imp:"Skill Improvements", calc:"Skill Improvement Calculator", casefile:"Case File", zstats:"Stats & Skills Z"};
   function tabKey(t){ return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9&]+/g, " ").trim().toLowerCase(); }
   function sheetOf(j, name){ var k = tabKey(name); for (var n in j.sheets) if (tabKey(n) === k) return j.sheets[n]; return null; }
