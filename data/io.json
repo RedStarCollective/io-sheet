@@ -1249,7 +1249,7 @@
   "zones": [
    {
     "id": "neural",
-    "label": "Neural Link",
+    "label": "Neural",
     "regions": [
      "head"
     ],
@@ -1391,7 +1391,7 @@
    },
    {
     "id": "optics",
-    "label": "Cyberoptics",
+    "label": "Eyes",
     "regions": [
      "eyes"
     ],
@@ -1502,7 +1502,7 @@
    },
    {
     "id": "audio",
-    "label": "Cyberaudio",
+    "label": "Ear",
     "regions": [
      "ears"
     ],
@@ -1548,7 +1548,7 @@
    },
    {
     "id": "limbs",
-    "label": "Cyberlimbs",
+    "label": "Limbs",
     "regions": [
      "armR",
      "armL",
@@ -6746,7 +6746,7 @@
    "zones": [
     {
      "id": "neural",
-     "label": "Neural Link",
+     "label": "Neural",
      "regions": [
       "head"
      ],
@@ -6866,7 +6866,7 @@
     },
     {
      "id": "optics",
-     "label": "Cyberoptics",
+     "label": "Eyes",
      "regions": [
       "eyes"
      ],
@@ -6977,7 +6977,7 @@
     },
     {
      "id": "audio",
-     "label": "Cyberaudio",
+     "label": "Ear",
      "regions": [
       "ears"
      ],
@@ -7023,7 +7023,7 @@
     },
     {
      "id": "limbs",
-     "label": "Cyberlimbs",
+     "label": "Limbs",
      "regions": [
       "armR",
       "armL",

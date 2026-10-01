@@ -1622,6 +1622,52 @@ body.zolo .bodyfig.tone-gold{--zc:#d9dde0;--zc2:rgba(217,221,224,.12)}
 .bodyfig.xray .rg{filter:opacity(.4)}
 body.zolo .zitem.on{background:rgba(31,111,143,.28)}
 body.zolo .bodyfig img{filter:drop-shadow(0 0 30px rgba(0,0,0,.85)) drop-shadow(0 0 1px rgba(160,215,235,.25))}
+/* Ware: inline rules drop-downs (Oct 1) */
+.xrow{cursor:pointer;outline:0;transition:background .15s}
+.xrow:hover{background:rgba(181,143,82,.06)}
+.xrow:focus-visible{box-shadow:inset 0 0 0 1px var(--gold)}
+.xo > .xrow{background:rgba(181,143,82,.09)}
+.xcar{margin-left:auto;width:16px;height:16px;flex:none;position:relative;opacity:.55;transition:opacity .15s}
+.pips + .xcar{margin-left:6px}
+.xcar::before{content:"";position:absolute;left:5px;top:4px;width:5px;height:5px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(45deg);transition:transform .22s ease}
+.xrow:hover .xcar,.xo > .xrow .xcar{opacity:1}
+.xo > .xrow .xcar::before{transform:translate(0,3px) rotate(-135deg)}
+.xpand{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
+.xpand.on{grid-template-rows:1fr}
+.xpin{overflow:hidden;min-height:0;margin:0 10px 0 12px;border-left:2px solid var(--gold-dim);background:linear-gradient(90deg,rgba(181,143,82,.07),rgba(0,0,0,.25) 70%)}
+.xpand.on .xpin{padding:10px 12px 11px;margin-bottom:8px}
+.xpand .rc h4{font-size:17px;margin-right:0}
+.xpand .rrules p,.xpand .rrules li{font-size:14px;line-height:1.4}
+.xpand .xnone{margin:0}
+.xtags{list-style:none;margin:10px 0 0;padding:9px 0 0;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:6px}
+.xtags li{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start;font-size:12.5px;line-height:1.35;color:var(--ink-2)}
+.xtags .chip2{margin-top:1px}
+@media (prefers-reduced-motion:reduce){ .xpand,.xcar::before{transition:none} }
+.legend .chip2{cursor:pointer}
+.legend .chip2.on{background:rgba(255,255,255,.08);box-shadow:0 0 0 1px currentColor inset}
+.tagdef{border-left:2px solid var(--frame);padding:6px 0 2px 10px;font-size:13.5px;line-height:1.4;color:var(--ink-2)}
+.tagdef p{margin:5px 0 0}
+/* Limbs: pick one at a time */
+.rtag.ltag{pointer-events:auto;cursor:pointer;font-family:inherit;color:inherit;transition:opacity .2s,border-color .2s,background .2s}
+.rtag.ltag:hover,.rtag.ltag.on{background:rgba(40,8,10,.92);border-color:var(--red-hi)}
+.rtag.ltag.dim{opacity:.45}
+.rtag.ltag.dim:hover{opacity:1}
+.lpick{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.lpb{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font:inherit;font-family:var(--f-cond);font-size:16px;font-weight:600;cursor:pointer;background:rgba(17,13,12,.78);border:1px solid var(--line);border-left:2px solid var(--frame);color:var(--ink-2);padding:7px 10px}
+.lpb b{font-family:var(--f-num);font-size:11px;color:var(--ink-3)}
+.lpb:hover{border-color:var(--frame);color:var(--ink)}
+.lpb.on{border-color:var(--red-hi);border-left-color:var(--red-hi);background:rgba(159,12,23,.22);color:var(--ink)}
+.lpb.on b{color:var(--red-hi)}
+.lhint{padding:4px 2px}
+@media (max-width:760px){ .rtag.ltag{display:none} }
+body.zolo .lpb.on{background:rgba(31,111,143,.22)}
+body.zolo .rtag.ltag:hover,body.zolo .rtag.ltag.on{background:rgba(8,20,26,.92)}
+/* Iō portrait (desktop): no frame, just a gold line he stands on (Oak, Oct 1) */
+@media (min-width:881px){
+  body:not(.zolo) .portrait.iop{border-color:transparent}
+  body:not(.zolo) .portrait.iop::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-2px;height:2px;z-index:2;pointer-events:none;
+    background:linear-gradient(90deg,transparent,var(--gold) 14%,#e2c18a 50%,var(--gold) 86%,transparent);box-shadow:0 0 10px rgba(226,184,108,.45),0 0 2px rgba(226,184,108,.8)}
+}
 /* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
    .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
 .iogold,.iosmoke{display:none}
@@ -2355,7 +2401,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function pips(it){
     var used = usedSlots(it), cap = +it.cap, s = "";
     for (var i = 0; i < cap; i++) s += '<i class="' + (i < used ? 'on' : '') + '"></i>';
-    return '<button type="button" class="pips tip" data-tip="SLOTS" title="' + esc(it.capnote || "") + '"><span class="pp">' + s + '</span><b>' + used + '/' + cap + '</b></button>';
+    return '<span class="pips" title="Option slots used' + (it.capnote ? ' · ' + esc(it.capnote) : '') + '"><span class="pp">' + s + '</span><b>' + used + '/' + cap + '</b></span>';
   }
   function nodeHTML(it, p, depth){
     if (it.kind === "link"){
@@ -2364,8 +2410,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (it.kind === "enh"){
       var a = findAdv(it.enh), nmx = a ? a.name : it.enh;
       if (editing) return '<li class="nd k-enh"><div class="nrow"><span class="flex"><span class="up">↑</span><span class="wn2">' + esc(nmx) + '</span>' + del(p) + '</span><textarea class="ed" rows="1" data-p="' + p + '.note" aria-label="Effect here">' + esc(it.note) + '</textarea></div></li>';
-      return '<li class="nd k-enh"><div class="nrow has-card" tabindex="0" data-ref="' + esc(a && a.ref || it.enh) + '"><div class="nh"><span class="up" aria-hidden="true">↑</span><span class="wn">' + esc(nmx) + '</span>' + tagChip("ADV") +
-        '<button type="button" class="golink sm" data-go="adv" data-hl="' + esc(it.enh) + '">Open</button></div>' + (it.note ? '<p class="ws">' + nm(it.note) + '</p>' : '') + '</div></li>';
+      var ek = a && a.ref || it.enh;
+      return '<li class="nd k-enh' + (XOPEN[p] ? ' xo' : '') + '"><div class="nrow xrow" tabindex="0" role="button" aria-expanded="' + !!XOPEN[p] + '" data-x="' + esc(p) + '" data-xr="' + esc(ek) + '" data-xt="ADV"><div class="nh"><span class="up" aria-hidden="true">↑</span><span class="wn">' + esc(nmx) + '</span>' + tagSpan("ADV") +
+        '<button type="button" class="golink sm" data-go="adv" data-hl="' + esc(it.enh) + '">Open</button><i class="xcar" aria-hidden="true"></i></div>' + (it.note ? '<p class="ws">' + nm(it.note) + '</p>' : '') + '</div>' + (XOPEN[p] ? xpandHTML(ek, ["ADV"], true) : '') + '</li>';
     }
     var kids = it.children || [];
     var head;
@@ -2377,15 +2424,42 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var extra = "";
       if (it.feeds) extra += '<p class="feeds"><span>Fed by</span> ' + it.feeds.map(esc).join(' · ') + '</p>';
       if (it.links) extra += '<p class="feeds"><span>Runs through</span> ' + it.links.map(function(z){ var zz = CZ().filter(function(x){ return x.id === z; })[0]; return '<button type="button" class="golink sm" data-go="' + z + '">' + esc(zz ? zz.label : z) + '</button>'; }).join(' ') + '</p>';
-      head = '<div class="nrow' + (it.ref ? ' has-card" tabindex="0" data-ref="' + esc(it.ref) : '') + '"' + (it.id ? ' data-id="' + esc(it.id) + '"' : '') + '>' +
+      head = '<div class="nrow xrow" tabindex="0" role="button" aria-expanded="' + !!XOPEN[p] + '" data-x="' + esc(p) + '" data-xr="' + esc(it.ref || "") + '" data-xt="' + esc((it.tags || []).join(",")) + '"' + (it.id ? ' data-id="' + esc(it.id) + '"' : '') + '>' +
         '<div class="nh"><span class="kd" aria-hidden="true"></span><span class="wn">' + nm(it.name) + '</span>' + (it.count ? '<span class="cnt3">' + esc(it.count) + '</span>' : '') +
-        (it.tags || []).map(tagChip).join("") + (it.cap ? pips(it) : '') + '</div>' +
-        (it.setup ? '<p class="ws">' + nm(it.setup) + '</p>' : '') + extra + '</div>';
+        (it.tags || []).map(tagSpan).join("") + (it.cap ? pips(it) : '') + '<i class="xcar" aria-hidden="true"></i></div>' +
+        (it.setup ? '<p class="ws">' + nm(it.setup) + '</p>' : '') + extra + '</div>' + (XOPEN[p] ? xpandHTML(it.ref, it.tags, true) : '');
     }
     var sub = kids.length || editing && it.kind !== "chip" ? '<ul class="nc">' + kids.map(function(c, i){ return nodeHTML(c, p + ".children." + i, depth + 1); }).join("") +
       (editing && it.kind !== "chip" ? '<li><button class="add" data-add="' + p + '.children">+ Add inside ' + esc(it.name) + '</button></li>' : '') + '</ul>' : '';
-    return '<li class="nd k-' + esc(it.kind || "cyber") + ' d' + depth + '">' + head + sub + '</li>';
+    return '<li class="nd k-' + esc(it.kind || "cyber") + ' d' + depth + (!editing && XOPEN[p] ? ' xo' : '') + '">' + head + sub + '</li>';
   }
+  /* inline rules drop-downs (Oak, Oct 1: no floating card on the Ware page) */
+  var XOPEN = {};
+  function tagSpan(k){ var key = String(k).toUpperCase(); return '<span class="chip2 ' + (TAGC[key] || '') + '">' + esc(k) + '</span>'; }
+  function xpandHTML(refs, tags, on){
+    var keys = String(refs || "").split(",").filter(Boolean), body = keys.map(refHTML).join("");
+    var td = (tags || []).map(function(k){ var t = TAGDEF[String(k).toUpperCase()]; return t ? '<li><span class="chip2 ' + (TAGC[String(k).toUpperCase()] || '') + '">' + esc(t.t) + '</span><span>' + esc(t.d) + '</span></li>' : ''; }).join("");
+    return '<div class="xpand' + (on ? ' on' : '') + '"><div class="xpin">' + (body || '<p class="rsrc xnone">Source text isn’t in the reference library yet.</p>') + (td ? '<ul class="xtags">' + td + '</ul>' : '') + '</div></div>';
+  }
+  function xToggle(row){
+    var p = row.dataset.x, li = row.parentNode, ex = li.querySelector(":scope > .xpand");
+    if (XOPEN[p]){ delete XOPEN[p]; row.setAttribute("aria-expanded", "false"); li.classList.remove("xo");
+      if (ex){ ex.classList.remove("on"); setTimeout(function(){ if (ex.parentNode && !ex.classList.contains("on")) ex.remove(); drawWires(); }, reduce ? 0 : 260); } }
+    else { XOPEN[p] = 1; row.setAttribute("aria-expanded", "true"); li.classList.add("xo");
+      if (!ex){ var t = document.createElement("div"); t.innerHTML = xpandHTML(row.dataset.xr, (row.dataset.xt || "").split(",").filter(Boolean), false); ex = t.firstChild; row.insertAdjacentElement("afterend", ex); }
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ ex.classList.add("on"); }); });
+      setTimeout(drawWires, reduce ? 0 : 280); }
+  }
+  document.addEventListener("click", function(ev){
+    if (tab !== "ware" || editing) return;
+    var td = ev.target.closest && ev.target.closest("[data-tagdef]");
+    if (td){ tagOpen = tagOpen === td.dataset.tagdef ? "" : td.dataset.tagdef; var box = document.getElementById("tagdef");
+      [].forEach.call(document.querySelectorAll("[data-tagdef]"), function(b){ var o = b.dataset.tagdef === tagOpen; b.classList.toggle("on", o); b.setAttribute("aria-expanded", String(o)); });
+      if (box){ box.hidden = !tagOpen; box.innerHTML = tagOpen ? '<b class="chip2 ' + TAGC[tagOpen] + '">' + esc(TAGDEF[tagOpen].t) + '</b><p>' + esc(TAGDEF[tagOpen].d) + '</p>' : ''; } return; }
+    if (ev.target.closest && ev.target.closest("button, a")) return;
+    var row = ev.target.closest && ev.target.closest(".xrow"); if (row) xToggle(row);
+  });
+  document.addEventListener("keydown", function(ev){ if ((ev.key === "Enter" || ev.key === " ") && ev.target.classList && ev.target.classList.contains("xrow")){ ev.preventDefault(); xToggle(ev.target); } });
   function groupHTML(zi, g, gi, hr){
     var gp = "chrome.zones." + zi + ".groups." + gi;
     return '<section class="box cgrp"' + (hr ? ' data-hr="' + hr + '"' : '') + '><div class="hb"><span class="sp">' + esc(g.title) + '</span>' + (g.note ? '<span class="gnote">' + esc(g.note) + '</span>' : '') + '</div>' +
@@ -2396,23 +2470,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return (single ? '<div class="zhead"><p class="lab">Ware</p><h2>' + esc(z.label) + '</h2></div>' : '<h3 class="zh">' + esc(z.label) + '</h3>') +
       z.groups.map(function(g, gi){ return groupHTML(zi, g, gi, ""); }).join("");
   }
+  var tagOpen = "";
   function overview(){
-    var cnt = {cyber:0, bio:0, adv:0, worn:0};
-    CZ().forEach(function(z){ zoneNodes(z).forEach(function(n){ var k = n.kind === "chip" || n.kind === "upgrade" ? "cyber" : n.kind; if (z.id === "gear") k = "worn"; if (cnt[k] != null) cnt[k]++; }); });
-    var inst = cnt.cyber + cnt.bio + cnt.adv;
-    function seg(k, label){ return '<span class="seg s-' + k + '" style="flex:' + cnt[k] + '"></span>'; }
-    function key(k, label){ return '<span class="kk"><i class="s-' + k + '"></i>' + label + ' <b>' + cnt[k] + '</b></span>'; }
-    var info = null, inner = 0;
-    CZ().forEach(function(z){ zoneNodes(z).forEach(function(n){ if (n.cap && /infolink/i.test(n.name)) info = n; }); });
-    var iz = zoneById("internal"); if (iz) iz.groups.forEach(function(g){ g.items.forEach(function(it){ if (isNode(it)) inner += it.slots != null ? +it.slots : 1; }); });
-    function meter(label, used, cap, note){
-      var s = ""; for (var i = 0; i < cap; i++) s += '<i class="' + (i < used ? 'on' : '') + '"></i>';
-      return '<div class="mrow"><span>' + esc(label) + (note ? '<em>' + esc(note) + '</em>' : '') + '</span><span class="pp">' + s + '</span><b>' + used + '/' + cap + '</b></div>';
-    }
-    return '<div class="zpanel empty"><p class="lab">Ware</p><h2>Select a part of ' + esc(S.handle || "Iō") + '</h2><p class="zhint">Touch any part of ' + esc(S.handle || "Iō") + ' or pick a system from the list. Hover over any implant for its full rules text.</p>' +
-      '<div class="comp"><div class="bar2">' + seg("bio") + seg("adv") + seg("cyber") + '</div><div class="keys">' + key("bio", "Bioware") + key("adv", "Advanced") + key("cyber", "Cyberware") + key("worn", "Gear") + '</div></div>' +
-      '<div class="meters"><p class="lab">Capacity</p>' + (info ? meter("Neural Link", usedSlots(info), +info.cap, "5 + 1 Tailoring") : '') + meter("Internal", inner, 8, "7 + 1 Tailoring") + '</div>' +
-      '<p class="lab" style="margin:2px 0 0">Tags · hover or tap for meaning</p><div class="legend">' + ["BIOWARE","ADV","FAB","UPG","INFOLINKED","REACH"].map(function(k){ return '<button type="button" class="chip2 tip ' + TAGC[k] + '" data-tip="' + k + '">' + esc(TAGDEF[k].t) + '</button>'; }).join("") + '</div></div>';
+    return '<div class="zpanel empty"><p class="lab">Ware</p><h2>Select a part of ' + esc(S.handle || "Iō") + '</h2><p class="zhint">Touch any part of ' + esc(S.handle || "Iō") + ' or pick a system from the list. Click any implant to open its full rules text.</p>' +
+      '<p class="lab" style="margin:2px 0 0">Tags</p><div class="legend">' + ["BIOWARE","ADV","FAB","UPG","INFOLINKED","REACH"].map(function(k){ return '<button type="button" class="chip2 ' + TAGC[k] + (tagOpen === k ? ' on' : '') + '" data-tagdef="' + k + '" aria-expanded="' + (tagOpen === k) + '">' + esc(TAGDEF[k].t) + '</button>'; }).join("") + '</div>' +
+      '<div class="tagdef" id="tagdef"' + (tagOpen ? '' : ' hidden') + '>' + (tagOpen ? '<b class="chip2 ' + TAGC[tagOpen] + '">' + esc(TAGDEF[tagOpen].t) + '</b><p>' + esc(TAGDEF[tagOpen].d) + '</p>' : '') + '</div></div>';
   }
   var RBOX_IO = {"body": [1.5, 0.6, 98.3, 99.4], "torso": [27.3, 16.9, 75.2, 39.6], "legs": [7.7, 39.7, 96.6, 99.4], "armL": [75.0, 18.8, 98.3, 59.3], "armR": [1.5, 18.6, 27.3, 59.1], "head": [33.8, 0.6, 69.4, 16.8], "ears": [37.4, 8.9, 59.8, 12.0], "eyes": [40.8, 10.6, 55.1, 11.4]};
   var RORDER = ["body","torso","legs","armL","armR","head","ears","eyes"];
@@ -2431,7 +2493,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var VIEW = "front"; try { VIEW = localStorage.getItem("io-view") || "front"; } catch(e){}
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back3.webp", skel:"", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
-    ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m2/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
+    ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
     : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel6.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["gear","internal","external","fashion","limbs:R","borg"]};
   function aroundHTML(nav, stage, sel){
@@ -2484,6 +2546,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   var wr = 0; window.addEventListener("scroll", function(){ if (tab !== "ware" || wr) return; wr = requestAnimationFrame(function(){ wr = 0; if (document.querySelector(".ring")) drawWires(); }); }, {passive:true});
   var wt; window.addEventListener("resize", function(){ clearTimeout(wt); wt = setTimeout(function(){ if (tab === "ware") drawWires(); }, 100); });
+  var limbSel = ""; try { limbSel = localStorage.getItem("io-limb") || ""; } catch(e){}
+  var LIMBS = ["armR","armL","legR","legL"];
+  function limbGroup(r){ var z = zoneById("limbs"), out = null; if (z) z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()]; if (m && m[1] === r) out = [g, gi]; }); return out; }
+  function limbName(r){ var g = limbGroup(r); return g ? g[0].title : r; }
+  function limbCount(r){ var g = limbGroup(r), n = 0; if (g) walk(g[0].items, function(){ n++; }); return n; }
+  /* which limb is under the pointer: arms come straight from the map; the legs share one map label, so split them at the midpoint of the two leg anchors */
+  function limbAt(fig, ev, reg){
+    if (reg === "armR" || reg === "armL") return reg;
+    if (reg !== "legs") return "";
+    var A = FIG().anch, R = fig.getBoundingClientRect(), u = (ev.clientX - R.left) / R.width * 100;
+    return Math.abs(u - A.legR[0]) < Math.abs(u - A.legL[0]) ? "legR" : "legL";
+  }
+  function setLimb(r){ limbSel = r || ""; try { localStorage.setItem("io-limb", limbSel); } catch(e){} }
   var RZONE = {head:"neural", eyes:"optics", ears:"audio", armR:"limbs", armL:"limbs", legs:"limbs", torso:"internal", body:"external"};
   function zoneById(id){ return CZ().filter(function(z){ return z.id === id; })[0]; }
   function chrome(){
@@ -2494,11 +2569,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<div class="zbtns"><button class="zall' + (sel === "all" ? ' on' : '') + '" data-zone="all">Show all</button><button class="zall' + (!sel ? ' on' : '') + '" data-zone="">Hide all</button></div>' +
       Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b></button>'; }).join("") + '</nav>';
     var sz = zoneById(sel), on = sz ? (sz.regions || []) : [];
-    if (sel === "limbs") on = ["armR", "armL", "legR", "legL"];
+    if (sel === "limbs") on = limbSel ? [limbSel] : LIMBS.slice();
     var layers = F.nomask ? "" : RLAYERS.map(function(r){
       return (F.skel && !(WHO !== "zolo" && r === "armR") ? '<i class="xr xr-' + r + '" style="--m:url(' + F.m + r + '.png)"></i>' : '') + '<i class="rg rg-' + r + '" style="--m:url(' + F.m + r + '.png)"></i><span class="rgw rgw-' + r + '"><i class="rge" style="--m:url(' + F.m + r + '-e.png)"></i></span>'; }).join("");
     var tag = "";
-    if (sz && on.length && sel !== "limbs"){
+    if (sel === "limbs" && !editing){
+      tag = LIMBS.map(function(r){ var a = F.anch[r]; if (!a || !limbGroup(r)) return "";
+        var lft = a[0] < 50, y = a[1] - (r.charAt(0) === "a" ? 6 : 4);
+        return '<button type="button" class="rtag ltag' + (lft ? ' lft' : '') + (limbSel === r ? ' on' : limbSel ? ' dim' : '') + '" data-limb="' + r + '" style="' + (lft ? 'right:' + (100 - Math.max(a[0] - 10, 2)) : 'left:' + Math.min(a[0] + 10, 98)) + '%;top:' + y + '%"><b>' + esc(limbName(r)) + '</b><em>' + limbCount(r) + '</em></button>'; }).join("");
+    } else if (sz && on.length && sel !== "limbs"){
       var bx = F.rbox[on[0]], tx = Math.min(bx[2], 80), ty = on[0] === "body" ? 20 : Math.max(bx[1], 2);
       tag = '<span class="rtag" style="left:' + tx + '%;top:' + ty + '%"><b>' + esc(sz.label) + '</b><em>' + zoneCount(sz) + '</em></span>';
     }
@@ -2507,9 +2586,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers + tag + '<span class="htag" id="htag"></span></figure>' +
       (WHO !== "zolo" ? '<span class="vwsw ttseg" role="group" aria-label="View"><button type="button" data-view="front" aria-pressed="' + !F.back + '">Front</button><button type="button" data-view="back" aria-pressed="' + !!F.back + '">Back</button></span>' : '') +
       (F.mus ? '<span class="xlsw ttseg" role="group" aria-label="Scan depth"><button type="button" data-xl="muscle" aria-pressed="' + (XL === "muscle") + '">Muscle</button>' + (F.nerve ? '<button type="button" data-xl="nerve" aria-pressed="' + (XL === "nerve") + '">Nerves</button>' : '') + '<button type="button" data-xl="bone" aria-pressed="' + (XL !== "muscle" && !(XL === "nerve" && F.nerve)) + '">Bone</button></span>' : '') + '</div>';
-    if (!editing && (sel === "all" || sel === "limbs")) return aroundHTML(nav, stage, sel);
+    if (!editing && sel === "all") return aroundHTML(nav, stage, sel);
     var panel;
     if (!sel && !editing) panel = overview();
+    else if (sel === "limbs" && !editing){
+      var zi0 = Z.indexOf(sz), lg = limbSel && limbGroup(limbSel);
+      var pick = '<div class="lpick" role="group" aria-label="Limb">' + LIMBS.map(function(r){ return limbGroup(r) ? '<button type="button" class="lpb' + (limbSel === r ? ' on' : '') + '" data-limb="' + r + '" aria-pressed="' + (limbSel === r) + '"><span>' + esc(limbName(r)) + '</span><b>' + limbCount(r) + '</b></button>' : ''; }).join("") + '</div>';
+      panel = '<div class="zpanel" id="zpanel"><div class="zhead"><p class="lab">Ware</p><h2>' + esc(sz.label) + '</h2></div>' + pick +
+        (lg ? groupHTML(zi0, lg[0], lg[1], "") : '<p class="zhint lhint">Pick a limb on ' + esc(S.handle || "Iō") + ' or above.</p>') + '</div>';
+    }
     else {
       var list = (sel === "all" || editing) ? Z.map(function(z, i){ return [z, i]; }) : Z.map(function(z, i){ return [z, i]; }).filter(function(x){ return x[0].id === sel; });
       panel = '<div class="zpanel" id="zpanel">' + list.map(function(x){ return zoneHTML(x[0], x[1], list.length === 1); }).join("") + '</div>';
@@ -2541,15 +2626,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var fig = document.getElementById("bodyfig"); if (!fig) return;
     var nb = ev.target.closest && ev.target.closest(".zitem");
     if (nb){ setHover(fig, nb.dataset.zone, null); return; }
+    var lb = ev.target.closest && ev.target.closest("[data-limb]");
+    if (lb){ fig.dataset.hov = lb.dataset.limb; var t2 = document.getElementById("htag"); if (t2) t2.classList.remove("on"); return; }
     var hr = ev.target.closest && ev.target.closest("[data-hr]");
     if (hr){ if (fig.dataset.hov !== hr.dataset.hr){ [].forEach.call(document.querySelectorAll("#wires path"), function(pth){ pth.classList.toggle("hot", hr.dataset.hr.split(" ").indexOf(pth.dataset.for) >= 0 || (hr.closest(".wanchor") && hr.closest(".wanchor").dataset.an === pth.dataset.for)); }); } fig.dataset.hov = hr.dataset.hr; var t0 = document.getElementById("htag"); if (t0) t0.classList.remove("on"); fig.style.cursor = ""; return; }
-    if (fig.contains(ev.target)){ setHover(fig, RZONE[regionAt(fig, ev)] || "", ev); return; }
+    if (fig.contains(ev.target)){ var rg0 = regionAt(fig, ev), lm0 = limbAt(fig, ev, rg0);
+      if (lm0){ var t1 = document.getElementById("htag"); fig.dataset.hov = lm0; fig.style.cursor = "pointer";
+        if (t1){ var R1 = fig.getBoundingClientRect(); t1.innerHTML = '<b>' + esc(limbName(lm0)) + '</b><em>' + limbCount(lm0) + '</em>'; t1.style.left = (ev.clientX - R1.left + 14) + "px"; t1.style.top = (ev.clientY - R1.top + 10) + "px"; t1.classList.add("on"); }
+        return; }
+      setHover(fig, RZONE[rg0] || "", ev); return; }
     if (fig.dataset.hov){ setHover(fig, "", null); [].forEach.call(document.querySelectorAll("#wires path.hot"), function(pth){ pth.classList.remove("hot"); }); }
   });
   document.addEventListener("click", function(ev){
     if (tab !== "ware") return;
     var fig = ev.target.closest && ev.target.closest("#bodyfig"); if (!fig) return;
-    var zid = RZONE[regionAt(fig, ev)] || ""; if (!zid) return;
+    if (ev.target.closest("[data-limb]")) return;
+    var rg = regionAt(fig, ev), lm = limbAt(fig, ev, rg), zid = RZONE[rg] || ""; if (!zid) return;
+    if (lm){ if (zoneSel === "limbs" && limbSel === lm){ setLimb(""); } else { zoneSel = "limbs"; setLimb(lm); } try { localStorage.setItem("io-zone", zoneSel); } catch(e){} render(); return; }
     zoneSel = zid === zoneSel ? "" : zid;
     try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
     render();
@@ -4068,7 +4161,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
       hideCard(true); render(); return;
     }
+    if (b.dataset.limb && tab === "ware"){ setLimb(limbSel === b.dataset.limb ? "" : b.dataset.limb); zoneSel = "limbs"; try { localStorage.setItem("io-zone", zoneSel); } catch(e){} render(); return; }
     if (b.dataset.zone !== undefined && tab === "ware"){
+      if (b.dataset.zone === "limbs" && zoneSel !== "limbs") setLimb("");
       zoneSel = (b.dataset.zone === zoneSel && b.dataset.zone !== "all") ? "" : b.dataset.zone;
       try { localStorage.setItem("io-zone", zoneSel); } catch(e){}
       render();
