@@ -1770,13 +1770,13 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
   background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),
     radial-gradient(120% 70% at 50% 28%,hsl(var(--h) 42% 25%),hsl(var(--h) 34% 9%) 66%,#070505)}
 .fc-gig{position:absolute;right:8px;top:30px;writing-mode:vertical-rl;font:700 30px/1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px hsla(var(--h),70%,66%,.32)}
-.fc-aw{position:absolute;inset:0;transform:translateZ(26px);pointer-events:none;clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px))}
+.fc-aw{position:absolute;inset:0;transform:translateZ(30px);pointer-events:none;clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px))}
 .fc-art{position:absolute;left:50%;bottom:0;height:112%;width:auto;max-width:none;object-fit:contain;object-position:50% 100%;transform:translateX(-50%);filter:drop-shadow(0 10px 14px rgba(0,0,0,.6));pointer-events:none;transition:filter .3s}
 .fc-art.wide{height:auto;width:112%}
 .fc-none{position:absolute;inset:0;display:grid;place-items:center;font:700 90px/1 var(--f-disp);color:hsla(var(--h),50%,60%,.25)}
-.fc-foil{position:absolute;inset:0;clip-path:var(--cut);opacity:0;transition:opacity .35s;mix-blend-mode:color-dodge;pointer-events:none;transform:translateZ(30px);
+.fc-foil{position:absolute;inset:0;clip-path:var(--cut);opacity:0;transition:opacity .35s;mix-blend-mode:color-dodge;pointer-events:none;transform:translateZ(34px);
   background:linear-gradient(115deg,transparent 22%,hsla(calc(var(--h) + 40),100%,70%,.32) 38%,rgba(255,255,255,.42) 47%,hsla(calc(var(--h) + 170),100%,70%,.28) 56%,transparent 74%) var(--mx,50%) var(--my,50%)/260% 260% no-repeat}
-.fc-plate{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 11px;clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));transform:translateZ(36px);
+.fc-plate{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 11px;clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));transform:translateZ(40px);
   background:linear-gradient(0deg,rgba(6,5,5,.97) 34%,rgba(6,5,5,.78) 62%,transparent)}
 .fc-plate b{display:block;font:600 19px/1.05 var(--f-cond);color:var(--ink)}
 .fc-plate b .bt{font-size:12px}
@@ -1786,7 +1786,7 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 @media (max-width:760px){ .fngrid .fc-no{display:none} }
 .fc-no{font:600 10px/1 var(--f-num);letter-spacing:.1em;color:hsl(var(--h) 55% 62%);white-space:nowrap}
 .fc-no i{font-style:normal;color:var(--ink-3)}
-.fc-edge{position:absolute;inset:0;clip-path:var(--cut);padding:1.5px;pointer-events:none;transform:translateZ(36px);
+.fc-edge{position:absolute;inset:0;clip-path:var(--cut);padding:1.5px;pointer-events:none;transform:translateZ(16px);
   background:linear-gradient(160deg,hsla(var(--h),75%,68%,.95),hsla(var(--h),40%,32%,.55) 38%,hsla(var(--h),40%,28%,.5) 62%,hsla(var(--h),75%,62%,.9));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .fcard:hover .fc-foil,.fcard.tilt .fc-foil{opacity:.6}
@@ -3056,10 +3056,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
     var ar = f.w && f.h ? f.w / f.h : .8;
-    return '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span>' +
+    return '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
       '<span class="fc-foil" aria-hidden="true"></span>' +
-      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span><span class="fc-edge" aria-hidden="true"></span></span>';
+      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>';
   }
   function fnMatch(f){
     var q = FN.q.trim().toLowerCase();
@@ -3099,7 +3099,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnHue(f.gm) + '">' +
       '<div class="fns-card"><div class="fcard big" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
-        '<dl class="fns-dl"><div><dt>Won at</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
+        '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
