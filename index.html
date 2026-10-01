@@ -1764,8 +1764,35 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fnnote{margin:40px 0 0;max-width:720px;font-size:13px;line-height:1.45;font-style:italic;color:var(--ink-3)}
 /* the card */
 .fcard{--cut:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));position:relative;display:block;width:100%;aspect-ratio:5/7;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;perspective:900px}
-.fc-in{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.fcard.tilt .fc-in{transition:transform .08s linear}
+.fc-flip{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.fcard.tilt .fc-flip{transition:transform .08s linear}
+.fcard.big .fc-flip{transition:none;will-change:transform}
+.fc-in{position:absolute;inset:0;transform-style:preserve-3d}
+.fc-in > *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+/* the back: RSC star, stamped red, foil over the star, a thin echo around it */
+.fc-back{position:absolute;inset:0;clip-path:var(--cut);transform:rotateY(180deg) translateZ(1px);-webkit-backface-visibility:hidden;backface-visibility:hidden;
+  background:url(img/fans/grain.webp) 0 0/96px 96px,radial-gradient(110% 80% at 50% 45%,#1d1918,#0e0c0b 60%,#070606)}
+.fb-frame{position:absolute;inset:7px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));padding:1px;
+  background:linear-gradient(160deg,rgba(181,143,82,.7),rgba(107,84,49,.35) 45%,rgba(181,143,82,.6));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.fb-star{position:absolute;left:50%;top:47%;height:62%;width:auto;aspect-ratio:892/1070;transform:translate(-50%,-50%);overflow:visible}
+.fb-fill{fill:#e3141f}
+.fb-echo{fill:none;stroke:rgba(227,20,31,.55);stroke-width:6;stroke-dasharray:2 14;stroke-linecap:round}
+.fb-foil{position:absolute;left:50%;top:47%;height:62%;aspect-ratio:892/1070;transform:translate(-50%,-50%);mix-blend-mode:color-dodge;opacity:0;transition:opacity .35s;
+  -webkit-mask:url(img/fans/rsc-star.svg) center/100% 100% no-repeat;mask:url(img/fans/rsc-star.svg) center/100% 100% no-repeat;
+  background:linear-gradient(115deg,transparent 20%,rgba(255,170,60,.6) 34%,rgba(255,240,200,.7) 44%,rgba(90,200,255,.6) 54%,rgba(190,110,255,.55) 63%,transparent 78%) var(--mx,50%) var(--my,50%)/280% 280% no-repeat}
+.fcard.big.spin .fb-foil{opacity:.75}
+.fcard.big.spin .fc-foil{opacity:.55}
+.fb-no{position:absolute;left:16px;top:15px;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:rgba(181,143,82,.75)}
+.fb-name{position:absolute;left:0;right:0;bottom:16px;text-align:center;font:700 9.5px/1 var(--f-body);letter-spacing:.34em;text-transform:uppercase;color:rgba(193,184,178,.55)}
+.fcard.big .fb-no{font-size:12px;left:22px;top:20px}
+.fcard.big .fb-name{font-size:12px;bottom:24px}
+.fcard.big .fb-frame{inset:10px}
+.fcard.big{touch-action:none;cursor:grab;perspective:1300px}
+.fcard.big:active{cursor:grabbing}
+.fn-defs{position:absolute;width:0;height:0;overflow:hidden}
+.fns-flip{white-space:nowrap;font:600 12px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--frame);color:var(--gold);padding:9px 14px 8px}
+.fns-flip:hover{background:rgba(181,143,82,.12)}
+.fns-hint{font:500 13px var(--f-body);letter-spacing:0;color:var(--ink-3)}
 .fc-bg{position:absolute;inset:0;clip-path:var(--cut);overflow:hidden;
   background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),
     radial-gradient(120% 70% at 50% 28%,hsl(var(--h) 42% 25%),hsl(var(--h) 34% 9%) 66%,#070505)}
@@ -1799,6 +1826,8 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fgh em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
 @media (prefers-reduced-motion:no-preference){
   .fngrid.deal .fcard{animation:fdeal .75s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--n) * 55ms + 80ms)}
+  .fngrid.deal .fc-flip{animation:freveal .9s cubic-bezier(.35,.1,.2,1) backwards;animation-delay:calc(var(--n) * 55ms + 520ms)}
+  @keyframes freveal{from{transform:rotateY(-180deg)}}
   @keyframes fdeal{from{opacity:0;transform:translateY(46px) rotateX(38deg) scale(.9)}}
 }
 /* spotlight */
@@ -1807,7 +1836,6 @@ body.fnlock{overflow:hidden}
 .fnspot.on{opacity:1}
 .fns-back{position:absolute;inset:0;background:rgba(5,4,4,.84);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
 .fns-in{position:relative;display:grid;grid-template-columns:minmax(0,350px) minmax(0,460px);gap:52px;align-items:center;padding:70px 48px 36px;max-width:calc(100vw - 32px);max-height:calc(100vh - 24px);overflow-y:auto;scrollbar-width:thin}
-.fcard.big{cursor:default}
 .fcard.big .fc-plate b{font-size:28px}
 .fcard.big .fc-gig{font-size:46px;top:36px}
 .fcard.big .fc-no{font-size:12px}
@@ -3056,11 +3084,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
     var ar = f.w && f.h ? f.w / f.h : .8;
-    return '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
+    return '<span class="fc-flip"><span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
       '<span class="fc-foil" aria-hidden="true"></span>' +
-      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>';
+      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
+  /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
+  function fnBack(i){
+    return '<span class="fc-back" aria-hidden="true"><span class="fb-frame"></span>' +
+      '<svg class="fb-star" viewBox="40 58 892 1070"><use href="#rscp" class="fb-echo" transform="translate(487 595) scale(1.14) translate(-487 -595)"/><use href="#rscp" class="fb-fill" filter="url(#rscrough)"/></svg>' +
+      '<span class="fb-foil"></span><span class="fb-no">No. ' + String(i + 1).padStart(3, "0") + '</span><span class="fb-name">Red Star Collective</span></span>';
+  }
+  var FN_DEFS = '<svg class="fn-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><path id="rscp" d="M487 68 L560 458 L921 333 L640 595 L921 857 L560 730 L487 1118 L418 730 L50 857 L338 595 L50 330 L415 458 Z"/>' +
+    '<filter id="rscrough" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" result="n"/>' +
+    '<feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" result="d"/>' +
+    '<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="g"/>' +
+    '<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  16 0 0 0 -11.4" result="sp"/>' +
+    '<feComposite in="d" in2="sp" operator="out"/></filter></defs></svg>';
   function fnMatch(f){
     var q = FN.q.trim().toLowerCase();
     return (!FN.gm || (f.gm || "Unknown") === FN.gm) && (!q || [f.name, f.gm, f.gig, f.story].join(" ").toLowerCase().indexOf(q) >= 0);
@@ -3081,7 +3121,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
     fnEnter = false;
-    return '<main class="fans">' + head + bar + grid + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
+    return '<main class="fans">' + FN_DEFS + head + bar + grid + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
   }
   function fnApply(){
     var shown = 0, L = FL();
@@ -3101,9 +3141,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
+        '<div class="fns-nav"><button type="button" class="fns-flip" data-fnflip="1">Flip card</button><span class="fns-hint">Drag the card to turn it</span></div>' +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
-    sp.hidden = false; document.body.classList.add("fnlock");
+    sp.hidden = false; document.body.classList.add("fnlock"); fsReset();
     requestAnimationFrame(function(){ sp.classList.add("on"); var x = sp.querySelector(".fns-x"); if (x) x.focus({preventScroll:true}); });
   }
   function fnClose(){
@@ -3115,7 +3156,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fansAfter(){ fnApply(); }
   app.addEventListener("click", function(ev){
     if (tab !== "fans") return;
-    var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep]"); if (!t) return;
+    var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep],[data-fnflip]"); if (!t) return;
+    if (t.dataset.fnflip){ fsFlip(); return; }
     if (t.dataset.fngm != null){ FN.gm = FN.gm === t.dataset.fngm && t.dataset.fngm ? "" : t.dataset.fngm; if (t.dataset.fnclose) fnClose(); fnApply(); return; }
     if (t.dataset.fnclose){ fnClose(); return; }
     if (t.dataset.fnstep){ var v = fnVisible(), k = v.indexOf(FN.open); if (v.length) fnOpen(v[(k + (+t.dataset.fnstep) + v.length) % v.length]); return; }
@@ -3125,12 +3167,58 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   document.addEventListener("keydown", function(ev){
     if (tab !== "fans" || FN.open < 0) return;
     if (ev.key === "Escape"){ fnClose(); return; }
+    if (ev.key === "f" || ev.key === "F"){ fsFlip(); return; }
     if (ev.key === "ArrowRight" || ev.key === "ArrowLeft"){ var v = fnVisible(), k = v.indexOf(FN.open); if (v.length) fnOpen(v[(k + (ev.key === "ArrowRight" ? 1 : -1) + v.length) % v.length]); }
+  });
+
+  /* spotlight card: grab and spin it (with momentum); it settles face up or face down. A click without a drag flips it. */
+  var FS = {ry:0, rx:0, vy:0, tgt:0, drag:false, moved:0, lx:0, ly:0, lt:0, raf:0};
+  function fsEl(){ var b = document.getElementById("fnbig"); return b && b.querySelector(".fc-flip"); }
+  function fsPaint(){
+    var el = fsEl(); if (!el) return;
+    el.style.transform = "rotateX(" + FS.rx.toFixed(2) + "deg) rotateY(" + FS.ry.toFixed(2) + "deg)";
+    var a = FS.ry * Math.PI / 180, big = document.getElementById("fnbig");
+    big.style.setProperty("--mx", (50 + 46 * Math.sin(a)).toFixed(1) + "%"); big.style.setProperty("--my", (50 - FS.rx * 1.2).toFixed(1) + "%");
+    big.classList.toggle("spin", FS.drag || Math.abs(FS.vy) > .02 || Math.abs(FS.ry - FS.tgt) > .5);
+  }
+  function fsLoop(t){
+    var dt = FS.lt ? Math.min(t - FS.lt, 40) : 16; FS.lt = t;
+    if (!FS.drag){
+      if (Math.abs(FS.vy) > .02){ FS.ry += FS.vy * dt; FS.vy *= Math.pow(.93, dt / 16); FS.tgt = Math.round(FS.ry / 180) * 180; }
+      else { FS.vy = 0; FS.ry += (FS.tgt - FS.ry) * Math.min(1, .14 * dt / 16); FS.rx += (0 - FS.rx) * Math.min(1, .14 * dt / 16); }
+    }
+    fsPaint();
+    if (FS.drag || Math.abs(FS.vy) > .02 || Math.abs(FS.tgt - FS.ry) > .05 || Math.abs(FS.rx) > .05) FS.raf = requestAnimationFrame(fsLoop);
+    else { FS.ry = FS.tgt; FS.rx = 0; fsPaint(); FS.raf = 0; FS.lt = 0; }
+  }
+  function fsKick(){ if (!FS.raf){ FS.lt = 0; FS.raf = requestAnimationFrame(fsLoop); } }
+  function fsReset(){ FS.ry = FS.rx = FS.vy = FS.tgt = 0; FS.drag = false; if (FS.raf){ cancelAnimationFrame(FS.raf); FS.raf = 0; } }
+  function fsFlip(){ if (FN.open < 0) return; FS.vy = 0; FS.tgt = Math.round(FS.ry / 180) * 180 + 180; if (reduce){ FS.ry = FS.tgt; fsPaint(); return; } fsKick(); }
+  document.addEventListener("pointerdown", function(ev){
+    if (tab !== "fans" || FN.open < 0) return;
+    var big = ev.target.closest && ev.target.closest("#fnbig"); if (!big) return;
+    ev.preventDefault(); FS.drag = true; FS.moved = 0; FS.vy = 0; FS.lx = ev.clientX; FS.ly = ev.clientY; FS.pt = performance.now();
+    try { big.setPointerCapture(ev.pointerId); } catch(e){}
+    fsKick();
+  });
+  document.addEventListener("pointermove", function(ev){
+    if (!FS.drag) return;
+    var now = performance.now(), dx = ev.clientX - FS.lx, dy = ev.clientY - FS.ly, dt = Math.max(1, now - FS.pt);
+    FS.ry += dx * .55; FS.rx = Math.max(-38, Math.min(38, FS.rx - dy * .3)); FS.moved += Math.abs(dx) + Math.abs(dy);
+    FS.vy = FS.vy * .5 + (dx * .55 / dt) * .5; FS.lx = ev.clientX; FS.ly = ev.clientY; FS.pt = now; FS.tgt = FS.ry;
+  });
+  document.addEventListener("pointerup", function(){
+    if (!FS.drag) return;
+    FS.drag = false;
+    if (FS.moved < 5){ fsFlip(); return; }
+    if (performance.now() - FS.pt > 90) FS.vy = 0;
+    FS.tgt = Math.round((FS.ry + FS.vy * 260) / 180) * 180; if (Math.abs(FS.vy) < .25) FS.vy = 0;
+    fsKick();
   });
   /* tilt + holo sheen follow the pointer (mouse and pen) */
   document.addEventListener("pointermove", function(ev){
     if (tab !== "fans" || reduce || ev.pointerType === "touch") return;
-    var c = ev.target.closest && ev.target.closest(".fcard:not(.fghost)"); 
+    var c = ev.target.closest && ev.target.closest(".fcard:not(.fghost):not(.big)"); 
     if (fnTilt && fnTilt !== c){ fnTilt.style.removeProperty("--rx"); fnTilt.style.removeProperty("--ry"); fnTilt.classList.remove("tilt"); fnTilt = null; }
     if (!c) return;
     var R = c.getBoundingClientRect(), x = (ev.clientX - R.left) / R.width, y = (ev.clientY - R.top) / R.height, k = c.classList.contains("big") ? 9 : 12;
