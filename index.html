@@ -1772,21 +1772,46 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 /* the back: RSC star, stamped red, foil over the star, a thin echo around it */
 .fc-back{position:absolute;inset:0;clip-path:var(--cut);transform:rotateY(180deg) translateZ(1px);-webkit-backface-visibility:hidden;backface-visibility:hidden;
   background:url(img/fans/grain.webp) 0 0/96px 96px,radial-gradient(110% 80% at 50% 45%,#1d1918,#0e0c0b 60%,#070606)}
-.fb-frame{position:absolute;inset:7px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));padding:1px;
-  background:linear-gradient(160deg,rgba(181,143,82,.7),rgba(107,84,49,.35) 45%,rgba(181,143,82,.6));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.fb-star{position:absolute;left:50%;top:47%;height:62%;width:auto;aspect-ratio:892/1070;transform:translate(-50%,-50%);overflow:visible}
-.fb-fill{fill:#e3141f}
-.fb-echo{fill:none;stroke:rgba(227,20,31,.55);stroke-width:6;stroke-dasharray:2 14;stroke-linecap:round}
-.fb-foil{position:absolute;left:50%;top:47%;height:62%;aspect-ratio:892/1070;transform:translate(-50%,-50%);mix-blend-mode:color-dodge;opacity:0;transition:opacity .35s;
-  -webkit-mask:url(img/fans/rsc-star.svg) center/100% 100% no-repeat;mask:url(img/fans/rsc-star.svg) center/100% 100% no-repeat;
-  background:linear-gradient(115deg,transparent 20%,rgba(255,170,60,.6) 34%,rgba(255,240,200,.7) 44%,rgba(90,200,255,.6) 54%,rgba(190,110,255,.55) 63%,transparent 78%) var(--mx,50%) var(--my,50%)/280% 280% no-repeat}
-.fcard.big.spin .fb-foil{opacity:.75}
-.fcard.big.spin .fc-foil{opacity:.55}
-.fb-no{position:absolute;left:16px;top:15px;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:rgba(181,143,82,.75)}
-.fb-name{position:absolute;left:0;right:0;bottom:16px;text-align:center;font:700 9.5px/1 var(--f-body);letter-spacing:.34em;text-transform:uppercase;color:rgba(193,184,178,.55)}
-.fcard.big .fb-no{font-size:12px;left:22px;top:20px}
-.fcard.big .fb-name{font-size:12px;bottom:24px}
-.fcard.big .fb-frame{inset:10px}
+/* RSC member back: full-bleed red, a giant black star bleeding off the sides, an orbit ring behind its arms */
+.fc-back.rb{background:radial-gradient(90% 70% at 50% 45%,#e8222d,#b80f1a 60%,#8e0a13)}
+.rb-art{position:absolute;inset:0;width:100%;height:100%}
+.rb-star{fill:#0b0707}
+.rb-ring{fill:none;stroke:#0b0707;stroke-width:7}
+.rb-ring2{fill:none;stroke:rgba(11,7,7,.55);stroke-width:2.5;stroke-dasharray:3 13}
+.rb-mono{font:700 92px var(--f-disp);letter-spacing:.14em;fill:#e3141f}
+.rb-no,.rb-name{position:absolute;font:700 10px/1 var(--f-num);letter-spacing:.14em;color:#0b0707}
+.rb-no{left:14px;top:13px}
+.rb-name{right:14px;top:13px;font-family:var(--f-body);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase}
+.rb-foil{position:absolute;inset:0;mix-blend-mode:color-dodge;opacity:0;transition:opacity .35s;pointer-events:none;
+  background:linear-gradient(115deg,transparent 20%,rgba(255,170,60,.55) 34%,rgba(255,240,200,.6) 44%,rgba(90,200,255,.5) 54%,rgba(190,110,255,.45) 63%,transparent 78%) var(--mx,50%) var(--my,50%)/280% 280% no-repeat}
+.fcard.big.spin .rb-foil{opacity:.32}
+/* everyone else: a typographic back in their GM's colour */
+.fc-back.fb2{background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 4px),radial-gradient(120% 80% at 50% 40%,hsl(var(--h) 38% 20%),hsl(var(--h) 34% 8%) 70%,#070505)}
+.fc-back.fb2::before{content:"";position:absolute;inset:8px;border:1px solid hsla(var(--h),60%,60%,.35);clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px))}
+.f2-in{position:absolute;left:18px;right:18px;top:50%;transform:translateY(-55%);display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.f2-lab{font:700 9.5px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--h) 55% 66%)}
+.f2-gig{font:700 23px/1.02 var(--f-disp);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);overflow-wrap:anywhere}
+.f2-rule{width:40px;height:2px;background:hsl(var(--h) 65% 58%);margin:4px 0}
+.f2-gm{font:700 11px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+.f2-no{position:absolute;left:18px;top:18px;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:hsl(var(--h) 55% 66%)}
+.f2-foot{position:absolute;left:0;right:0;bottom:18px;display:flex;align-items:center;justify-content:center;gap:7px;font:700 9.5px/1 var(--f-body);letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3)}
+.f2-foot svg{width:10px;height:12px;fill:#d11c28}
+.fcard.big .f2-gig{font-size:36px}
+.fcard.big .f2-lab,.fcard.big .f2-foot{font-size:11.5px}
+.fcard.big .f2-gm{font-size:13px}
+.fcard.big .f2-in{left:28px;right:28px;gap:12px}
+.fcard.big .f2-no{left:26px;top:26px;font-size:12px}
+.fcard.big .rb-no{left:22px;top:20px;font-size:12px}
+.fcard.big .rb-name{right:22px;top:20px;font-size:11.5px}
+/* foil fans: gold frame that shimmers, holo always moving, gold name */
+.fcard.foil .fc-edge{padding:2px;background:linear-gradient(115deg,#7a5a24,#f6dc95 22%,#b58f52 38%,#fff3c8 50%,#9b7433 64%,#f3d58e 80%,#7a5a24) 0 0/300% 300%;animation:foiledge 4s linear infinite}
+@keyframes foiledge{to{background-position:300% 0}}
+.fcard.foil .fc-foil{opacity:.32;animation:foilidle 6s ease-in-out infinite alternate}
+.fcard.foil:hover .fc-foil,.fcard.foil.tilt .fc-foil{animation:none;opacity:.7}
+@keyframes foilidle{from{background-position:0% 30%}to{background-position:100% 70%}}
+.fcard.foil .fc-plate b{background:linear-gradient(90deg,#f6dc95,#fff3c8 45%,#c9a15a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fc-star{color:#f3d58e;font-size:11px;text-shadow:0 0 6px rgba(243,213,142,.8);margin-right:-2px}
+@media (prefers-reduced-motion:reduce){ .fcard.foil .fc-edge,.fcard.foil .fc-foil{animation:none} }
 .fcard.big{touch-action:none;cursor:grab;perspective:1300px}
 .fcard.big:active{cursor:grabbing}
 .fn-defs{position:absolute;width:0;height:0;overflow:hidden}
@@ -1826,8 +1851,7 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fgh em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
 @media (prefers-reduced-motion:no-preference){
   .fngrid.deal .fcard{animation:fdeal .75s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--n) * 55ms + 80ms)}
-  .fngrid.deal .fc-flip{animation:freveal .9s cubic-bezier(.35,.1,.2,1) backwards;animation-delay:calc(var(--n) * 55ms + 520ms)}
-  @keyframes freveal{from{transform:rotateY(-180deg)}}
+
   @keyframes fdeal{from{opacity:0;transform:translateY(46px) rotateX(38deg) scale(.9)}}
 }
 /* spotlight */
@@ -3087,13 +3111,20 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return '<span class="fc-flip"><span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
       '<span class="fc-foil" aria-hidden="true"></span>' +
-      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
+      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + (f.foil ? '<span class="fc-star" title="Foil">★</span>' : '') + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
   /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
+  /* card backs: RSC members get the red star; everyone else gets a typographic back in their GM's colour */
   function fnBack(i){
-    return '<span class="fc-back" aria-hidden="true"><span class="fb-frame"></span>' +
-      '<svg class="fb-star" viewBox="40 58 892 1070"><use href="#rscp" class="fb-echo" transform="translate(487 595) scale(1.14) translate(-487 -595)"/><use href="#rscp" class="fb-fill" filter="url(#rscrough)"/></svg>' +
-      '<span class="fb-foil"></span><span class="fb-no">No. ' + String(i + 1).padStart(3, "0") + '</span><span class="fb-name">Red Star Collective</span></span>';
+    var f = FL()[i] || {}, no = String(i + 1).padStart(3, "0");
+    if (f.rsc) return '<span class="fc-back rb" aria-hidden="true">' +
+      '<svg class="rb-art" viewBox="40 30 892 1130" preserveAspectRatio="xMidYMid slice"><circle class="rb-ring" cx="487" cy="595" r="318"/><circle class="rb-ring2" cx="487" cy="595" r="352"/>' +
+      '<use href="#rscp" class="rb-star"/><text class="rb-mono" x="487" y="618" text-anchor="middle">RSC</text></svg>' +
+      '<span class="rb-foil"></span><span class="rb-no">No. ' + no + '</span><span class="rb-name">Member</span></span>';
+    return '<span class="fc-back fb2" aria-hidden="true"><span class="f2-in">' +
+      '<span class="f2-lab">Became a fan during</span><span class="f2-gig">' + esc(f.gig || "Unknown") + '</span><span class="f2-rule"></span>' +
+      '<span class="f2-gm">GM · ' + esc(f.gm || "Unknown") + '</span></span>' +
+      '<span class="f2-no">No. ' + no + '</span><span class="f2-foot"><svg viewBox="40 58 892 1070"><use href="#rscp"/></svg>Fan of Iō</span></span>';
   }
   var FN_DEFS = '<svg class="fn-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><path id="rscp" d="M487 68 L560 458 L921 333 L640 595 L921 857 L560 730 L487 1118 L418 730 L50 857 L338 595 L50 330 L415 458 Z"/>' +
     '<filter id="rscrough" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" result="n"/>' +
@@ -3116,7 +3147,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
       '</div><span class="fnshown" id="fnshown"></span></div>';
     var grid = '<div class="fngrid' + (fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
-      return '<button type="button" class="fcard" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
+      return '<button type="button" class="fcard' + (f.foil ? ' foil' : '') + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
       (left ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
@@ -3137,7 +3168,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     FN.open = i;
     var vis = fnVisible(), k = vis.indexOf(i);
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnHue(f.gm) + '">' +
-      '<div class="fns-card"><div class="fcard big" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
+      '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +

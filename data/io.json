@@ -7626,7 +7626,9 @@
     "story": "Highrider fan that now works at with the RSC as Alain's chosen Highrider liason.",
     "img": "img/fans/kerubo-whetu.webp",
     "w": 612,
-    "h": 720
+    "h": 720,
+    "rsc": true,
+    "foil": true
    },
    {
     "name": "James Moore",
@@ -7644,7 +7646,9 @@
     "story": "They were hired for a gig to take a cyberpsycho out, Io elected to try to help her, treat her, instead of kill her. They oriented accordingly and she's now a fairly important part of the RSC's security and medical infrastructure.",
     "img": "img/fans/lunatic.webp",
     "w": 505,
-    "h": 720
+    "h": 720,
+    "rsc": true,
+    "foil": true
    },
    {
     "name": "Avery",
@@ -7653,7 +7657,8 @@
     "story": "A former devotee of the Havenite cult, became a contact of Io's and fan. Over the last two years she's slowly been deprogrammed and become a valued fullmember of the RSC.",
     "img": "img/fans/avery.webp",
     "w": 480,
-    "h": 720
+    "h": 720,
+    "rsc": true
    },
    {
     "name": "Feanor",
@@ -7788,7 +7793,8 @@
     "story": "Speaker for the dead. When someone in SNC dies. RSC, community, or just someone with nobody else. Morrow collects stories, writes something true, and speaks it at the service. Quiet, eerie, reliable.",
     "img": "img/fans/morrow-they.webp",
     "w": 681,
-    "h": 720
+    "h": 720,
+    "rsc": true
    },
    {
     "name": "Spit",
@@ -7797,7 +7803,8 @@
     "story": "Flash fiction writer for the RSC zines. Cold-mean, not angry-mean. The wolfen claws are a bit; she likes making people nervous with them. Her other bit is worse: she'll try anything once and films herself doing it, jackass stunts that are a headache because she keeps recruiting volunteers and people get hurt. Runs the monthly open mic.",
     "img": "img/fans/spit.webp",
     "w": 438,
-    "h": 586
+    "h": 586,
+    "rsc": true
    }
   ]
  }
