@@ -2206,7 +2206,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<div class="actions">' + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
       '</div>' +
     '</div></header>' +
-    '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
+    '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS.filter(function(t){ return t !== "Ware" || isAdmin(); }) : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>' +
       /* sheet sync / save status: sits in the open space under the header, right side of the tab row */
       (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '')) + '</span>') + '</div>';
@@ -4332,6 +4332,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     zr.draw = function(ms, loop){ zr.loop = loop || null; cancelAnimationFrame(zr.raf); frame(ms); cancelAnimationFrame(zr.raf); zr.raf = 1; zr.loop = null; return low; }; window.__zolorun = zr;
   }
   function render(){
+    if (WHO === "zolo" && tab === "ware" && !isAdmin()){ tab = "dossier"; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} }   /* Zolo's Ware is a work in progress: only the edit-key holder sees it for now */
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S && WHO === "io") deriveSkills();
