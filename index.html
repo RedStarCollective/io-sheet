@@ -1941,6 +1941,7 @@ body.fnlock{overflow:hidden}
 }
 /* group cards: a bloc of fans Oak defined himself (not GM-given). Own colour, stacked edges, headcount, members inside the file */
 .fgsec{margin-top:64px}
+.fngrid[hidden] + .rnone + .fgsec,.fngrid[hidden] ~ .fgsec{margin-top:10px}
 .fgsec .sec-title{margin:0 0 6px}
 .fgsec .sec-title small{font:600 12px/1 var(--f-body);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
 .fgdraft{font:700 10px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:#140f0e;background:var(--gold);padding:3px 7px 2px}
@@ -1955,7 +1956,11 @@ body.fnlock{overflow:hidden}
 .fg-mos img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
 .fg-ref{font:700 9px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);border:1px dashed var(--ink-3);padding:2px 5px 1px;white-space:nowrap}
 .fcard.big.fgrp{cursor:default;touch-action:auto}
-.fg-mem{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:8px;max-height:300px;overflow-y:auto;scrollbar-width:thin;padding-right:4px}
+.fg-mem .fc-plate{padding:26px 7px 7px}.fg-mem .fc-plate b{font-size:13.5px}.fg-mem .fc-meta{display:none}.fg-mem .fc-gig{font-size:16px;top:14px;right:4px}.fg-mem .fc-none{font-size:48px}.fg-mem .fcard{--cut:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.fnkind{display:inline-flex;border:1px solid var(--frame);margin:0 12px 6px 0}
+.fnkind button{font:700 11.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:rgba(17,13,12,.8);color:var(--ink-2);border:0;padding:7px 12px 6px}
+.fnkind button.on{background:var(--red);color:#fff}
+.fg-mem{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:26px 10px;margin-top:8px;padding:22px 4px 6px 0;max-height:340px;overflow-y:auto;scrollbar-width:thin;padding-right:4px}
 .fg-m{display:flex;flex-direction:column;gap:5px;align-items:stretch;font:inherit;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--line);color:var(--ink-2);padding:5px 5px 6px;text-align:center}
 .fg-m:hover{border-color:var(--frame);color:var(--ink)}
 .fg-m.on{border-color:hsl(var(--h) calc(60% * var(--k,1)) 55%);color:#fff;background:hsla(var(--h),calc(60% * var(--k,1)),40%,.2)}
@@ -2266,7 +2271,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
   function setWho(w){
     if (w === "zolo" && !(S && S.zolo) && !(IO && IO.zolo)) return;
-    if (FA.on){ if (FA.orig && WHO === "io") S.fans.list = FA.orig; FA.on = false; FA.orig = null; }   /* leaving mid-arrange drops the unsaved order */
+    if (FA.on){ if (FA.orig && WHO === "io"){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; }   /* leaving mid-arrange drops the unsaved order */
     if (w === "zolo" && WHO !== "zolo"){ IO = S; roIo = readOnly; WHO = "zolo"; editing = false; S = buildZ(); readOnly = true; }
     else if (w === "io" && WHO === "zolo"){ WHO = "io"; S = IO; readOnly = roIo; }
     document.body.classList.toggle("zolo", WHO === "zolo");
@@ -3271,14 +3276,20 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     order.forEach(function(k){ k = String(k); if (by[k] && !used[k]){ used[k] = 1; out.push(by[k]); } });
     keys.forEach(function(k){ if (!used[k]) out.push(by[k]); });   /* fans added since the order was saved go to the end */
     io.fans.list = out;
+    var G = io.fans.groups || [], gby = {}, gout = [];
+    G.forEach(function(g){ gby["group:" + g.name] = g; });
+    order.forEach(function(k){ k = String(k); if (gby[k]){ gout.push(gby[k]); delete gby[k]; } });
+    G.forEach(function(g){ if (gby["group:" + g.name]) gout.push(g); });
+    if (G.length) io.fans.groups = gout;
   }
-  function fnMove(from, to){ var L = FL(); if (from === to || from < 0 || to < 0 || from >= L.length || to >= L.length) return; L.splice(to, 0, L.splice(from, 1)[0]); }
-  function faStart(){ FA.on = true; FA.orig = FL().slice(); FA.drag = -1; FN = {gm:"", q:"", open:-1}; render(); }
-  function faCancel(){ if (FA.orig) S.fans.list = FA.orig; FA.on = false; FA.orig = null; render(); }
+  function fgKeys(){ return ((S.fans && S.fans.groups) || []).map(function(g){ return "group:" + g.name; }); }
+  function fnMove(from, to, grp){ var L = grp ? ((S.fans && S.fans.groups) || []) : FL(); if (from === to || from < 0 || to < 0 || from >= L.length || to >= L.length) return; L.splice(to, 0, L.splice(from, 1)[0]); }
+  function faStart(){ FA.on = true; FA.orig = FL().slice(); FA.gorig = ((S.fans && S.fans.groups) || []).slice(); FA.drag = -1; FN = {gm:"", q:"", open:-1}; render(); }
+  function faCancel(){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; render(); }
   function faSave(){
     if (FA.busy) return; FA.busy = true;
     var done = function(ok){ FA.busy = false; if (ok){ FA.on = false; FA.orig = null; render(); status("Fan order saved"); } };
-    if (HOSTED) pushState("fans", {order:fnKeys(FL())}).then(done);
+    if (HOSTED) pushState("fans", {order:fnKeys(FL()).concat(fgKeys())}).then(done);
     else persist().then(done);
   }
   function fnGMs(){ var c = {}; FL().forEach(function(f){ var g = f.gm || "Unknown"; c[g] = (c[g] || 0) + 1; }); return Object.keys(c).sort(function(a, b){ return c[b] - c[a] || a.localeCompare(b); }).map(function(g){ return [g, c[g]]; }); }
@@ -3290,6 +3301,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Groups: io.json fans.groups. A group is a container (its members are the fans); draft groups show only to the admin. */
   var FG = {open:-1, m:-1};
   function FGL(){ return ((S.fans && S.fans.groups) || []).filter(function(g){ return !g.draft || isAdmin(); }); }
+  function fgMembers(){ return FGL().reduce(function(n, g){ return n + fgCount(g); }, 0); }
+  /* group members count as fans (not as GMs): the total is the sheet's number plus everyone in a group */
+  function fnTotal(){ return ((S.fans && S.fans.total) || FL().length) + fgMembers(); }
+  /* every card that can be opened: the individual fans, then each group's members (who borrow the group's gig, GM, link and colour) */
+  function FXL(){ var out = FL().slice(); FGL().forEach(function(g, gi){ (g.members || []).forEach(function(m){ var o = {gm:g.gm, gig:g.gig, link:g.link, _g:gi, _hue:g.hue}; for (var k in m) o[k] = m[k]; out.push(o); }); }); return out; }
+  function fgBase(gi){ var n = FL().length; FGL().forEach(function(g, i){ if (i < gi) n += (g.members || []).length; }); return n; }
+  function fnCol(f){ return f && f._hue != null ? f._hue + ";--k:1.4" : fnHue(f && f.gm); }
+  var FK = "all";
+  function fgHit(g){ var q = FN.q.trim().toLowerCase(); return (!FN.gm || (g.gm || "Unknown") === FN.gm) && (!q || [g.name, g.gm, g.gig, g.story].concat((g.members || []).map(function(m){ return m.name; })).join(" ").toLowerCase().indexOf(q) >= 0); }
   function fgStyle(g){ return "--h:" + (g.hue != null ? g.hue + ";--k:1.4" : fnHue(g.gm)); }
   function fgCount(g){ return g.count || (g.members || []).length; }
   function fgInit(n){ return esc(String(n || "?").split(/\s+/).map(function(w){ return w.charAt(0); }).join("").slice(0, 2).toUpperCase()); }
@@ -3300,15 +3320,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<span class="fc-edge" aria-hidden="true"></span><span class="fg-band"><span>Group</span><b>×' + fgCount(g) + '</b></span>' +
       '<span class="fc-plate"><b>' + nm(g.name) + '</b><span class="fc-meta"><em>' + esc(g.gig || "") + '</em>' + (g.refArt ? '<span class="fg-ref">Ref art</span>' : '') + '</span></span></span></span>';
   }
-  function fgSection(){
+  function fgSection(arr){
     var G = FGL(); if (!G.length) return "";
+    if (arr) return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>Drag to reorder</small></h2><div class="fngrid arr">' +
+      G.map(function(g, i){ return '<div class="fcard fgrp" draggable="true" data-fga="' + i + '" style="' + fgStyle(g) + '">' + fgCard(g) +
+        '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(g.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(g.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(g.name) + ' later" title="Later"' + (i < G.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(g.name) + ' to the end" title="To the end"' + (i < G.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>'; }).join("") + '</div></section>';
     return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2><div class="fngrid">' +
       G.map(function(g, i){ return '<button type="button" class="fcard fgrp" data-fgrp="' + i + '" style="' + fgStyle(g) + '" aria-label="' + esc(g.name + ", group of " + fgCount(g)) + '">' + fgCard(g) + '</button>'; }).join("") + '</div></section>';
   }
   function fgOpen(i, mi){
     var sp = document.getElementById("fnspot"), g = FGL()[i]; if (!sp || !g) return;
     FG.open = i; FG.m = mi == null ? -1 : mi; FN.open = -1;
-    var M = g.members || [], ms = M[FG.m];
+    var M = g.members || [];
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(g.name) + '" style="' + fgStyle(g) + '">' +
       '<div class="fns-card"><div class="fcard big fgrp">' + fgCard(g, true) + '</div></div>' +
       '<div class="fns-info"><p class="lab">Group file' + (g.draft ? ' <span class="fgdraft">Draft · only you see this</span>' : '') + '</p><h2>' + nm(g.name) + '</h2>' +
@@ -3316,14 +3339,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<div><dt>GM</dt><dd>' + esc(g.gm || "Unknown") + '</dd></div>' +
         (g.by ? '<div class="fns-roles"><dt>Defined by</dt><dd><span class="fns-role">' + esc(g.by) + '</span>' + (g.refArt ? '<span class="fns-role">Reference art, not GM-supplied</span>' : '') + '</dd></div>' : '') + '</dl>' +
         (g.story ? '<p class="fns-story">' + esc(g.story) + '</p>' : '') +
-        '<p class="lab" style="margin:18px 0 0">Members <span class="fc-no">×' + fgCount(g) + '</span></p><div class="fg-mem">' + M.map(function(m, k){ return '<button type="button" class="fg-m' + (k === FG.m ? ' on' : '') + '" data-fgm="' + k + '" aria-pressed="' + (k === FG.m) + '"><i>' + (m.img ? '<img src="' + esc(m.img) + '" alt="">' : fgInit(m.name)) + '</i><span>' + esc(m.name) + '</span></button>'; }).join("") + '</div>' +
-        (ms ? '<p class="fg-msel"><b>' + esc(ms.name) + '</b>' + esc(ms.story || "No write-up yet.") + '</p>' : '') +
+        '<p class="lab" style="margin:18px 0 0">Members <span class="fc-no">×' + fgCount(g) + '</span></p><div class="fg-mem">' + M.map(function(m, k){ var xi = fgBase(i) + k, X = FXL()[xi];
+          return '<button type="button" class="fcard' + (m.foil ? ' foil' : '') + '" data-fan="' + xi + '" style="--h:' + fnCol(X) + '" aria-label="' + esc(m.name) + '">' + fanCard(X, xi) + '</button>'; }).join("") + '</div>' +
+        (fgCount(g) > M.length ? '<p class="fns-hint" style="margin-top:8px">' + (fgCount(g) - M.length) + ' more not on the page yet.</p>' : '') +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
     sp.hidden = false; document.body.classList.add("fnlock");
     requestAnimationFrame(function(){ sp.classList.add("on"); });
   }
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
-  function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
+  function fnNo(i){ var t = fnTotal(); return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
     var ar = f.w && f.h ? f.w / f.h : .8;
     return '<span class="fc-flip">' + (big ? '<span class="fc-side sl"></span><span class="fc-side sr"></span><span class="fc-side st"></span><span class="fc-side sb"></span>' : '') + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
@@ -3334,7 +3358,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
   /* card backs: RSC members get the red star; everyone else gets a typographic back in their GM's colour */
   function fnBack(i){
-    var f = FL()[i] || {}, no = String(i + 1).padStart(3, "0");
+    var f = FXL()[i] || {}, no = String(i + 1).padStart(3, "0");
     if (f.rsc) return '<span class="fc-back rb" aria-hidden="true">' +
       '<svg class="rb-art" viewBox="40 30 892 1130" preserveAspectRatio="xMidYMid slice"><circle class="rb-ring" cx="487" cy="595" r="318"/><circle class="rb-ring2" cx="487" cy="595" r="352"/>' +
       '<use href="#rscp" class="rb-star"/><text class="rb-mono" x="487" y="618" text-anchor="middle">RSC</text></svg>' +
@@ -3358,12 +3382,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var L = FL(), F = S.fans || {}, gms = fnGMs(), left = Math.max(0, (F.total || L.length) - L.length);
     var head = '<header class="fnhead"><div class="fnghost" aria-hidden="true">Fans</div>' +
       '<div class="fntitle"><p class="lab">The following</p><h2>Fans of Iō</h2>' +
-      '<p class="fnstats"><b class="dec">' + (F.total || L.length) + '</b> fans <i></i> <b class="dec">' + (F.gigs || "") + '</b> gigs <i></i> <b class="dec">' + (F.gms || gms.length) + '</b> GMs</p></div>' +
-      (F.wip ? '<div class="fnwip" role="note"><span class="fnwip-t">Work in progress</span><span>' + L.length + ' of ' + (F.total || L.length) + ' fans are on the page so far. The roster, the art and this layout will change as Oak finishes them.</span></div>' : '') + '</header>';
+      '<p class="fnstats"><b class="dec">' + fnTotal() + '</b> fans <i></i> <b class="dec">' + (F.gigs || "") + '</b> gigs <i></i> <b class="dec">' + (F.gms || gms.length) + '</b> GMs</p></div>' +
+      (F.wip ? '<div class="fnwip" role="note"><span class="fnwip-t">Work in progress</span><span>' + (L.length + fgMembers()) + ' of ' + fnTotal() + ' fans are on the page so far. The roster, the art and this layout will change as Oak finishes them.</span></div>' : '') + '</header>';
     var arr = FA.on && fnCanArrange(); if (FA.on && !arr){ FA.on = false; }
     var bar = arr ? '<div class="fa-bar" role="region" aria-label="Arrange cards"><b>Arranging</b><span>Drag a card onto another to move it, or use the arrows on each card. Nothing is saved until you press Save order.</span><button type="button" class="btn" data-fa="cancel">Cancel</button><button type="button" class="btn primary" data-fa="save">Save order</button></div>' :
       '<div class="fnbar"><label class="fnsearch"><span class="lab">Search</span><input type="search" id="fnq" placeholder="Name, gig or GM" value="' + esc(FN.q) + '"></label>' +
-      '<div class="fngms" role="group" aria-label="Filter by GM"><span class="lab">GM</span><button type="button" class="fngm' + (!FN.gm ? ' on' : '') + '" data-fngm="">All<b>' + L.length + '</b></button>' +
+      '<div class="fngms" role="group" aria-label="Filter by GM">' + (FGL().length ? '<span class="lab">Show</span><span class="fnkind" role="group" aria-label="Show">' + [["all","All"],["ind","Individuals"],["grp","Groups"]].map(function(o){ return '<button type="button" data-fnkind="' + o[0] + '" class="' + (FK === o[0] ? 'on' : '') + '" aria-pressed="' + (FK === o[0]) + '">' + o[1] + '</button>'; }).join("") + '</span>' : '') + '<span class="lab">GM</span><button type="button" class="fngm' + (!FN.gm ? ' on' : '') + '" data-fngm="">All<b>' + L.length + '</b></button>' +
       gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
       '</div>' + (fnCanArrange() ? '<button type="button" class="btn fa-btn" data-fa="start" title="Put the cards in your own order">Arrange cards</button>' : '<span class="fnshown" id="fnshown"></span>') + (fnCanArrange() ? '<span class="fnshown" id="fnshown" hidden></span>' : '') + '</div>';
     var grid = '<div class="fngrid' + (arr ? ' arr' : fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
@@ -3374,7 +3398,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
     fnEnter = false;
-    return '<main class="fans">' + FN_DEFS + head + bar + grid + (arr ? '' : fgSection()) + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
+    return '<main class="fans">' + FN_DEFS + head + bar + grid + fgSection(arr) + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
   }
   function fnApply(){
     var shown = 0, L = FL();
@@ -3383,20 +3407,29 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     [].forEach.call(document.querySelectorAll("[data-fngm]"), function(b){ var on = b.dataset.fngm === FN.gm; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
     var s = document.getElementById("fnshown"); if (s) s.textContent = (FN.gm || FN.q.trim()) ? shown + " of " + L.length : "";
     var n = document.getElementById("fnnone"); if (n) n.hidden = shown > 0;
-    var gs = document.getElementById("fgsec"); if (gs) gs.hidden = !!(FN.gm || FN.q.trim());
+    var gs = document.getElementById("fgsec"), G = FGL(), gshown = 0;
+    [].forEach.call(document.querySelectorAll("#fgsec [data-fgrp]"), function(c){ var ok = fgHit(G[+c.dataset.fgrp]); c.hidden = !ok; if (ok) gshown++; });
+    if (!gs && FK !== "all") FK = "all";
+    if (gs) gs.hidden = FK === "ind" || !gshown;
+    var gr = document.getElementById("fngrid"); if (gr) gr.hidden = FK === "grp";
+    if (gh && FK === "grp") gh.hidden = true;
+    if (n) n.hidden = (FK === "grp" ? 0 : shown) + (FK === "ind" ? 0 : gshown) > 0;
+    [].forEach.call(document.querySelectorAll("[data-fnkind]"), function(b){ var on = b.dataset.fnkind === FK; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
   }
-  function fnVisible(){ return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
+  function fnVisible(){ var X = FXL(), cur = X[FN.open]; if (cur && cur._g != null) return X.map(function(f, i){ return i; }).filter(function(i){ return X[i]._g === cur._g; });
+    return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
   function fnOpen(i){
-    var sp = document.getElementById("fnspot"), f = FL()[i]; if (!sp || !f) return;
-    FN.open = i;
+    var sp = document.getElementById("fnspot"), f = FXL()[i]; if (!sp || !f) return;
+    FN.open = i; FG.open = -1;
     var vis = fnVisible(), k = vis.indexOf(i);
-    sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnHue(f.gm) + '">' +
+    sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnCol(f) + '">' +
       '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
         ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
+        (f._g != null ? '<div class="fns-nav"><button type="button" class="fns-flip" data-fgrp="' + f._g + '">← ' + esc(FGL()[f._g].name) + '</button></div>' : '') +
         '<div class="fns-nav"><button type="button" class="fns-flip" data-fnflip="1">Flip card</button><span class="fns-hint">Drag the card to turn it</span></div>' +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
@@ -3417,15 +3450,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (fa.dataset.fa === "start"){ if (fnCanArrange()) faStart(); return; }
       if (fa.dataset.fa === "cancel"){ faCancel(); return; }
       if (fa.dataset.fa === "save"){ faSave(); return; }
-      var c0 = fa.closest("[data-fan]"), i0 = c0 ? +c0.dataset.fan : -1, mv = fa.dataset.famv, n = FL().length;
+      var c0 = fa.closest("[data-fan],[data-fga]"), isG = !!(c0 && c0.dataset.fga != null), i0 = c0 ? +(isG ? c0.dataset.fga : c0.dataset.fan) : -1, mv = fa.dataset.famv, n = isG ? FGL().length : FL().length;
       var to = mv === "first" ? 0 : mv === "last" ? n - 1 : i0 + (+mv);
-      fnMove(i0, to); render();
-      var nb = document.querySelector('.fngrid .fcard[data-fan="' + to + '"] [data-famv="' + mv + '"]'); if (nb && !nb.disabled) nb.focus({preventScroll:true});
+      fnMove(i0, to, isG); render();
+      var nb = document.querySelector('.fngrid .fcard[data-' + (isG ? 'fga' : 'fan') + '="' + to + '"] [data-famv="' + mv + '"]'); if (nb && !nb.disabled) nb.focus({preventScroll:true});
       return;
     }
     if (FA.on) return;
-    var gq = ev.target.closest && ev.target.closest("[data-fgrp],[data-fgm]");
-    if (gq){ if (gq.dataset.fgm != null) fgOpen(FG.open, FG.m === +gq.dataset.fgm ? -1 : +gq.dataset.fgm); else fgOpen(+gq.dataset.fgrp); return; }
+    var gm0 = ev.target.closest && ev.target.closest(".fg-mem [data-fan]"); if (gm0){ fnOpen(+gm0.dataset.fan); return; }
+    var gq = ev.target.closest && ev.target.closest("[data-fgrp]"); if (gq){ fgOpen(+gq.dataset.fgrp); return; }
+    var kq = ev.target.closest && ev.target.closest("[data-fnkind]"); if (kq){ FK = kq.dataset.fnkind; fnApply(); return; }
     var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep],[data-fnflip]"); if (!t) return;
     if (t.dataset.fnflip){ fsFlip(); return; }
     if (t.dataset.fngm != null){ FN.gm = FN.gm === t.dataset.fngm && t.dataset.fngm ? "" : t.dataset.fngm; if (t.dataset.fnclose) fnClose(); fnApply(); return; }
@@ -3439,23 +3473,23 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function faSide(card, ev){ var R = card.getBoundingClientRect(); return ev.clientX < R.left + R.width / 2 ? -1 : 1; }
   app.addEventListener("dragstart", function(ev){
     if (tab !== "fans" || !FA.on) return;
-    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
-    FA.drag = +c.dataset.fan; c.classList.add("fa-drag");
+    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan],.fngrid.arr .fcard[data-fga]"); if (!c) return;
+    FA.dg = c.dataset.fga != null; FA.drag = +(FA.dg ? c.dataset.fga : c.dataset.fan); c.classList.add("fa-drag");
     try { ev.dataTransfer.effectAllowed = "move"; ev.dataTransfer.setData("text/plain", String(FA.drag)); } catch(e){}
   });
   app.addEventListener("dragover", function(ev){
     if (tab !== "fans" || !FA.on || FA.drag < 0) return;
-    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
+    var c = ev.target.closest && ev.target.closest(FA.dg ? ".fngrid.arr .fcard[data-fga]" : ".fngrid.arr .fcard[data-fan]"); if (!c) return;
     ev.preventDefault(); try { ev.dataTransfer.dropEffect = "move"; } catch(e){}
-    if (+c.dataset.fan === FA.drag){ faMark(null); return; }
+    if (+(FA.dg ? c.dataset.fga : c.dataset.fan) === FA.drag){ faMark(null); return; }
     faMark(c, faSide(c, ev));
   });
   app.addEventListener("drop", function(ev){
     if (tab !== "fans" || !FA.on || FA.drag < 0) return;
-    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
+    var c = ev.target.closest && ev.target.closest(FA.dg ? ".fngrid.arr .fcard[data-fga]" : ".fngrid.arr .fcard[data-fan]"); if (!c) return;
     ev.preventDefault();
-    var from = FA.drag, t2 = +c.dataset.fan, to = t2 + (faSide(c, ev) > 0 ? 1 : 0); if (from < to) to--;
-    FA.drag = -1; fnMove(from, to); render();
+    var from = FA.drag, t2 = +(FA.dg ? c.dataset.fga : c.dataset.fan), to = t2 + (faSide(c, ev) > 0 ? 1 : 0); if (from < to) to--;
+    FA.drag = -1; fnMove(from, to, FA.dg); render();
   });
   app.addEventListener("dragend", function(){ if (FA.drag >= 0 || FA.on){ FA.drag = -1; faMark(null); [].forEach.call(document.querySelectorAll(".fngrid .fa-drag"), function(c){ c.classList.remove("fa-drag"); }); } });
   document.addEventListener("keydown", function(ev){
@@ -4984,7 +5018,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig) S.fans.list = FA.orig; FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
@@ -5043,7 +5077,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     setTimeout(function(){ document.body.classList.remove("boot"); }, 900);
     if (HOSTED) pullSheet();
     if (HOSTED){ if (isAdmin()) pollViewers(); else beatLoop(); }
-  }).catch(function(){
+  }).catch(function(e){
+    try { console.error("[Io] first render failed:", e); } catch(e2){}
     app.innerHTML = '<div class="err">Couldn\'t load Iō\'s data file. Reload the page to try again.</div>';
   });
 })();
