@@ -1939,6 +1939,31 @@ body.fnlock{overflow:hidden}
   .fns-card{width:min(250px,70vw);justify-self:center}
   .fns-info h2{font-size:30px}
 }
+/* group cards: a bloc of fans Oak defined himself (not GM-given). Own colour, stacked edges, headcount, members inside the file */
+.fgsec{margin-top:64px}
+.fgsec .sec-title{margin:0 0 6px}
+.fgsec .sec-title small{font:600 12px/1 var(--f-body);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.fgdraft{font:700 10px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:#140f0e;background:var(--gold);padding:3px 7px 2px}
+.fcard.fgrp .fg-st{position:absolute;inset:0;clip-path:var(--cut);background:hsl(var(--h) calc(34% * var(--k,1)) 14%);border:1px solid hsla(var(--h),calc(60% * var(--k,1)),60%,.5);transform-origin:50% 100%}
+.fcard.fgrp .fg-st.a{transform:translate(7px,-7px) rotate(2.2deg)}
+.fcard.fgrp .fg-st.b{transform:translate(14px,-13px) rotate(4.4deg);opacity:.7}
+.fcard.fgrp .fc-edge{padding:2px;background:linear-gradient(160deg,hsl(var(--h) calc(80% * var(--k,1)) 70%),hsla(var(--h),calc(50% * var(--k,1)),40%,.7) 40%,hsl(var(--h) calc(80% * var(--k,1)) 64%))}
+.fg-band{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:7px 22px 6px 10px;background:hsl(var(--h) calc(62% * var(--k,1)) 42%);font:700 10px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:#fff;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);transform:translateZ(52px)}
+.fg-band b{font:600 13px/1 var(--f-num);letter-spacing:.04em}
+.fg-mos{position:absolute;inset:26px 0 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:6px;clip-path:var(--cut);opacity:.9}
+.fg-mos i{display:grid;place-items:center;background:hsla(var(--h),calc(45% * var(--k,1)),50%,.18);border:1px solid hsla(var(--h),calc(60% * var(--k,1)),60%,.22);font:700 15px/1 var(--f-disp);font-style:normal;color:hsla(var(--h),calc(60% * var(--k,1)),75%,.55);overflow:hidden}
+.fg-mos img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.fg-ref{font:700 9px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);border:1px dashed var(--ink-3);padding:2px 5px 1px;white-space:nowrap}
+.fcard.big.fgrp{cursor:default;touch-action:auto}
+.fg-mem{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:8px;max-height:300px;overflow-y:auto;scrollbar-width:thin;padding-right:4px}
+.fg-m{display:flex;flex-direction:column;gap:5px;align-items:stretch;font:inherit;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--line);color:var(--ink-2);padding:5px 5px 6px;text-align:center}
+.fg-m:hover{border-color:var(--frame);color:var(--ink)}
+.fg-m.on{border-color:hsl(var(--h) calc(60% * var(--k,1)) 55%);color:#fff;background:hsla(var(--h),calc(60% * var(--k,1)),40%,.2)}
+.fg-m i{aspect-ratio:1;display:grid;place-items:center;background:hsla(var(--h),calc(45% * var(--k,1)),50%,.16);font:700 22px/1 var(--f-disp);font-style:normal;color:hsla(var(--h),calc(60% * var(--k,1)),75%,.6);overflow:hidden}
+.fg-m i img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.fg-m span{font:600 12.5px/1.15 var(--f-cond)}
+.fg-msel{margin:12px 0 0;padding-left:12px;border-left:2px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);font-size:14.5px;line-height:1.5;color:var(--ink-2)}
+.fg-msel b{display:block;font:600 17px/1.2 var(--f-cond);color:var(--ink)}
 /* spotlight extras: gig link, role abilities (only where a GM gave them), character sheet */
 .fns-dl a.fns-link{color:var(--ink);text-decoration:none;border-bottom:1px solid hsl(var(--h) calc(60% * var(--k,1)) 55%)}
 .fns-dl a.fns-link:hover{color:#fff;border-bottom-color:#fff}
@@ -3262,6 +3287,41 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnHue(gm){ gm = gm || "Unknown"; var c = S.fans && S.fans.gmColors && S.fans.gmColors[gm];
     if (c) return c[0] + ";--k:" + (c[1] === "soft" ? ".38" : "1.4");
     var all = fnGMs().map(function(x){ return x[0]; }).sort(), i = all.indexOf(gm); return FN_HUES[(i < 0 ? 0 : i) % FN_HUES.length] + ";--k:.38"; }
+  /* Groups: io.json fans.groups. A group is a container (its members are the fans); draft groups show only to the admin. */
+  var FG = {open:-1, m:-1};
+  function FGL(){ return ((S.fans && S.fans.groups) || []).filter(function(g){ return !g.draft || isAdmin(); }); }
+  function fgStyle(g){ return "--h:" + (g.hue != null ? g.hue + ";--k:1.4" : fnHue(g.gm)); }
+  function fgCount(g){ return g.count || (g.members || []).length; }
+  function fgInit(n){ return esc(String(n || "?").split(/\s+/).map(function(w){ return w.charAt(0); }).join("").slice(0, 2).toUpperCase()); }
+  function fgCard(g, big){
+    var M = (g.members || []).slice(0, 9), tiles = ""; for (var i = 0; i < 9; i++){ var m = M[i]; tiles += '<i>' + (m ? (m.img ? '<img src="' + esc(m.img) + '" alt="" loading="lazy">' : fgInit(m.name)) : '') + '</i>'; }
+    return '<span class="fg-st b" aria-hidden="true"></span><span class="fg-st a" aria-hidden="true"></span><span class="fc-flip"><span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(g.gig || "") + '</i></span>' +
+      (g.img ? '<span class="fc-aw"><img class="fc-art" src="' + esc(g.img) + '" alt="" loading="lazy"></span>' : '<span class="fg-mos" aria-hidden="true">' + tiles + '</span>') +
+      '<span class="fc-edge" aria-hidden="true"></span><span class="fg-band"><span>Group</span><b>×' + fgCount(g) + '</b></span>' +
+      '<span class="fc-plate"><b>' + nm(g.name) + '</b><span class="fc-meta"><em>' + esc(g.gig || "") + '</em>' + (g.refArt ? '<span class="fg-ref">Ref art</span>' : '') + '</span></span></span></span>';
+  }
+  function fgSection(){
+    var G = FGL(); if (!G.length) return "";
+    return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2><div class="fngrid">' +
+      G.map(function(g, i){ return '<button type="button" class="fcard fgrp" data-fgrp="' + i + '" style="' + fgStyle(g) + '" aria-label="' + esc(g.name + ", group of " + fgCount(g)) + '">' + fgCard(g) + '</button>'; }).join("") + '</div></section>';
+  }
+  function fgOpen(i, mi){
+    var sp = document.getElementById("fnspot"), g = FGL()[i]; if (!sp || !g) return;
+    FG.open = i; FG.m = mi == null ? -1 : mi; FN.open = -1;
+    var M = g.members || [], ms = M[FG.m];
+    sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(g.name) + '" style="' + fgStyle(g) + '">' +
+      '<div class="fns-card"><div class="fcard big fgrp">' + fgCard(g, true) + '</div></div>' +
+      '<div class="fns-info"><p class="lab">Group file' + (g.draft ? ' <span class="fgdraft">Draft · only you see this</span>' : '') + '</p><h2>' + nm(g.name) + '</h2>' +
+        '<dl class="fns-dl"><div><dt>Became fans during</dt><dd>' + (fnUrl(g.link) ? '<a class="fns-link" href="' + esc(fnUrl(g.link)) + '" target="_blank" rel="noopener">' + esc(g.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(g.gig || "Unknown")) + '</dd></div>' +
+        '<div><dt>GM</dt><dd>' + esc(g.gm || "Unknown") + '</dd></div>' +
+        (g.by ? '<div class="fns-roles"><dt>Defined by</dt><dd><span class="fns-role">' + esc(g.by) + '</span>' + (g.refArt ? '<span class="fns-role">Reference art, not GM-supplied</span>' : '') + '</dd></div>' : '') + '</dl>' +
+        (g.story ? '<p class="fns-story">' + esc(g.story) + '</p>' : '') +
+        '<p class="lab" style="margin:18px 0 0">Members <span class="fc-no">×' + fgCount(g) + '</span></p><div class="fg-mem">' + M.map(function(m, k){ return '<button type="button" class="fg-m' + (k === FG.m ? ' on' : '') + '" data-fgm="' + k + '" aria-pressed="' + (k === FG.m) + '"><i>' + (m.img ? '<img src="' + esc(m.img) + '" alt="">' : fgInit(m.name)) + '</i><span>' + esc(m.name) + '</span></button>'; }).join("") + '</div>' +
+        (ms ? '<p class="fg-msel"><b>' + esc(ms.name) + '</b>' + esc(ms.story || "No write-up yet.") + '</p>' : '') +
+      '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
+    sp.hidden = false; document.body.classList.add("fnlock");
+    requestAnimationFrame(function(){ sp.classList.add("on"); });
+  }
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
@@ -3314,7 +3374,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
     fnEnter = false;
-    return '<main class="fans">' + FN_DEFS + head + bar + grid + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
+    return '<main class="fans">' + FN_DEFS + head + bar + grid + (arr ? '' : fgSection()) + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
   }
   function fnApply(){
     var shown = 0, L = FL();
@@ -3323,6 +3383,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     [].forEach.call(document.querySelectorAll("[data-fngm]"), function(b){ var on = b.dataset.fngm === FN.gm; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
     var s = document.getElementById("fnshown"); if (s) s.textContent = (FN.gm || FN.q.trim()) ? shown + " of " + L.length : "";
     var n = document.getElementById("fnnone"); if (n) n.hidden = shown > 0;
+    var gs = document.getElementById("fgsec"); if (gs) gs.hidden = !!(FN.gm || FN.q.trim());
   }
   function fnVisible(){ return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
   function fnOpen(i){
@@ -3344,7 +3405,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   function fnClose(){
     var sp = document.getElementById("fnspot"); if (!sp || sp.hidden) return;
-    var back = FN.open; FN.open = -1; sp.classList.remove("on"); document.body.classList.remove("fnlock");
+    var back = FN.open; FN.open = -1; FG.open = -1; sp.classList.remove("on"); document.body.classList.remove("fnlock");
     setTimeout(function(){ if (FN.open < 0){ sp.hidden = true; sp.innerHTML = ""; } }, reduce ? 0 : 240);
     var c = document.querySelector('.fcard[data-fan="' + back + '"]'); if (c) c.focus({preventScroll:true});
   }
@@ -3363,6 +3424,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (FA.on) return;
+    var gq = ev.target.closest && ev.target.closest("[data-fgrp],[data-fgm]");
+    if (gq){ if (gq.dataset.fgm != null) fgOpen(FG.open, FG.m === +gq.dataset.fgm ? -1 : +gq.dataset.fgm); else fgOpen(+gq.dataset.fgrp); return; }
     var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep],[data-fnflip]"); if (!t) return;
     if (t.dataset.fnflip){ fsFlip(); return; }
     if (t.dataset.fngm != null){ FN.gm = FN.gm === t.dataset.fngm && t.dataset.fngm ? "" : t.dataset.fngm; if (t.dataset.fnclose) fnClose(); fnApply(); return; }
@@ -3396,6 +3459,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   });
   app.addEventListener("dragend", function(){ if (FA.drag >= 0 || FA.on){ FA.drag = -1; faMark(null); [].forEach.call(document.querySelectorAll(".fngrid .fa-drag"), function(c){ c.classList.remove("fa-drag"); }); } });
   document.addEventListener("keydown", function(ev){
+    if (tab === "fans" && FG.open >= 0 && ev.key === "Escape"){ fnClose(); return; }
     if (tab !== "fans" || FN.open < 0) return;
     if (ev.key === "Escape"){ fnClose(); return; }
     if (ev.key === "f" || ev.key === "F"){ fsFlip(); return; }

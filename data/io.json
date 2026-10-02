@@ -8557,6 +8557,82 @@
     115,
     "strong"
    ]
-  }
+  },
+  "groups": [
+   {
+    "name": "Moe Gangers of SNC",
+    "gm": "Nun",
+    "gig": "Killer Cuties",
+    "link": "https://discord.com/channels/1061931924010045522/1211447943610236938/1212619593013530644",
+    "hue": 330,
+    "count": 15,
+    "by": "Oak",
+    "refArt": true,
+    "draft": true,
+    "story": "Placeholder write-up for the mock-up. This is where your description of the group goes: who they are, how Iō won them over, what they do for the RSC now.",
+    "members": [
+     {
+      "name": "Moe Ganger 1",
+      "story": "Placeholder member. Name, ref art and a line or two go here."
+     },
+     {
+      "name": "Moe Ganger 2",
+      "story": "Placeholder member. Name, ref art and a line or two go here."
+     },
+     {
+      "name": "Moe Ganger 3",
+      "story": "Placeholder member. Name, ref art and a line or two go here."
+     },
+     {
+      "name": "Moe Ganger 4",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 5",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 6",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 7",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 8",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 9",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 10",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 11",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 12",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 13",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 14",
+      "story": ""
+     },
+     {
+      "name": "Moe Ganger 15",
+      "story": ""
+     }
+    ]
+   }
+  ]
  }
 }
