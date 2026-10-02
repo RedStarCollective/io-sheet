@@ -1770,7 +1770,8 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fg-mem .fc-no.cn{display:none}
 /* lighting: a rim of the GM colour on the lit side of the figure, shade pooling at the feet so cut-outs sit in the card */
 .fc-art{filter:drop-shadow(-1.5px -1px 1px hsla(var(--h),calc(85% * var(--k,1)),74%,.5)) drop-shadow(calc(var(--px,0) * 5px) calc(var(--py,0) * 5px) 1.5px hsla(var(--h),calc(85% * var(--k,1)),70%,var(--rim,0))) drop-shadow(0 10px 14px rgba(0,0,0,.6))}
-.fc-aw::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,hsla(var(--h),calc(40% * var(--k,1)),5%,.8) 16%,hsla(var(--h),calc(40% * var(--k,1)),5%,0) 52%),linear-gradient(100deg,hsla(var(--h),calc(80% * var(--k,1)),65%,.10),transparent 38%)}
+.fc-aw::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,hsla(var(--h),calc(40% * var(--k,1)),5%,.8) 16%,hsla(var(--h),calc(40% * var(--k,1)),5%,0) 52%)}
+.fc-foil,.fc-sweep{-webkit-mask-image:linear-gradient(180deg,transparent 2%,#000 30%);mask-image:linear-gradient(180deg,transparent 2%,#000 30%)}
 /* hover: one slow pass of light across the card */
 .fc-sweep{position:absolute;inset:0;clip-path:var(--cut);pointer-events:none;transform:translateZ(52px);opacity:0;
   background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.05) 46%,rgba(255,255,255,.22) 50%,rgba(255,255,255,.05) 54%,transparent 58%) 130% 0/300% 100% no-repeat}
@@ -1779,11 +1780,11 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
   @keyframes fcsweep{from{background-position:130% 0}to{background-position:-30% 0}}
 }
 /* RSC members: a red star stamped on the top-left corner of the front */
-.fc-rsc{position:absolute;left:9px;top:9px;width:13px;height:15px;z-index:3;transform:translateZ(54px);opacity:.7;pointer-events:none}
-.fc-rsc svg{display:block;width:100%;height:100%;fill:#d11c28;filter:drop-shadow(0 1px 1px rgba(0,0,0,.7))}
-.fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.9}
-.fcard.big .fc-rsc{left:14px;top:14px;width:18px;height:21px}
-.fg-mem .fc-rsc{left:6px;top:6px;width:9px;height:11px}
+.fc-rsc{position:absolute;left:9px;top:9px;width:15px;height:18px;z-index:3;transform:translateZ(54px);opacity:.6;pointer-events:none;mix-blend-mode:screen}
+.fc-rsc svg{display:block;width:100%;height:100%;fill:none;stroke:#e8222d;stroke-width:44;stroke-linejoin:miter;overflow:visible}
+.fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.8}
+.fcard.big .fc-rsc{left:14px;top:14px;width:21px;height:25px}.fcard.big .fc-rsc svg{stroke-width:36}
+.fg-mem .fc-rsc{left:6px;top:6px;width:10px;height:12px}
 /* art that breaks the frame (fan file only). The card itself keeps its normal clip (and its 3D); a flat overlay drawn over it shows
    only what falls outside the card's left and right edges, fading out before the name plate. It hides while the card is turned. */
 .fns-cw{position:relative}
@@ -3396,7 +3397,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     requestAnimationFrame(function(){ sp.classList.add("on"); });
   }
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
-  function fnNo(i, full){ var n = String(i + 1).padStart(3, "0"); return full ? '<span class="fc-no">No. ' + n + '<i>/' + fnTotal() + '</i></span>' : '<span class="fc-no cn" aria-hidden="true">' + n + '</span>'; }
+  function fnNo(i, full){ var n = String(i + 1).padStart(3, "0"); return '<span class="fc-no">No. ' + n + '<i>/' + fnTotal() + '</i></span>'; }
   function fanCard(f, i, big){
     var A = big && FN.art > 0 && (f.alts || [])[FN.art - 1] || f, wideA = big && A === f && f.wide && f.wide.img ? f.wide : null, ar = A.w && A.h ? A.w / A.h : .8, nA = (f.alts || []).length;
     return '<span class="fc-flip">' + (big ? '<span class="fc-side sl"></span><span class="fc-side sr"></span><span class="fc-side st"></span><span class="fc-side sb"></span>' : '') + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
