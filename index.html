@@ -1761,7 +1761,28 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fngm.on b{color:#fff}
 .fnshown{align-self:end;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap;padding-bottom:6px}
 .fngrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:56px 22px;padding-top:44px}
-.fnnote{margin:40px 0 0;max-width:720px;font-size:13px;line-height:1.45;font-style:italic;color:var(--ink-3)}
+.fnnote{display:flex;gap:12px;align-items:baseline;margin:0 0 18px;padding:10px 14px 11px;border:1px solid var(--line);border-left:3px solid var(--gold);background:rgba(12,9,8,.7);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
+.fnnote b{flex:none;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+@media (max-width:760px){ .fnnote{flex-direction:column;gap:4px} }
+/* more than one piece of art on a card: thumbnails under the big card, a small count on the wall */
+.fc-alt{position:absolute;right:8px;top:8px;z-index:3;transform:translateZ(60px);font:600 10px/1 var(--f-num);letter-spacing:.06em;color:#fff;background:rgba(8,6,5,.78);border:1px solid hsla(var(--h),calc(60% * var(--k,1)),60%,.6);padding:3px 5px 2px}
+.fns-arts{display:flex;justify-content:center;gap:8px;margin-top:22px;position:relative;z-index:2}
+.fns-arts button{display:flex;flex-direction:column;align-items:center;gap:4px;font:600 10.5px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--line);color:var(--ink-3);padding:4px 4px 5px;width:64px}
+.fns-arts button i{display:block;width:54px;height:54px;overflow:hidden;background:hsla(var(--h),calc(45% * var(--k,1)),50%,.16)}
+.fns-arts button img{width:100%;height:100%;object-fit:cover;object-position:50% 8%}
+.fns-arts button[aria-pressed="true"]{border-color:hsl(var(--h) calc(60% * var(--k,1)) 55%);color:#fff}
+/* appeared in: other games this fan has shown up on */
+.fns-seen{grid-column:1/-1;padding-top:12px;border-top:1px dashed var(--line)}
+.fns-seen dd{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fns-sg{display:inline-flex;align-items:center;gap:6px;font:500 15px/1 var(--f-cond);color:var(--ink);background:var(--cell);border:1px solid var(--line);padding:5px 9px 4px;text-decoration:none}
+a.fns-sg:hover{border-color:var(--gold);color:#fff}
+.fns-sg button{all:unset;cursor:pointer;color:var(--red-hi);font-size:15px;line-height:1;padding:0 2px}
+.fns-sadd{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;width:100%}
+.fns-sadd input{flex:1 1 150px;min-width:0;font:inherit;font-size:14px;background:var(--cell);border:1px solid var(--line);color:var(--ink);padding:6px 8px}
+.fns-sadd input:focus{outline:0;border-color:var(--gold)}
+.fns-sadd button,.fns-sbtn{font:700 11px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:transparent;border:1px dashed var(--frame);color:var(--gold);padding:7px 10px 6px}
+.save-state a{color:inherit;text-decoration:underline;text-decoration-color:var(--frame);text-underline-offset:3px}
+.save-state a:hover{color:var(--ink)}
 /* the card */
 .fcard{--cut:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));position:relative;display:block;width:100%;aspect-ratio:5/7;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;perspective:900px}
 .fc-flip{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
@@ -2304,7 +2325,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>' +
       /* sheet sync / save status: sits in the open space under the header, right side of the tab row */
-      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? 'Sheet ' + esc(syncInfo) : '')) + '</span>') + '</div>';
+      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? sheetWord('Sheet ' + syncInfo) : '')) + '</span>') + '</div>';
   }
 
   /* Zolo: his Rocker side stays in the background */
@@ -3349,9 +3370,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
   function fnNo(i){ var t = fnTotal(); return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
-    var ar = f.w && f.h ? f.w / f.h : .8;
+    var A = big && FN.art > 0 && (f.alts || [])[FN.art - 1] || f, ar = A.w && A.h ? A.w / A.h : .8, nA = (f.alts || []).length;
     return '<span class="fc-flip">' + (big ? '<span class="fc-side sl"></span><span class="fc-side sr"></span><span class="fc-side st"></span><span class="fc-side sb"></span>' : '') + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
-      (f.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(f.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
+      (!big && nA ? '<span class="fc-alt" title="' + (nA + 1) + ' pieces of art" aria-hidden="true">◧ ' + (nA + 1) + '</span>' : '') +
+      (A.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(A.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
       '<span class="fc-foil" aria-hidden="true"></span>' +
       '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + (f.foil ? '<span class="fc-star" title="Foil">★</span>' : '') + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
@@ -3396,9 +3418,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return '<button type="button" class="fcard' + (f.foil ? ' foil' : '') + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
       (left && !arr ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
-    var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
+    var note = F.note ? '<p class="fnnote" role="note"><b>Note for GMs</b><span>' + esc(String(F.note).replace(/^Note for GMs:\s*/i, "")) + '</span></p>' : '';
     fnEnter = false;
-    return '<main class="fans">' + FN_DEFS + head + bar + grid + fgSection(arr) + note + '<div class="fnspot" id="fnspot" hidden></div></main>';
+    return '<main class="fans">' + FN_DEFS + head + note + bar + grid + fgSection(arr) + '<div class="fnspot" id="fnspot" hidden></div></main>';
   }
   function fnApply(){
     var shown = 0, L = FL();
@@ -3416,17 +3438,31 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (n) n.hidden = (FK === "grp" ? 0 : shown) + (FK === "ind" ? 0 : gshown) > 0;
     [].forEach.call(document.querySelectorAll("[data-fnkind]"), function(b){ var on = b.dataset.fnkind === FK; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
   }
+  /* "Appeared in": games a fan has shown up on since. The admin adds and removes them in the fan file (individual fans only);
+     saved into io.json on the Claude copy and through the sheet script (FANSEEN) on the hosted copy. */
+  function fnSeenHTML(f, i){
+    var L = f.seen || [], can = fnCanArrange() && i < FL().length; if (!L.length && !can) return "";
+    return '<div class="fns-seen"><dt>Appeared in</dt><dd>' + L.map(function(x, k){ var u = fnUrl(x.link), del = can ? '<button type="button" data-fnsdel="' + k + '" aria-label="Remove ' + esc(x.gig) + '">×</button>' : '';
+        return u && !can ? '<a class="fns-sg" href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(x.gig) + ' ↗</a>' : '<span class="fns-sg">' + (u ? '<a class="fns-link" href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(x.gig) + '</a>' : esc(x.gig)) + del + '</span>'; }).join("") +
+      (can && !FN.add ? '<button type="button" class="fns-sbtn" data-fnsadd="open">+ Add a game</button>' : '') +
+      (can && FN.add ? '<span class="fns-sadd"><input id="fnsg" placeholder="Game name" aria-label="Game name"><input id="fnsl" placeholder="Link (optional)" aria-label="Link"><button type="button" data-fnsadd="save">Add</button></span>' : '') + '</dd></div>';
+  }
+  function fnSeenMap(){ var o = {}, K = fnKeys(FL()); FL().forEach(function(f, i){ if ((f.seen || []).length) o[K[i]] = f.seen; }); return o; }
+  function fnSeenSave(){ var i = FN.open; FN.add = false; fnOpen(i); if (HOSTED) pushState("fanseen", {seen:fnSeenMap()}); else persist(); }
+  function fnSeenApply(map){ var io = WHO === "zolo" ? IO : S; if (!io || !io.fans || !map) return; var K = fnKeys(io.fans.list); io.fans.list.forEach(function(f, i){ if (map[K[i]]) f.seen = map[K[i]]; else if (f.seen) delete f.seen; }); }
   function fnVisible(){ var X = FXL(), cur = X[FN.open]; if (cur && cur._g != null) return X.map(function(f, i){ return i; }).filter(function(i){ return X[i]._g === cur._g; });
     return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
   function fnOpen(i){
     var sp = document.getElementById("fnspot"), f = FXL()[i]; if (!sp || !f) return;
-    FN.open = i; FG.open = -1;
+    if (FN.open !== i) FN.art = 0; FN.open = i; FG.open = -1;
+    var arts = (f.alts || []).length ? [f].concat(f.alts) : [];
     var vis = fnVisible(), k = vis.indexOf(i);
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnCol(f) + '">' +
-      '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
+      '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div>' +
+        (arts.length ? '<div class="fns-arts" role="group" aria-label="Art">' + arts.map(function(a, k){ return '<button type="button" data-fnart="' + k + '" aria-pressed="' + (k === (FN.art || 0)) + '"><i><img src="' + esc(a.img) + '" alt=""></i>' + esc(a.label || "Art " + (k + 1)) + '</button>'; }).join("") + '</div>' : '') + '</div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
-        ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + '</dl>' +
+        ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
         (f._g != null ? '<div class="fns-nav"><button type="button" class="fns-flip" data-fgrp="' + f._g + '">← ' + esc(FGL()[f._g].name) + '</button></div>' : '') +
@@ -3438,7 +3474,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   function fnClose(){
     var sp = document.getElementById("fnspot"); if (!sp || sp.hidden) return;
-    var back = FN.open; FN.open = -1; FG.open = -1; sp.classList.remove("on"); document.body.classList.remove("fnlock");
+    var back = FN.open; FN.open = -1; FG.open = -1; FN.add = false; sp.classList.remove("on"); document.body.classList.remove("fnlock");
     setTimeout(function(){ if (FN.open < 0){ sp.hidden = true; sp.innerHTML = ""; } }, reduce ? 0 : 240);
     var c = document.querySelector('.fcard[data-fan="' + back + '"]'); if (c) c.focus({preventScroll:true});
   }
@@ -3459,6 +3495,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (FA.on) return;
     var gm0 = ev.target.closest && ev.target.closest(".fg-mem [data-fan]"); if (gm0){ fnOpen(+gm0.dataset.fan); return; }
     var gq = ev.target.closest && ev.target.closest("[data-fgrp]"); if (gq){ fgOpen(+gq.dataset.fgrp); return; }
+    var aq = ev.target.closest && ev.target.closest("[data-fnart]");
+    if (aq){ FN.art = +aq.dataset.fnart; var o = FN.open; fnOpen(o); return; }
+    var sq = ev.target.closest && ev.target.closest("[data-fnsadd],[data-fnsdel]");
+    if (sq && fnCanArrange()){ var sf = FL()[FN.open]; if (!sf) return;
+      if (sq.dataset.fnsdel != null){ sf.seen.splice(+sq.dataset.fnsdel, 1); if (!sf.seen.length) delete sf.seen; fnSeenSave(); return; }
+      if (sq.dataset.fnsadd === "open"){ FN.add = true; fnOpen(FN.open); var gi = document.getElementById("fnsg"); if (gi) gi.focus(); return; }
+      var gname = (document.getElementById("fnsg") || {}).value || "", glink = (document.getElementById("fnsl") || {}).value || "";
+      if (!gname.trim()) return; (sf.seen = sf.seen || []).push(fnUrl(glink) ? {gig:gname.trim(), link:glink.trim()} : {gig:gname.trim()}); fnSeenSave(); return; }
     var kq = ev.target.closest && ev.target.closest("[data-fnkind]"); if (kq){ FK = kq.dataset.fnkind; fnApply(); return; }
     var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep],[data-fnflip]"); if (!t) return;
     if (t.dataset.fnflip){ fsFlip(); return; }
@@ -3495,6 +3539,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   document.addEventListener("keydown", function(ev){
     if (tab === "fans" && FG.open >= 0 && ev.key === "Escape"){ fnClose(); return; }
     if (tab !== "fans" || FN.open < 0) return;
+    if (ev.target && /^(INPUT|TEXTAREA)$/.test(ev.target.tagName)){ if (ev.key === "Enter"){ var ab = document.querySelector('[data-fnsadd="save"]'); if (ab) ab.click(); } else if (ev.key === "Escape"){ FN.add = false; fnOpen(FN.open); } return; }
     if (ev.key === "Escape"){ fnClose(); return; }
     if (ev.key === "f" || ev.key === "F"){ fsFlip(); return; }
     if (ev.key === "ArrowRight" || ev.key === "ArrowLeft"){ var v = fnVisible(), k = v.indexOf(FN.open); if (v.length) fnOpen(v[(k + (ev.key === "ArrowRight" ? 1 : -1) + v.length) % v.length]); }
@@ -4884,6 +4929,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
+      if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       var sz = sheetOf(j, SHEET_TABS.zstats);
@@ -4975,7 +5021,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
 
   /* ---------- saving ---------- */
-  function status(t){ var el = document.getElementById("ss"); if (el) el.textContent = t; }
+  var SHEET_URL = "https://docs.google.com/spreadsheets/d/1ISGiHDiW4rQLUZMz94Cu22KAeo2Wquh6cXdoUZZjQyY/edit";
+  function sheetWord(t){ t = String(t || ""); return /^Sheet\b/.test(t) ? '<a href="' + SHEET_URL + '" target="_blank" rel="noopener" title="Open the Google Sheet">Sheet</a>' + esc(t.slice(5)) : esc(t); }
+  function status(t){ var el = document.getElementById("ss"); if (el) el.innerHTML = sheetWord(t); }
   function markReadOnly(){ readOnly = true; editing = false; if (saved) S = clone(saved); render(); }
   async function getArtifact(){
     if (artifactNs !== undefined) return artifactNs;

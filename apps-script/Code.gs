@@ -47,6 +47,7 @@ function doGet(e) {
   try { out.nyozi = JSON.parse(props.getProperty('NYOZI') || 'null'); } catch (err) { out.nyozi = null; }
   try { out.hosting = JSON.parse(props.getProperty('HOSTING') || 'null'); } catch (err) { out.hosting = null; }
   try { out.fans = JSON.parse(props.getProperty('FANS') || 'null'); } catch (err) { out.fans = null; }
+  try { out.fanseen = JSON.parse(readChunks_(props, 'FANSEEN') || 'null'); } catch (err) { out.fanseen = null; }
   return json_(out);
 }
 
@@ -78,6 +79,22 @@ function doPost(e) {
     if (txt.length > 9000) return json_({ ok: false, error: 'too many fans to store' });
     PropertiesService.getScriptProperties().setProperty('FANS', txt);
     return json_({ ok: true, fans: f });
+  }
+  if (body.type === 'fanseen') {
+    // games each fan has appeared in since: { "Fan name": [{gig, link?}, ...] }, entered in the fan file on the page
+    const src = body.seen && typeof body.seen === 'object' ? body.seen : {}, clean = {};
+    Object.keys(src).slice(0, 600).forEach(function (k) {
+      const list = (Array.isArray(src[k]) ? src[k] : []).slice(0, 40).map(function (x) {
+        const o = { gig: String(x && x.gig || '').slice(0, 120) };
+        if (x && x.link && /^https?:\/\//i.test(String(x.link))) o.link = String(x.link).slice(0, 300);
+        return o;
+      }).filter(function (o) { return o.gig; });
+      if (list.length) clean[String(k).slice(0, 80)] = list;
+    });
+    const txt = JSON.stringify(clean);
+    if (txt.length > 160000) return json_({ ok: false, error: 'too much to store' });
+    writeChunks_(PropertiesService.getScriptProperties(), 'FANSEEN', txt);
+    return json_({ ok: true });
   }
   return json_({ ok: false, error: 'unknown request' });
 }
@@ -669,4 +686,18 @@ function presence_() {
   const viewers = Object.keys(m).filter(function (k) { return now - m[k].t <= PRESENCE_TTL_MS; })
     .map(function (k) { return { id: k, tab: m[k].tab, who: m[k].who, since: m[k].since, ago: now - m[k].t }; });
   return { ok: true, viewers: viewers, lastSeen: Number(PropertiesService.getScriptProperties().getProperty('LAST_SEEN') || 0), now: now };
+}
+
+
+// Script Properties hold about 9 KB per value, so longer JSON is split across KEY_0, KEY_1, ... with KEY_N = how many.
+function writeChunks_(props, key, txt) {
+  const old = +(props.getProperty(key + '_N') || 0), n = Math.ceil(txt.length / 8000) || 1;
+  for (let i = 0; i < n; i++) props.setProperty(key + '_' + i, txt.slice(i * 8000, (i + 1) * 8000));
+  for (let i = n; i < old; i++) props.deleteProperty(key + '_' + i);
+  props.setProperty(key + '_N', String(n));
+}
+function readChunks_(props, key) {
+  const n = +(props.getProperty(key + '_N') || 0); let s = '';
+  for (let i = 0; i < n; i++) s += props.getProperty(key + '_' + i) || '';
+  return s;
 }

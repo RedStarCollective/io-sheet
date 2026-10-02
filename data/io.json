@@ -7617,19 +7617,27 @@
   "total": 102,
   "gigs": 47,
   "gms": 24,
-  "note": "Note for GMs: This is for tracking fans made on different tables and for offtable. A GM is never expected to use these or abide by the stats provided by the respective GM.",
+  "note": "Note for GMs: This is for tracking fans made on different tables and for offtable. A GM is never expected to use these or abide by the stats provided by the respective GM, those are there purely as a reference if desired.",
   "list": [
    {
     "name": "Kerubo Whetu",
     "gm": "Rache",
     "gig": "STARBORNE SHOWDOWN, Die For Metal",
-    "story": "Highrider fan that now works at the RSC as Morro Rock's chosen Highrider liason. Posse Member. Has appeared on: Requiem for Red, Die For Metal.",
+    "story": "Highrider fan that now works at the RSC as Morro Rock's chosen Highrider liason. Posse Member.",
     "img": "img/fans/kerubo-whetu.webp",
     "w": 653,
     "h": 960,
     "rsc": true,
     "foil": true,
-    "link": "https://discord.com/channels/1061931924010045522/1214315666358935604/1216775664225484940"
+    "link": "https://discord.com/channels/1061931924010045522/1214315666358935604/1216775664225484940",
+    "seen": [
+     {
+      "gig": "Requiem for Red"
+     },
+     {
+      "gig": "Die For Metal"
+     }
+    ]
    },
    {
     "name": "James Moore",
@@ -7731,13 +7739,22 @@
    },
    {
     "name": "Nyla [Formerly Dong Mei]",
-    "gm": "Uehara",
+    "gm": "Asuka",
     "gig": "Antizen Mindfulness Retreat",
     "story": "",
     "img": "img/fans/nyla.webp",
     "w": 594,
     "h": 874,
-    "link": "https://discord.com/channels/1061931924010045522/1394871782686593075/1396167872987791451"
+    "link": "https://discord.com/channels/1061931924010045522/1394871782686593075/1396167872987791451",
+    "label": "Waist-up",
+    "alts": [
+     {
+      "img": "img/fans/nyla-2.webp",
+      "w": 416,
+      "h": 612,
+      "label": "Portrait"
+     }
+    ]
    },
    {
     "name": "Zhang Ha-Il",
@@ -8188,7 +8205,7 @@
    },
    {
     "name": "Hiro",
-    "gm": "Neko",
+    "gm": "Nano",
     "gig": "Lights, Camera, ALPHA!",
     "story": "NCU students Io has tasked with spying on Hiro's weekly Saturday class.",
     "img": "img/fans/hiro.webp",
@@ -8462,6 +8479,20 @@
     "img": "img/fans/julie.webp",
     "w": 274,
     "h": 403
+   },
+   {
+    "name": "Sozen Ishimoto",
+    "gm": "Gabe",
+    "gig": "Acceptance Of Death",
+    "link": "https://discord.com/channels/1061931924010045522/1503767813343412224/1504163486631071754",
+    "roles": [
+     {
+      "role": "Solo",
+      "rank": 4
+     }
+    ],
+    "story": "Solo 4. A weathered street samurai with a strong belief in the code of Bushido. Formerly a Kimengumi security operative, he lost his way after the assassination of a high profile individual within the organisation, bringing him to wander the city as a forsaken Ronin. Dr. Curiosity Clavell convinced him to forsake Seppuku. Doctor Kōru Singh brings with him a message. One charged with belief and resolution. A Ronin is a warrior without master. That day, Ishimoto learns he needs not one to serve.",
+    "img": ""
    }
   ],
   "gmColors": {
@@ -8551,10 +8582,6 @@
    ],
    "Nano": [
     250,
-    "strong"
-   ],
-   "Uehara": [
-    115,
     "strong"
    ]
   },
