@@ -1764,6 +1764,19 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fnnote{display:flex;gap:12px;align-items:baseline;margin:0 0 18px;padding:10px 14px 11px;border:1px solid var(--line);border-left:3px solid var(--gold);background:rgba(12,9,8,.7);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
 .fnnote b{flex:none;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 @media (max-width:760px){ .fnnote{flex-direction:column;gap:4px} }
+/* RSC members: a red star stamped on the top-left corner of the front */
+.fc-rsc{position:absolute;left:0;top:0;width:44px;height:44px;z-index:3;transform:translateZ(54px);background:linear-gradient(135deg,#d11c28 0 50%,transparent 50%);filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none}
+.fc-rsc svg{position:absolute;left:5px;top:4px;width:15px;height:18px;fill:#0b0707}
+.fcard.big .fc-rsc{width:66px;height:66px}.fcard.big .fc-rsc svg{left:8px;top:7px;width:22px;height:26px}
+.fg-mem .fc-rsc{width:30px;height:30px}.fg-mem .fc-rsc svg{left:3px;top:3px;width:10px;height:12px}
+/* art that breaks the frame (fan file only). The card itself keeps its normal clip (and its 3D); a flat overlay drawn over it shows
+   only what falls outside the card's left and right edges, fading out before the name plate. It hides while the card is turned. */
+.fns-cw{position:relative}
+.fns-brk{position:absolute;inset:-40% -42% 0 -42%;pointer-events:none;z-index:2;transform:scale(1.0367);transform-origin:50% 64.3%;transition:opacity .18s;
+  -webkit-mask:linear-gradient(90deg,transparent 15.5%,#000 21%,#000 23.79%,transparent 23.79%,transparent 76.21%,#000 76.21%),linear-gradient(180deg,#000 62%,transparent 80%);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent 15.5%,#000 21%,#000 23.79%,transparent 23.79%,transparent 76.21%,#000 76.21%),linear-gradient(180deg,#000 62%,transparent 80%);mask-composite:intersect}
+.fns-brk img{position:absolute;left:50%;bottom:0;height:80%;width:auto;max-width:none;transform:translateX(-50%);filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))}
+@media (max-width:760px){ .fns-brk{display:none} }
 /* more than one piece of art on a card: thumbnails under the big card, a small count on the wall */
 .fc-alt{position:absolute;right:8px;top:8px;z-index:3;transform:translateZ(60px);font:600 10px/1 var(--f-num);letter-spacing:.06em;color:#fff;background:rgba(8,6,5,.78);border:1px solid hsla(var(--h),calc(60% * var(--k,1)),60%,.6);padding:3px 5px 2px}
 .fns-arts{display:flex;justify-content:center;gap:8px;margin-top:22px;position:relative;z-index:2}
@@ -3361,7 +3374,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         (g.by ? '<div class="fns-roles"><dt>Defined by</dt><dd><span class="fns-role">' + esc(g.by) + '</span>' + (g.refArt ? '<span class="fns-role">Reference art, not GM-supplied</span>' : '') + '</dd></div>' : '') + '</dl>' +
         (g.story ? '<p class="fns-story">' + esc(g.story) + '</p>' : '') +
         '<p class="lab" style="margin:18px 0 0">Members <span class="fc-no">×' + fgCount(g) + '</span></p><div class="fg-mem">' + M.map(function(m, k){ var xi = fgBase(i) + k, X = FXL()[xi];
-          return '<button type="button" class="fcard' + (m.foil ? ' foil' : '') + '" data-fan="' + xi + '" style="--h:' + fnCol(X) + '" aria-label="' + esc(m.name) + '">' + fanCard(X, xi) + '</button>'; }).join("") + '</div>' +
+          return '<button type="button" class="fcard' + '' + '" data-fan="' + xi + '" style="--h:' + fnCol(X) + '" aria-label="' + esc(m.name) + '">' + fanCard(X, xi) + '</button>'; }).join("") + '</div>' +
         (fgCount(g) > M.length ? '<p class="fns-hint" style="margin-top:8px">' + (fgCount(g) - M.length) + ' more not on the page yet.</p>' : '') +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';
     sp.hidden = false; document.body.classList.add("fnlock");
@@ -3370,12 +3383,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
   function fnNo(i){ var t = fnTotal(); return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
-    var A = big && FN.art > 0 && (f.alts || [])[FN.art - 1] || f, ar = A.w && A.h ? A.w / A.h : .8, nA = (f.alts || []).length;
+    var A = big && FN.art > 0 && (f.alts || [])[FN.art - 1] || f, wideA = big && A === f && f.wide && f.wide.img ? f.wide : null, ar = A.w && A.h ? A.w / A.h : .8, nA = (f.alts || []).length;
     return '<span class="fc-flip">' + (big ? '<span class="fc-side sl"></span><span class="fc-side sr"></span><span class="fc-side st"></span><span class="fc-side sb"></span>' : '') + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (!big && nA ? '<span class="fc-alt" title="' + (nA + 1) + ' pieces of art" aria-hidden="true">◧ ' + (nA + 1) + '</span>' : '') +
-      (A.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 ? ' wide' : '') + '" src="' + esc(A.img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
+      (f.rsc ? '<span class="fc-rsc" title="Red Star Collective member" aria-hidden="true"><svg viewBox="40 58 892 1070"><use href="#rscp"/></svg></span>' : '') +
+      (A.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 && !wideA ? ' wide' : '') + '" src="' + esc((wideA || A).img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
       '<span class="fc-foil" aria-hidden="true"></span>' +
-      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + (f.foil ? '<span class="fc-star" title="Foil">★</span>' : '') + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
+      '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
   /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
   /* card backs: RSC members get the red star; everyone else gets a typographic back in their GM's colour */
@@ -3413,9 +3427,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
       '</div>' + (fnCanArrange() ? '<button type="button" class="btn fa-btn" data-fa="start" title="Put the cards in your own order">Arrange cards</button>' : '<span class="fnshown" id="fnshown"></span>') + (fnCanArrange() ? '<span class="fnshown" id="fnshown" hidden></span>' : '') + '</div>';
     var grid = '<div class="fngrid' + (arr ? ' arr' : fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
-      if (arr) return '<div class="fcard' + (f.foil ? ' foil' : '') + '" draggable="true" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + '">' + fanCard(f, i) +
+      if (arr) return '<div class="fcard' + '' + '" draggable="true" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + '">' + fanCard(f, i) +
         '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(f.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(f.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(f.name) + ' later" title="Later"' + (i < L.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(f.name) + ' to the end" title="To the end"' + (i < L.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>';
-      return '<button type="button" class="fcard' + (f.foil ? ' foil' : '') + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
+      return '<button type="button" class="fcard' + '' + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
       (left && !arr ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote" role="note"><b>Note for GMs</b><span>' + esc(String(F.note).replace(/^Note for GMs:\s*/i, "")) + '</span></p>' : '';
@@ -3458,7 +3472,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var arts = (f.alts || []).length ? [f].concat(f.alts) : [];
     var vis = fnVisible(), k = vis.indexOf(i);
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnCol(f) + '">' +
-      '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div>' +
+      '<div class="fns-card"><div class="fns-cw"><div class="fcard big" id="fnbig">' + fanCard(f, i, true) + '</div>' +
+        (f.wide && f.wide.img && !(FN.art > 0) ? '<div class="fns-brk" id="fnbrk" aria-hidden="true"><img src="' + esc(f.wide.img) + '" alt=""></div>' : '') + '</div>' +
         (arts.length ? '<div class="fns-arts" role="group" aria-label="Art">' + arts.map(function(a, k){ return '<button type="button" data-fnart="' + k + '" aria-pressed="' + (k === (FN.art || 0)) + '"><i><img src="' + esc(a.img) + '" alt=""></i>' + esc(a.label || "Art " + (k + 1)) + '</button>'; }).join("") + '</div>' : '') + '</div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
@@ -3554,6 +3569,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var a = FS.ry * Math.PI / 180, big = document.getElementById("fnbig");
     big.style.setProperty("--mx", (50 + 46 * Math.sin(a)).toFixed(1) + "%"); big.style.setProperty("--my", (50 - FS.rx * 1.2).toFixed(1) + "%");
     big.style.setProperty("--px", (Math.sin(a) * .7).toFixed(3)); big.style.setProperty("--py", (-FS.rx / 50).toFixed(3));
+    var ov = document.getElementById("fnbrk"); if (ov) ov.style.opacity = Math.abs(FS.ry % 360) < .5 && Math.abs(FS.rx) < .5 ? 1 : 0;
     big.classList.toggle("spin", FS.drag || Math.abs(FS.vy) > .02 || Math.abs(FS.ry - FS.tgt) > .5);
   }
   function fsLoop(t){

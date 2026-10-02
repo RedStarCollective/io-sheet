@@ -7807,7 +7807,12 @@
      {
       "role": "Tech"
      }
-    ]
+    ],
+    "wide": {
+     "img": "img/fans/sly-tom-wide.webp",
+     "w": 1058,
+     "h": 960
+    }
    },
    {
     "name": "Evangeline",
@@ -8000,7 +8005,12 @@
     "img": "img/fans/haymaker.webp",
     "w": 570,
     "h": 838,
-    "link": "https://discord.com/channels/1061931924010045522/1486110246282989709/1486186118822232166"
+    "link": "https://discord.com/channels/1061931924010045522/1486110246282989709/1486186118822232166",
+    "wide": {
+     "img": "img/fans/haymaker-wide.webp",
+     "w": 723,
+     "h": 838
+    }
    },
    {
     "name": "Mama Silver",
@@ -8345,7 +8355,12 @@
      {
       "role": "Nomad"
      }
-    ]
+    ],
+    "wide": {
+     "img": "img/fans/garm-wide.webp",
+     "w": 852,
+     "h": 960
+    }
    },
    {
     "name": "Hare",
@@ -8511,7 +8526,12 @@
       "h": 653,
       "label": "Portrait"
      }
-    ]
+    ],
+    "wide": {
+     "img": "img/fans/sozen-ishimoto-wide.webp",
+     "w": 1267,
+     "h": 960
+    }
    }
   ],
   "gmColors": {
