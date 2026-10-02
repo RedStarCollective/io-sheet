@@ -979,11 +979,6 @@
    "rof": 2
   },
   {
-   "name": "Chakram [PQ HM - Fragile, Thrown, Conc.]",
-   "dmg": "3d6",
-   "rof": 0
-  },
-  {
    "name": "EnVogue Chi Restraint Pack [EQ LM - FAB, Ultra Snag'Em, WF Kit Leisurewear]",
    "dmg": "1d6",
    "rof": 2
@@ -1210,17 +1205,9 @@
   {
    "name": "飛鏢 [PQ HM - Fragile, Thrown, Conc.]",
    "n": 4
-  },
-  {
-   "name": "Counterweight",
-   "n": 6
   }
  ],
  "concealed": [
-  {
-   "name": "Chakram [PQ HM - Fragile, Thrown, Conc.]",
-   "where": "Inside Samue"
-  },
   {
    "name": "Pharma & Drugs",
    "where": "Inside Bumbag & attached to beltstraps."
@@ -8708,10 +8695,6 @@
    "h": 1150
   },
   "pins": {
-   "chakram": [
-    47,
-    40
-   ],
    "pharma & drugs": [
     58,
     80

@@ -257,6 +257,25 @@ body:not(.editing) .t td.name > .flex{display:block}
 .t tr.cwpar .tog{align-items:flex-start;flex-wrap:wrap}
 .t tr.cwpar .tog .chev{margin-top:4px}
 .t tr.cwpar .tog .cnt{flex-basis:100%;margin:3px 0 0 17px;text-align:left}
+/* Loadout pages: Gear | Wardrobe */
+.lo2 > .sec-title .seg{margin-left:4px;order:2}
+.lo2 > .sec-title .seg button{padding:5px 12px;font-size:11px}
+.lo2 > .sec-title::after{order:3}
+.wd{grid-column:1/-1;display:flex;flex-direction:column;gap:12px}
+.wd-style{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:1px solid var(--line);background:rgba(17,13,12,.74)}
+.wd-style div{padding:9px 12px}.wd-style div + div{border-left:1px solid var(--line)}
+.wd-style dt{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.wd-style dd{margin:0;font:500 17px/1.25 var(--f-cond);color:var(--ink)}
+.wd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.wd-card{display:flex;flex-direction:column;background:rgba(17,13,12,.78);border:1px solid var(--frame);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.wd-art{position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(-45deg,rgba(181,143,82,.06) 0 10px,transparent 10px 20px),#0c0908;display:grid;place-items:center;overflow:hidden}
+.wd-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.wd-art span{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px}
+.wd-art i{position:absolute;left:8px;top:8px;font:600 11px/1 var(--f-num);font-style:normal;color:var(--gold);letter-spacing:.1em}
+.wd-tx{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--frame)}
+.wd-tx b{font:700 17px/1.2 var(--f-disp);letter-spacing:.02em;color:var(--ink)}
+.wd-tx b small{display:block;margin-top:3px;font:500 14px/1.25 var(--f-cond);color:var(--ink-2);letter-spacing:0}
+.wd-tx .lo-tags .chip2{font-size:10.5px}
 /* ---------- Loadout v2: "what's on him" (view mode; Edit mode keeps the plain lists) ---------- */
 .lo2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:12px;align-items:start}
 .lo2 > .sec-title,.lo2 > .lo-low,.lo2 > .lo-belt,.lo2 > .lo-gear{grid-column:1/-1}
@@ -280,15 +299,16 @@ body:not(.editing) .t td.name > .flex{display:block}
 .thr .tn2 .lo-i{display:flex;flex-direction:column;gap:3px}
 .thr .ctr{grid-column:1/-1;display:flex}.thr .ctr output{flex:1}
 .thr.empty{opacity:.45}.thr.empty svg{color:var(--ink-3)}
-.lo-ph .vg{display:flex;align-items:center;gap:10px;margin:0;padding:5px 10px 4px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#0b0808;background:var(--vc)}
-.lo-ph .vg b{margin-left:auto;font-family:var(--f-num);font-size:12px;letter-spacing:.04em}
-.g-med{--vc:#4cc37a}.g-street{--vc:#e0a23c}.g-neuro{--vc:#8f9dff}.g-poison{--vc:#e0323c}
+.lo-ph .vg{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 5px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--vc);background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 16%,transparent),transparent 70%);border-top:1px solid var(--line);box-shadow:inset 3px 0 0 var(--vc)}
+.lo-ph .hb + div .vg{border-top:0}
+.lo-ph .vg b{margin-left:auto;color:var(--ink-2);font-family:var(--f-num);font-size:12px;letter-spacing:.04em}
+.g-med{--vc:#6f9f84}.g-street{--vc:#b08a4e}.g-neuro{--vc:#8088b5}.g-poison{--vc:#a8565a}
 .vials{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;padding:8px;align-items:start}
-.vial{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);border-top:2px solid var(--vc);padding:7px 8px}
+.vial{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);border-top:2px solid color-mix(in srgb,var(--vc) 70%,transparent);padding:7px 8px}
 .vial .lo-i{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.1;display:flex;flex-wrap:wrap;gap:3px 5px;align-items:center}
 .vial .vn{font-family:var(--f-num);font-size:20px;font-weight:600;color:var(--ink);text-align:right;line-height:1}
 .vial .vp{display:flex;flex-wrap:wrap;gap:2px;min-height:9px}
-.vial .vp i{width:5px;height:9px;background:var(--vc);opacity:.9}
+.vial .vp i{width:5px;height:9px;background:var(--vc);opacity:.75}
 .vial .ctr button{width:24px;height:21px}
 .vial .ctr output{display:none}
 .vial.empty{opacity:.5;border-top-color:var(--line)}.vial.empty .vn{color:var(--red-hi)}
@@ -2777,6 +2797,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     b:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5 15 9l7.5 3-7.5 3-3 7.5L9 15l-7.5-3L9 9z"/></svg>',
     w:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="3" fill="currentColor"/><circle cx="19" cy="6" r="3" fill="currentColor"/><circle cx="12" cy="19" r="3" fill="currentColor"/><path d="M5 6 12 12 19 6M12 12v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'};
   function loadout2(){
+    if (LOP === "wardrobe" && WHO === "io") return wardrobe();
     var L = S.lo || {}, stash = L.stash || [], lock = readOnly;
     var out0 = [], one = [];
     (S.pharma || []).forEach(function(r){ if (r.head) return; var n = +r.n || 0; if (n <= 0) out0.push(loParse(r.name).base); else if (n === 1) one.push(loParse(r.name).base); });
@@ -2816,7 +2837,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
           (bx ? '<div class="lo-apps"><span class="lab">Apps</span>' + (bx.items.length ? bx.items.map(chip).join("") : '<span class="u">None</span>') + '</div>' : '') + '</div>'; }).join("") + '</div>' +
       boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
         return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
-    return '<div class="lo2 a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + '</div>' + gear + '</div>';
+    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + '</div>' + gear + '</div>';
   }
   var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
   /* concealed-item dots: the owner drags them on the figure; positions are kept as percentages in S.lo.pins */
@@ -2837,6 +2858,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins}}); else persist(); }, 900);
   }
   app.addEventListener("pointerup", pinDrop); app.addEventListener("pointercancel", pinDrop);
+  var LOP = "gear";
+  function loHead(){ return '<h2 class="sec-title"><span class="glx">Loadout</span>' + (WHO === "io" ? '<span class="seg" role="group" aria-label="Loadout page"><button type="button" data-lop="gear" class="' + (LOP === "gear" ? 'on' : '') + '" aria-pressed="' + (LOP === "gear") + '">Gear</button><button type="button" data-lop="wardrobe" class="' + (LOP === "wardrobe" ? 'on' : '') + '" aria-pressed="' + (LOP === "wardrobe") + '">Wardrobe</button></span>' : '') + '</h2>'; }
+  /* Wardrobe: the outfits from the Case File sheet tab (## Outfits: name, pieces, art), each with a slot for its reference art */
+  function wardrobe(){
+    var Pr = (S.casefile && S.casefile.presentation) || {}, O = Pr.outfits || [];
+    var style = (Pr.clothing || Pr.hair) ? '<dl class="wd-style">' + (Pr.clothing ? '<div><dt>Clothing style</dt><dd>' + esc(Pr.clothing) + '</dd></div>' : '') + (Pr.hair ? '<div><dt>Hairstyle</dt><dd>' + esc(Pr.hair) + '</dd></div>' : '') + '</dl>' : '';
+    var cards = O.map(function(o, i){ var parts = String(o.name || "").split("/").map(function(x){ return x.trim(); }).filter(Boolean), art = fnUrl(o.art);
+      return '<article class="wd-card"><div class="wd-art">' + (art ? '<img src="' + esc(art) + '" alt="' + esc(parts[0] || "Outfit") + ', reference art" loading="lazy">' : '<span>Ref art to come</span>') + '<i>' + String(i + 1).padStart(2, "0") + '</i></div>' +
+        '<div class="wd-tx"><b>' + esc(parts[0] || "Outfit") + (parts.length > 1 ? '<small>' + parts.slice(1).map(esc).join(" · ") + '</small>' : '') + '</b>' +
+        (o.items ? '<span class="lo-tags">' + String(o.items).split(",").map(function(x){ x = x.trim(); return x ? '<span class="chip2">' + esc(x) + '</span>' : ''; }).join("") + '</span>' : '') + '</div></article>'; }).join("");
+    return '<div class="lo2 a-lo">' + loHead() + '<div class="wd">' + style + (cards ? '<div class="wd-grid">' + cards + '</div>' : '<p class="zhint">No outfits on file yet.</p>') + '</div></div>';
+  }
   var thrQueue = {};
   function pushThrow(){ var items = Object.keys(thrQueue).map(function(k){ return {name:k, n:thrQueue[k]}; }); thrQueue = {}; if (items.length) pushState("throwables", {items:items}); }
   function loadout(){
@@ -4618,7 +4651,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     // 05 presentation
     var Pr = C.presentation || {};
     var pres = (Pr.company ? '<p class="cfquote">' + esc(Pr.company) + '</p>' : '') + '<dl class="cfdl">' + dd("Clothing style", Pr.clothing) + dd("Hairstyle", Pr.hair) + '</dl>' +
-      ((Pr.outfits || []).length ? '<h4 style="margin-top:22px">Outfits</h4><div class="cfouts">' + Pr.outfits.map(function(o){ return '<div><b>' + esc(o.name) + '</b>' + (o.items ? '<span>' + esc(o.items) + '</span>' : '') + '</div>'; }).join("") + '</div>' : '');
+      ((Pr.outfits || []).length ? '<p class="cfnone" style="border:0;padding-bottom:0">Outfits are on the Dossier, under Loadout › Wardrobe.</p>' : '');
     // 06 papers
     var KIND = {license:"Licensed", plate:"Plate", registration:"Registered", forged:"Forged"};
     var pap = (C.papers || []).length ? '<div class="cfpl">' + C.papers.map(function(x){ return '<div><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span' + (x.kind === "forged" ? ' class="forged"' : '') + '>' + esc(KIND[x.kind] || x.kind) + (x.term ? ' · ' + esc(x.term) + ' term' : '') + '</span></div>'; }).join("") + '</div>' : none();
@@ -5304,6 +5337,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.prac != null){ if (readOnly) return; var tp = trainingState(), pn = b.dataset.prac, pi = tp.skills.indexOf(pn);
       if (pi >= 0) tp.skills.splice(pi, 1); else if (tp.skills.length < PRACTICE_MAX) tp.skills.push(pn); else return;
       S.training = tp; saveTraining(); return; }
+    if (b.dataset.lop){ LOP = b.dataset.lop; render(); return; }
     if (b.dataset.lox){ LOX[b.dataset.lox] = !LOX[b.dataset.lox]; render(); return; }
     if (b.dataset.thr != null){ if (readOnly) return;
       var tr = S.throwables[+b.dataset.thr]; tr.n = Math.max(0, (+tr.n || 0) + (+b.dataset.d));
