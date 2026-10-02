@@ -292,10 +292,20 @@ body:not(.editing) .t td.name > .flex{display:block}
 .lo-con .conin{display:grid;grid-template-columns:132px minmax(0,1fr);gap:12px;padding:10px}
 .lo-con .config{position:relative;margin:0;line-height:0;align-self:start;background:radial-gradient(ellipse 60% 50% at 50% 60%,rgba(159,12,23,.22),transparent 70%)}
 .lo-con .config img{width:100%;height:auto;filter:saturate(.75) brightness(.8)}
-.pin{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;display:grid;place-items:center;border-radius:50%;background:var(--red);border:1px solid #fff;color:#fff;font:600 11px/1 var(--f-num);box-shadow:0 0 8px rgba(209,28,40,.8)}
+.pin{position:absolute;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--pc,#e0323c);border:1.5px solid #0b0808;box-shadow:0 0 0 1px rgba(255,255,255,.75),0 0 9px var(--pc,#e0323c)}
+.config.canpin .pin{cursor:grab;touch-action:none}
+.config .pin.drag{cursor:grabbing;transform:scale(1.35);z-index:2}
+.config img{user-select:none;-webkit-user-drag:none}
+.lo-chip{font-family:var(--f-cond);font-size:15px;color:var(--ink-2);border:1px dashed var(--line);padding:3px 9px;display:inline-flex;gap:6px;align-items:center}
+.lo-apps{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:3px;padding-top:6px;border-top:1px dashed var(--line)}
+.lo-apps .lab{margin:0 2px 0 0;font-size:10px}
+.lo-apps .lo-chip{font-size:14px;padding:1px 7px;border-style:solid;color:var(--ink)}
+.gtile.has-apps{grid-column:span 2}
+.lo-ash{font:700 11.5px/1 var(--f-body)!important;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)!important;border:0!important;padding:0 6px 0 0!important;background:none;display:inline-flex;gap:6px;align-items:center}
+button.lo-ash{cursor:pointer;color:var(--gold)!important}
 .conlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.conlist li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:2px 8px;align-items:start}
-.conlist .pin{position:static;margin:2px 0 0;box-shadow:none}
+.conlist li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:2px 8px;align-items:start}
+.conlist .pin{position:static;margin:4px 0 0;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
 .conlist b{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15}
 .conlist em{grid-column:2;font-style:normal;font-size:13px;color:var(--ink-3);line-height:1.25}
 .conlist .lo-tags{grid-column:2}
@@ -2778,19 +2788,46 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pips = ""; for (var k = 0; k < Math.min(n, 12); k++) pips += '<i></i>';
         return '<div class="vial' + (n <= 0 ? ' empty' : '') + '">' + loName(p) + '<span class="vn">' + n + '</span><span class="vp" aria-hidden="true">' + pips + '</span>' +
           '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (lock || n <= 0 ? ' disabled' : '') + '>−</button><output>' + n + '</output><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span>' + loInfoP(p) + '</div>'; }).join("") + '</div></div>'; }).join("") + '</section>';
-    var fig = WHO === "io" && L.figure && L.figure.img ? L.figure : null, pins = L.pins || {};
-    var con = '<section class="box lo-con' + (fig ? '' : ' nofig') + '"><div class="hb"><span class="sp">Concealed Items</span><span class="gnote">Where it sits</span></div><div class="conin">' +
-      (fig ? '<figure class="config"><img src="' + esc(fig.img) + '" alt="Iō, standing" loading="lazy">' + (S.concealed || []).map(function(r, i){ var xy = pins[loParse(r.name).key]; return xy ? '<span class="pin" style="left:' + xy[0] + '%;top:' + xy[1] + '%" aria-hidden="true">' + (i + 1) + '</span>' : ''; }).join("") + '</figure>' : '') +
-      '<ol class="conlist">' + (S.concealed || []).map(function(r, i){ var p = loParse(r.name); return '<li><span class="pin" aria-hidden="true">' + (i + 1) + '</span><b>' + esc(p.base) + '</b><em>' + esc(r.where || "") + '</em>' + loTags(p.tags) + '</li>'; }).join("") + '</ol></div></section>';
-    var seen = {}, carried = [], assets = [];
-    (S.inventory || []).forEach(function(v){ var p = loParse(v); if (stash.indexOf(p.key) >= 0){ assets.push(p); return; } if (seen[p.key]){ seen[p.key].qty = (seen[p.key].qty || 1) + (p.qty || 1); return; } seen[p.key] = p; carried.push(p); });
-    var links = L.assetLinks || {};
+    var fig = WHO === "io" && L.figure && L.figure.img ? L.figure : null, pins = L.pins || {}, canPin = fig && !lock;
+    var dot = function(i){ return LO_DOTS[i % LO_DOTS.length]; };
+    var con = '<section class="box lo-con' + (fig ? '' : ' nofig') + '"><div class="hb"><span class="sp">Concealed Items</span>' + (canPin ? '<span class="gnote">Drag a dot to move it</span>' : '') + '</div><div class="conin">' +
+      (fig ? '<figure class="config' + (canPin ? ' canpin' : '') + '"><img src="' + esc(fig.img) + '" alt="Iō, standing" loading="lazy" draggable="false">' + (S.concealed || []).map(function(r, i){ var k = loParse(r.name).key, xy = pins[k] || [8, 10 + i * 9]; return '<span class="pin" data-pin="' + esc(k) + '" style="left:' + xy[0] + '%;top:' + xy[1] + '%;--pc:' + dot(i) + '" title="' + esc(loParse(r.name).base) + '"></span>'; }).join("") + '</figure>' : '') +
+      '<ol class="conlist">' + (S.concealed || []).map(function(r, i){ var p = loParse(r.name); return '<li><span class="pin" style="--pc:' + dot(i) + '" aria-hidden="true"></span><b>' + esc(p.base) + '</b><em>' + esc(r.where || "") + '</em>' + loTags(p.tags) + '</li>'; }).join("") + '</ol></div></section>';
+    /* carried, agent apps, and what is stashed in the car or at home. In the sheet's list a container (Agent, Car, Home) is a heading:
+       the rows under it belong to it until the next container. */
+    var C = L.containers || {}, carried = [], boxes = [], cur = null, had = {};
+    (S.inventory || []).forEach(function(v){ var p = loParse(v), c = C[p.key];
+      if (c){ cur = {p:p, c:c, items:[]}; boxes.push(cur); if (c.kind === "apps") carried.push(p); return; }
+      if (cur){ cur.items.push(p); return; }
+      if (had[p.key]) return; had[p.key] = 1; carried.push(p); });
+    var chip = function(p){ return '<span class="lo-chip">' + esc(p.base) + (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags) + '</span>'; };
     var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + carried.length + ' items</span></div><div class="gear">' + carried.map(function(p){
-        return '<div class="gtile">' + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) + '</div>'; }).join("") + '</div>' +
-      (assets.length ? '<div class="lo-as"><span class="lab">Stashed &amp; owned</span>' + assets.map(function(p){ var to = links[p.key], inner = esc(p.base) + (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags);
-        return to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" data-tab="' + to + '">' + inner + ' →</button>' : '<span>' + inner + '</span>'; }).join("") + '</div>' : '') + '</section>';
+        var bx = boxes.filter(function(b){ return b.p === p; })[0];
+        return '<div class="gtile' + (bx ? ' has-apps' : '') + '">' + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) +
+          (bx ? '<div class="lo-apps"><span class="lab">Apps</span>' + (bx.items.length ? bx.items.map(chip).join("") : '<span class="u">None</span>') + '</div>' : '') + '</div>'; }).join("") + '</div>' +
+      boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
+        return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
     return '<div class="lo2 a-lo"><h2 class="sec-title"><span class="glx">Loadout</span></h2>' + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + '</div>' + gear + '</div>';
   }
+  var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
+  /* concealed-item dots: the owner drags them on the figure; positions are kept as percentages in S.lo.pins */
+  var pinDrag = null;
+  app.addEventListener("pointerdown", function(ev){
+    var p = ev.target.closest && ev.target.closest(".config.canpin .pin[data-pin]"); if (!p || readOnly || WHO !== "io") return;
+    ev.preventDefault(); pinDrag = {el:p, key:p.dataset.pin, fig:p.parentNode, xy:null}; try { p.setPointerCapture(ev.pointerId); } catch(e){} p.classList.add("drag");
+  });
+  app.addEventListener("pointermove", function(ev){
+    if (!pinDrag) return; var R = pinDrag.fig.getBoundingClientRect();
+    var x = Math.max(0, Math.min(100, (ev.clientX - R.left) / R.width * 100)), y = Math.max(0, Math.min(100, (ev.clientY - R.top) / R.height * 100));
+    pinDrag.xy = [Math.round(x * 10) / 10, Math.round(y * 10) / 10]; pinDrag.el.style.left = pinDrag.xy[0] + "%"; pinDrag.el.style.top = pinDrag.xy[1] + "%";
+  });
+  function pinDrop(){
+    if (!pinDrag) return; var d = pinDrag; pinDrag = null; d.el.classList.remove("drag"); if (!d.xy) return;
+    if (!S.lo) S.lo = {}; if (!S.lo.pins) S.lo.pins = {}; S.lo.pins[d.key] = d.xy;
+    clearTimeout(saveTimer); status("Unsaved");
+    saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins}}); else persist(); }, 900);
+  }
+  app.addEventListener("pointerup", pinDrop); app.addEventListener("pointercancel", pinDrop);
   var thrQueue = {};
   function pushThrow(){ var items = Object.keys(thrQueue).map(function(k){ return {name:k, n:thrQueue[k]}; }); thrQueue = {}; if (items.length) pushState("throwables", {items:items}); }
   function loadout(){
@@ -5092,6 +5129,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
+      if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
       if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S; if (fio && fio.fans) fnRscApply(fio, j.fanrsc); }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};

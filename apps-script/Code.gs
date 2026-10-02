@@ -48,6 +48,11 @@ function doGet(e) {
   try { out.hosting = JSON.parse(props.getProperty('HOSTING') || 'null'); } catch (err) { out.hosting = null; }
   try { out.fans = JSON.parse(props.getProperty('FANS') || 'null'); } catch (err) { out.fans = null; }
   try { out.fanseen = JSON.parse(readChunks_(props, 'FANSEEN') || 'null'); } catch (err) { out.fanseen = null; }
+  // general page settings saved from the site (type 'meta'): META_<name> -> out.meta[name]
+  out.meta = {};
+  (props.getProperty('META_NAMES') || '').split(',').filter(String).forEach(function (n) {
+    try { out.meta[n] = JSON.parse(readChunks_(props, 'META_' + n) || 'null'); } catch (err) { out.meta[n] = null; }
+  });
   try { out.fanrsc = JSON.parse(readChunks_(props, 'FANRSC') || 'null'); } catch (err) { out.fanrsc = null; }
   return json_(out);
 }
@@ -81,6 +86,18 @@ function doPost(e) {
     if (txt.length > 9000) return json_({ ok: false, error: 'too many fans to store' });
     PropertiesService.getScriptProperties().setProperty('FANS', txt);
     return json_({ ok: true, fans: f });
+  }
+  if (body.type === 'meta') {
+    // a named blob of page settings the sheet has no column for (dot positions and the like); new settings need no script change
+    const name = String(body.name || '');
+    if (!/^[a-z][a-z0-9]{0,19}$/.test(name)) return json_({ ok: false, error: 'bad name' });
+    const txt = JSON.stringify(body.value === undefined ? null : body.value);
+    if (txt.length > 160000) return json_({ ok: false, error: 'too much to store' });
+    const props = PropertiesService.getScriptProperties();
+    writeChunks_(props, 'META_' + name, txt);
+    const names = (props.getProperty('META_NAMES') || '').split(',').filter(String);
+    if (names.indexOf(name) < 0) { names.push(name); props.setProperty('META_NAMES', names.join(',')); }
+    return json_({ ok: true });
   }
   if (body.type === 'fanrsc') {
     // which fans are Red Star Collective members: a list of fan names, ticked in the fan file on the page

@@ -8702,17 +8702,6 @@
   ]
  },
  "lo": {
-  "stash": [
-   "car",
-   "control node, nyota",
-   "home",
-   "elflines online sub",
-   "elo character lvl. 10"
-  ],
-  "assetLinks": {
-   "car": "vehicles",
-   "control node, nyota": "vehicles"
-  },
   "figure": {
    "img": "img/io-standing.webp",
    "w": 723,
@@ -8760,6 +8749,21 @@
    "medscanner": {
     "text": "+2 to First Aid and Paramedic Checks.",
     "src": "CRB"
+   }
+  },
+  "containers": {
+   "agent": {
+    "label": "Agent apps",
+    "kind": "apps"
+   },
+   "car": {
+    "label": "In the car",
+    "kind": "stash",
+    "link": "vehicles"
+   },
+   "home": {
+    "label": "At home",
+    "kind": "stash"
    }
   }
  }
