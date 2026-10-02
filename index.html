@@ -1765,10 +1765,11 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fnnote b{flex:none;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 @media (max-width:760px){ .fnnote{flex-direction:column;gap:4px} }
 /* RSC members: a red star stamped on the top-left corner of the front */
-.fc-rsc{position:absolute;left:0;top:0;width:44px;height:44px;z-index:3;transform:translateZ(54px);background:linear-gradient(135deg,#d11c28 0 50%,transparent 50%);filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none}
-.fc-rsc svg{position:absolute;left:5px;top:4px;width:15px;height:18px;fill:#0b0707}
-.fcard.big .fc-rsc{width:66px;height:66px}.fcard.big .fc-rsc svg{left:8px;top:7px;width:22px;height:26px}
-.fg-mem .fc-rsc{width:30px;height:30px}.fg-mem .fc-rsc svg{left:3px;top:3px;width:10px;height:12px}
+.fc-rsc{position:absolute;left:9px;top:9px;width:13px;height:15px;z-index:3;transform:translateZ(54px);opacity:.7;pointer-events:none}
+.fc-rsc svg{display:block;width:100%;height:100%;fill:#d11c28;filter:drop-shadow(0 1px 1px rgba(0,0,0,.7))}
+.fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.9}
+.fcard.big .fc-rsc{left:14px;top:14px;width:18px;height:21px}
+.fg-mem .fc-rsc{left:6px;top:6px;width:9px;height:11px}
 /* art that breaks the frame (fan file only). The card itself keeps its normal clip (and its 3D); a flat overlay drawn over it shows
    only what falls outside the card's left and right edges, fading out before the name plate. It hides while the card is turned. */
 .fns-cw{position:relative}
