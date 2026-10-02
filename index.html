@@ -2709,7 +2709,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div>' +
       (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>') +
       '</div>' + add("crits","Add entry") + '</div>';
-    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + (!editing && WHO === "io" ? ioVid("kata", "Iō running his elemental forms: fire, then lightning") : '') + '</div>';
+    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + ''   /* the kata (bending) animation is off for now; files stay in img/io/ */ + '</div>';
   }
 
   var ICONS = {
