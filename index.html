@@ -1764,6 +1764,20 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fnnote{display:flex;gap:12px;align-items:baseline;margin:0 0 18px;padding:10px 14px 11px;border:1px solid var(--line);border-left:3px solid var(--gold);background:rgba(12,9,8,.7);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
 .fnnote b{flex:none;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 @media (max-width:760px){ .fnnote{flex-direction:column;gap:4px} }
+/* collector number: big and faint, bottom-right of the plate */
+.fc-no.cn{font:600 18px/.8 var(--f-num);letter-spacing:.02em;color:hsla(var(--h),calc(55% * var(--k,1)),70%,.38);align-self:flex-end;margin-top:-3px}
+.fcard.big .fc-no.cn{font-size:34px;margin-top:-16px}
+.fg-mem .fc-no.cn{display:none}
+/* lighting: a rim of the GM colour on the lit side of the figure, shade pooling at the feet so cut-outs sit in the card */
+.fc-art{filter:drop-shadow(-1.5px -1px 1px hsla(var(--h),calc(85% * var(--k,1)),74%,.5)) drop-shadow(calc(var(--px,0) * 5px) calc(var(--py,0) * 5px) 1.5px hsla(var(--h),calc(85% * var(--k,1)),70%,var(--rim,0))) drop-shadow(0 10px 14px rgba(0,0,0,.6))}
+.fc-aw::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,hsla(var(--h),calc(40% * var(--k,1)),5%,.8) 16%,hsla(var(--h),calc(40% * var(--k,1)),5%,0) 52%),linear-gradient(100deg,hsla(var(--h),calc(80% * var(--k,1)),65%,.10),transparent 38%)}
+/* hover: one slow pass of light across the card */
+.fc-sweep{position:absolute;inset:0;clip-path:var(--cut);pointer-events:none;transform:translateZ(52px);opacity:0;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.05) 46%,rgba(255,255,255,.22) 50%,rgba(255,255,255,.05) 54%,transparent 58%) 130% 0/300% 100% no-repeat}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .fngrid:not(.arr) .fcard:hover .fc-sweep,.fg-mem .fcard:hover .fc-sweep{opacity:1;animation:fcsweep 1.5s cubic-bezier(.3,.1,.3,1) both}
+  @keyframes fcsweep{from{background-position:130% 0}to{background-position:-30% 0}}
+}
 /* RSC members: a red star stamped on the top-left corner of the front */
 .fc-rsc{position:absolute;left:9px;top:9px;width:13px;height:15px;z-index:3;transform:translateZ(54px);opacity:.7;pointer-events:none}
 .fc-rsc svg{display:block;width:100%;height:100%;fill:#d11c28;filter:drop-shadow(0 1px 1px rgba(0,0,0,.7))}
@@ -3382,14 +3396,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     requestAnimationFrame(function(){ sp.classList.add("on"); });
   }
   function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
-  function fnNo(i){ var t = fnTotal(); return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
+  function fnNo(i, full){ var n = String(i + 1).padStart(3, "0"); return full ? '<span class="fc-no">No. ' + n + '<i>/' + fnTotal() + '</i></span>' : '<span class="fc-no cn" aria-hidden="true">' + n + '</span>'; }
   function fanCard(f, i, big){
     var A = big && FN.art > 0 && (f.alts || [])[FN.art - 1] || f, wideA = big && A === f && f.wide && f.wide.img ? f.wide : null, ar = A.w && A.h ? A.w / A.h : .8, nA = (f.alts || []).length;
     return '<span class="fc-flip">' + (big ? '<span class="fc-side sl"></span><span class="fc-side sr"></span><span class="fc-side st"></span><span class="fc-side sb"></span>' : '') + '<span class="fc-in"><span class="fc-bg"><i class="fc-gig" aria-hidden="true">' + esc(f.gig || "") + '</i></span><span class="fc-edge" aria-hidden="true"></span>' +
       (!big && nA ? '<span class="fc-alt" title="' + (nA + 1) + ' pieces of art" aria-hidden="true">◧ ' + (nA + 1) + '</span>' : '') +
       (f.rsc ? '<span class="fc-rsc" title="Red Star Collective member" aria-hidden="true"><svg viewBox="40 58 892 1070"><use href="#rscp"/></svg></span>' : '') +
       (A.img ? '<span class="fc-aw"><img class="fc-art' + (ar > 1.05 && !wideA ? ' wide' : '') + '" src="' + esc((wideA || A).img) + '" alt="' + (big ? esc(f.name) : '') + '" loading="lazy"></span>' : '<span class="fc-none" aria-hidden="true">' + esc(String(f.name || "?").charAt(0)) + '</span>') +
-      '<span class="fc-foil" aria-hidden="true"></span>' +
+      '<span class="fc-foil" aria-hidden="true"></span><span class="fc-sweep" aria-hidden="true"></span>' +
       '<span class="fc-plate"><b>' + nm(f.name) + '</b><span class="fc-meta"><em>GM · ' + esc(f.gm || "Unknown") + '</em>' + fnNo(i) + '</span></span></span>' + fnBack(i) + '</span>';
   }
   /* card back: the RSC star, stamped, with a foil star over it and a thin echo around it */
@@ -3476,7 +3490,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<div class="fns-card"><div class="fns-cw"><div class="fcard big" id="fnbig">' + fanCard(f, i, true) + '</div>' +
         (f.wide && f.wide.img && !(FN.art > 0) ? '<div class="fns-brk" id="fnbrk" aria-hidden="true"><img src="' + esc(f.wide.img) + '" alt=""></div>' : '') + '</div>' +
         (arts.length ? '<div class="fns-arts" role="group" aria-label="Art">' + arts.map(function(a, k){ return '<button type="button" data-fnart="' + k + '" aria-pressed="' + (k === (FN.art || 0)) + '"><i><img src="' + esc(a.img) + '" alt=""></i>' + esc(a.label || "Art " + (k + 1)) + '</button>'; }).join("") + '</div>' : '') + '</div>' +
-      '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
+      '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i, true) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
         ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
