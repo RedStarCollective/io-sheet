@@ -1787,8 +1787,8 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fg-mem .fc-plate b{font-size:17px}
 @media (max-width:760px){ .fc-plate b{font-size:21px} }
 /* RSC members: a red star stamped on the top-left corner of the front */
-.fc-rsc{position:absolute;left:9px;top:9px;width:14px;height:17px;z-index:3;transform:translateZ(54px);opacity:.8;pointer-events:none}
-.fc-rsc svg{display:block;width:100%;height:100%;fill:#e8222d}
+.fc-rsc{position:absolute;left:9px;top:9px;width:14px;height:17px;z-index:3;transform:translateZ(54px);opacity:.75;pointer-events:none}
+.fc-rsc svg{display:block;width:100%;height:100%;fill:hsl(var(--h) calc(62% * var(--k,1)) 60%);filter:drop-shadow(0 0 3px hsla(var(--h),calc(80% * var(--k,1)),65%,.45))}
 .fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.95}
 .fcard.big .fc-rsc{left:14px;top:14px;width:21px;height:25px}
 .fg-mem .fc-rsc{left:6px;top:6px;width:10px;height:12px}
