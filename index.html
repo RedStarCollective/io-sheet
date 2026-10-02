@@ -1754,10 +1754,10 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fngms{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
 .fngms .lab{width:100%;margin:0 0 1px}
 .fngm{display:inline-flex;align-items:center;gap:7px;font:600 13.5px/1 var(--f-body);cursor:pointer;background:rgba(17,13,12,.74);border:1px solid var(--line);color:var(--ink-2);padding:6px 10px 5px;transition:border-color .15s,background .15s,color .15s}
-.fngm i{width:7px;height:7px;transform:rotate(45deg);background:hsl(var(--h) 65% 60%)}
+.fngm i{width:7px;height:7px;transform:rotate(45deg);background:hsl(var(--h) calc(65% * var(--k,1)) 60%)}
 .fngm b{font:600 11px var(--f-num);color:var(--ink-3)}
 .fngm:hover{border-color:var(--frame);color:var(--ink)}
-.fngm.on{color:#fff;border-color:hsl(var(--h,38) 60% 55%);background:hsla(var(--h,38),60%,40%,.24)}
+.fngm.on{color:#fff;border-color:hsl(var(--h,38) calc(60% * var(--k,1)) 55%);background:hsla(var(--h,38),calc(60% * var(--k,1)),40%,.24)}
 .fngm.on b{color:#fff}
 .fnshown{align-self:end;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap;padding-bottom:6px}
 .fngrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:56px 22px;padding-top:44px}
@@ -1786,14 +1786,14 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
   background:linear-gradient(115deg,transparent 20%,rgba(255,170,60,.55) 34%,rgba(255,240,200,.6) 44%,rgba(90,200,255,.5) 54%,rgba(190,110,255,.45) 63%,transparent 78%) var(--mx,50%) var(--my,50%)/280% 280% no-repeat}
 .fcard.big.spin .rb-foil{opacity:.32}
 /* everyone else: a typographic back in their GM's colour */
-.fc-back.fb2{background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 4px),radial-gradient(120% 80% at 50% 40%,hsl(var(--h) 38% 20%),hsl(var(--h) 34% 8%) 70%,#070505)}
-.fc-back.fb2::before{content:"";position:absolute;inset:8px;border:1px solid hsla(var(--h),60%,60%,.35);clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px))}
+.fc-back.fb2{background:repeating-linear-gradient(0deg,hsla(var(--h),calc(60% * var(--k,1)),60%,.05) 0 1px,transparent 1px 4px),radial-gradient(120% 80% at 50% 40%,hsl(var(--h) calc(38% * var(--k,1)) 20%),hsl(var(--h) calc(34% * var(--k,1)) 8%) 70%,#070505)}
+.fc-back.fb2::before{content:"";position:absolute;inset:8px;border:1px solid hsla(var(--h),calc(60% * var(--k,1)),60%,.35);clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px))}
 .f2-in{position:absolute;left:18px;right:18px;top:50%;transform:translateY(-55%);display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.f2-lab{font:700 9.5px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--h) 55% 66%)}
+.f2-lab{font:700 9.5px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--h) calc(55% * var(--k,1)) 66%)}
 .f2-gig{font:700 23px/1.02 var(--f-disp);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);overflow-wrap:anywhere}
-.f2-rule{width:40px;height:2px;background:hsl(var(--h) 65% 58%);margin:4px 0}
+.f2-rule{width:40px;height:2px;background:hsl(var(--h) calc(65% * var(--k,1)) 58%);margin:4px 0}
 .f2-gm{font:700 11px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
-.f2-no{position:absolute;left:18px;top:18px;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:hsl(var(--h) 55% 66%)}
+.f2-no{position:absolute;left:18px;top:18px;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:hsl(var(--h) calc(55% * var(--k,1)) 66%)}
 .f2-foot{position:absolute;left:0;right:0;bottom:18px;display:flex;align-items:center;justify-content:center;gap:7px;font:700 9.5px/1 var(--f-body);letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3)}
 .f2-foot svg{width:10px;height:12px;fill:#d11c28}
 .fcard.big .f2-gig{font-size:36px}
@@ -1819,32 +1819,32 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .fns-flip:hover{background:rgba(181,143,82,.12)}
 .fns-hint{font:500 13px var(--f-body);letter-spacing:0;color:var(--ink-3)}
 .fc-bg{position:absolute;inset:0;clip-path:var(--cut);overflow:hidden;
-  background:repeating-linear-gradient(0deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,hsla(var(--h),60%,60%,.05) 0 1px,transparent 1px 22px),
-    radial-gradient(120% 70% at 50% 28%,hsl(var(--h) 42% 25%),hsl(var(--h) 34% 9%) 66%,#070505)}
-.fc-gig{position:absolute;right:8px;top:30px;writing-mode:vertical-rl;font:700 30px/1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px hsla(var(--h),70%,66%,.32)}
+  background:repeating-linear-gradient(0deg,hsla(var(--h),calc(60% * var(--k,1)),60%,.05) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,hsla(var(--h),calc(60% * var(--k,1)),60%,.05) 0 1px,transparent 1px 22px),
+    radial-gradient(120% 70% at 50% 28%,hsl(var(--h) calc(42% * var(--k,1)) 25%),hsl(var(--h) calc(34% * var(--k,1)) 9%) 66%,#070505)}
+.fc-gig{position:absolute;right:8px;top:30px;writing-mode:vertical-rl;font:700 30px/1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px hsla(var(--h),calc(70% * var(--k,1)),66%,.32)}
 .fc-aw{position:absolute;inset:0;transform:translateZ(46px);pointer-events:none;clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px))}
 .fc-art{position:absolute;left:50%;bottom:0;height:112%;width:auto;max-width:none;object-fit:contain;object-position:50% 100%;transform:translate(calc(-50% + var(--px,0) * 12px),calc(var(--py,0) * 7px));filter:drop-shadow(0 10px 14px rgba(0,0,0,.6));pointer-events:none;transition:filter .3s}
 .fc-art.wide{height:auto;width:112%}
-.fc-none{position:absolute;inset:0;display:grid;place-items:center;font:700 90px/1 var(--f-disp);color:hsla(var(--h),50%,60%,.25)}
+.fc-none{position:absolute;inset:0;display:grid;place-items:center;font:700 90px/1 var(--f-disp);color:hsla(var(--h),calc(50% * var(--k,1)),60%,.25)}
 .fc-foil{position:absolute;inset:0;clip-path:var(--cut);opacity:0;transition:opacity .35s;mix-blend-mode:color-dodge;pointer-events:none;transform:translateZ(50px);
   background:linear-gradient(115deg,transparent 22%,hsla(calc(var(--h) + 40),100%,70%,.32) 38%,rgba(255,255,255,.42) 47%,hsla(calc(var(--h) + 170),100%,70%,.28) 56%,transparent 74%) var(--mx,50%) var(--my,50%)/260% 260% no-repeat}
 .fc-plate{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 11px;clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));transform:translateZ(58px);
   background:linear-gradient(0deg,rgba(6,5,5,.97) 34%,rgba(6,5,5,.78) 62%,transparent)}
 .fc-plate b{display:block;font:600 19px/1.05 var(--f-cond);color:transparent;-webkit-background-clip:text;background-clip:text;
-  background:linear-gradient(100deg,var(--ink) 38%,#fff 47%,hsl(var(--h) 90% 88%) 50%,var(--ink) 60%) var(--mx,140%) 0/260% 100% no-repeat,var(--ink);-webkit-background-clip:text;background-clip:text;
+  background:linear-gradient(100deg,var(--ink) 38%,#fff 47%,hsl(var(--h) calc(90% * var(--k,1)) 88%) 50%,var(--ink) 60%) var(--mx,140%) 0/260% 100% no-repeat,var(--ink);-webkit-background-clip:text;background-clip:text;
   filter:drop-shadow(0 1px 0 rgba(0,0,0,.85)) drop-shadow(0 -1px 0 rgba(255,255,255,.08))}
 .fc-plate b .bt{font-size:12px}
-.fc-plate em{display:block;margin-top:4px;font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:hsl(var(--h) 70% 72%)}
+.fc-plate em{display:block;margin-top:4px;font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:hsl(var(--h) calc(70% * var(--k,1)) 72%)}
 .fc-meta{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:4px}
 .fc-meta em{margin:0!important;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:760px){ .fngrid .fc-no{display:none} }
-.fc-no{font:600 10px/1 var(--f-num);letter-spacing:.1em;color:hsl(var(--h) 55% 62%);white-space:nowrap}
+.fc-no{font:600 10px/1 var(--f-num);letter-spacing:.1em;color:hsl(var(--h) calc(55% * var(--k,1)) 62%);white-space:nowrap}
 .fc-no i{font-style:normal;color:var(--ink-3)}
 .fc-edge{position:absolute;inset:0;clip-path:var(--cut);padding:1.5px;pointer-events:none;transform:translateZ(16px);
-  background:linear-gradient(160deg,hsla(var(--h),75%,68%,.95),hsla(var(--h),40%,32%,.55) 38%,hsla(var(--h),40%,28%,.5) 62%,hsla(var(--h),75%,62%,.9));
+  background:linear-gradient(160deg,hsla(var(--h),calc(75% * var(--k,1)),68%,.95),hsla(var(--h),calc(40% * var(--k,1)),32%,.55) 38%,hsla(var(--h),calc(40% * var(--k,1)),28%,.5) 62%,hsla(var(--h),calc(75% * var(--k,1)),62%,.9));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .fcard:hover .fc-foil,.fcard.tilt .fc-foil{opacity:.6}
-.fc-art{filter:drop-shadow(calc(var(--px,0) * 5px) calc(var(--py,0) * 5px) 1.5px hsla(var(--h),85%,70%,var(--rim,0))) drop-shadow(0 10px 14px rgba(0,0,0,.6))}
+.fc-art{filter:drop-shadow(calc(var(--px,0) * 5px) calc(var(--py,0) * 5px) 1.5px hsla(var(--h),calc(85% * var(--k,1)),70%,var(--rim,0))) drop-shadow(0 10px 14px rgba(0,0,0,.6))}
 .fcard:hover,.fcard.tilt{--rim:.7}
 .fcard.big{--rim:.6}
 .fcard:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
@@ -1860,7 +1860,7 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 }
 /* depth: the light and the gig text slide against the portrait as the card turns */
 .fc-bg::after{content:"";position:absolute;inset:-20%;pointer-events:none;transition:background-position .5s;
-  background:radial-gradient(38% 28% at calc(50% + var(--px,0) * -40%) calc(38% + var(--py,0) * -40%),hsla(var(--h),70%,60%,.32),transparent 70%)}
+  background:radial-gradient(38% 28% at calc(50% + var(--px,0) * -40%) calc(38% + var(--py,0) * -40%),hsla(var(--h),calc(70% * var(--k,1)),60%,.32),transparent 70%)}
 .fc-gig{transform:translate(calc(var(--px,0) * -18px),calc(var(--py,0) * -14px));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .fc-art{transition:filter .3s,transform .5s cubic-bezier(.2,.7,.2,1)}
 .fcard.tilt .fc-art,.fcard.tilt .fc-gig,.fcard.big .fc-art,.fcard.big .fc-gig{transition:filter .3s,transform .08s linear}
@@ -1913,10 +1913,10 @@ body.fnlock{overflow:hidden}
 .fns-dl{margin:0 0 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .fns-dl dt{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
 .fns-dl dd{margin:0;font:500 18px/1.25 var(--f-cond);color:var(--ink)}
-.fns-gm{display:inline-flex;align-items:center;gap:8px;font:600 15px/1 var(--f-body);cursor:pointer;background:hsla(var(--h),60%,40%,.2);border:1px solid hsl(var(--h) 60% 55%);color:#fff;padding:6px 10px 5px}
-.fns-gm i{width:8px;height:8px;transform:rotate(45deg);background:hsl(var(--h) 65% 60%)}
-.fns-gm:hover{background:hsla(var(--h),60%,40%,.35)}
-.fns-story{margin:0;padding-left:14px;border-left:2px solid hsl(var(--h) 60% 55%);font-size:16.5px;line-height:1.6;color:var(--ink-2)}
+.fns-gm{display:inline-flex;align-items:center;gap:8px;font:600 15px/1 var(--f-body);cursor:pointer;background:hsla(var(--h),calc(60% * var(--k,1)),40%,.2);border:1px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);color:#fff;padding:6px 10px 5px}
+.fns-gm i{width:8px;height:8px;transform:rotate(45deg);background:hsl(var(--h) calc(65% * var(--k,1)) 60%)}
+.fns-gm:hover{background:hsla(var(--h),calc(60% * var(--k,1)),40%,.35)}
+.fns-story{margin:0;padding-left:14px;border-left:2px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);font-size:16.5px;line-height:1.6;color:var(--ink-2)}
 .fns-story.none{color:var(--ink-3);font-style:italic}
 .fns-nav{display:flex;align-items:center;gap:12px;margin-top:24px;font:600 12px var(--f-num);color:var(--ink-3)}
 .fns-nav button{width:36px;height:32px;font:inherit;font-size:15px;cursor:pointer;background:rgba(17,13,12,.8);border:1px solid var(--line);color:var(--ink-2)}
@@ -1939,6 +1939,18 @@ body.fnlock{overflow:hidden}
   .fns-card{width:min(250px,70vw);justify-self:center}
   .fns-info h2{font-size:30px}
 }
+/* spotlight extras: gig link, role abilities (only where a GM gave them), character sheet */
+.fns-dl a.fns-link{color:var(--ink);text-decoration:none;border-bottom:1px solid hsl(var(--h) calc(60% * var(--k,1)) 55%)}
+.fns-dl a.fns-link:hover{color:#fff;border-bottom-color:#fff}
+.fns-link i{font-style:normal;font-size:.72em;margin-left:5px;color:hsl(var(--h) calc(70% * var(--k,1)) 72%)}
+.fns-roles{grid-column:1/-1;padding-top:12px;border-top:1px dashed var(--line)}
+.fns-roles dd{display:flex;flex-wrap:wrap;gap:6px}
+.fns-role{display:inline-flex;align-items:baseline;gap:7px;font:600 15px/1 var(--f-cond);color:var(--ink);background:var(--cell);border:1px solid var(--line);border-left:2px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);padding:5px 9px 4px}
+.fns-role b{font:600 14px/1 var(--f-num);color:var(--gold)}
+.fns-nav .fns-flip{width:auto;height:auto;font-size:12px}
+.fns-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.fns-acts a{font:600 12px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;background:rgba(17,13,12,.8);border:1px solid var(--frame);color:var(--gold);padding:9px 14px 8px}
+.fns-acts a:hover{background:rgba(181,143,82,.12)}
 /* Iō portrait cut-outs (desktop): head breaks the top of the frame; the fist version also breaks out to the left.
    .iopw is the figure's box (sized by height + aspect ratio); the art, the metal sheen and the smoke all sit in it. */
 .iogold,.iosmoke{display:none}
@@ -3245,7 +3257,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     else persist().then(done);
   }
   function fnGMs(){ var c = {}; FL().forEach(function(f){ var g = f.gm || "Unknown"; c[g] = (c[g] || 0) + 1; }); return Object.keys(c).sort(function(a, b){ return c[b] - c[a] || a.localeCompare(b); }).map(function(g){ return [g, c[g]]; }); }
-  function fnHue(gm){ var all = fnGMs().map(function(x){ return x[0]; }).sort(), i = all.indexOf(gm || "Unknown"); return FN_HUES[(i < 0 ? 0 : i) % FN_HUES.length]; }
+  /* GM colour: io.json fans.gmColors gives each GM [hue, "strong" | "soft"]; a GM not listed there falls back to the old hue list, soft.
+     Returned as "hue;--k:n" so it drops straight into style="--h:..." (--k scales every saturation on the card). */
+  function fnHue(gm){ gm = gm || "Unknown"; var c = S.fans && S.fans.gmColors && S.fans.gmColors[gm];
+    if (c) return c[0] + ";--k:" + (c[1] === "soft" ? ".38" : "1.4");
+    var all = fnGMs().map(function(x){ return x[0]; }).sort(), i = all.indexOf(gm); return FN_HUES[(i < 0 ? 0 : i) % FN_HUES.length] + ";--k:.38"; }
+  function fnUrl(u){ u = String(u || "").trim(); return /^https?:\/\//i.test(u) || /^[\w.\-\/ %()]+$/.test(u) && u.indexOf("..") < 0 ? u : ""; }
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
   function fanCard(f, i, big){
     var ar = f.w && f.h ? f.w / f.h : .8;
@@ -3315,8 +3332,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnHue(f.gm) + '">' +
       '<div class="fns-card"><div class="fcard big' + (f.foil ? ' foil' : '') + '" id="fnbig">' + fanCard(f, i, true) + '</div></div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i) + '</p><h2>' + nm(f.name) + '</h2>' +
-        '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + esc(f.gig || "Unknown") + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div></dl>' +
+        '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
+        ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
+        (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
         '<div class="fns-nav"><button type="button" class="fns-flip" data-fnflip="1">Flip card</button><span class="fns-hint">Drag the card to turn it</span></div>' +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
       '</div><button type="button" class="fns-x" data-fnclose="1" aria-label="Close">×</button></div>';

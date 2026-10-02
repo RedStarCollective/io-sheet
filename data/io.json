@@ -7625,10 +7625,11 @@
     "gig": "STARBORNE SHOWDOWN, Die For Metal",
     "story": "Highrider fan that now works at the RSC as Morro Rock's chosen Highrider liason. Posse Member. Has appeared on: Requiem for Red, Die For Metal.",
     "img": "img/fans/kerubo-whetu.webp",
-    "w": 629,
-    "h": 926,
+    "w": 653,
+    "h": 960,
     "rsc": true,
-    "foil": true
+    "foil": true,
+    "link": "https://discord.com/channels/1061931924010045522/1214315666358935604/1216775664225484940"
    },
    {
     "name": "James Moore",
@@ -7637,7 +7638,8 @@
     "story": "FBC Murder Machine. An established bond forged through a shared hate for Militech. He was able to be called upon to hit a crashed transport.",
     "img": "img/fans/james-moore.webp",
     "w": 652,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1429617003366187140/1430343483570258053"
    },
    {
     "name": "Lunatic",
@@ -7648,7 +7650,18 @@
     "w": 653,
     "h": 960,
     "rsc": true,
-    "foil": true
+    "foil": true,
+    "link": "https://discord.com/channels/1061931924010045522/1276229921798225951/1277021695261147220",
+    "roles": [
+     {
+      "role": "Medtech",
+      "rank": 7
+     },
+     {
+      "role": "Solo",
+      "rank": 2
+     }
+    ]
    },
    {
     "name": "Alain",
@@ -7657,7 +7670,8 @@
     "story": "One of Io's Highrider liason on Morro Rock. Was the main point of contact for bringing him back into the fold after the Starborne Shodown.",
     "img": "img/fans/alain.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1214315666358935604/1216775664225484940"
    },
    {
     "name": "Avery",
@@ -7667,7 +7681,8 @@
     "img": "img/fans/avery.webp",
     "w": 653,
     "h": 960,
-    "rsc": true
+    "rsc": true,
+    "link": "https://discord.com/channels/1061931924010045522/1131696962597572660/1132744804728586351"
    },
    {
     "name": "Feanor",
@@ -7676,7 +7691,8 @@
     "story": "The leader of the Line of Feanor, a protector gang in southern SNC, is in a close alliance with the RSC with mutual aid agreements in place. Was convinced after Io, Le Fou and the RSC helped defend them from a Bozo assault.",
     "img": "img/fans/feanor.webp",
     "w": 460,
-    "h": 676
+    "h": 676,
+    "link": "https://discord.com/channels/1061931924010045522/1238390891442606091/1238759515617366038"
    },
    {
     "name": "Peter Parker",
@@ -7685,7 +7701,8 @@
     "story": "A troubled man who was working with a \"Avengers\" posergang in the Heywood. Io convinced him to leave the group and has been helping to treat alot of the delusions he's under.",
     "img": "img/fans/peter-parker.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1469865659054948667/1472090338737782885"
    },
    {
     "name": "Linda Yamamoto",
@@ -7694,7 +7711,13 @@
     "story": "Segotari Exec in Counterintel. Kevin's Mom. Profecient Martial Artist. On again, off again private martial arts trainee. Occasionally goes by \"Panther Zero.\" Nature or degree of relationship between Io and her is not something he'll comment on.",
     "img": "img/fans/linda-yamamoto.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1437616696662823042/1438388573173710909",
+    "roles": [
+     {
+      "role": "Exec"
+     }
+    ]
    },
    {
     "name": "Red Guardian",
@@ -7703,7 +7726,8 @@
     "story": "Formerly a Captain America poserganger and leader of a small guardian gang in Heywood. Was made a fan of Io's on a following gig as he's worked to slowly radicalize him.",
     "img": "img/fans/red-guardian.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1469865659054948667/1472090338737782885"
    },
    {
     "name": "Nyla [Formerly Dong Mei]",
@@ -7711,8 +7735,9 @@
     "gig": "Antizen Mindfulness Retreat",
     "story": "",
     "img": "img/fans/nyla.webp",
-    "w": 555,
-    "h": 816
+    "w": 594,
+    "h": 874,
+    "link": "https://discord.com/channels/1061931924010045522/1394871782686593075/1396167872987791451"
    },
    {
     "name": "Zhang Ha-Il",
@@ -7721,7 +7746,8 @@
     "story": "Former Kanzaki siblings that Io has had multiple run-ins with. Including helping them comedown from an Anti-Cerebral induced cyberpsycho episode and rescuing them from execution.",
     "img": "img/fans/zhang-ha-il.webp",
     "w": 306,
-    "h": 450
+    "h": 450,
+    "link": "https://discord.com/channels/1061931924010045522/1465912930540195872/1467267039956697148"
    },
    {
     "name": "Killer Kang Gama",
@@ -7729,8 +7755,9 @@
     "gig": "Dying of Laughter",
     "story": "Former Kanzaki siblings that Io has had multiple run-ins with. Including helping them comedown from an Anti-Cerebral induced cyberpsycho episode and rescuing them from execution.",
     "img": "img/fans/killer-kang-gama.webp",
-    "w": 349,
-    "h": 513
+    "w": 652,
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1150552341490188429/1150649487421870140"
    },
    {
     "name": "Misty",
@@ -7739,7 +7766,8 @@
     "story": "Bartender at the Leylines. Slowly radicalized and shown the light of Marxiism. Top Ranked ELO player, at one point.",
     "img": "img/fans/misty.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1188667217680810075/1189995385591177286"
    },
    {
     "name": "Sly Tom",
@@ -7747,8 +7775,14 @@
     "gig": "Exodus",
     "story": "Hot Zone survivor. Tech",
     "img": "img/fans/sly-tom.webp",
-    "w": 501,
-    "h": 737
+    "w": 653,
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961",
+    "roles": [
+     {
+      "role": "Tech"
+     }
+    ]
    },
    {
     "name": "Evangeline",
@@ -7757,7 +7791,13 @@
     "story": "A Fixer that works with NCPD, they go on a mission of vengeance and she's convinced to maybe embrace another way.",
     "img": "img/fans/evangeline.webp",
     "w": 360,
-    "h": 530
+    "h": 530,
+    "link": "https://discord.com/channels/1061931924010045522/1422007818533208095/1422464006941315203",
+    "roles": [
+     {
+      "role": "Fixer"
+     }
+    ]
    },
    {
     "name": "Lightning Void",
@@ -7765,8 +7805,14 @@
     "gig": "Exodus",
     "story": "Hot Zone survivor. Solo",
     "img": "img/fans/lightning-void.webp",
-    "w": 308,
-    "h": 454
+    "w": 578,
+    "h": 851,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961",
+    "roles": [
+     {
+      "role": "Solo"
+     }
+    ]
    },
    {
     "name": "Delilah Tinubu",
@@ -7774,8 +7820,9 @@
     "gig": "Heart Beat",
     "story": "Formerly Jezebel Twist. Io helped her get out from a very dangerous situation. She now has a job at fitness center on Morro Rock and spends her time at the People's Center. Training. Io is likely going to take her under as an apprentice.",
     "img": "img/fans/delilah-tinubu.webp",
-    "w": 418,
-    "h": 615
+    "w": 653,
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1434620088585031812/1436955005218328687"
    },
    {
     "name": "Marco Rojas",
@@ -7784,7 +7831,8 @@
     "story": "Leader of a self-organized cell in the SNC and fan of Iō. Is trying to create collective action in his own community in SNC and the University District. He's a former soldier, became a firefighter after the 4th corporate war to make a difference, was disillusioned by working for the city, and is using his skills to make a real change",
     "img": "img/fans/marco-rojas.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1142246552547643402/1143737642618474516"
    },
    {
     "name": "Marcel Salahuddin",
@@ -7793,7 +7841,13 @@
     "story": "Hot Zone survivor. Medtech",
     "img": "img/fans/marcel-salahuddin.webp",
     "w": 227,
-    "h": 334
+    "h": 334,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961",
+    "roles": [
+     {
+      "role": "Medtech"
+     }
+    ]
    },
    {
     "name": "Scorpia",
@@ -7802,7 +7856,13 @@
     "story": "Hot Zone survivor. Former Maelstrom. Solo",
     "img": "img/fans/scorpia.webp",
     "w": 233,
-    "h": 343
+    "h": 343,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961",
+    "roles": [
+     {
+      "role": "Solo"
+     }
+    ]
    },
    {
     "name": "Merle Gerber",
@@ -7811,7 +7871,13 @@
     "story": "Hot Zone survivor. Tech",
     "img": "img/fans/merle-gerber.webp",
     "w": 184,
-    "h": 270
+    "h": 270,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961",
+    "roles": [
+     {
+      "role": "Tech"
+     }
+    ]
    },
    {
     "name": "Bjork the Orc",
@@ -7820,7 +7886,13 @@
     "story": "Medtech who hid the corpse of Jason Bride for Io. Cryotank was stolen and then Io found him a replacement.",
     "img": "img/fans/bjork-the-orc.webp",
     "w": 374,
-    "h": 550
+    "h": 550,
+    "link": "https://discord.com/channels/1061931924010045522/1415134431953555577/1418504664491495536",
+    "roles": [
+     {
+      "role": "Medtech"
+     }
+    ]
    },
    {
     "name": "Old Rio",
@@ -7829,7 +7901,8 @@
     "story": "Saved Old Rio's restuarant from a hostile takeover. Io does autograph signings there and general events. Rio lets him use the venue on occasion for meetings and other things. Nomar grew up with Papa Rio's as a neighborhood fixture",
     "img": "img/fans/old-rio.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1150552341490188429/1150649487421870140"
    },
    {
     "name": "Sonja",
@@ -7838,7 +7911,8 @@
     "story": "Hot Zone survivor. Salvager",
     "img": "img/fans/sonja.webp",
     "w": 315,
-    "h": 463
+    "h": 463,
+    "link": "https://discord.com/channels/1061931924010045522/1396958501762240606/1401962845624864961"
    },
    {
     "name": "Cleo RowRow",
@@ -7847,7 +7921,8 @@
     "story": "Formerly known as Leo ALba.",
     "img": "img/fans/cleo-rowrow.webp",
     "w": 326,
-    "h": 480
+    "h": 480,
+    "link": "https://discord.com/channels/1061931924010045522/1447957121357582470/1449803718106022038"
    },
    {
     "name": "MiMi Muramasa",
@@ -7856,7 +7931,14 @@
     "story": "Netrunner, spy, and former member of the Muramasa Queens Ladies Team. She was convinced to fake her death in the aftermath of this gig. Io's been focused on helping her build a new life and a real sense of community.",
     "img": "img/fans/mimi-muramasa.webp",
     "w": 438,
-    "h": 644
+    "h": 644,
+    "link": "https://discord.com/channels/1061931924010045522/1279826684308357271/1280589671734444166",
+    "more": "https://discord.com/channels/1061931924010045522/1437616696662823042/1438388573173710909",
+    "roles": [
+     {
+      "role": "Netrunner"
+     }
+    ]
    },
    {
     "name": "Cas",
@@ -7891,8 +7973,9 @@
     "gig": "Plata, Plata, Plata",
     "story": "Highrider. Member of the Red Scars. Polycule specialist.",
     "img": "img/fans/haymaker.webp",
-    "w": 453,
-    "h": 665
+    "w": 570,
+    "h": 838,
+    "link": "https://discord.com/channels/1061931924010045522/1486110246282989709/1486186118822232166"
    },
    {
     "name": "Mama Silver",
@@ -7901,7 +7984,13 @@
     "story": "Heywood Fixer. Owner of The Threadbare. Left a good impression after helping to repel Top/SEC from her bar.",
     "img": "img/fans/mama-silver.webp",
     "w": 316,
-    "h": 465
+    "h": 465,
+    "link": "https://discord.com/channels/1061931924010045522/1486110246282989709/1486186118822232166",
+    "roles": [
+     {
+      "role": "Fixer"
+     }
+    ]
    },
    {
     "name": "Taz",
@@ -7910,7 +7999,13 @@
     "story": "Former Biotechnica Researcher that Io helped extract on a gig as Zolo. Now trains as a Medtech in the People's Center clinic.",
     "img": "img/fans/taz.webp",
     "w": 652,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1485104087195324587/1486980919091789895",
+    "roles": [
+     {
+      "role": "Medtech"
+     }
+    ]
    },
    {
     "name": "Ellie",
@@ -7918,8 +8013,8 @@
     "gig": "Blood For Blood",
     "story": "12 year old volunteer with the Gardeners. Io helped her after the dead tomato incident. Dog?!",
     "img": "img/fans/ellie.webp",
-    "w": 323,
-    "h": 475
+    "w": 485,
+    "h": 713
    },
    {
     "name": "Zina The Mad Dog",
@@ -7927,8 +8022,9 @@
     "gig": "Let's Start A Riot",
     "story": "Offered to drive Io's car during an op to help the Zoner's in covering a protest at City Hall. Fellow Martial Artist. Part of the Order of the Shining Blade, who run a bunch of gyms.",
     "img": "img/fans/zina-the-mad-dog.webp",
-    "w": 645,
-    "h": 948
+    "w": 652,
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1475144716659200000/1477170605634883626"
    },
    {
     "name": "Edna",
@@ -7937,7 +8033,8 @@
     "story": "An old lady who's enamored wih Iō. Likely bodysculpted to be an old lady. Patron of the Singing Mirage.",
     "img": "img/fans/edna.webp",
     "w": 652,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1481210659072118876/1481905539049979987"
    },
    {
     "name": "Ramos Ortiz",
@@ -7946,7 +8043,8 @@
     "story": "Head of the EZLN faction that took control of Oaxaca.",
     "img": "img/fans/ramos-ortiz.webp",
     "w": 228,
-    "h": 335
+    "h": 335,
+    "link": "https://discord.com/channels/1061931924010045522/1478511742924624043/1482593036247629986"
    },
    {
     "name": "Maryam Odeh",
@@ -7961,13 +8059,15 @@
     "name": "Fight Club Spectator",
     "gm": "Glam",
     "gig": "Do The Shim-Sham",
-    "story": ""
+    "story": "",
+    "link": "https://discord.com/channels/1061931924010045522/1199532999050539039/1200845997933346886"
    },
    {
     "name": "Fight Club Spectator",
     "gm": "Glam",
     "gig": "Do The Shim-Sham",
-    "story": ""
+    "story": "",
+    "link": "https://discord.com/channels/1061931924010045522/1199532999050539039/1200845997933346886"
    },
    {
     "name": "Velvet",
@@ -7976,7 +8076,8 @@
     "story": "",
     "img": "img/fans/velvet.webp",
     "w": 549,
-    "h": 808
+    "h": 808,
+    "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
    },
    {
     "name": "Clips",
@@ -7985,7 +8086,8 @@
     "story": "",
     "img": "img/fans/clips.webp",
     "w": 456,
-    "h": 670
+    "h": 670,
+    "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
    },
    {
     "name": "Patchwork",
@@ -7994,7 +8096,8 @@
     "story": "",
     "img": "img/fans/patchwork.webp",
     "w": 416,
-    "h": 612
+    "h": 612,
+    "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
    },
    {
     "name": "Gasket",
@@ -8003,7 +8106,8 @@
     "story": "",
     "img": "img/fans/gasket.webp",
     "w": 228,
-    "h": 336
+    "h": 336,
+    "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
    },
    {
     "name": "Rollins",
@@ -8012,7 +8116,8 @@
     "story": "",
     "img": "img/fans/rollins.webp",
     "w": 460,
-    "h": 676
+    "h": 676,
+    "link": "https://discord.com/channels/1061931924010045522/1518270993922134186/1518416303055179968"
    },
    {
     "name": "Jamal Rhodes",
@@ -8021,13 +8126,15 @@
     "story": "Ex-Petrochem Security Captain after the lab he was working at was raided by an Edgerunner team",
     "img": "img/fans/jamal-rhodes.webp",
     "w": 360,
-    "h": 530
+    "h": 530,
+    "link": "https://discord.com/channels/1061931924010045522/1518270993922134186/1518416303055179968"
    },
    {
     "name": "Bira",
     "gm": "TAC",
     "gig": "On Thy I speak Abandonment",
-    "story": ""
+    "story": "",
+    "link": "https://discord.com/channels/1061931924010045522/1520466931109593158/1520955396561305860"
    },
    {
     "name": "Artyom",
@@ -8036,7 +8143,8 @@
     "story": "",
     "img": "img/fans/artyom.webp",
     "w": 299,
-    "h": 439
+    "h": 439,
+    "link": "https://discord.com/channels/1061931924010045522/1520121749633630339/1525012601740853299"
    },
    {
     "name": "Mohammed",
@@ -8045,7 +8153,8 @@
     "story": "",
     "img": "img/fans/mohammed.webp",
     "w": 551,
-    "h": 811
+    "h": 811,
+    "link": "https://discord.com/channels/1061931924010045522/1498851781885825225/1527362529737576528"
    },
    {
     "name": "Anders",
@@ -8054,7 +8163,8 @@
     "story": "",
     "img": "img/fans/anders.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1521458621299294308/1523264115664224356"
    },
    {
     "name": "RipSaw",
@@ -8063,7 +8173,8 @@
     "story": "",
     "img": "img/fans/ripsaw.webp",
     "w": 565,
-    "h": 831
+    "h": 831,
+    "link": "https://discord.com/channels/1061931924010045522/1504874923267592375/1505663407112720544"
    },
    {
     "name": "Silhoutte",
@@ -8072,7 +8183,8 @@
     "story": "",
     "img": "img/fans/silhoutte.webp",
     "w": 452,
-    "h": 665
+    "h": 665,
+    "link": "https://discord.com/channels/1061931924010045522/1331141460598194176/1457156208346529959"
    },
    {
     "name": "Hiro",
@@ -8081,7 +8193,8 @@
     "story": "NCU students Io has tasked with spying on Hiro's weekly Saturday class.",
     "img": "img/fans/hiro.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1219425928728281128/1225563111096848404"
    },
    {
     "name": "Maisey",
@@ -8090,7 +8203,8 @@
     "story": "NCU students Io has tasked with spying on Hiro's weekly Saturday class.",
     "img": "img/fans/maisey.webp",
     "w": 437,
-    "h": 642
+    "h": 642,
+    "link": "https://discord.com/channels/1061931924010045522/1219425928728281128/1225563111096848404"
    },
    {
     "name": "Derek",
@@ -8099,7 +8213,8 @@
     "story": "SNC Scrappers.",
     "img": "img/fans/derek.webp",
     "w": 418,
-    "h": 614
+    "h": 614,
+    "link": "https://discord.com/channels/1061931924010045522/1219425928728281128/1225563111096848404"
    },
    {
     "name": "Monica",
@@ -8108,7 +8223,8 @@
     "story": "NCU students Io has tasked with spying on Hiro's weekly Saturday Class",
     "img": "img/fans/monica.webp",
     "w": 462,
-    "h": 680
+    "h": 680,
+    "link": "https://discord.com/channels/1061931924010045522/1219425928728281128/1225563111096848404"
    },
    {
     "name": "Damien",
@@ -8117,7 +8233,8 @@
     "story": "SNC Scrappers.",
     "img": "img/fans/damien.webp",
     "w": 568,
-    "h": 836
+    "h": 836,
+    "link": "https://discord.com/channels/1061931924010045522/1219425928728281128/1225563111096848404"
    },
    {
     "name": "Hippolyta",
@@ -8126,7 +8243,8 @@
     "story": "Manager at Morro Rock Fitness & Health. Io asked a favor to get Delilah hired.",
     "img": "img/fans/hippolyta.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1434620088585031812/1436955005218328687"
    },
    {
     "name": "Mark Bilix",
@@ -8135,7 +8253,8 @@
     "story": "",
     "img": "img/fans/mark-bilix.webp",
     "w": 652,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1434620088585031812/1436955005218328687"
    },
    {
     "name": "Dr. Vergali",
@@ -8144,31 +8263,37 @@
     "story": "",
     "img": "img/fans/dr-vergali.webp",
     "w": 646,
-    "h": 950
+    "h": 950,
+    "link": "https://discord.com/channels/1061931924010045522/1403318002950078545/1404494561400852582"
    },
    {
     "name": "Happy",
     "gm": "Valk",
     "gig": "Dying of Laughter",
-    "story": "A former ex Julliard turned jaded Bozo that was recruited by Io in the aftermath of the following gig. Is a sort of secret friend of the RSC's. More details here.",
+    "story": "A former ex Julliard turned jaded Bozo that was recruited by Io in the aftermath of the following gig. Is a sort of secret friend of the RSC's.",
     "img": "img/fans/happy.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1150552341490188429/1150649487421870140",
+    "more": "https://discord.com/channels/1061931924010045522/1308108135273332746/1308111699731026070"
    },
    {
     "name": "Sandy",
     "gm": "Valk",
     "gig": "Dying of Laughter",
-    "story": "A depressed ex Julliard turned Bozo that was recruited by Io. Now operates as the right hand for Le Fou. More details here",
+    "story": "A depressed ex Julliard turned Bozo that was recruited by Io. Now operates as the right hand for Le Fou.",
     "img": "img/fans/sandy.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1150552341490188429/1150649487421870140",
+    "more": "https://discord.com/channels/1061931924010045522/1308108135273332746/1308111608190603416"
    },
    {
     "name": "Annette",
     "gm": "Alex",
     "gig": "Close Shave",
-    "story": "After Clips and their crew shot her dog Aarfi, Io made a scene of it in order for them to pay reperations."
+    "story": "After Clips and their crew shot her dog Aarfi, Io made a scene of it in order for them to pay reperations.",
+    "link": "https://discord.com/channels/1061931924010045522/1508240029879763135/1508360853265711256"
    },
    {
     "name": "Kat",
@@ -8177,7 +8302,8 @@
     "story": "Syndicalist of the Solo's Union. Regular at Dai's weekly education sessions. Became a fan after Io took over for one of her lessons and made some appealing points. Vaspian's Sister.",
     "img": "img/fans/kat.webp",
     "w": 652,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1553168737551519864/1553285574562152520"
    },
    {
     "name": "Garm",
@@ -8185,8 +8311,16 @@
     "gig": "Spartoi [FANS]",
     "story": "Fixer. Nomad. Head of the Hellhounds, a Nomad pack. Met Io in the aftermath of a Toe Cutter attack on an AV. Decided to help him and the crew out in finding the ones responsible by sending her sister Fenrir",
     "img": "img/fans/garm.webp",
-    "w": 653,
-    "h": 960
+    "w": 652,
+    "h": 960,
+    "roles": [
+     {
+      "role": "Fixer"
+     },
+     {
+      "role": "Nomad"
+     }
+    ]
    },
    {
     "name": "Hare",
@@ -8204,7 +8338,14 @@
     "story": "Rocker 4. Edgerunner. Regular at the Sword and Sheate. Became fan when RCL attacked the Sword and Sheathe. Io convinced her and her crew to help out.",
     "img": "img/fans/tricia-morrison.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693",
+    "roles": [
+     {
+      "role": "Rocker",
+      "rank": 4
+     }
+    ]
    },
    {
     "name": "Sabrina Reed",
@@ -8213,7 +8354,14 @@
     "story": "Netrunner 5. Edgerunner. Regular at the Sword and Sheate. Became fan when RCL attacked the Sword and Sheathe. Io convinced her and her crew to help out.",
     "img": "img/fans/sabrina-reed.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693",
+    "roles": [
+     {
+      "role": "Netrunner",
+      "rank": 5
+     }
+    ]
    },
    {
     "name": "Heather Leks",
@@ -8221,8 +8369,15 @@
     "gig": "Swords Will Be Shaken [2 PARTER]",
     "story": "Solo 4. Edgerunner. Regular at the Sword and Sheate. Became fan when RCL attacked the Sword and Sheathe. Io convinced her and her crew to help out.",
     "img": "img/fans/heather-leks.webp",
-    "w": 499,
-    "h": 733
+    "w": 598,
+    "h": 880,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693",
+    "roles": [
+     {
+      "role": "Solo",
+      "rank": 4
+     }
+    ]
    },
    {
     "name": "Teresa Gardner",
@@ -8231,7 +8386,8 @@
     "story": "NCU Biology Student. Regular at the Sword and Sheathe. Became fan when RCL attacked the Sword and Sheathe",
     "img": "img/fans/teresa-gardner.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693"
    },
    {
     "name": "Kathryn Sullivan",
@@ -8240,7 +8396,8 @@
     "story": "Employee of the Sword and Sheath who offers her services in ELO as a drop-in party member. She plays a Warmheart healer named Reida Starlight.",
     "img": "img/fans/kathryn-sullivan.webp",
     "w": 653,
-    "h": 960
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693"
    },
    {
     "name": "Charles Dyer",
@@ -8249,7 +8406,8 @@
     "story": "Financial analyst at the North Heywood Community Credit Union. Regular at the Sword and Sheathe.",
     "img": "img/fans/charles-dyer.webp",
     "w": 432,
-    "h": 636
+    "h": 636,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693"
    },
    {
     "name": "Andre Duncan",
@@ -8258,7 +8416,8 @@
     "story": "NCU Dropout. Teresa's Boyfirend. Intern at Neocity Enterprises, Galadriel's Neocorp. Regular at the Sword and Sheathe. Became fan when RCL attacked the Sword and Sheathe",
     "img": "img/fans/andre-duncan.webp",
     "w": 408,
-    "h": 600
+    "h": 600,
+    "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693"
    },
    {
     "name": "Friday",
@@ -8275,8 +8434,15 @@
     "gig": "Bloodstained Dolls, One Battle After Another",
     "story": "Media 6 with the People's Independent Press. Began as a Professional Services Io hired for a human trafficking sting. Became a fan later. Was accompanying Io throughout the events of One Battle After Anoter.",
     "img": "img/fans/sidney-scoops.webp",
-    "w": 261,
-    "h": 385
+    "w": 338,
+    "h": 498,
+    "link": "https://discord.com/channels/1061931924010045522/1498851781885825225/1527562570532126870",
+    "roles": [
+     {
+      "role": "Media",
+      "rank": 6
+     }
+    ]
    },
    {
     "name": "Big Joe",
@@ -8284,8 +8450,9 @@
     "gig": "One Battle After Another",
     "story": "",
     "img": "img/fans/big-joe.webp",
-    "w": 478,
-    "h": 703
+    "w": 653,
+    "h": 960,
+    "link": "https://discord.com/channels/1061931924010045522/1498851781885825225/1527562570532126870"
    },
    {
     "name": "Julie",
@@ -8296,6 +8463,100 @@
     "w": 274,
     "h": 403
    }
-  ]
+  ],
+  "gmColors": {
+   "Alex": [
+    355,
+    "strong"
+   ],
+   "Asuka": [
+    200,
+    "strong"
+   ],
+   "HipHorror": [
+    45,
+    "strong"
+   ],
+   "Neko": [
+    280,
+    "strong"
+   ],
+   "TAC": [
+    140,
+    "strong"
+   ],
+   "Lia": [
+    22,
+    "strong"
+   ],
+   "Rache": [
+    320,
+    "strong"
+   ],
+   "Spoon": [
+    170,
+    "strong"
+   ],
+   "Valk": [
+    62,
+    "strong"
+   ],
+   "Alaendin": [
+    235,
+    "strong"
+   ],
+   "Gabe": [
+    100,
+    "strong"
+   ],
+   "Glam": [
+    300,
+    "strong"
+   ],
+   "Nun": [
+    10,
+    "soft"
+   ],
+   "SMNK": [
+    215,
+    "soft"
+   ],
+   "Akrasia": [
+    60,
+    "soft"
+   ],
+   "Alan": [
+    295,
+    "soft"
+   ],
+   "Aurora": [
+    155,
+    "soft"
+   ],
+   "CTibbs": [
+    37,
+    "soft"
+   ],
+   "Hando": [
+    335,
+    "soft"
+   ],
+   "Hazel": [
+    185,
+    "soft"
+   ],
+   "Mary": [
+    77,
+    "soft"
+   ],
+   "Nano": [
+    250,
+    "soft"
+   ],
+   "Uehara": [
+    115,
+    "soft"
+   ]
+  }
  }
 }
