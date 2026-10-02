@@ -2034,6 +2034,7 @@ body.fnlock{overflow:hidden}
 .fns-roles dd{display:flex;flex-wrap:wrap;gap:6px}
 .fns-role{display:inline-flex;align-items:baseline;gap:7px;font:600 15px/1 var(--f-cond);color:var(--ink);background:var(--cell);border:1px solid var(--line);border-left:2px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);padding:5px 9px 4px}
 .fns-role b{font:600 14px/1 var(--f-num);color:var(--gold)}
+.fns-nav .prsw{width:auto;height:auto;font-size:12px;padding:7px 10px}
 .fns-nav .fns-flip{width:auto;height:auto;font-size:12px}
 .fns-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .fns-acts a{font:600 12px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;background:rgba(17,13,12,.8);border:1px solid var(--frame);color:var(--gold);padding:9px 14px 8px}
@@ -3503,6 +3504,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
+        (fnCanArrange() && i < FL().length ? '<div class="fns-nav"><button type="button" class="prsw" data-fnrsc="1" aria-pressed="' + !!f.rsc + '" title="Marks this fan as a Red Star Collective member: star on the card front, red star back"><i></i>RSC member</button></div>' : '') +
         (f._g != null ? '<div class="fns-nav"><button type="button" class="fns-flip" data-fgrp="' + f._g + '">← ' + esc(FGL()[f._g].name) + '</button></div>' : '') +
         '<div class="fns-nav"><button type="button" class="fns-flip" data-fnflip="1">Flip card</button><span class="fns-hint">Drag the card to turn it</span></div>' +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
@@ -3535,6 +3537,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var gq = ev.target.closest && ev.target.closest("[data-fgrp]"); if (gq){ fgOpen(+gq.dataset.fgrp); return; }
     var aq = ev.target.closest && ev.target.closest("[data-fnart]");
     if (aq){ FN.art = +aq.dataset.fnart; var o = FN.open; fnOpen(o); return; }
+    var rq = ev.target.closest && ev.target.closest("[data-fnrsc]");
+    if (rq && fnCanArrange()){ var rf = FL()[FN.open], ri = FN.open; if (!rf) return;
+      if (rf.rsc) delete rf.rsc; else rf.rsc = true;
+      render(); fnOpen(ri);
+      if (HOSTED) pushState("fanrsc", {members:fnKeys(FL()).filter(function(k, n){ return !!FL()[n].rsc; })}); else persist();
+      return; }
     var sq = ev.target.closest && ev.target.closest("[data-fnsadd],[data-fnsdel]");
     if (sq && fnCanArrange()){ var sf = FL()[FN.open]; if (!sf) return;
       if (sq.dataset.fnsdel != null){ sf.seen.splice(+sq.dataset.fnsdel, 1); if (!sf.seen.length) delete sf.seen; fnSeenSave(); return; }
@@ -4969,6 +4977,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
+      if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S, rk = {}; j.fanrsc.forEach(function(k){ rk[k] = 1; });
+        if (fio && fio.fans){ var fk = fnKeys(fio.fans.list); fio.fans.list.forEach(function(f, n){ if (rk[fk[n]]) f.rsc = true; else delete f.rsc; }); } }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       var sz = sheetOf(j, SHEET_TABS.zstats);

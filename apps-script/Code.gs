@@ -48,6 +48,7 @@ function doGet(e) {
   try { out.hosting = JSON.parse(props.getProperty('HOSTING') || 'null'); } catch (err) { out.hosting = null; }
   try { out.fans = JSON.parse(props.getProperty('FANS') || 'null'); } catch (err) { out.fans = null; }
   try { out.fanseen = JSON.parse(readChunks_(props, 'FANSEEN') || 'null'); } catch (err) { out.fanseen = null; }
+  try { out.fanrsc = JSON.parse(readChunks_(props, 'FANRSC') || 'null'); } catch (err) { out.fanrsc = null; }
   return json_(out);
 }
 
@@ -79,6 +80,12 @@ function doPost(e) {
     if (txt.length > 9000) return json_({ ok: false, error: 'too many fans to store' });
     PropertiesService.getScriptProperties().setProperty('FANS', txt);
     return json_({ ok: true, fans: f });
+  }
+  if (body.type === 'fanrsc') {
+    // which fans are Red Star Collective members: a list of fan names, ticked in the fan file on the page
+    const m = (Array.isArray(body.members) ? body.members : []).slice(0, 600).map(function (x) { return String(x).slice(0, 80); });
+    writeChunks_(PropertiesService.getScriptProperties(), 'FANRSC', JSON.stringify(m));
+    return json_({ ok: true });
   }
   if (body.type === 'fanseen') {
     // games each fan has appeared in since: { "Fan name": [{gig, link?}, ...] }, entered in the fan file on the page
