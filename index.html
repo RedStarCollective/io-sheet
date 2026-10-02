@@ -292,25 +292,56 @@ body:not(.editing) .t td.name > .flex{display:block}
 .lo-info{grid-column:1/-1;margin:2px 0 0;padding:2px 0 2px 8px;border-left:2px solid var(--gold-dim);font-family:var(--f-body);font-size:13px;font-weight:500;line-height:1.4;color:var(--ink-2)}
 .lo-info em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-left:6px}
 .lo-tags{display:inline-flex;flex-wrap:wrap;gap:3px;vertical-align:1px}
-.lo-belt .beltrow{display:flex;gap:6px;padding:10px;overflow-x:auto;scrollbar-width:thin;background:repeating-linear-gradient(90deg,transparent 0 46px,rgba(107,84,49,.18) 46px 47px),linear-gradient(180deg,rgba(60,44,24,.28),rgba(17,13,12,.2))}
-.thr{flex:1 0 124px;max-width:200px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 8px;align-items:center;align-content:space-between;background:rgba(12,9,8,.82);border:1px solid var(--frame);padding:8px 8px 7px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
-.thr svg{width:24px;height:24px;color:var(--gold)}
-.thr .tn2{font-family:var(--f-cond);font-size:15px;font-weight:600;line-height:1.1;color:var(--ink);min-width:0}
-.thr .tn2 .lo-i{display:flex;flex-direction:column;gap:3px}
-.thr .ctr{grid-column:1/-1;display:flex}.thr .ctr output{flex:1}
-.thr.empty{opacity:.45}.thr.empty svg{color:var(--ink-3)}
+.lo-belt .beltrow{display:flex;gap:4px;padding:10px 10px 6px;overflow-x:auto;scrollbar-width:thin;background:linear-gradient(180deg,rgba(60,44,24,.22),transparent)}
+.slot{flex:1 0 86px;max-width:140px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.sl-o{position:relative;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#2a211c,#0e0a09 70%);border:1.5px solid var(--frame);box-shadow:inset 0 0 0 3px rgba(0,0,0,.5)}
+.sl-o svg{width:22px;height:22px;color:var(--gold)}
+.sl-o b{position:absolute;right:-5px;bottom:-3px;min-width:19px;height:19px;padding:0 4px;display:grid;place-items:center;font:600 12px/1 var(--f-num);color:#140f0e;background:var(--gold);border-radius:10px;border:1.5px solid #0e0a09}
+.sl-n{font-family:var(--f-cond);font-size:13.5px;font-weight:600;line-height:1.1;color:var(--ink)}
+.sl-n .lo-i{display:flex;flex-direction:column;gap:3px;align-items:center;text-align:center}
+.slot{position:relative}
+.sl-c{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:98px;display:flex;justify-content:space-between;opacity:0;transition:opacity .15s}
+.slot:hover .sl-c,.slot:focus-within .sl-c{opacity:1}
+@media (hover:none){ .sl-c{opacity:1} }
+.sl-c button{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--cell);color:var(--ink-2);font:700 13px/1 var(--f-body);cursor:pointer;padding:0}
+.sl-c button:hover:not(:disabled){background:var(--red-dim);color:#fff}
+.sl-c button:disabled{opacity:.3;cursor:default}
+.slot.empty .sl-o{opacity:.45}.slot.empty .sl-o b{background:var(--red-hi);color:#fff}.slot.empty .sl-n{opacity:.55}
+.sl-info{padding:0 10px}.sl-info .lo-info{margin:0 0 10px}
 .lo-ph .vg{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 5px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--vc);background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 16%,transparent),transparent 70%);border-top:1px solid var(--line);box-shadow:inset 3px 0 0 var(--vc)}
 .lo-ph .hb + div .vg{border-top:0}
 .lo-ph .vg b{margin-left:auto;color:var(--ink-2);font-family:var(--f-num);font-size:12px;letter-spacing:.04em}
 .g-med{--vc:#6f9f84}.g-street{--vc:#b08a4e}.g-neuro{--vc:#8088b5}.g-poison{--vc:#a8565a}
 .vials{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;padding:8px;align-items:start}
-.vial{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);border-top:2px solid color-mix(in srgb,var(--vc) 70%,transparent);padding:7px 8px}
+.vial{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px 8px;align-items:center;background:var(--cell);border:1px solid var(--line);border-top:2px solid color-mix(in srgb,var(--vc) 70%,transparent);padding:7px 8px}
 .vial .lo-i{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.1;display:flex;flex-wrap:wrap;gap:3px 5px;align-items:center}
 .vial .vn{font-family:var(--f-num);font-size:20px;font-weight:600;color:var(--ink);text-align:right;line-height:1}
 .vial .vp{display:flex;flex-wrap:wrap;gap:2px;min-height:9px}
 .vial .vp i{width:5px;height:9px;background:var(--vc);opacity:.75}
 .vial .ctr button{width:24px;height:21px}
 .vial .ctr output{display:none}
+.vial .ctr{grid-column:2/-1;justify-self:end}
+.vv{grid-row:1/3;align-self:center;position:relative;width:15px;height:38px;border:1.5px solid color-mix(in srgb,var(--vc) 80%,#000);border-radius:2px 2px 7px 7px;background:rgba(0,0,0,.45);overflow:hidden}
+.vv i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,color-mix(in srgb,var(--vc) 80%,#fff),var(--vc));opacity:.85;transition:height .25s}
+.vial .lo-info{grid-column:1/-1}
+.vout{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:2px 8px 9px}
+.g-hid .vg{border-bottom:0}
+.vout .lab{margin:0 4px 0 2px;font-size:10px;color:var(--red-hi)}
+.vout .lo-chip{font-size:13.5px;padding:1px 4px 1px 8px;color:var(--ink-3)}
+.vout .lo-chip button{all:unset;cursor:pointer;color:var(--gold);font-weight:700;padding:0 5px;border-left:1px dashed var(--line)}
+.vshow{all:unset;cursor:pointer;margin-left:10px;font-size:10px;letter-spacing:.14em;color:var(--ink-3);border:1px dashed var(--line);padding:2px 7px}
+.vshow:hover{color:var(--ink)}
+.g-ico{width:20px;height:20px;color:var(--gold-dim,var(--ink-3))}
+.gtile:hover .g-ico{color:var(--gold)}
+.gtile .lo-info{grid-column:1/-1}
+.ph-wrap{padding:12px;display:flex;justify-content:center}
+.phone{width:min(100%,250px);border:2px solid var(--frame);border-radius:16px;background:linear-gradient(180deg,#15100e,#0a0707);padding:8px 10px 10px;box-shadow:inset 0 0 0 2px #000,0 8px 20px rgba(0,0,0,.5)}
+.ph-top{display:flex;justify-content:center;padding-bottom:8px}.ph-top i{width:54px;height:5px;border-radius:3px;background:#000;box-shadow:inset 0 0 0 1px var(--line)}
+.ph-apps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 6px;min-height:86px;align-content:start}
+.ph-app{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.ph-app i{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font:700 14px/1 var(--f-disp,var(--f-cond));font-style:normal;color:#fff;background:linear-gradient(145deg,hsl(var(--ah) 45% 42%),hsl(var(--ah) 50% 22%));box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.ph-app span{font:600 11.5px/1.1 var(--f-cond);color:var(--ink-2)}
+.ph-bar{display:block;width:70px;height:3px;border-radius:2px;background:var(--line);margin:10px auto 0}
 .vial.empty{opacity:.5;border-top-color:var(--line)}.vial.empty .vn{color:var(--red-hi)}
 .lo-con .conin{display:grid;grid-template-columns:132px minmax(0,1fr);gap:12px;padding:10px}
 .lo-con .config{position:relative;margin:0;line-height:0;align-self:start;background:radial-gradient(ellipse 60% 50% at 50% 60%,rgba(159,12,23,.22),transparent 70%)}
@@ -334,7 +365,7 @@ button.lo-ash{cursor:pointer;color:var(--gold)!important}
 .conlist .lo-tags{grid-column:2}
 .lo-con.nofig .conin{grid-template-columns:minmax(0,1fr)}
 .gear{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;padding:8px}
-.gtile{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);padding:7px 9px;min-height:38px}
+.gtile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);padding:7px 9px;min-height:38px}
 .gtile .lo-i{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15;display:flex;flex-wrap:wrap;gap:3px 5px;align-items:center}
 .lo-as{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-top:1px solid var(--frame)}
 .lo-as .lab{margin:0 6px 0 0;border:0;padding:0}
@@ -2796,6 +2827,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var THR_ICO = {g:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 2h6v3h-1.2v1.3a7.2 7.2 0 1 1-3.6 0V5H9zm8.6 1.2 2.2 1.1-1.5 3-1.7-1z"/></svg>',
     b:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5 15 9l7.5 3-7.5 3-3 7.5L9 15l-7.5-3L9 9z"/></svg>',
     w:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="3" fill="currentColor"/><circle cx="19" cy="6" r="3" fill="currentColor"/><circle cx="12" cy="19" r="3" fill="currentColor"/><path d="M5 6 12 12 19 6M12 12v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'};
+  var GEAR_ICO = [
+    [/detector|scanner|radar/i, '<path d="M12 21a9 9 0 1 1 9-9M12 16.5A4.5 4.5 0 1 1 16.5 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/>'],
+    [/phone|agent/i, '<rect x="7" y="2.5" width="10" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10.5 18.5h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
+    [/med|bio|pill|health/i, '<path d="M9.5 3.5h5v6h6v5h-6v6h-5v-6h-6v-5h6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
+    [/cuff|restrain|lock/i, '<circle cx="8" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="16" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9.5V6h8v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
+    [/speaker|audio|radio/i, '<path d="M4 9.5h4l5-4v13l-5-4H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16.5 9a4.5 4.5 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
+    [/disguise|mask/i, '<path d="M3.5 7.5c5-2.5 12-2.5 17 0 0 6-3 9.5-8.5 11-5.5-1.5-8.5-5-8.5-11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.5 11.5h3M13.5 11.5h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
+    [/./, '<path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3.5 7 12 11.5 20.5 7M12 11.5v10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>']];
+  function gearIcon(name){ for (var i = 0; i < GEAR_ICO.length; i++) if (GEAR_ICO[i][0].test(name)) return '<svg class="g-ico" viewBox="0 0 24 24" aria-hidden="true">' + GEAR_ICO[i][1] + '</svg>'; return ''; }
   function loadout2(){
     if (LOP === "wardrobe" && WHO === "io") return wardrobe();
     var L = S.lo || {}, stash = L.stash || [], lock = readOnly;
@@ -2805,19 +2845,24 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var low = (out0.length || one.length) && !lock ? '<div class="lo-low" role="note">' + (out0.length ? '<b>Out</b>' + out0.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join("") : '') + (one.length ? '<b class="one">Last one</b>' + one.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join("") : '') + '</div>' : '';
     var belt = '<section class="box lo-belt"><div class="hb"><span class="sp">Throwables</span><span class="gnote">On the belt</span></div><div class="beltrow">' + (S.throwables || []).map(function(r, i){
       var p = loParse(r.name), n = +r.n || 0, ico = /grenade|bomb/i.test(r.name) ? THR_ICO.g : /bola|weight/i.test(r.name) ? THR_ICO.w : THR_ICO.b;
-      return '<div class="thr' + (n <= 0 ? ' empty' : '') + '">' + ico + '<span class="tn2">' + loName(p) + '</span>' + loInfoP(p) +
-        '<span class="ctr" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (lock || n <= 0 ? ' disabled' : '') + '>−</button><output class="' + (n <= 0 ? 'out' : '') + '">×' + n + '</output><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span></div>'; }).join("") + '</div></section>';
+      return '<div class="slot' + (n <= 0 ? ' empty' : '') + '"><span class="sl-o">' + ico + '<b>' + n + '</b></span><span class="sl-n">' + loName(p) + '</span>' +
+        (lock ? '' : '<span class="sl-c" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div>' +
+      '<div class="sl-info">' + (S.throwables || []).map(function(r){ return loInfoP(loParse(r.name)); }).join("") + '</div></section>';
     var groups = [{name:"Pharmaceuticals", cls:"med", items:[]}];
     (S.pharma || []).forEach(function(r, i){
       if (r.head){ groups.push({name:r.name, cls:/street/i.test(r.name) ? "street" : /neuro/i.test(r.name) ? "neuro" : /poison/i.test(r.name) ? "poison" : "med", items:[]}); return; }
       groups[groups.length - 1].items.push([r, i]);
     });
     var ph = '<section class="box lo-ph"><div class="hb"><span class="sp">Pharma &amp; Drugs</span><span class="gnote">Doses</span></div>' + groups.filter(function(g){ return g.items.length; }).map(function(g){
-      var tot = g.items.reduce(function(a, x){ return a + (+x[0].n || 0); }, 0), items = g.items.slice().sort(function(a, b){ return ((+a[0].n || 0) <= 0) - ((+b[0].n || 0) <= 0); });
-      return '<div class="g-' + g.cls + '"><h4 class="vg">' + esc(g.name) + '<b>' + tot + '</b></h4><div class="vials">' + items.map(function(x){
-        var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pips = ""; for (var k = 0; k < Math.min(n, 12); k++) pips += '<i></i>';
-        return '<div class="vial' + (n <= 0 ? ' empty' : '') + '">' + loName(p) + '<span class="vn">' + n + '</span><span class="vp" aria-hidden="true">' + pips + '</span>' +
-          '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (lock || n <= 0 ? ' disabled' : '') + '>−</button><output>' + n + '</output><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span>' + loInfoP(p) + '</div>'; }).join("") + '</div></div>'; }).join("") + '</section>';
+      var tot = g.items.reduce(function(a, x){ return a + (+x[0].n || 0); }, 0), live = g.items.filter(function(x){ return (+x[0].n || 0) > 0; }), dead = g.items.filter(function(x){ return (+x[0].n || 0) <= 0; });
+      var gk = "g:" + g.name, hide = !live.length && !LOX[gk];
+      var outs = dead.length ? '<div class="vout"><span class="lab">Out</span>' + dead.map(function(x){ var p = loParse(x[0].name); return '<span class="lo-chip">' + esc(p.base) + (lock ? '' : '<button data-dose="' + x[1] + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '" title="Restock one">+</button>') + '</span>'; }).join("") + '</div>' : '';
+      return '<div class="g-' + g.cls + (hide ? ' g-hid' : '') + '"><h4 class="vg">' + esc(g.name) + (live.length ? '' : '<button type="button" class="vshow" data-lox="' + esc(gk) + '">' + (hide ? 'All out · show' : 'Hide') + '</button>') + '<b>' + tot + '</b></h4>' +
+        (live.length ? '<div class="vials">' + live.map(function(x){
+          var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(10, n)) * 100);
+          return '<div class="vial"><span class="vv" aria-hidden="true"><i style="height:' + pct + '%"></i></span>' + loName(p) + '<span class="vn">' + n + '</span>' +
+            '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>−</button><output>' + n + '</output><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span>' + loInfoP(p) + '</div>'; }).join("") + '</div>' : '') +
+        (hide ? '' : outs) + '</div>'; }).join("") + '</section>';
     var fig = WHO === "io" && L.figure && L.figure.img ? L.figure : null, pins = L.pins || {}, canPin = fig && !lock;
     var dot = function(i){ return LO_DOTS[i % LO_DOTS.length]; };
     var con = '<section class="box lo-con' + (fig ? '' : ' nofig') + '"><div class="hb"><span class="sp">Concealed Items</span>' + (canPin ? '<span class="gnote">Drag a dot to move it</span>' : '') + '</div><div class="conin">' +
@@ -2831,13 +2876,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (cur){ cur.items.push(p); return; }
       if (had[p.key]) return; had[p.key] = 1; carried.push(p); });
     var chip = function(p){ return '<span class="lo-chip">' + esc(p.base) + (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags) + '</span>'; };
-    var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + carried.length + ' items</span></div><div class="gear">' + carried.map(function(p){
-        var bx = boxes.filter(function(b){ return b.p === p; })[0];
-        return '<div class="gtile' + (bx ? ' has-apps' : '') + '">' + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) +
-          (bx ? '<div class="lo-apps"><span class="lab">Apps</span>' + (bx.items.length ? bx.items.map(chip).join("") : '<span class="u">None</span>') + '</div>' : '') + '</div>'; }).join("") + '</div>' +
+    var agentBox = boxes.filter(function(b){ return b.c.kind === "apps"; })[0];
+    var phone = agentBox ? '<section class="box lo-agent"><div class="hb"><span class="sp">Agent</span><span class="gnote">' + agentBox.items.length + ' app' + (agentBox.items.length === 1 ? '' : 's') + '</span></div><div class="ph-wrap"><div class="phone"><span class="ph-top"><i></i></span><div class="ph-apps">' +
+      (agentBox.items.length ? agentBox.items.map(function(p){ var ini = p.base.split(/\s+/).map(function(w){ return w.charAt(0); }).join("").slice(0, 2).toUpperCase(), h = 0; for (var k = 0; k < p.base.length; k++) h = (h * 31 + p.base.charCodeAt(k)) % 360;
+        return '<span class="ph-app"><i style="--ah:' + h + '">' + esc(ini) + '</i><span>' + esc(p.base) + '</span></span>'; }).join("") : '<span class="u">No apps</span>') + '</div><span class="ph-bar"></span></div></div></section>' : '';
+    var tools = carried.filter(function(p){ return !(agentBox && agentBox.p === p); });
+    var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + tools.length + ' items</span></div><div class="gear">' + tools.map(function(p){
+        return '<div class="gtile">' + gearIcon(p.base) + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) + '</div>'; }).join("") + '</div>' +
       boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
         return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
-    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + '</div>' + gear + '</div>';
+    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + phone + '</div>' + gear + '</div>';
   }
   var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
   /* concealed-item dots: the owner drags them on the figure; positions are kept as percentages in S.lo.pins */
