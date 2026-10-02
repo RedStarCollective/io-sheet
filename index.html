@@ -2859,7 +2859,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var outs = dead.length ? '<div class="vout"><span class="lab">Out</span>' + dead.map(function(x){ var p = loParse(x[0].name); return '<span class="lo-chip">' + esc(p.base) + (lock ? '' : '<button data-dose="' + x[1] + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '" title="Restock one">+</button>') + '</span>'; }).join("") + '</div>' : '';
       return '<div class="g-' + g.cls + (hide ? ' g-hid' : '') + '"><h4 class="vg">' + esc(g.name) + (live.length ? '' : '<button type="button" class="vshow" data-lox="' + esc(gk) + '">' + (hide ? 'All out · show' : 'Hide') + '</button>') + '<b>' + tot + '</b></h4>' +
         (live.length ? '<div class="vials">' + live.map(function(x){
-          var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(10, n)) * 100);
+          var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(6, n)) * 100);
           return '<div class="vial"><span class="vv" aria-hidden="true"><i style="height:' + pct + '%"></i></span>' + loName(p) + '<span class="vn">' + n + '</span>' +
             '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>−</button><output>' + n + '</output><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span>' + loInfoP(p) + '</div>'; }).join("") + '</div>' : '') +
         (hide ? '' : outs) + '</div>'; }).join("") + '</section>';
@@ -2885,7 +2885,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         return '<div class="gtile">' + gearIcon(p.base) + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) + '</div>'; }).join("") + '</div>' +
       boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
         return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
-    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + (WHO === "io" ? ttBox() : '') + con + phone + '</div>' + gear + '</div>';
+    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + con + phone + '</div>' + gear + '</div>';
   }
   var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
   /* concealed-item dots: the owner drags them on the figure; positions are kept as percentages in S.lo.pins */
