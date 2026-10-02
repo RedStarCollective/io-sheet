@@ -254,6 +254,9 @@ body:not(.editing) .t td.name > .flex{display:block}
   .sk tbody tr:not(.sub):hover td,.t tbody tr:hover td,.list li:not(.sub):hover{background:rgba(209,28,40,.12)}
   .sk tbody tr:not(.sub):hover td:first-child{color:var(--ink)}
 }
+.t tr.cwpar .tog{align-items:flex-start;flex-wrap:wrap}
+.t tr.cwpar .tog .chev{margin-top:4px}
+.t tr.cwpar .tog .cnt{flex-basis:100%;margin:3px 0 0 17px;text-align:left}
 /* ---------- Loadout v2: "what's on him" (view mode; Edit mode keeps the plain lists) ---------- */
 .lo2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:12px;align-items:start}
 .lo2 > .sec-title,.lo2 > .lo-low,.lo2 > .lo-belt,.lo2 > .lo-gear{grid-column:1/-1}
@@ -2732,10 +2735,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
     var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">Cyberweapon</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.cyberweapons.map(function(r,i){ var p="cyberweapons."+i;
+        /* a weapon followed by indented rows (Magi Palm canisters, Medical Hand loads) folds them under a drop-down */
+        var kids = 0; if (!r.ind) for (var k = i + 1; k < S.cyberweapons.length && S.cyberweapons[k].ind; k++) kids++;
+        var par = -1; if (r.ind) for (var q = i - 1; q >= 0; q--) if (!S.cyberweapons[q].ind){ par = q; break; }
+        var tk = "cw." + (par >= 0 ? par : i);
+        if (!editing && r.ind && par >= 0 && !open[tk]) return '';
+        if (!editing && kids) return '<tr class="cwpar' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>';
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + toneName(r) + '</span>';
         return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
-    var glitch = '<figure class="box glitch"><img src="' + esc(S.glitch || "img/io-glitch.webp") + '" alt="' + (WHO === "zolo" ? 'Zolo masked and hooded, katanas at his back, under the moon' : 'Glitching animated portrait of Iō drinking tea') + '" loading="lazy"><figcaption><span class="lab">Known aliases</span><div class="aka">' + String(S.aliases || "").split(",").map(function(a){ a = a.trim(); return a ? '<span>' + esc(a) + '</span>' : ''; }).join("") + '</div></figcaption></figure>';
+    var glitch = '<figure class="box glitch"><img src="' + esc(S.glitch || "img/io-glitch.webp") + '" alt="' + (WHO === "zolo" ? 'Zolo masked and hooded, katanas at his back, under the moon' : 'Glitching animated portrait of Iō drinking tea') + '" loading="lazy"></figure>';
     return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + weapons + cyber + (WHO === "zolo" ? '' : glitch) + '</div>';
   }
 
@@ -4587,7 +4596,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<p><b>' + esc(I.origin || "") + '</b>' + (S.roles || []).map(function(r){ return ' · ' + esc(r.role) + ' ' + esc(r.rank); }).join("") + '</p>' +
       '<div class="cfpers"><span class="ttseg" role="group" aria-label="Personality"><button type="button" data-cfpers="sober" aria-pressed="' + (cfPers === "sober") + '">Sober</button><button type="button" data-cfpers="drugs" aria-pressed="' + (cfPers === "drugs") + '">On drugs</button></span><span class="v' + (cfPers === "drugs" ? ' drug' : '') + '">' + esc(persTxt || "") + '</span></div></div></header>';
     // 01 brief
-    var brief = '<dl class="cfdl">' + dd("Values most", I.values) + dd("Life goal", I.goal) + dd("Most valued person", I.person) + dd("Most valued possession", I.possession) + dd("Family crisis", I.crisis) + dd("Childhood", I.childhood) + '</dl>';
+    var brief = '<dl class="cfdl">' + dd("Values most", I.values) + dd("Life goal", I.goal) + dd("Most valued person", I.person) + dd("Most valued possession", I.possession) + dd("Family crisis", I.crisis) + dd("Childhood", I.childhood) + '</dl>' +
+      (String(S.aliases || "").trim() ? '<h4 style="margin-top:22px">Known aliases</h4><div class="aka">' + String(S.aliases).split(",").map(function(a){ a = a.trim(); return a ? '<span>' + esc(a) + '</span>' : ''; }).join("") + '</div>' : '');
     // 02 threads
     var thr = (C.threads || []).length ? '<ol class="cfol">' + C.threads.map(function(t){ return '<li><div><b>' + esc(t.title) + '</b><q>' + esc(t.quote) + '</q><small>' + esc(t.src || "") + '</small></div></li>'; }).join("") + '</ol>' : none();
     // 03 people
