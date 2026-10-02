@@ -7710,7 +7710,15 @@
     "img": "img/fans/peter-parker.webp",
     "w": 653,
     "h": 960,
-    "link": "https://discord.com/channels/1061931924010045522/1469865659054948667/1472090338737782885"
+    "link": "https://discord.com/channels/1061931924010045522/1469865659054948667/1472090338737782885",
+    "alts": [
+     {
+      "img": "img/fans/peter-parker-2.webp",
+      "w": 653,
+      "h": 960,
+      "label": "V2"
+     }
+    ]
    },
    {
     "name": "Linda Yamamoto",
@@ -8492,7 +8500,18 @@
      }
     ],
     "story": "Solo 4. A weathered street samurai with a strong belief in the code of Bushido. Formerly a Kimengumi security operative, he lost his way after the assassination of a high profile individual within the organisation, bringing him to wander the city as a forsaken Ronin. Dr. Curiosity Clavell convinced him to forsake Seppuku. Doctor Kōru Singh brings with him a message. One charged with belief and resolution. A Ronin is a warrior without master. That day, Ishimoto learns he needs not one to serve.",
-    "img": ""
+    "img": "img/fans/sozen-ishimoto.webp",
+    "w": 653,
+    "h": 960,
+    "label": "Full",
+    "alts": [
+     {
+      "img": "img/fans/sozen-ishimoto-2.webp",
+      "w": 444,
+      "h": 653,
+      "label": "Portrait"
+     }
+    ]
    }
   ],
   "gmColors": {
