@@ -257,7 +257,7 @@ body:not(.editing) .t td.name > .flex{display:block}
 .t tr.cwpar .tog{align-items:flex-start;flex-wrap:wrap}
 .t tr.cwpar .tog .chev{margin-top:4px}
 .t tr.cwpar .tog .cnt{margin:0 0 0 8px;text-align:right;white-space:nowrap}
-.cwload{all:unset;box-sizing:border-box;display:inline-flex;white-space:nowrap;align-items:center;gap:6px;margin:3px 0 1px;padding:1px 6px;border:1px solid var(--line);font:600 13px/1.3 var(--f-cond);color:var(--ink);cursor:pointer}
+.cwload{all:unset;box-sizing:border-box;display:inline-flex;flex-wrap:wrap;max-width:100%;align-items:center;gap:6px;margin:3px 0 1px;padding:1px 6px;border:1px solid var(--line);font:600 13px/1.3 var(--f-cond);color:var(--ink);cursor:pointer}
 .cwload:disabled{cursor:default}.cwload.none{color:var(--ink-3);border-style:dashed}
 .cwload i{font:700 9px/1 var(--f-body);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .cwload b{font:600 12px/1 var(--f-num);color:var(--gold)}.cwload .chev{font-size:10px;color:var(--ink-3)}
@@ -266,7 +266,7 @@ body:not(.editing) .t td.name > .flex{display:block}
 .cwpick .lab{display:block;margin:0 0 5px;font-size:10px}
 .cwpick button{all:unset;cursor:pointer;font:600 13.5px/1.3 var(--f-cond);color:var(--ink-2);border:1px solid var(--line);padding:1px 7px;margin:0 4px 4px 0}
 .cwpick button:hover,.cwpick button.on{color:#fff;border-color:var(--gold)}
-.cwt{display:flex;margin:3px 0 1px}.t td.name .tn{white-space:nowrap}.cwt .chip2{font-size:9px;padding:0 4px;letter-spacing:.06em}
+.cwt{display:flex;margin:3px 0 1px}.t td.name .tn{overflow-wrap:normal;word-break:keep-all}.t tr.cwpar .tog{min-width:0}.t tr.cwpar .tog > span[class^="tone-"]{min-width:0}.cwt .chip2{font-size:9px;padding:0 4px;letter-spacing:.06em}
 .t tr.cwpar .tog > span[class^="tone-"]{text-align:left}
 /* Loadout pages: Gear | Wardrobe */
 .lo2 > .sec-title .seg{margin-left:4px;order:2}
@@ -2785,6 +2785,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   };
   function cwTags(r){ return '<span class="lo-tags cwt">' + r.tags.map(function(k){ return '<span class="chip2 ' + (TAGC[String(k).replace(/\s*×\d+$/, "").toUpperCase()] || '') + '"' + (CWTIP[k] ? ' title="' + CWTIP[k] + '"' : '') + '>' + esc(k) + '</span>'; }).join("") + '</span>'; }
   var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", VHM:"Very Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded"};
+  /* "Name [EQ LM - FAB, Ultra Snag'Em]" or "Name [BIOWARE] [UPG]" -> bare name + tag chips */
+  function tagName(name){
+    var str = String(name), base = str.replace(/\s*[\(\[].*$/, ""), tags = [];
+    (str.match(/[\[\(]([^\]\)]*)[\]\)]/g) || []).forEach(function(b){ b.slice(1, -1).split(/\s*,\s*|\s+[-–]\s+/).forEach(function(t){ t = t.trim(); if (!t) return;
+      if (/^((EQ|PQ|LM|MM|HM|VHM)\s+)+(EQ|PQ|LM|MM|HM|VHM)$/i.test(t)) t.split(/\s+/).forEach(function(x){ tags.push(x.toUpperCase()); }); else tags.push(t); }); });
+    return tags.length ? '<span class="tn">' + esc(base) + '</span>' + cwTags({tags:tags}) : esc(str);
+  }
   function toneName(r){
     if (r.tags && r.tags.length) return (ICONS[r.tone] || '') + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>' + cwTags(r);
     var m = String(r.name).match(/^([^\(\[]*?)\s*(\(.*?\))?\s*(\[.*)?$/) || [null, r.name];
@@ -2793,12 +2800,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   function weaponsArmor(){
     var armor = '<section class="box arm"><div class="hb"><span class="sp">Armor</span><span class="c">Type</span><span class="c">SP</span><span class="c">Pen.</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.armor.map(function(r,i){ var p="armor."+i; return '<tr><td class="name"><span class="flex">' + f(p+".name",{fmt:1}) + del(p) + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+      S.armor.map(function(r,i){ var p="armor."+i; return '<tr><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("armor","Add armor") + '<div class="pen">Penalty applies to REF, DEX &amp; MOVE</div></section>';
     var weapons = '<section class="box"><div class="hb"><span class="sp">Weapon</span><span class="c">DMG</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.weapons.map(function(r,i){ var p="weapons."+i; return '<tr><td class="name"><span class="flex">' + f(p+".name",{fmt:1}) + del(p) + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+      S.weapons.map(function(r,i){ var p="weapons."+i; return '<tr><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
-    var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">Cyberweapon</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
+    var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.cyberweapons.map(function(r,i){ var p="cyberweapons."+i;
         /* a weapon followed by indented rows (Magi Palm canisters, Medical Hand loads) folds them under a drop-down */
         var kids = 0; if (!r.ind) for (var k = i + 1; k < S.cyberweapons.length && S.cyberweapons[k].ind; k++) kids++;
