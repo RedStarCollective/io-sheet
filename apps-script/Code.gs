@@ -59,6 +59,7 @@ function doPost(e) {
   if (!key || body.key !== key) return json_({ ok: false, error: 'not allowed' });
   if (body.type === 'ping') return json_({ ok: true });
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
+  if (body.type === 'throwables') return json_(saveThrowables_(body.items || []));
   if (body.type === 'training') return json_(saveTraining_(body));
   if (body.type === 'tt') return json_(saveTT_(body));
   if (body.type === 'nyozi') {
@@ -707,4 +708,34 @@ function readChunks_(props, key) {
   const n = +(props.getProperty(key + '_N') || 0); let s = '';
   for (let i = 0; i < n; i++) s += props.getProperty(key + '_' + i) || '';
   return s;
+}
+
+
+// Throwables box on the Stats tab: names under "Throwables", the count three columns to the right; stops at "Concealed Items".
+function saveThrowables_(items) {
+  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), TABS[0]);
+  if (!sh) return { ok: false, error: 'Stats tab not found' };
+  const vals = sh.getDataRange().getDisplayValues();
+  let hr = -1, hc = -1;
+  for (let r = 0; r < vals.length && hr < 0; r++) {
+    for (let c = 0; c < vals[r].length; c++) {
+      if (String(vals[r][c]).trim() === 'Throwables') { hr = r; hc = c; break; }
+    }
+  }
+  if (hr < 0) return { ok: false, error: 'Throwables list not found' };
+  const norm = function (s) { return String(s).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ''); };
+  const saved = [];
+  items.forEach(function (it) {
+    const n = Math.round(Number(it.n));
+    if (!isFinite(n) || n < 0 || n > 999) return;
+    for (let r = hr + 1; r < Math.min(vals.length, hr + 20); r++) {
+      if (norm(vals[r][hc]) === 'concealeditems') break;
+      if (vals[r][hc] && norm(vals[r][hc]) === norm(it.name)) {
+        sh.getRange(r + 1, hc + 4).setValue(n);
+        saved.push(it.name);
+        break;
+      }
+    }
+  });
+  return { ok: true, saved: saved };
 }

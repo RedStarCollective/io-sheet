@@ -8700,5 +8700,67 @@
     ]
    }
   ]
+ },
+ "lo": {
+  "stash": [
+   "car",
+   "control node, nyota",
+   "home",
+   "elflines online sub",
+   "elo character lvl. 10"
+  ],
+  "assetLinks": {
+   "car": "vehicles",
+   "control node, nyota": "vehicles"
+  },
+  "figure": {
+   "img": "img/io-standing.webp",
+   "w": 723,
+   "h": 1150
+  },
+  "pins": {
+   "chakram": [
+    47,
+    40
+   ],
+   "pharma & drugs": [
+    58,
+    80
+   ],
+   "envogue chi restraint pack": [
+    44,
+    78
+   ],
+   "weapon retention system": [
+    66,
+    74
+   ]
+  },
+  "info": {
+   "speedheal": {
+    "text": "Pharmaceutical. The user immediately regains HP equal to their BODY + WILL. A person can only benefit from one dose a day.",
+    "src": "CRB"
+   },
+   "rapid detox": {
+    "text": "Pharmaceutical. Immediately purges the user of the effects of any drug, poison or intoxicant they are currently under.",
+    "src": "CRB"
+   },
+   "boost": {
+    "text": "Streetdrug. +2 INT for 24 hours. Addictive.",
+    "src": "CRB"
+   },
+   "nyozi": {
+    "text": "Pharmaceutical. For 4 hours after injection, the target uses their original EMP, before any Humanity Loss, when working out Skill Bases for EMP-linked Skills. One dose at a time. No effect on Smash, at 0 EMP, or below 10 Max Humanity.",
+    "src": "Vein Melters"
+   },
+   "smoke grenade": {
+    "text": "Fills a 10m by 10m area with smoke that blocks sight for 1 minute.",
+    "src": "CRB"
+   },
+   "medscanner": {
+    "text": "+2 to First Aid and Paramedic Checks.",
+    "src": "CRB"
+   }
+  }
  }
 }
