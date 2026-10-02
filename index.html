@@ -2,7 +2,7 @@
 <title>Iō Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Saira+Condensed:wght@600;700&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E&display=swap">
 <style>
 :root{
@@ -1779,11 +1779,17 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
   .fngrid:not(.arr) .fcard:hover .fc-sweep,.fg-mem .fcard:hover .fc-sweep{opacity:1;animation:fcsweep 1.5s cubic-bezier(.3,.1,.3,1) both}
   @keyframes fcsweep{from{background-position:130% 0}to{background-position:-30% 0}}
 }
+/* card names: tall bold condensed caps (roster style) */
+.fc-plate b{font-family:"Saira Condensed",var(--f-cond);font-weight:700;font-size:21px;line-height:1;letter-spacing:.025em;text-transform:uppercase}
+.fc-plate b .bt{font-size:11px;text-transform:none;letter-spacing:0;font-weight:600}
+.fcard.big .fc-plate b{font-size:32px}
+.fg-mem .fc-plate b{font-size:14px}
+@media (max-width:760px){ .fc-plate b{font-size:17px} }
 /* RSC members: a red star stamped on the top-left corner of the front */
-.fc-rsc{position:absolute;left:9px;top:9px;width:15px;height:18px;z-index:3;transform:translateZ(54px);opacity:.6;pointer-events:none;mix-blend-mode:screen}
-.fc-rsc svg{display:block;width:100%;height:100%;fill:none;stroke:#e8222d;stroke-width:44;stroke-linejoin:miter;overflow:visible}
-.fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.8}
-.fcard.big .fc-rsc{left:14px;top:14px;width:21px;height:25px}.fcard.big .fc-rsc svg{stroke-width:36}
+.fc-rsc{position:absolute;left:9px;top:9px;width:14px;height:17px;z-index:3;transform:translateZ(54px);opacity:.8;pointer-events:none}
+.fc-rsc svg{display:block;width:100%;height:100%;fill:#e8222d}
+.fcard:hover .fc-rsc,.fcard.big .fc-rsc{opacity:.95}
+.fcard.big .fc-rsc{left:14px;top:14px;width:21px;height:25px}
 .fg-mem .fc-rsc{left:6px;top:6px;width:10px;height:12px}
 /* art that breaks the frame (fan file only). The card itself keeps its normal clip (and its 3D); a flat overlay drawn over it shows
    only what falls outside the card's left and right edges, fading out before the name plate. It hides while the card is turned. */
