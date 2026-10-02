@@ -257,6 +257,15 @@ body:not(.editing) .t td.name > .flex{display:block}
 .t tr.cwpar .tog{align-items:flex-start;flex-wrap:wrap}
 .t tr.cwpar .tog .chev{margin-top:4px}
 .t tr.cwpar .tog .cnt{margin:0 0 0 8px;text-align:right;white-space:nowrap}
+.cwload{all:unset;box-sizing:border-box;display:inline-flex;white-space:nowrap;align-items:center;gap:6px;margin:3px 0 1px;padding:1px 6px;border:1px solid var(--line);font:600 13px/1.3 var(--f-cond);color:var(--ink);cursor:pointer}
+.cwload:disabled{cursor:default}.cwload.none{color:var(--ink-3);border-style:dashed}
+.cwload i{font:700 9px/1 var(--f-body);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.cwload b{font:600 12px/1 var(--f-num);color:var(--gold)}.cwload .chev{font-size:10px;color:var(--ink-3)}
+.cwload:hover:not(:disabled){border-color:var(--gold)}
+.cwpick td{padding:6px 8px 8px!important;background:rgba(0,0,0,.35)}
+.cwpick .lab{display:block;margin:0 0 5px;font-size:10px}
+.cwpick button{all:unset;cursor:pointer;font:600 13.5px/1.3 var(--f-cond);color:var(--ink-2);border:1px solid var(--line);padding:1px 7px;margin:0 4px 4px 0}
+.cwpick button:hover,.cwpick button.on{color:#fff;border-color:var(--gold)}
 .cwt{display:flex;margin:3px 0 1px}.t td.name .tn{white-space:nowrap}.cwt .chip2{font-size:9px;padding:0 4px;letter-spacing:.06em}
 .t tr.cwpar .tog > span[class^="tone-"]{text-align:left}
 /* Loadout pages: Gear | Wardrobe */
@@ -2775,7 +2784,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     volt: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#dfe3ff" stroke="#8f9dff" stroke-width="1.2" stroke-linejoin="round" d="M13.5 2 5 13.4h5.6L9.4 22 19 9.8h-5.8z"/></svg>'
   };
   function cwTags(r){ return '<span class="lo-tags cwt">' + r.tags.map(function(k){ return '<span class="chip2 ' + (TAGC[String(k).replace(/\s*×\d+$/, "").toUpperCase()] || '') + '"' + (CWTIP[k] ? ' title="' + CWTIP[k] + '"' : '') + '>' + esc(k) + '</span>'; }).join("") + '</span>'; }
-  var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded"};
+  var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", VHM:"Very Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded"};
   function toneName(r){
     if (r.tags && r.tags.length) return (ICONS[r.tone] || '') + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>' + cwTags(r);
     var m = String(r.name).match(/^([^\(\[]*?)\s*(\(.*?\))?\s*(\[.*)?$/) || [null, r.name];
@@ -2798,7 +2807,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         if (!editing && r.ind && par >= 0 && !open[tk]) return '';
         if (!editing && kids) return '<tr class="cwpar' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] || (r.tags && r.tags.length) ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>';
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + toneName(r) + '</span>';
-        return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+        var ld = "";
+        if (!editing && r.load){ var cur = (S.lo && S.lo.palm) || "", can = WHO === "io" && !readOnly, nade = function(t){ return String(t).replace(/\s*\[.*$/, "").replace(/\s*Grenade$/i, ""); };
+          name += '<button type="button" class="cwload' + (cur ? '' : ' none') + '"' + (can ? ' data-tog="cw.palm" aria-expanded="' + !!open["cw.palm"] + '"' : ' disabled') + '><i>Loaded</i>' + esc(cur ? nade(cur) : "Empty") + (cur ? '<b>then 6d6</b>' : '') + (can ? '<span class="chev">▾</span>' : '') + '</button>';
+          if (can && open["cw.palm"]) ld = '<tr class="cwpick"><td colspan="4"><span class="lab">Load which grenade?</span>' + (S.throwables || []).filter(function(t){ return /grenade/i.test(t.name); }).map(function(t){ return '<button type="button" data-palm="' + esc(t.name) + '"' + (t.name === cur ? ' class="on"' : '') + '>' + esc(nade(t.name)) + '</button>'; }).join("") + '<button type="button" data-palm="">Empty</button></td></tr>'; }
+        return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>' + ld; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
     var glitch = '<figure class="box glitch"><img src="' + esc(S.glitch || "img/io-glitch.webp") + '" alt="' + (WHO === "zolo" ? 'Zolo masked and hooded, katanas at his back, under the moon' : 'Glitching animated portrait of Iō drinking tea') + '" loading="lazy"></figure>';
     return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + weapons + cyber + (WHO === "zolo" ? '' : glitch) + '</div>';
@@ -2908,7 +2921,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (!pinDrag) return; var d = pinDrag; pinDrag = null; d.el.classList.remove("drag"); if (!d.xy) return;
     if (!S.lo) S.lo = {}; if (!S.lo.pins) S.lo.pins = {}; S.lo.pins[d.key] = d.xy;
     clearTimeout(saveTimer); status("Unsaved");
-    saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins}}); else persist(); }, 900);
+    saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins, palm:S.lo.palm || ""}}); else persist(); }, 900);
   }
   app.addEventListener("pointerup", pinDrop); app.addEventListener("pointercancel", pinDrop);
   var LOP = "gear";
@@ -5130,7 +5143,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var n = g.at(r, cw[1]), o = old2[normN(n)] || old2b[cwB(cleanName(n))] || {};
         out3.push({tags:o.tags, name:o.name || cleanName(n), dmg:dc2 > 0 ? g.at(r, dc2) : "", ammo:ac > 0 ? numV(g.at(r, ac)) : "", rof:rc2 > 0 ? numV(g.at(r, rc2)) : "", head:!!o.head, tone:o.tone || "", ind:!!o.ind});
       });
-      if (out3.length) S.cyberweapons = out3;
+      /* rows the site owns (Wolvers, Palm Bomb) stay even when the sheet does not list them */
+      if (out3.length){ var seen3 = {}; out3.forEach(function(x){ seen3[cwB(x.name)] = 1; }); (S.cyberweapons || []).forEach(function(x){ if (x.site && !seen3[cwB(x.name)]) out3.push(x); }); out3.forEach(function(x){ var o = old2b[cwB(x.name)]; if (o && o.site){ x.site = true; x.load = o.load; } }); S.cyberweapons = out3; }
     }
     var inv = g.find("Other Inventory");
     if (inv){ var li = rowsUnder(g, inv, /^cash$|^fashion$|^housing$/, 30).map(function(r){ return g.at(inv[0] > -1 ? r : r, inv[1]); }); if (li.length) S.inventory = li; }
@@ -5227,6 +5241,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
+      if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
       if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S; if (fio && fio.fans) fnRscApply(fio, j.fanrsc); }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
@@ -5377,6 +5392,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
+    if (b.dataset.palm !== undefined){ if (readOnly || WHO !== "io") return; if (!S.lo) S.lo = {}; S.lo.palm = b.dataset.palm; open["cw.palm"] = false; render();
+      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins || {}, palm:S.lo.palm}}); else persist(); }, 900); return; }
     if (b.dataset.tog){ if (editing) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
     if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
     if (b.dataset.cfch != null){ var ci = +b.dataset.cfch; cfOpen[ci] = !cfOpen[ci]; render(); return; }
