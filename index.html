@@ -256,7 +256,9 @@ body:not(.editing) .t td.name > .flex{display:block}
 }
 .t tr.cwpar .tog{align-items:flex-start;flex-wrap:wrap}
 .t tr.cwpar .tog .chev{margin-top:4px}
-.t tr.cwpar .tog .cnt{flex-basis:100%;margin:3px 0 0 17px;text-align:left}
+.t tr.cwpar .tog .cnt{margin:0 0 0 8px;text-align:right;white-space:nowrap}
+.cwt{display:flex;margin:3px 0 1px}.t td.name .tn{white-space:nowrap}.cwt .chip2{font-size:9px;padding:0 4px;letter-spacing:.06em}
+.t tr.cwpar .tog > span[class^="tone-"]{text-align:left}
 /* Loadout pages: Gear | Wardrobe */
 .lo2 > .sec-title .seg{margin-left:4px;order:2}
 .lo2 > .sec-title .seg button{padding:5px 12px;font-size:11px}
@@ -2772,7 +2774,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     ice: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#bfeaff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/><path d="M9.6 3.8 12 6l2.4-2.2M9.6 20.2 12 18l2.4 2.2M3.9 10.1l3.1-1 .7-3.2M16.3 18.1l-.7-3.2 3.1-1M3.9 13.9l3.1 1 .7 3.2M16.3 5.9l-.7 3.2 3.1 1"/></g></svg>',
     volt: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#dfe3ff" stroke="#8f9dff" stroke-width="1.2" stroke-linejoin="round" d="M13.5 2 5 13.4h5.6L9.4 22 19 9.8h-5.8z"/></svg>'
   };
+  function cwTags(r){ return '<span class="lo-tags cwt">' + r.tags.map(function(k){ return '<span class="chip2 ' + (TAGC[String(k).replace(/\s*×\d+$/, "").toUpperCase()] || '') + '"' + (CWTIP[k] ? ' title="' + CWTIP[k] + '"' : '') + '>' + esc(k) + '</span>'; }).join("") + '</span>'; }
+  var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded"};
   function toneName(r){
+    if (r.tags && r.tags.length) return (ICONS[r.tone] || '') + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>' + cwTags(r);
     var m = String(r.name).match(/^([^\(\[]*?)\s*(\(.*?\))?\s*(\[.*)?$/) || [null, r.name];
     return (ICONS[r.tone] || '') + '<span class="tn">' + esc(m[1]) + '</span>' +
       (m[2] ? '<span class="pn">' + esc(m[2]) + '</span>' : '') + (m[3] ? '<span class="tags">' + nm(m[3]) + '</span>' : '');
@@ -2791,7 +2796,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var par = -1; if (r.ind) for (var q = i - 1; q >= 0; q--) if (!S.cyberweapons[q].ind){ par = q; break; }
         var tk = "cw." + (par >= 0 ? par : i);
         if (!editing && r.ind && par >= 0 && !open[tk]) return '';
-        if (!editing && kids) return '<tr class="cwpar' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>';
+        if (!editing && kids) return '<tr class="cwpar' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] || (r.tags && r.tags.length) ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>';
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + toneName(r) + '</span>';
         return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
@@ -5119,10 +5124,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     var cw = g.find("Cyberweapon");
     if (cw){
-      var dc2 = colIn(g, cw[0], "DMG", cw[1]), ac = colIn(g, cw[0], "Ammo", cw[1]), rc2 = colIn(g, cw[0], "ROF", cw[1]), old2 = byName(S.cyberweapons), out3 = [];
+      var dc2 = colIn(g, cw[0], "DMG", cw[1]), ac = colIn(g, cw[0], "Ammo", cw[1]), rc2 = colIn(g, cw[0], "ROF", cw[1]), old2 = byName(S.cyberweapons), old2b = {}, out3 = [], cwB = function(t){ return normN(String(t).replace(/\s*[\(\[].*$/, "")); };
+      (S.cyberweapons || []).forEach(function(x){ if (!old2b[cwB(x.name)]) old2b[cwB(x.name)] = x; });
       rowsUnder(g, cw, /^other inventory$/, 11).forEach(function(r){
-        var n = g.at(r, cw[1]), o = old2[normN(n)] || {};
-        out3.push({name:o.name || cleanName(n), dmg:dc2 > 0 ? g.at(r, dc2) : "", ammo:ac > 0 ? numV(g.at(r, ac)) : "", rof:rc2 > 0 ? numV(g.at(r, rc2)) : "", head:!!o.head, tone:o.tone || "", ind:!!o.ind});
+        var n = g.at(r, cw[1]), o = old2[normN(n)] || old2b[cwB(cleanName(n))] || {};
+        out3.push({tags:o.tags, name:o.name || cleanName(n), dmg:dc2 > 0 ? g.at(r, dc2) : "", ammo:ac > 0 ? numV(g.at(r, ac)) : "", rof:rc2 > 0 ? numV(g.at(r, rc2)) : "", head:!!o.head, tone:o.tone || "", ind:!!o.ind});
       });
       if (out3.length) S.cyberweapons = out3;
     }

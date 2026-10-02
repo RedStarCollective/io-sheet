@@ -986,12 +986,18 @@
  ],
  "cyberweapons": [
   {
-   "name": "MAGI PALM (EXC. Heavy Melee) [UPG, Reach]",
+   "name": "MAGI PALM",
    "dmg": "3d6",
    "ammo": "",
    "rof": 2,
    "head": false,
-   "tone": "gold"
+   "tone": "gold",
+   "tags": [
+    "EQ",
+    "HM",
+    "UPG",
+    "REACH"
+   ]
   },
   {
    "name": "IGNIS (Sets Strong On Fire)",
@@ -1021,12 +1027,17 @@
    "ind": true
   },
   {
-   "name": "MEDICAL HAND (Airhypo)",
+   "name": "MEDICAL HAND",
    "dmg": "",
    "ammo": "",
    "rof": "",
    "head": false,
-   "tone": "med"
+   "tone": "med",
+   "tags": [
+    "EQ",
+    "LM",
+    "AIRHYPO"
+   ]
   },
   {
    "name": "RED RIVER (DV 17 RTD: 3 Extra Damage )",
@@ -1045,6 +1056,31 @@
    "head": false,
    "tone": "",
    "ind": true
+  },
+  {
+   "name": "WOLVERS",
+   "dmg": "3d6",
+   "ammo": "",
+   "rof": 1,
+   "head": false,
+   "tone": "",
+   "tags": [
+    "UPG ×2",
+    "PRECISE",
+    "ARMOR SHRED"
+   ]
+  },
+  {
+   "name": "PALM BOMB",
+   "dmg": "6d6",
+   "ammo": 1,
+   "rof": 1,
+   "head": false,
+   "tone": "fire",
+   "tags": [
+    "INCENDIARY",
+    "GRENADE"
+   ]
   }
  ],
  "inventory": [
