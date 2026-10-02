@@ -1881,6 +1881,22 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
   .fngrid .fcard{transition:filter .3s,opacity .3s}
   .fngrid:has(.fcard[data-fan]:hover) .fcard:not(:hover){filter:brightness(.5) saturate(.6)}
 }
+/* arrange mode (admin): drag cards, or use the arrows, then save the order */
+.fa-btn{align-self:end;white-space:nowrap}
+.fa-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;border:1px solid rgba(181,143,82,.45);background:repeating-linear-gradient(-45deg,rgba(181,143,82,.07) 0 9px,transparent 9px 18px),rgba(12,9,8,.7)}
+.fa-bar b{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.fa-bar span{flex:1;min-width:200px;font-size:14px;color:var(--ink-2)}
+.fngrid.arr .fcard{cursor:grab;touch-action:manipulation}
+.fngrid.arr .fcard:active{cursor:grabbing}
+.fngrid.arr .fcard{filter:none!important}
+.fngrid.arr .fcard.fa-drag{opacity:.3}
+.fngrid.arr .fcard.fa-l::after,.fngrid.arr .fcard.fa-r::after{content:"";position:absolute;top:-6%;bottom:0;width:4px;background:var(--gold);box-shadow:0 0 12px var(--gold);z-index:5;pointer-events:none}
+.fngrid.arr .fcard.fa-l::after{left:-13px}
+.fngrid.arr .fcard.fa-r::after{right:-13px}
+.fa-ctl{position:absolute;left:0;right:0;top:8px;display:flex;justify-content:center;gap:4px;transform:translateZ(90px);z-index:6}
+.fa-ctl button{width:34px;height:30px;font:600 15px/1 var(--f-num);cursor:pointer;background:rgba(8,6,5,.88);border:1px solid var(--frame);color:var(--gold);padding:0}
+.fa-ctl button:hover:not(:disabled){background:var(--gold);color:#140f0e}
+.fa-ctl button:disabled{opacity:.3;cursor:default}
 /* spotlight */
 body.fnlock{overflow:hidden}
 .fnspot{position:fixed;inset:0;z-index:70;display:grid;place-items:center;opacity:0;transition:opacity .24s}
@@ -2213,6 +2229,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
   function setWho(w){
     if (w === "zolo" && !(S && S.zolo) && !(IO && IO.zolo)) return;
+    if (FA.on){ if (FA.orig && WHO === "io") S.fans.list = FA.orig; FA.on = false; FA.orig = null; }   /* leaving mid-arrange drops the unsaved order */
     if (w === "zolo" && WHO !== "zolo"){ IO = S; roIo = readOnly; WHO = "zolo"; editing = false; S = buildZ(); readOnly = true; }
     else if (w === "io" && WHO === "zolo"){ WHO = "io"; S = IO; readOnly = roIo; }
     document.body.classList.toggle("zolo", WHO === "zolo");
@@ -3205,6 +3222,28 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var FN = {gm:"", q:"", open:-1}, fnEnter = true;
   var FN_HUES = [355, 40, 192, 272, 145, 22, 318, 212, 58, 168, 300, 8, 232, 95, 335, 180, 250, 30, 125, 285, 200, 345, 75, 155];
   function FL(){ return (S.fans && S.fans.list) || []; }
+  /* Arrange mode: the edit-key holder (or the page owner on the Claude copy) puts the cards in any order.
+     The order is a list of names (a repeated name gets "#2", "#3"); it is saved through the sheet script (FANS) on the hosted copy, into io.json on the Claude copy. */
+  var FA = {on:false, orig:null, drag:-1, busy:false};
+  function fnCanArrange(){ return WHO === "io" && !readOnly && (!HOSTED || !!EDIT_KEY); }
+  function fnKeys(L){ var seen = {}; return L.map(function(f){ var n = String(f.name || ""); seen[n] = (seen[n] || 0) + 1; return seen[n] > 1 ? n + "#" + seen[n] : n; }); }
+  function fnApplyOrder(order){
+    var io = WHO === "zolo" ? IO : S; if (!io || !io.fans || !io.fans.list || !order || !order.length) return;
+    var L = io.fans.list, keys = fnKeys(L), by = {}, used = {}, out = [];
+    keys.forEach(function(k, i){ by[k] = L[i]; });
+    order.forEach(function(k){ k = String(k); if (by[k] && !used[k]){ used[k] = 1; out.push(by[k]); } });
+    keys.forEach(function(k){ if (!used[k]) out.push(by[k]); });   /* fans added since the order was saved go to the end */
+    io.fans.list = out;
+  }
+  function fnMove(from, to){ var L = FL(); if (from === to || from < 0 || to < 0 || from >= L.length || to >= L.length) return; L.splice(to, 0, L.splice(from, 1)[0]); }
+  function faStart(){ FA.on = true; FA.orig = FL().slice(); FA.drag = -1; FN = {gm:"", q:"", open:-1}; render(); }
+  function faCancel(){ if (FA.orig) S.fans.list = FA.orig; FA.on = false; FA.orig = null; render(); }
+  function faSave(){
+    if (FA.busy) return; FA.busy = true;
+    var done = function(ok){ FA.busy = false; if (ok){ FA.on = false; FA.orig = null; render(); status("Fan order saved"); } };
+    if (HOSTED) pushState("fans", {order:fnKeys(FL())}).then(done);
+    else persist().then(done);
+  }
   function fnGMs(){ var c = {}; FL().forEach(function(f){ var g = f.gm || "Unknown"; c[g] = (c[g] || 0) + 1; }); return Object.keys(c).sort(function(a, b){ return c[b] - c[a] || a.localeCompare(b); }).map(function(g){ return [g, c[g]]; }); }
   function fnHue(gm){ var all = fnGMs().map(function(x){ return x[0]; }).sort(), i = all.indexOf(gm || "Unknown"); return FN_HUES[(i < 0 ? 0 : i) % FN_HUES.length]; }
   function fnNo(i){ var t = (S.fans && S.fans.total) || FL().length; return '<span class="fc-no">No. ' + String(i + 1).padStart(3, "0") + '<i>/' + t + '</i></span>'; }
@@ -3244,13 +3283,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '<div class="fntitle"><p class="lab">The following</p><h2>Fans of Iō</h2>' +
       '<p class="fnstats"><b class="dec">' + (F.total || L.length) + '</b> fans <i></i> <b class="dec">' + (F.gigs || "") + '</b> gigs <i></i> <b class="dec">' + (F.gms || gms.length) + '</b> GMs</p></div>' +
       (F.wip ? '<div class="fnwip" role="note"><span class="fnwip-t">Work in progress</span><span>' + L.length + ' of ' + (F.total || L.length) + ' fans are on the page so far. The roster, the art and this layout will change as Oak finishes them.</span></div>' : '') + '</header>';
-    var bar = '<div class="fnbar"><label class="fnsearch"><span class="lab">Search</span><input type="search" id="fnq" placeholder="Name, gig or GM" value="' + esc(FN.q) + '"></label>' +
+    var arr = FA.on && fnCanArrange(); if (FA.on && !arr){ FA.on = false; }
+    var bar = arr ? '<div class="fa-bar" role="region" aria-label="Arrange cards"><b>Arranging</b><span>Drag a card onto another to move it, or use the arrows on each card. Nothing is saved until you press Save order.</span><button type="button" class="btn" data-fa="cancel">Cancel</button><button type="button" class="btn primary" data-fa="save">Save order</button></div>' :
+      '<div class="fnbar"><label class="fnsearch"><span class="lab">Search</span><input type="search" id="fnq" placeholder="Name, gig or GM" value="' + esc(FN.q) + '"></label>' +
       '<div class="fngms" role="group" aria-label="Filter by GM"><span class="lab">GM</span><button type="button" class="fngm' + (!FN.gm ? ' on' : '') + '" data-fngm="">All<b>' + L.length + '</b></button>' +
       gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
-      '</div><span class="fnshown" id="fnshown"></span></div>';
-    var grid = '<div class="fngrid' + (fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
+      '</div>' + (fnCanArrange() ? '<button type="button" class="btn fa-btn" data-fa="start" title="Put the cards in your own order">Arrange cards</button>' : '<span class="fnshown" id="fnshown"></span>') + (fnCanArrange() ? '<span class="fnshown" id="fnshown" hidden></span>' : '') + '</div>';
+    var grid = '<div class="fngrid' + (arr ? ' arr' : fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
+      if (arr) return '<div class="fcard' + (f.foil ? ' foil' : '') + '" draggable="true" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + '">' + fanCard(f, i) +
+        '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(f.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(f.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(f.name) + ' later" title="Later"' + (i < L.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(f.name) + ' to the end" title="To the end"' + (i < L.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>';
       return '<button type="button" class="fcard' + (f.foil ? ' foil' : '') + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
-      (left ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
+      (left && !arr ? '<div class="fcard fghost" aria-hidden="true" style="--n:' + Math.min(L.length, 30) + '"><span class="fc-in"><span class="fc-bg"></span><span class="fgh"><b class="dec">+' + left + '</b><em>more fans on the way</em></span></span></div>' : '') + '</div>' +
       '<p class="rnone" id="fnnone" hidden>No fans match. Clear the search or pick All.</p>';
     var note = F.note ? '<p class="fnnote">' + esc(F.note) + '</p>' : '';
     fnEnter = false;
@@ -3289,6 +3332,18 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fansAfter(){ fnApply(); }
   app.addEventListener("click", function(ev){
     if (tab !== "fans") return;
+    var fa = ev.target.closest && ev.target.closest("[data-fa],[data-famv]");
+    if (fa){
+      if (fa.dataset.fa === "start"){ if (fnCanArrange()) faStart(); return; }
+      if (fa.dataset.fa === "cancel"){ faCancel(); return; }
+      if (fa.dataset.fa === "save"){ faSave(); return; }
+      var c0 = fa.closest("[data-fan]"), i0 = c0 ? +c0.dataset.fan : -1, mv = fa.dataset.famv, n = FL().length;
+      var to = mv === "first" ? 0 : mv === "last" ? n - 1 : i0 + (+mv);
+      fnMove(i0, to); render();
+      var nb = document.querySelector('.fngrid .fcard[data-fan="' + to + '"] [data-famv="' + mv + '"]'); if (nb && !nb.disabled) nb.focus({preventScroll:true});
+      return;
+    }
+    if (FA.on) return;
     var t = ev.target.closest && ev.target.closest("[data-fan],[data-fngm],[data-fnclose],[data-fnstep],[data-fnflip]"); if (!t) return;
     if (t.dataset.fnflip){ fsFlip(); return; }
     if (t.dataset.fngm != null){ FN.gm = FN.gm === t.dataset.fngm && t.dataset.fngm ? "" : t.dataset.fngm; if (t.dataset.fnclose) fnClose(); fnApply(); return; }
@@ -3297,6 +3352,30 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (t.dataset.fan != null && !t.closest(".fnspot")) fnOpen(+t.dataset.fan);
   });
   app.addEventListener("input", function(ev){ if (tab === "fans" && ev.target.id === "fnq"){ FN.q = ev.target.value; fnApply(); } });
+  /* arrange mode: native drag and drop between cards; the gold bar shows which side the card will land on */
+  function faMark(card, side){ [].forEach.call(document.querySelectorAll(".fngrid .fa-l,.fngrid .fa-r"), function(c){ if (c !== card) c.classList.remove("fa-l", "fa-r"); }); if (card){ card.classList.toggle("fa-l", side < 0); card.classList.toggle("fa-r", side > 0); } }
+  function faSide(card, ev){ var R = card.getBoundingClientRect(); return ev.clientX < R.left + R.width / 2 ? -1 : 1; }
+  app.addEventListener("dragstart", function(ev){
+    if (tab !== "fans" || !FA.on) return;
+    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
+    FA.drag = +c.dataset.fan; c.classList.add("fa-drag");
+    try { ev.dataTransfer.effectAllowed = "move"; ev.dataTransfer.setData("text/plain", String(FA.drag)); } catch(e){}
+  });
+  app.addEventListener("dragover", function(ev){
+    if (tab !== "fans" || !FA.on || FA.drag < 0) return;
+    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
+    ev.preventDefault(); try { ev.dataTransfer.dropEffect = "move"; } catch(e){}
+    if (+c.dataset.fan === FA.drag){ faMark(null); return; }
+    faMark(c, faSide(c, ev));
+  });
+  app.addEventListener("drop", function(ev){
+    if (tab !== "fans" || !FA.on || FA.drag < 0) return;
+    var c = ev.target.closest && ev.target.closest(".fngrid.arr .fcard[data-fan]"); if (!c) return;
+    ev.preventDefault();
+    var from = FA.drag, t2 = +c.dataset.fan, to = t2 + (faSide(c, ev) > 0 ? 1 : 0); if (from < to) to--;
+    FA.drag = -1; fnMove(from, to); render();
+  });
+  app.addEventListener("dragend", function(){ if (FA.drag >= 0 || FA.on){ FA.drag = -1; faMark(null); [].forEach.call(document.querySelectorAll(".fngrid .fa-drag"), function(c){ c.classList.remove("fa-drag"); }); } });
   document.addEventListener("keydown", function(ev){
     if (tab !== "fans" || FN.open < 0) return;
     if (ev.key === "Escape"){ fnClose(); return; }
@@ -3351,7 +3430,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   });
   /* tilt + holo sheen follow the pointer (mouse and pen) */
   document.addEventListener("pointermove", function(ev){
-    if (tab !== "fans" || reduce || ev.pointerType === "touch") return;
+    if (tab !== "fans" || reduce || ev.pointerType === "touch" || FA.on) return;
     var c = ev.target.closest && ev.target.closest(".fcard:not(.fghost):not(.big)"); 
     if (fnTilt && fnTilt !== c){ ["--rx","--ry","--px","--py","--mx","--my"].forEach(function(v){ fnTilt.style.removeProperty(v); }); fnTilt.classList.remove("tilt"); fnTilt = null; }
     if (!c) return;
@@ -4687,6 +4766,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
+      if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       var sz = sheetOf(j, SHEET_TABS.zstats);
@@ -4821,7 +4901,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig) S.fans.list = FA.orig; FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }

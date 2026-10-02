@@ -15,7 +15,7 @@
  *
  * Reading is open to anyone with the URL (the same as a view link).
  * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks, the Trauma Team card, the Nyozi switch and the Public switch.
- * These page settings are kept in Script Properties (TRAINING, TT, NYOZI, HOSTING), not in sheet cells.
+ * These page settings are kept in Script Properties (TRAINING, TT, NYOZI, HOSTING, FANS), not in sheet cells.
  * HOSTING is the page's Public switch: when it's off, people without the edit key see a "Sheet closed" screen.
  *
  * Case File tab: run setupCaseFile() once (pick it in the function menu at the top, then Run).
@@ -46,6 +46,7 @@ function doGet(e) {
   try { out.tt = JSON.parse(props.getProperty('TT') || 'null'); } catch (err) { out.tt = null; }
   try { out.nyozi = JSON.parse(props.getProperty('NYOZI') || 'null'); } catch (err) { out.nyozi = null; }
   try { out.hosting = JSON.parse(props.getProperty('HOSTING') || 'null'); } catch (err) { out.hosting = null; }
+  try { out.fans = JSON.parse(props.getProperty('FANS') || 'null'); } catch (err) { out.fans = null; }
   return json_(out);
 }
 
@@ -68,6 +69,15 @@ function doPost(e) {
     const h = { open: body.open !== false, updated: new Date().toISOString() };
     PropertiesService.getScriptProperties().setProperty('HOSTING', JSON.stringify(h));
     return json_({ ok: true, hosting: h });
+  }
+  if (body.type === 'fans') {
+    // the order of the fan cards on the Fans tab of the page: a list of names, set by dragging cards in Arrange mode
+    const order = (Array.isArray(body.order) ? body.order : []).slice(0, 600).map(function (x) { return String(x).slice(0, 80); });
+    const f = { order: order, updated: new Date().toISOString() };
+    const txt = JSON.stringify(f);
+    if (txt.length > 9000) return json_({ ok: false, error: 'too many fans to store' });
+    PropertiesService.getScriptProperties().setProperty('FANS', txt);
+    return json_({ ok: true, fans: f });
   }
   return json_({ ok: false, error: 'unknown request' });
 }
