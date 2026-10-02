@@ -3364,6 +3364,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function fnTotal(){ return ((S.fans && S.fans.total) || FL().length) + fgMembers(); }
   /* every card that can be opened: the individual fans, then each group's members (who borrow the group's gig, GM, link and colour) */
   function FXL(){ var out = FL().slice(); FGL().forEach(function(g, gi){ (g.members || []).forEach(function(m){ var o = {gm:g.gm, gig:g.gig, link:g.link, _g:gi, _hue:g.hue}; for (var k in m) o[k] = m[k]; out.push(o); }); }); return out; }
+  /* the stored object behind any card index (a fan, or a member inside its group), and a stable key for it */
+  function fnOrig(i){ var n = FL().length; if (i < n) return FL()[i]; var G = FGL(); for (var g = 0; g < G.length; g++){ var M = G[g].members || []; if (i - n < M.length) return M[i - n]; n += M.length; } return null; }
+  function fnRscKeys(io){ io = io || S; var out = [], K = fnKeys(io.fans.list); io.fans.list.forEach(function(f, n){ if (f.rsc) out.push(K[n]); });
+    (io.fans.groups || []).forEach(function(g){ var MK = fnKeys(g.members || []); (g.members || []).forEach(function(m, n){ if (m.rsc) out.push("group:" + g.name + "/" + MK[n]); }); }); return out; }
+  function fnRscApply(io, list){ var rk = {}; list.forEach(function(k){ rk[k] = 1; }); var K = fnKeys(io.fans.list);
+    io.fans.list.forEach(function(f, n){ if (rk[K[n]]) f.rsc = true; else delete f.rsc; });
+    (io.fans.groups || []).forEach(function(g){ var MK = fnKeys(g.members || []); (g.members || []).forEach(function(m, n){ if (rk["group:" + g.name + "/" + MK[n]]) m.rsc = true; else delete m.rsc; }); }); }
   function fgBase(gi){ var n = FL().length; FGL().forEach(function(g, i){ if (i < gi) n += (g.members || []).length; }); return n; }
   function fnCol(f){ return f && f._hue != null ? f._hue + ";--k:1.4" : fnHue(f && f.gm); }
   var FK = "all";
@@ -3504,7 +3511,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
-        (fnCanArrange() && i < FL().length ? '<div class="fns-nav"><button type="button" class="prsw" data-fnrsc="1" aria-pressed="' + !!f.rsc + '" title="Marks this fan as a Red Star Collective member: star on the card front, red star back"><i></i>RSC member</button></div>' : '') +
+        (fnCanArrange() ? '<div class="fns-nav"><button type="button" class="prsw" data-fnrsc="1" aria-pressed="' + !!f.rsc + '" title="Marks this fan as a Red Star Collective member: star on the card front, red star back"><i></i>RSC member</button></div>' : '') +
         (f._g != null ? '<div class="fns-nav"><button type="button" class="fns-flip" data-fgrp="' + f._g + '">← ' + esc(FGL()[f._g].name) + '</button></div>' : '') +
         '<div class="fns-nav"><button type="button" class="fns-flip" data-fnflip="1">Flip card</button><span class="fns-hint">Drag the card to turn it</span></div>' +
         '<div class="fns-nav">' + (vis.length > 1 ? '<button type="button" data-fnstep="-1" aria-label="Previous fan">←</button><span>' + (k + 1) + ' / ' + vis.length + '</span><button type="button" data-fnstep="1" aria-label="Next fan">→</button>' : '') + '</div>' +
@@ -3538,10 +3545,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var aq = ev.target.closest && ev.target.closest("[data-fnart]");
     if (aq){ FN.art = +aq.dataset.fnart; var o = FN.open; fnOpen(o); return; }
     var rq = ev.target.closest && ev.target.closest("[data-fnrsc]");
-    if (rq && fnCanArrange()){ var rf = FL()[FN.open], ri = FN.open; if (!rf) return;
+    if (rq && fnCanArrange()){ var rf = fnOrig(FN.open), ri = FN.open; if (!rf) return;
       if (rf.rsc) delete rf.rsc; else rf.rsc = true;
       render(); fnOpen(ri);
-      if (HOSTED) pushState("fanrsc", {members:fnKeys(FL()).filter(function(k, n){ return !!FL()[n].rsc; })}); else persist();
+      if (HOSTED) pushState("fanrsc", {members:fnRscKeys()}); else persist();
       return; }
     var sq = ev.target.closest && ev.target.closest("[data-fnsadd],[data-fnsdel]");
     if (sq && fnCanArrange()){ var sf = FL()[FN.open]; if (!sf) return;
@@ -4977,8 +4984,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
-      if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S, rk = {}; j.fanrsc.forEach(function(k){ rk[k] = 1; });
-        if (fio && fio.fans){ var fk = fnKeys(fio.fans.list); fio.fans.list.forEach(function(f, n){ if (rk[fk[n]]) f.rsc = true; else delete f.rsc; }); } }
+      if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S; if (fio && fio.fans) fnRscApply(fio, j.fanrsc); }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
       var sz = sheetOf(j, SHEET_TABS.zstats);
