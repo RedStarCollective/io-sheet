@@ -2544,7 +2544,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     pgear: {name:"New gear", data:""},
     gmod: {name:"New upgrade", data:"", group:"systems"},
     parmor: {name:"New armor", loc:"Body", sp:""},
-    repEvents: {lvl:3, head:"New rep event", text:"", kinds:[], who:[], date:new Date().toISOString().slice(0,10), link:""}
+    repEvents: {lvl:3, head:"New rep event", text:"", kinds:[], who:[], date:(new Date().getFullYear() + 22) + new Date().toISOString().slice(4,10), link:""}
   };
   var ELEMENTS = [["","No element"],["earth","Earth"],["fire","Fire"],["water","Water"],["air","Air"]];
   var TONES = [["","Plain"],["gold","Gold"],["fire","Fire"],["ice","Ice"],["volt","Volt"],["med","Medical"]];
