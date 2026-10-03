@@ -2270,6 +2270,9 @@ body.fnlock{overflow:hidden}
 .fnx-w{font:inherit;font-size:13px;line-height:1;background:none;border:0;padding:0 2px;margin-left:4px;color:#e0a63a;cursor:pointer}
 .fnx-w:hover,.fnx-w[aria-expanded="true"]{color:#ffc55a}
 .fnx-note{grid-column:1/-1;margin:0;padding:8px 10px;border:1px dashed #8a6a2a;color:#e0c48a;background:rgba(224,166,58,.07);font-size:13.5px;line-height:1.4}
+.fnx-note{overflow:hidden;max-height:140px;transition:max-height .4s ease,opacity .3s ease,padding .4s ease,margin .4s ease,border-color .3s}
+.fnx-note.off{max-height:0;opacity:0;padding-top:0;padding-bottom:0;margin-top:-10px;border-color:transparent;pointer-events:none}
+@media (prefers-reduced-motion:reduce){ .fnx-note{transition:none} }
 .fnx-del{font:inherit;background:none;border:0;color:var(--ink-3);cursor:pointer;padding:0 0 0 2px;line-height:1}
 .fnx-del:hover{color:var(--red-hi)}
 .fnx dd{flex-direction:column;gap:10px}
@@ -4028,8 +4031,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     function chip(r){ return esc(r.role || r.skill || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + (r.lvl != null && r.lvl !== "" ? '<b>' + esc(r.lvl) + '</b>' : ''); }
     return '<div class="fns-roles fnx"><dt>Provided by the GM ' + warn + '</dt><dd>' + row("role", "Role abilities", R) + row("skill", "Notable skills", K) +
-      (FN.xw ? '<p class="fnx-note" role="note">⚠ ' + esc(FNX_WARN) + '</p>' : '') + '</dd></div>';
+      '<p class="fnx-note' + (FN.xw ? '' : ' off') + '" id="fnxnote" role="note">⚠ ' + esc(FNX_WARN) + '</p></dd></div>';
   }
+  /* the GM warning shows for three seconds when a fan file opens, then folds away; the ⚠ brings it back */
+  function fnXSync(){ var n = document.getElementById("fnxnote"); if (n) n.classList.toggle("off", !FN.xw); [].forEach.call(document.querySelectorAll("[data-fnxw]"), function(b){ b.setAttribute("aria-expanded", !!FN.xw); }); }
   function fnXKey(i){ var n = FL().length; if (i < n) return fnKeys(FL())[i]; var G = FGL(); for (var g = 0; g < G.length; g++){ var M = G[g].members || []; if (i - n < M.length) return "group:" + G[g].name + "/" + fnKeys(M)[i - n]; n += M.length; } return ""; }
   function fnXMap(){ var o = {}; FXL().forEach(function(x, i){ var f = fnOrig(i); if (f && ((f.roles || []).length || (f.skills || []).length)) o[fnXKey(i)] = {roles:f.roles || [], skills:f.skills || []}; }); return o; }
   function fnXApply(io, map){ if (!io || !io.fans || !map) return;
@@ -4044,7 +4049,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return FL().map(function(f, i){ return i; }).filter(function(i){ return fnMatch(FL()[i]); }); }
   function fnOpen(i){
     var sp = document.getElementById("fnspot"), f = FXL()[i]; if (!sp || !f) return;
-    if (FN.open !== i) FN.art = 0; FN.open = i; FG.open = -1;
+    if (FN.open !== i){ FN.art = 0; FN.xw = true; clearTimeout(FN.xt); FN.xt = setTimeout(function(){ FN.xw = false; fnXSync(); }, 3000); } FN.open = i; FG.open = -1;
     var arts = (f.alts || []).length ? [f].concat(f.alts) : [];
     var vis = fnVisible(), k = vis.indexOf(i);
     sp.innerHTML = '<div class="fns-back" data-fnclose="1"></div><div class="fns-in" role="dialog" aria-modal="true" aria-label="' + esc(f.name) + '" style="--h:' + fnCol(f) + '">' +
@@ -4096,7 +4101,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       render(); fnOpen(ri);
       if (HOSTED) pushState("fanrsc", {members:fnRscKeys()}); else persist();
       return; }
-    var xw = ev.target.closest && ev.target.closest("[data-fnxw]"); if (xw){ FN.xw = !FN.xw; fnOpen(FN.open); return; }
+    var xw = ev.target.closest && ev.target.closest("[data-fnxw]"); if (xw){ clearTimeout(FN.xt); FN.xw = !FN.xw; fnXSync(); return; }
     var xq = ev.target.closest && ev.target.closest("[data-fnxadd],[data-fnxdel]");
     if (xq && fnCanArrange()){ var xf = fnOrig(FN.open); if (!xf) return;
       if (xq.dataset.fnxdel != null){ var pr = xq.dataset.fnxdel.split(":"), arr = pr[0] === "role" ? xf.roles : xf.skills; if (arr){ arr.splice(+pr[1], 1); if (!arr.length) delete xf[pr[0] === "role" ? "roles" : "skills"]; } fnXSave(); return; }
