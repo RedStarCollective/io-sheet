@@ -516,6 +516,19 @@ select.ed{width:auto;padding:0 2px}
   .ring-all .rtop{flex-direction:column;align-items:stretch}
   .ring-all .rtop > .zchunk,.ring-all .rtop > .gl-wrap{width:auto}
 }
+.al-list{position:relative;padding:4px 0 6px}
+.al-list::before{content:"";position:absolute;left:119px;top:14px;bottom:16px;width:1px;background:var(--gold-dim)}
+.al-row{display:grid;grid-template-columns:104px 11px minmax(0,1fr);gap:0 10px;align-items:start}
+.al-w{font-family:var(--f-num);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:right;padding-top:9px;line-height:1.25}
+.al-dot{width:7px;height:7px;margin:11px 0 0 2px;background:var(--gold);transform:rotate(45deg);position:relative;z-index:1}
+.al-same .al-dot{background:var(--bg,#110d0c);border:1px solid var(--gold)}
+.al-row > .ctree{min-width:0}
+.al-row > .ctree > .nd{margin-left:0}
+.al-loose{border-top:1px dashed var(--frame);margin-top:2px}
+.al-loose::before{display:none}
+.al-over .al-w{color:var(--ink-3)}
+.al-over .al-dot{background:none;border:1px dashed var(--ink-3);transform:none}
+@media (max-width:520px){ .al-row{grid-template-columns:74px 11px minmax(0,1fr);gap:0 6px} .al-list::before{left:83px} .al-w{font-size:9.5px;letter-spacing:.06em} }
 /* ---------- posse tab ---------- */
 .stagebar{position:relative;margin:0 0 14px;padding:0;border-bottom:1px solid var(--frame);background:radial-gradient(ellipse 55% 45% at 50% 100%,rgba(159,12,23,.24),transparent 70%)}
 .stagebar::after{content:"";position:absolute;left:6%;right:6%;bottom:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
@@ -3325,7 +3338,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         if (parts[0] === "optics") return eyeChunk(parts[1]);
         if (parts[1]){
           var gs = limbGroups(parts[1]); if (!gs.length) return "";
-          return '<div class="zchunk">' + (sel === "all" ? '<h3 class="zh">' + esc(z.label) + '</h3>' : '') + gs.map(function(x){ return '<div class="wanchor" data-an="' + x[1] + '">' + groupHTML(zi, z.groups[x[0]], x[0], x[1]) + '</div>'; }).join("") + '</div>';
+          return '<div class="zchunk">' + (sel === "all" ? '<h3 class="zh">' + esc(z.label) + '</h3>' : '') + gs.map(function(x){ return '<div class="wanchor" data-an="' + x[1] + '">' + (sel === "all" && x[1] === "armR" && !editing ? armList(zi, z.groups[x[0]], x[0], x[1]) : groupHTML(zi, z.groups[x[0]], x[0], x[1])) + '</div>'; }).join("") + '</div>';
         }
         var rg = (z.regions || []).join(" "), an = z.regions && z.regions[0] === "body" ? "body" + side : (z.regions || ["torso"])[0];
         return '<div class="zchunk wanchor" data-an="' + an + '" data-hr="' + rg + '"><h3 class="zh"><button type="button" class="zlink" data-zone="' + z.id + '">' + esc(z.label) + '</button><b>' + zoneCount(z) + '</b></h3>' +
@@ -3415,6 +3428,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (o){ XOPEN[o.p] = 1; return '<ul class="ctree">' + nodeHTML(o.it, o.p, 0) + '</ul>'; }
     var bare = {}; Object.keys(D.root).forEach(function(k){ if (k !== "children") bare[k] = D.root[k]; });
     return '<p class="ad-hint">Pick an option on the arm for its rules</p><ul class="ctree">' + nodeHTML(bare, D.rp, 0) + '</ul>';
+  }
+  /* Show All: the arm's options listed shoulder to fingertips with where each one sits, no art (Oak, Oct 3) */
+  function armList(zi, g, gi, hr){
+    var D = adOpts(zi, g, gi); if (!D || !D.opts.length) return groupHTML(zi, g, gi, hr);
+    var bare = {}; Object.keys(D.root).forEach(function(k){ if (k !== "children") bare[k] = D.root[k]; });
+    var last = null;
+    function row(o, w, cls){ var same = w === last; last = w;
+      return '<div class="al-row' + (cls || '') + (same ? ' al-same' : '') + '"><span class="al-w">' + (same ? '' : esc(w)) + '</span><i class="al-dot" aria-hidden="true"></i><ul class="ctree">' + nodeHTML(o.it, o.p, 1) + '</ul></div>'; }
+    return '<section class="box cgrp al-box" data-hr="' + hr + '"><div class="hb"><span class="sp">' + esc(g.title) + '</span><span class="gnote">' + (D.opts.length + D.loose.length) + ' options</span></div>' +
+      '<ul class="ctree">' + nodeHTML(bare, D.rp, 0) + '</ul><div class="al-list">' + D.opts.map(function(o){ return row(o, o.where || "", ""); }).join("") + '</div>' +
+      (D.loose.length ? '<div class="al-list al-loose">' + D.loose.map(function(o){ return row(o, "Worn over the arm", " al-over"); }).join("") + '</div>' : '') + '</section>';
   }
   function armDiagram(zi, g, gi){
     var D = adOpts(zi, g, gi); if (!D || !D.opts.length) return groupHTML(zi, g, gi, "");
