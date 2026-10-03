@@ -2266,6 +2266,13 @@ body.fnlock{overflow:hidden}
 .fns-roles{grid-column:1/-1;padding-top:12px;border-top:1px dashed var(--line)}
 .fns-roles dd{display:flex;flex-wrap:wrap;gap:6px}
 .fns-role{display:inline-flex;align-items:baseline;gap:7px;font:600 15px/1 var(--f-cond);color:var(--ink);background:var(--cell);border:1px solid var(--line);border-left:2px solid hsl(var(--h) calc(60% * var(--k,1)) 55%);padding:5px 9px 4px}
+.fnx-w{font:inherit;font-size:13px;line-height:1;background:none;border:0;padding:0 2px;margin-left:4px;color:#e0a63a;cursor:pointer}
+.fnx-w:hover,.fnx-w[aria-expanded="true"]{color:#ffc55a}
+.fnx-note{grid-column:1/-1;margin:0;padding:8px 10px;border:1px dashed #8a6a2a;color:#e0c48a;background:rgba(224,166,58,.07);font-size:13.5px;line-height:1.4}
+.fnx-del{font:inherit;background:none;border:0;color:var(--ink-3);cursor:pointer;padding:0 0 0 2px;line-height:1}
+.fnx-del:hover{color:var(--red-hi)}
+.fgnote{margin:14px 0 0}
+.fgsec .fgnote{margin:0 0 14px}
 .fns-role b{font:600 14px/1 var(--f-num);color:var(--gold)}
 .fns-nav .prsw{width:auto;height:auto;font-size:12px;padding:7px 10px}
 .fns-nav .fns-flip{width:auto;height:auto;font-size:12px}
@@ -3898,9 +3905,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (arr) return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>Drag to reorder</small></h2><div class="fngrid arr">' +
       G.map(function(g, i){ return '<div class="fcard fgrp" draggable="true" data-fga="' + i + '" style="' + fgStyle(g) + '">' + fgCard(g) +
         '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(g.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(g.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(g.name) + ' later" title="Later"' + (i < G.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(g.name) + ' to the end" title="To the end"' + (i < G.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>'; }).join("") + '</div></section>';
-    return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2><div class="fngrid">' +
+    return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2>' + fgNote() + '<div class="fngrid">' +
       G.map(function(g, i){ return '<button type="button" class="fcard fgrp" data-fgrp="' + i + '" style="' + fgStyle(g) + '" aria-label="' + esc(g.name + ", group of " + fgCount(g)) + '">' + fgCard(g) + '</button>'; }).join("") + '</div></section>';
   }
+  function fgNote(){ var t = S.fans && S.fans.groupNote; return t ? '<p class="fnnote fgnote" role="note"><b>Note for GMs</b><span>' + esc(String(t).replace(/^Note for GMs:\s*/i, "")) + '</span></p>' : ''; }
   function fgOpen(i, mi){
     var sp = document.getElementById("fnspot"), g = FGL()[i]; if (!sp || !g) return;
     FG.open = i; FG.m = mi == null ? -1 : mi; FN.open = -1;
@@ -3911,7 +3919,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<dl class="fns-dl"><div><dt>Became fans during</dt><dd>' + (fnUrl(g.link) ? '<a class="fns-link" href="' + esc(fnUrl(g.link)) + '" target="_blank" rel="noopener">' + esc(g.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(g.gig || "Unknown")) + '</dd></div>' +
         '<div><dt>GM</dt><dd>' + esc(g.gm || "Unknown") + '</dd></div>' +
         (g.by ? '<div class="fns-roles"><dt>Defined by</dt><dd><span class="fns-role">' + esc(g.by) + '</span>' + (g.refArt ? '<span class="fns-role">Reference art, not GM-supplied</span>' : '') + '</dd></div>' : '') + '</dl>' +
-        (g.story ? '<p class="fns-story">' + esc(g.story) + '</p>' : '') +
+        (g.story ? '<p class="fns-story">' + esc(g.story) + '</p>' : '') + fgNote() +
         '<p class="lab" style="margin:18px 0 0">Members <span class="fc-no">×' + fgCount(g) + '</span></p><div class="fg-mem">' + M.map(function(m, k){ var xi = fgBase(i) + k, X = FXL()[xi];
           return '<button type="button" class="fcard' + '' + '" data-fan="' + xi + '" style="--h:' + fnCol(X) + '" aria-label="' + esc(m.name) + '">' + fanCard(X, xi) + '</button>'; }).join("") + '</div>' +
         (fgCount(g) > M.length ? '<p class="fns-hint" style="margin-top:8px">' + (fgCount(g) - M.length) + ' more not on the page yet.</p>' : '') +
@@ -4000,6 +4008,29 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       (can && !FN.add ? '<button type="button" class="fns-sbtn" data-fnsadd="open">+ Add a game</button>' : '') +
       (can && FN.add ? '<span class="fns-sadd"><input id="fnsg" placeholder="Game name" aria-label="Game name"><input id="fnsl" placeholder="Link (optional)" aria-label="Link"><button type="button" data-fnsadd="save">Add</button></span>' : '') + '</dd></div>';
   }
+  /* role / rank and notable skills: set by the admin in the fan file, flagged as GM-provided (Oak, Oct 3) */
+  var FNX_WARN = "Provided by the GM. Not canon from table to table; here as a resource if a GM would like it.";
+  function fnXHTML(f, i){
+    var can = fnCanArrange(), R = f.roles || [], K = f.skills || [];
+    if (!R.length && !K.length && !can) return "";
+    var warn = '<button type="button" class="fnx-w" data-fnxw="1" aria-expanded="' + !!FN.xw + '" aria-label="About these stats" title="' + esc(FNX_WARN) + '">⚠</button>';
+    function row(kind, label, L, chip){
+      if (!L.length && !can) return "";
+      return '<div class="fns-roles"><dt>' + label + ' ' + warn + '</dt><dd>' + L.map(function(x, k){ return '<span class="fns-role">' + chip(x) + (can ? '<button type="button" class="fnx-del" data-fnxdel="' + kind + ':' + k + '" aria-label="Remove">×</button>' : '') + '</span>'; }).join("") +
+        (can && FN.xadd !== kind ? '<button type="button" class="fns-sbtn" data-fnxadd="' + kind + '">+ Add ' + (kind === "role" ? 'role' : 'skill') + '</button>' : '') +
+        (can && FN.xadd === kind ? '<span class="fns-sadd">' + (kind === "role" ? '<input id="fnxa" placeholder="Role" aria-label="Role"><input id="fnxb" placeholder="Rank" aria-label="Rank" inputmode="numeric" style="flex:0 1 80px">' : '<input id="fnxa" placeholder="Skill" aria-label="Skill"><input id="fnxb" placeholder="Level (optional)" aria-label="Level" style="flex:0 1 130px">') + '<button type="button" data-fnxadd="save">Add</button></span>' : '') + '</dd></div>';
+    }
+    function chip(r){ return esc(r.role || r.skill || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + (r.lvl != null && r.lvl !== "" ? '<b>' + esc(r.lvl) + '</b>' : ''); }
+    return row("role", "Role abilities", R, chip) + row("skill", "Notable skills", K, chip) +
+      (FN.xw && (R.length || K.length || can) ? '<p class="fnx-note" role="note">⚠ ' + esc(FNX_WARN) + '</p>' : '');
+  }
+  function fnXKey(i){ var n = FL().length; if (i < n) return fnKeys(FL())[i]; var G = FGL(); for (var g = 0; g < G.length; g++){ var M = G[g].members || []; if (i - n < M.length) return "group:" + G[g].name + "/" + fnKeys(M)[i - n]; n += M.length; } return ""; }
+  function fnXMap(){ var o = {}; FXL().forEach(function(x, i){ var f = fnOrig(i); if (f && ((f.roles || []).length || (f.skills || []).length)) o[fnXKey(i)] = {roles:f.roles || [], skills:f.skills || []}; }); return o; }
+  function fnXApply(io, map){ if (!io || !io.fans || !map) return;
+    function set(f, k){ var m = map[k]; if (m && (m.roles || []).length) f.roles = m.roles; else delete f.roles; if (m && (m.skills || []).length) f.skills = m.skills; else delete f.skills; }
+    var K = fnKeys(io.fans.list); io.fans.list.forEach(function(f, i){ set(f, K[i]); });
+    (io.fans.groups || []).forEach(function(g){ var MK = fnKeys(g.members || []); (g.members || []).forEach(function(m, n){ set(m, "group:" + g.name + "/" + MK[n]); }); }); }
+  function fnXSave(){ var i = FN.open; FN.xadd = ""; fnOpen(i); if (HOSTED) pushState("meta", {name:"fanx", value:fnXMap()}); else persist(); }
   function fnSeenMap(){ var o = {}, K = fnKeys(FL()); FL().forEach(function(f, i){ if ((f.seen || []).length) o[K[i]] = f.seen; }); return o; }
   function fnSeenSave(){ var i = FN.open; FN.add = false; fnOpen(i); if (HOSTED) pushState("fanseen", {seen:fnSeenMap()}); else persist(); }
   function fnSeenApply(map){ var io = WHO === "zolo" ? IO : S; if (!io || !io.fans || !map) return; var K = fnKeys(io.fans.list); io.fans.list.forEach(function(f, i){ if (map[K[i]]) f.seen = map[K[i]]; else if (f.seen) delete f.seen; }); }
@@ -4016,7 +4047,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         (arts.length ? '<div class="fns-arts" role="group" aria-label="Art">' + arts.map(function(a, k){ return '<button type="button" data-fnart="' + k + '" aria-pressed="' + (k === (FN.art || 0)) + '"><i><img src="' + esc(a.img) + '" alt=""></i>' + esc(a.label || "Art " + (k + 1)) + '</button>'; }).join("") + '</div>' : '') + '</div>' +
       '<div class="fns-info"><p class="lab">Fan file ' + fnNo(i, true) + '</p><h2>' + nm(f.name) + '</h2>' +
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
-        ((f.roles || []).length ? '<div class="fns-roles"><dt>Role abilities</dt><dd>' + f.roles.map(function(r){ return '<span class="fns-role">' + esc(r.role || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + '</span>'; }).join("") + '</dd></div>' : '') + fnSeenHTML(f, i) + '</dl>' +
+        fnXHTML(f, i) + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
         (fnCanArrange() ? '<div class="fns-nav"><button type="button" class="prsw" data-fnrsc="1" aria-pressed="' + !!f.rsc + '" title="Marks this fan as a Red Star Collective member: star on the card front, red star back"><i></i>RSC member</button></div>' : '') +
@@ -4058,6 +4089,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       render(); fnOpen(ri);
       if (HOSTED) pushState("fanrsc", {members:fnRscKeys()}); else persist();
       return; }
+    var xw = ev.target.closest && ev.target.closest("[data-fnxw]"); if (xw){ FN.xw = !FN.xw; fnOpen(FN.open); return; }
+    var xq = ev.target.closest && ev.target.closest("[data-fnxadd],[data-fnxdel]");
+    if (xq && fnCanArrange()){ var xf = fnOrig(FN.open); if (!xf) return;
+      if (xq.dataset.fnxdel != null){ var pr = xq.dataset.fnxdel.split(":"), arr = pr[0] === "role" ? xf.roles : xf.skills; if (arr){ arr.splice(+pr[1], 1); if (!arr.length) delete xf[pr[0] === "role" ? "roles" : "skills"]; } fnXSave(); return; }
+      if (xq.dataset.fnxadd !== "save"){ FN.xadd = xq.dataset.fnxadd; fnOpen(FN.open); var xi = document.getElementById("fnxa"); if (xi) xi.focus(); return; }
+      var xa = ((document.getElementById("fnxa") || {}).value || "").trim(), xb = ((document.getElementById("fnxb") || {}).value || "").trim(); if (!xa) return;
+      if (FN.xadd === "role") (xf.roles = xf.roles || []).push(xb ? {role:xa, rank:xb} : {role:xa}); else (xf.skills = xf.skills || []).push(xb ? {skill:xa, lvl:xb} : {skill:xa});
+      fnXSave(); return; }
     var sq = ev.target.closest && ev.target.closest("[data-fnsadd],[data-fnsdel]");
     if (sq && fnCanArrange()){ var sf = FL()[FN.open]; if (!sf) return;
       if (sq.dataset.fnsdel != null){ sf.seen.splice(+sq.dataset.fnsdel, 1); if (!sf.seen.length) delete sf.seen; fnSeenSave(); return; }
@@ -4491,7 +4530,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       room(mi, 190, 142, 190, 40, "MEDICAL", "medical") +
       room(ci, 386, 142, 260, 40, "CARGO BAY", "cargo") +
       room(gi, 652, 142, 190, 40, "HANGAR", "hangar") + '</svg>';
-    return '<section class="box vdeck"><div class="hb"><span class="sp">Deck plan</span><span class="gnote">Hover a compartment</span></div>' + svg +
+    return '<section class="box vdeck"><div class="hb"><span class="sp">Rooms</span></div>' +
       '<ul class="rooms">' + R.map(function(r, i){ var rb = refBody(r.ref, r.data); return '<li data-room="' + i + '" class="rk-' + esc(r.kind) + '"><b>' + vnm(r.name) + '</b>' + (rb.html ? '<span>' + rb.html + '</span>' : '') + '</li>'; }).join("") + '</ul></section>';
   }
   function garageEdit(v, vi){
@@ -4534,10 +4573,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       (v.sp !== "" && v.sp != null ? '<div class="vtile"><span class="lab">Armor</span><b>SP ' + esc(v.sp) + '</b></div>' : '') +
       '<div class="vtile"><span class="lab">Seats</span><b>' + esc(v.seats) + '</b></div>' + roomsTile(v) +
       vDerived(v).map(function(d){ return '<div class="vtile"><span class="lab">' + esc(d.k) + '</span><b>' + esc(d.v) + '<i>' + esc(d.u) + '</i></b><em>' + esc(d.note) + '</em></div>'; }).join("") +
-      (v.value ? '<div class="vtile"><span class="lab">Value</span><b class="gold">' + esc(v.value) + '</b></div>' : '');
+      (v.value && isAdmin() ? '<div class="vtile"><span class="lab">Value</span><b class="gold">' + esc(v.value) + '</b></div>' : '');
     var groups = GGROUP.map(function(g){ var ms = (v.mods || []).filter(function(m){ return (m.group || "systems") === g[0]; }); if (!ms.length) return "";
       return '<section class="box vgrp g-' + g[0] + '"><div class="hb"><span class="sp">' + g[1] + '</span><span class="gnote">' + ms.length + '</span></div><ul class="vml">' + ms.map(function(m, i){ return modRow(m, i, v); }).join("") + '</ul></section>'; }).join("");
-    var side = deckPlan(v) + ((v.gallery || []).length ? '<section class="box vgal"><div class="hb"><span class="sp">Studio shots</span></div><div class="gal">' + v.gallery.map(function(src){ return '<img src="' + esc(src) + '" alt="' + esc(v.name) + '" loading="lazy">'; }).join("") + '</div></section>' : '');
+    var side = deckPlan(v) + ((v.gallery || []).length ? '<section class="box vgal"><div class="hb"><span class="sp">Gallery</span></div><div class="gal">' + v.gallery.map(function(src){ return '<img src="' + esc(src) + '" alt="' + esc(v.name) + '" loading="lazy">'; }).join("") + '</div></section>' : '');
     return '<main class="garage" data-mode="' + esc(mode) + '"' + (gZone ? ' data-az="' + esc(gZone) + '"' : '') + '>' + hero + '<div class="vspecs">' + tiles + '</div>' +
       '<div class="vbody"><div class="vcol">' + groups + '</div>' + (side ? '<div class="vcol">' + side + '</div>' : '') + '</div></main>';
   }
@@ -5497,6 +5536,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
       if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
+      if (j.meta && j.meta.fanx && typeof j.meta.fanx === "object") fnXApply(WHO === "zolo" ? IO : S, j.meta.fanx);
       if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S; if (fio && fio.fans) fnRscApply(fio, j.fanrsc); }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
       if (j.training && typeof j.training === "object") S.training = {active:!!j.training.active, skills:(j.training.skills || []).map(String).slice(0, PRACTICE_MAX)};
