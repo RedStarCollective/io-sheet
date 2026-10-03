@@ -2271,6 +2271,11 @@ body.fnlock{overflow:hidden}
 .fnx-note{grid-column:1/-1;margin:0;padding:8px 10px;border:1px dashed #8a6a2a;color:#e0c48a;background:rgba(224,166,58,.07);font-size:13.5px;line-height:1.4}
 .fnx-del{font:inherit;background:none;border:0;color:var(--ink-3);cursor:pointer;padding:0 0 0 2px;line-height:1}
 .fnx-del:hover{color:var(--red-hi)}
+.fnx dd{flex-direction:column;gap:10px}
+.fnx-row{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;align-items:baseline}
+.fnx-l{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.fnx-c{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+@media (max-width:520px){ .fnx-row{grid-template-columns:minmax(0,1fr);gap:5px} }
 .fgnote{margin:14px 0 0}
 .fgsec .fgnote{margin:0 0 14px}
 .fns-role b{font:600 14px/1 var(--f-num);color:var(--gold)}
@@ -3905,7 +3910,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (arr) return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>Drag to reorder</small></h2><div class="fngrid arr">' +
       G.map(function(g, i){ return '<div class="fcard fgrp" draggable="true" data-fga="' + i + '" style="' + fgStyle(g) + '">' + fgCard(g) +
         '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(g.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(g.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(g.name) + ' later" title="Later"' + (i < G.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(g.name) + ' to the end" title="To the end"' + (i < G.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>'; }).join("") + '</div></section>';
-    return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2>' + fgNote() + '<div class="fngrid">' +
+    return '<section class="fgsec" id="fgsec"><h2 class="sec-title"><span class="glx">Groups</span><small>' + G.reduce(function(n, g){ return n + fgCount(g); }, 0) + ' fans in ' + G.length + ' group' + (G.length > 1 ? 's' : '') + '</small></h2><div class="fngrid">' +
       G.map(function(g, i){ return '<button type="button" class="fcard fgrp" data-fgrp="' + i + '" style="' + fgStyle(g) + '" aria-label="' + esc(g.name + ", group of " + fgCount(g)) + '">' + fgCard(g) + '</button>'; }).join("") + '</div></section>';
   }
   function fgNote(){ var t = S.fans && S.fans.groupNote; return t ? '<p class="fnnote fgnote" role="note"><b>Note for GMs</b><span>' + esc(String(t).replace(/^Note for GMs:\s*/i, "")) + '</span></p>' : ''; }
@@ -4014,15 +4019,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var can = fnCanArrange(), R = f.roles || [], K = f.skills || [];
     if (!R.length && !K.length && !can) return "";
     var warn = '<button type="button" class="fnx-w" data-fnxw="1" aria-expanded="' + !!FN.xw + '" aria-label="About these stats" title="' + esc(FNX_WARN) + '">⚠</button>';
-    function row(kind, label, L, chip){
+    function row(kind, label, L){
       if (!L.length && !can) return "";
-      return '<div class="fns-roles"><dt>' + label + ' ' + warn + '</dt><dd>' + L.map(function(x, k){ return '<span class="fns-role">' + chip(x) + (can ? '<button type="button" class="fnx-del" data-fnxdel="' + kind + ':' + k + '" aria-label="Remove">×</button>' : '') + '</span>'; }).join("") +
+      return '<div class="fnx-row"><span class="fnx-l">' + label + '</span><span class="fnx-c">' + L.map(function(x, k){ return '<span class="fns-role">' + chip(x) + (can ? '<button type="button" class="fnx-del" data-fnxdel="' + kind + ':' + k + '" aria-label="Remove">×</button>' : '') + '</span>'; }).join("") +
         (can && FN.xadd !== kind ? '<button type="button" class="fns-sbtn" data-fnxadd="' + kind + '">+ Add ' + (kind === "role" ? 'role' : 'skill') + '</button>' : '') +
-        (can && FN.xadd === kind ? '<span class="fns-sadd">' + (kind === "role" ? '<input id="fnxa" placeholder="Role" aria-label="Role"><input id="fnxb" placeholder="Rank" aria-label="Rank" inputmode="numeric" style="flex:0 1 80px">' : '<input id="fnxa" placeholder="Skill" aria-label="Skill"><input id="fnxb" placeholder="Level (optional)" aria-label="Level" style="flex:0 1 130px">') + '<button type="button" data-fnxadd="save">Add</button></span>' : '') + '</dd></div>';
+        (can && FN.xadd === kind ? '<span class="fns-sadd">' + (kind === "role" ? '<input id="fnxa" placeholder="Role" aria-label="Role"><input id="fnxb" placeholder="Rank" aria-label="Rank" inputmode="numeric" style="flex:0 1 80px">' : '<input id="fnxa" placeholder="Skill" aria-label="Skill"><input id="fnxb" placeholder="Level (optional)" aria-label="Level" style="flex:0 1 130px">') + '<button type="button" data-fnxadd="save">Add</button></span>' : '') + '</span></div>';
     }
     function chip(r){ return esc(r.role || r.skill || r) + (r.rank != null && r.rank !== "" ? '<b>' + esc(r.rank) + '</b>' : '') + (r.lvl != null && r.lvl !== "" ? '<b>' + esc(r.lvl) + '</b>' : ''); }
-    return row("role", "Role abilities", R, chip) + row("skill", "Notable skills", K, chip) +
-      (FN.xw && (R.length || K.length || can) ? '<p class="fnx-note" role="note">⚠ ' + esc(FNX_WARN) + '</p>' : '');
+    return '<div class="fns-roles fnx"><dt>Provided by the GM ' + warn + '</dt><dd>' + row("role", "Role abilities", R) + row("skill", "Notable skills", K) +
+      (FN.xw ? '<p class="fnx-note" role="note">⚠ ' + esc(FNX_WARN) + '</p>' : '') + '</dd></div>';
   }
   function fnXKey(i){ var n = FL().length; if (i < n) return fnKeys(FL())[i]; var G = FGL(); for (var g = 0; g < G.length; g++){ var M = G[g].members || []; if (i - n < M.length) return "group:" + G[g].name + "/" + fnKeys(M)[i - n]; n += M.length; } return ""; }
   function fnXMap(){ var o = {}; FXL().forEach(function(x, i){ var f = fnOrig(i); if (f && ((f.roles || []).length || (f.skills || []).length)) o[fnXKey(i)] = {roles:f.roles || [], skills:f.skills || []}; }); return o; }
@@ -4049,6 +4054,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<dl class="fns-dl"><div><dt>Became a fan during</dt><dd>' + (fnUrl(f.link) ? '<a class="fns-link" href="' + esc(fnUrl(f.link)) + '" target="_blank" rel="noopener" title="Open the gig">' + esc(f.gig || "Unknown") + '<i aria-hidden="true">↗</i></a>' : esc(f.gig || "Unknown")) + '</dd></div><div><dt>GM</dt><dd><button type="button" class="fns-gm" data-fngm="' + esc(f.gm || "Unknown") + '" data-fnclose="1"><i></i>' + esc(f.gm || "Unknown") + '</button></dd></div>' +
         fnXHTML(f, i) + fnSeenHTML(f, i) + '</dl>' +
         (f.story ? '<p class="fns-story">' + esc(f.story) + '</p>' : '<p class="fns-story none">No write-up yet.</p>') +
+        (f._g != null ? fgNote() : '') +
         (fnUrl(f.more) || fnUrl(f.sheet) ? '<div class="fns-acts">' + (fnUrl(f.more) ? '<a href="' + esc(fnUrl(f.more)) + '" target="_blank" rel="noopener">More details ↗</a>' : '') + (fnUrl(f.sheet) ? '<a href="' + esc(fnUrl(f.sheet)) + '" target="_blank" rel="noopener"' + (/\.json$/i.test(f.sheet) ? ' download' : '') + '>' + (/\.json$/i.test(f.sheet) ? 'Foundry sheet ↓' : 'Character sheet ↗') + '</a>' : '') + '</div>' : '') +
         (fnCanArrange() ? '<div class="fns-nav"><button type="button" class="prsw" data-fnrsc="1" aria-pressed="' + !!f.rsc + '" title="Marks this fan as a Red Star Collective member: star on the card front, red star back"><i></i>RSC member</button></div>' : '') +
         (f._g != null ? '<div class="fns-nav"><button type="button" class="fns-flip" data-fgrp="' + f._g + '">← ' + esc(FGL()[f._g].name) + '</button></div>' : '') +
