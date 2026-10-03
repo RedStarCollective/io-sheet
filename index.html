@@ -1784,6 +1784,22 @@ body.zolo .bodyfig{--zc:#6cc6e6;--zc2:rgba(108,198,230,.14)}
 /* front/back turn (Iō) */
 .vwsw{position:absolute;right:0;top:0;z-index:5}
 .vwsw button{padding:6px 12px 5px;font-size:11px}
+/* Iō opens clothed (front view): Hide all and Gear keep the clothes on; picking any ware scans them off (Oak, Oct 3) */
+.closw{position:absolute;left:0;top:0;z-index:5}.closw button{padding:6px 12px 5px;font-size:11px}.wboot .closw{animation:wsin .45s ease-out calc(var(--bt,0ms) + .95s) both}
+@property --cp{syntax:'<percentage>';inherits:true;initial-value:0%}
+.bodyfig .cloth{position:absolute;inset:0;pointer-events:none;background:var(--ci) center/100% 100% no-repeat;filter:drop-shadow(0 0 30px rgba(0,0,0,.85))}
+.bodyfig.clothed:not(.cl-on) #bodyimg{visibility:hidden}
+.bodyfig.clothed:not([data-hov~="body"]) .rgw-body{opacity:0}
+.bodyfig.cl-off{animation:clOff .95s cubic-bezier(.45,.05,.5,1) both}
+.bodyfig.cl-on{animation:clOn .8s cubic-bezier(.45,.05,.5,1) both}
+@keyframes clOff{from{--cp:-6%}to{--cp:108%}}
+@keyframes clOn{from{--cp:108%}to{--cp:-6%}}
+.bodyfig.cl-off .cloth,.bodyfig.cl-on .cloth{-webkit-mask-image:linear-gradient(180deg,transparent var(--cp),#000 calc(var(--cp) + .1%));mask-image:linear-gradient(180deg,transparent var(--cp),#000 calc(var(--cp) + .1%))}
+.bodyfig.cl-off #bodyimg,.bodyfig.cl-on #bodyimg{-webkit-mask-image:linear-gradient(180deg,#000 var(--cp),transparent calc(var(--cp) + .1%));mask-image:linear-gradient(180deg,#000 var(--cp),transparent calc(var(--cp) + .1%))}
+.bodyfig.boot .cloth{-webkit-mask-image:linear-gradient(180deg,#000 calc(var(--bp) - 17%),rgba(0,0,0,.07) calc(var(--bp) - 1%));mask-image:linear-gradient(180deg,#000 calc(var(--bp) - 17%),rgba(0,0,0,.07) calc(var(--bp) - 1%))}
+.clline{position:absolute;left:-7%;right:-7%;top:var(--cp);height:2px;z-index:4;pointer-events:none;background:linear-gradient(90deg,transparent,var(--zp) 18%,#fff6dc 50%,var(--zp) 82%,transparent);box-shadow:0 0 12px var(--zp),0 0 2px #fff6dc;animation:clLn .95s linear both}
+@keyframes clLn{0%,88%{opacity:1}100%{opacity:0}}
+
 .ring .vwsw{top:-2px}
 @media (prefers-reduced-motion:no-preference){
   .bodyfig.turnout{transition:transform .22s cubic-bezier(.5,0,.8,.4),filter .22s;transform:perspective(900px) rotateY(90deg);filter:brightness(1.6)}
@@ -3240,7 +3256,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back3.webp", skel:"img/io/ware-bskel3.webp", mus:"img/io/ware-bmus2.webp", nerve:"img/io/ware-bnerve1.webp", lens:"img/io/mb3/lens.png", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg, black mawashi; a titanium skeleton shows through where his ware sits"}; }
+    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", cloth:"img/io/ware-cloth1.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg; he opens in a white gi top and black trousers, and stands in a black mawashi once a ware system is picked"}; }
   var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["internal","external","fashion","limbs:R","borg","gear"]};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
@@ -3360,7 +3376,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   ["pointerover","pointerout","focusin","focusout"].forEach(function(t){ document.addEventListener(t, function(ev){
     var b = ev.target.closest && ev.target.closest("#adwrap [data-arm]"); if (!b) return;
     adMark(b.dataset.arm, "hot", t === "pointerover" || t === "focusin"); }); });
-  var limbSel = "", nanoWas = false;
+  var limbSel = "", nanoWas = false, cloWas = null, CLOFF = false;
   var LIMBS = ["armR","armL","legR","legL"];
   function limbGroup(r){ var z = zoneById("limbs"), out = null; if (z) z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()]; if (m && m[1] === r) out = [g, gi]; }); return out; }
   function limbName(r){ var g = limbGroup(r); return g ? g[0].title : r; }
@@ -3397,14 +3413,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     var nOn = !!(sel === "borg" && F.nano && !editing);
     var now = Date.now(); if (wareBoot){ bootT0 = now; wareBoot = false; }
+    var cloCan = !!(F.cloth && !editing && (!sel || sel === "gear")), clo = cloCan && !CLOFF;
     var boot = !editing && !reduce && now - bootT0 < 2200, bootEl = now - bootT0;   /* a re-render mid-scan (sheet sync, rules load) picks the scan up where it was */
-    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (nOn ? ' nanoon' + (nanoWas || reduce ? '' : ' nanoin') : '') + (F.skel ? ' xray' : '') + (boot ? ' boot' : '') + '" id="bodyfig"' + (boot ? ' data-bt="' + bootEl + '"' : '') + '' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
+    var clA = (cloWas === null || reduce || boot || cloWas === clo) ? '' : (clo ? ' cl-on' : ' cl-off'); cloWas = clo;
+    var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (nOn ? ' nanoon' + (nanoWas || reduce ? '' : ' nanoin') : '') + (clo ? ' clothed' : '') + clA + (F.skel ? ' xray' : '') + (boot ? ' boot' : '') + '" id="bodyfig"' + (boot ? ' data-bt="' + bootEl + '"' : '') + '' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + F.img + '" alt="' + esc(F.alt) + '">' +
+      (clo || clA ? '<i class="cloth" aria-hidden="true" style="--ci:url(' + F.cloth + ')"></i>' + (clA ? '<i class="clline" aria-hidden="true"></i>' : '') : '') +
       ((F.nano && !reduce) || nOn ? '<span class="nano" aria-hidden="true" style="--nm:url(' + F.nano + ')"><i class="nm-r"></i><i class="nm-c"></i><i class="nm-a"></i><i class="nm-s"></i></span>' : '') +
       (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers +
       (F.lens && !reduce ? '<span class="lens' + (F.nerve ? '' : ' two') + '" id="lens" aria-hidden="true" style="--lm:url(' + F.lens + ')"><i class="ln-mus" style="--li:url(' + F.mus + ')"></i><i class="ln-nrv" style="--li:url(' + (F.nerve || F.mus) + ')"></i><i class="ln-bone" style="--li:url(' + F.skel + ')"></i><i class="ln-ring"></i></span>' : '') +
       (boot ? '<span class="wscan" aria-hidden="true">' + (F.lens ? '<i class="ws-mus" style="--li:url(' + F.mus + ');--lm:url(' + F.lens + ')"></i><i class="ws-nrv" style="--li:url(' + (F.nerve || F.mus) + ');--lm:url(' + F.lens + ')"></i><i class="ws-bone" style="--li:url(' + F.skel + ');--lm:url(' + F.lens + ')"></i>' : '') + '<i class="ws-line"></i></span>' : '') +
       '<svg class="npulse" id="npulse" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>' + tag + '<span class="htag" id="htag"></span></figure>' +
+      (cloCan ? '<span class="closw ttseg" role="group" aria-label="Clothing"><button type="button" data-clo="1" aria-pressed="' + clo + '">Clothed</button><button type="button" data-clo="0" aria-pressed="' + !clo + '">Bare</button></span>' : '') +
+
       (WHO !== "zolo" ? '<span class="vwsw ttseg" role="group" aria-label="View"><button type="button" data-view="front" aria-pressed="' + !F.back + '">Front</button><button type="button" data-view="back" aria-pressed="' + !!F.back + '">Back</button></span>' : '') +
       (F.mus ? '<span class="xlsw ttseg" role="group" aria-label="Scan depth"><button type="button" data-xl="muscle" aria-pressed="' + (XL === "muscle") + '">Muscle</button>' + (F.nerve ? '<button type="button" data-xl="nerve" aria-pressed="' + (XL === "nerve") + '">Nerves</button>' : '') + '<button type="button" data-xl="bone" aria-pressed="' + (XL !== "muscle" && !(XL === "nerve" && F.nerve)) + '">Bone</button></span>' : '') + '</div>';
     nanoWas = nOn;
@@ -3524,7 +3545,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Nanomatrix glitch: every so often the signal slips and, for about a second, the figure shows the nanomatrix under the tattoos */
   var nanoT = 0;
   function nanoGlitch(bf){
-    if (bf.classList.contains("nanoon")) return;
+    if (bf.classList.contains("nanoon") || bf.classList.contains("clothed")) return;
     bf.classList.remove("glitching"); void bf.offsetWidth; bf.classList.add("glitching");
     clearTimeout(bf._gt); bf._gt = setTimeout(function(){ bf.classList.remove("glitching"); }, 1750);
   }
@@ -3537,7 +3558,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       nanoArm(9000 + Math.random() * 7000);
     }, ms);
   }
-  function wareReset(){ zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
+  function wareReset(){ cloWas = null; CLOFF = false; zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
   function wireUp(){
     var img = document.getElementById("bodyimg");
     var bf = document.getElementById("bodyfig");
@@ -5509,10 +5530,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
     if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
-    if (b.dataset.view){ if (b.dataset.view === VIEW) return; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
+    if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
       bf0.classList.add("turnout"); setTimeout(function(){ render(); var n = document.getElementById("bodyfig"); if (n){ n.classList.add("turnin"); setTimeout(function(){ n.classList.remove("turnin"); }, 400); } }, 220); return; }
+    if (b.dataset.clo != null){ CLOFF = b.dataset.clo === "0"; render(); return; }
+
     if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel) bf.style.setProperty("--sk", "url(" + XLSRC(F2) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
