@@ -489,6 +489,33 @@ select.ed{width:auto;padding:0 2px}
   .chrome2 .wires{display:none}
 }
 @media (max-width:760px){ .ringgrid{grid-template-columns:minmax(0,1fr)} .ring .bodyfig img{height:520px} }
+/* Show All: groups arrayed round the body — audio over the head, eyes and limbs on their own sides, neuralware underneath (Oak, Oct 3) */
+.ring-all .ringgrid{grid-template-areas:"top top top" "sl st sr" "bt bt sr";grid-template-rows:auto auto 1fr}
+.ring-all .sL{grid-area:sl}.ring-all .sR{grid-area:sr}.ring-all .stage{grid-area:st;position:relative;top:auto}
+.ring-all .rtop{grid-area:top;display:flex;justify-content:center;align-items:flex-end;gap:14px;position:relative;z-index:2;margin-bottom:-8px}
+.ring-all .rtop > .zchunk{width:min(380px,46%)}
+.ring-all .rtop > .gl-wrap{width:min(280px,34%)}
+.ring-all .rbot{grid-area:bt;position:relative;z-index:2;align-self:start;display:flex;flex-direction:column;gap:14px}
+.ring-all .rbot .ctree > .nd > .kids,.ring-all .rbot .ctree > .nd > ul{columns:2 300px;column-gap:22px}
+.ring-all .rbot .ctree > .nd > ul > li{break-inside:avoid}
+.ring-all .k-link{display:none}
+.glite{border:1px dashed var(--frame);background:none;box-shadow:none}
+.glite > .hb{background:none;color:var(--ink-3);border:0;padding:6px 10px 0;font-size:11px;letter-spacing:.14em}
+.glite > .hb .sp{color:inherit}
+.glite .ctree{font-size:.92em}
+.glite .ws{display:none}
+.glite .xo .ws{display:block}
+.glite::before,.glite::after{display:none}
+@media (max-width:1180px){
+  .ring-all .ringgrid{grid-template-areas:"st st" "top top" "sl sr" "bt bt";grid-template-rows:none}
+  .ring-all .stage{grid-column:auto;grid-area:st}
+  .ring-all .rtop{margin-bottom:0}
+}
+@media (max-width:760px){
+  .ring-all .ringgrid{grid-template-areas:"st" "top" "sl" "sr" "bt"}
+  .ring-all .rtop{flex-direction:column;align-items:stretch}
+  .ring-all .rtop > .zchunk,.ring-all .rtop > .gl-wrap{width:auto}
+}
 /* ---------- posse tab ---------- */
 .stagebar{position:relative;margin:0 0 14px;padding:0;border-bottom:1px solid var(--frame);background:radial-gradient(ellipse 55% 45% at 50% 100%,rgba(159,12,23,.24),transparent 70%)}
 .stagebar::after{content:"";position:absolute;left:6%;right:6%;bottom:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
@@ -3256,8 +3283,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back3.webp", skel:"img/io/ware-bskel3.webp", mus:"img/io/ware-bmus2.webp", nerve:"img/io/ware-bnerve1.webp", lens:"img/io/mb3/lens.png", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
     ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
-    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", cloth:"img/io/ware-cloth1.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg; he opens in a white gi top and black trousers, and stands in a black mawashi once a ware system is picked"}; }
-  var AROUND = {L:["neural","optics","audio","limbs:L","adv"], R:["internal","external","fashion","limbs:R","borg","gear"]};
+    : {img:"img/io/ware-body5.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", cloth:"img/io/ware-cloth3.webp", m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg; he opens in a white gi top and black trousers, and stands in a black mawashi once a ware system is picked"}; }
+  var AROUND = {L:["optics:L","limbs:L"], R:["optics:R","limbs:R","internal","external","fashion","borg"]}, AROUND_SKIP = {adv:1, neural:1, optics:1, audio:1, limbs:1, gear:1};
   function aroundHTML(nav, stage, sel){
     var Z = CZ(), idx = {}; Z.forEach(function(z, i){ idx[z.id] = i; });
     function limbGroups(side){
@@ -3266,12 +3293,36 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       z.groups.forEach(function(g, gi){ var m = LIMBSIDE[String(g.title).toLowerCase()] || ["R", "legs"]; if (FIG().back) m = [m[0] === "L" ? "R" : "L", m[1]]; if (m[0] === side) out.push([gi, m[1]]); });
       return out;
     }
+    function lite(h){ return h.replace('class="box cgrp"', 'class="box cgrp glite"'); }
+    function zh(z, n){ return '<h3 class="zh"><button type="button" class="zlink" data-zone="' + z.id + '">' + esc(z.label) + '</button>' + (n ? '<b>' + zoneCount(z) + '</b>' : '') + '</h3>'; }
+    /* an eye and its smart lens sit on the side of the body they belong to */
+    function eyeChunk(side){
+      var zi = idx.optics, z = Z[zi]; if (!z) return "";
+      var want = (side === "L") !== !!FIG().back ? /^right/i : /^left/i, other = side === "L" ? /^(?!right|left)/i : null, h = "";
+      z.groups.forEach(function(g, gi){ var t = String(g.title); if (!(want.test(t) || (other && other.test(t)))) return;
+        h += /lens/i.test(t) ? lite(groupHTML(zi, g, gi, "")) : groupHTML(zi, g, gi, ""); });
+      return h ? '<div class="zchunk wanchor" data-an="eyes" data-dx="' + (side === "L" ? -2.7 : 2.7) + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 0) + h + '</div>' : "";
+    }
+    function topBand(){
+      var zi = idx.audio, z = Z[zi], gz = Z[idx.gear], gl = "";
+      if (gz) gz.groups.forEach(function(g, gi){ g.items.forEach(function(it, ii){ if (isNode(it) && /smart ears/i.test(it.name || ""))
+        gl += '<section class="box cgrp glite"><div class="hb"><span class="sp">' + esc(g.title) + '</span></div><ul class="ctree">' + nodeHTML(it, "chrome.zones." + idx.gear + ".groups." + gi + ".items." + ii, 0) + '</ul></section>'; }); });
+      if (!z && !gl) return "";
+      return '<div class="rtop">' + (z ? '<div class="zchunk wanchor" data-wire="top" data-an="' + (z.regions || ["ears"])[0] + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 1) + z.groups.map(function(g, gi){ return groupHTML(zi, g, gi, ""); }).join("") + '</div>' : '') +
+        (gl ? '<div class="zchunk gl-wrap">' + gl + '</div>' : '') + '</div>';
+    }
+    function botBand(){
+      var zi = idx.neural, z = Z[zi]; if (!z) return "";
+      var ai = idx.adv, az = Z[ai];
+      return '<div class="rbot"><div class="zchunk wanchor" data-wire="bot" data-an="' + (z.regions || ["head"])[0] + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 1) + z.groups.map(function(g, gi){ return groupHTML(zi, g, gi, ""); }).join("") + '</div>' +
+        (az ? '<div class="zchunk" data-hr="' + (az.regions || []).join(" ") + '">' + zh(az, 1) + az.groups.map(function(g, gi){ return groupHTML(ai, g, gi, ""); }).join("") + '</div>' : '') + '</div>';
+    }
     function col(side){
-      var ids = sel === "limbs" ? ["limbs:" + side] : AROUND[side];
-      var used = {}; ids.forEach(function(id){ used[id.split(":")[0]] = 1; });
-      if (sel === "all" && side === "R") Z.forEach(function(z){ if (!used[z.id] && AROUND.L.concat(AROUND.R).join(",").indexOf(z.id) < 0) ids.push(z.id); });
+      var ids = sel === "limbs" ? ["limbs:" + side] : AROUND[side].slice();
+      if (sel === "all" && side === "R") Z.forEach(function(z){ if (!AROUND_SKIP[z.id] && ids.indexOf(z.id) < 0) ids.push(z.id); });
       return '<div class="side s' + side + '">' + ids.map(function(id){
         var parts = id.split(":"), zi = idx[parts[0]], z = Z[zi]; if (!z) return "";
+        if (parts[0] === "optics") return eyeChunk(parts[1]);
         if (parts[1]){
           var gs = limbGroups(parts[1]); if (!gs.length) return "";
           return '<div class="zchunk">' + (sel === "all" ? '<h3 class="zh">' + esc(z.label) + '</h3>' : '') + gs.map(function(x){ return '<div class="wanchor" data-an="' + x[1] + '">' + groupHTML(zi, z.groups[x[0]], x[0], x[1]) + '</div>'; }).join("") + '</div>';
@@ -3282,12 +3333,27 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       }).join("") + '</div>';
     }
     var head = '';
-    return '<main class="chrome2 ring ring-' + (sel === "limbs" ? "limbs" : "all") + (/ boot/.test(stage) ? ' wboot' : '') + '" id="chrome2">' + nav + head + '<div class="ringgrid">' + col("L") + stage + col("R") + '</div><svg class="wires" id="wires" aria-hidden="true"></svg></main>';
+    return '<main class="chrome2 ring ring-' + (sel === "limbs" ? "limbs" : "all") + (/ boot/.test(stage) ? ' wboot' : '') + '" id="chrome2">' + nav + head + '<div class="ringgrid">' + (sel === "all" ? topBand() : '') + col("L") + stage + col("R") + (sel === "all" ? botBand() : '') + '</div><svg class="wires" id="wires" aria-hidden="true"></svg></main>';
+  }
+  /* Show All: keep each arm and each leg on the same row as its opposite (Oak, Oct 3) */
+  function alignRows(root){
+    var L = root.querySelector(".ring-all .sL, .ring-all.ring .sL"), R = root.querySelector(".sR");
+    if (!root.classList.contains("ring-all") || !L || !R) return;
+    function pair(q){ var a = L.querySelector(q), b = R.querySelector(q); if (!a || !b) return;
+      a.style.marginTop = b.style.marginTop = "";
+      if (Math.abs(L.getBoundingClientRect().left - R.getBoundingClientRect().left) < 4) return;
+      var d = a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+      if (Math.abs(d) >= 1) (d > 0 ? b : a).style.marginTop = Math.abs(d) + "px"; }
+    function par(side){ var w = side.querySelector('.wanchor[data-an^="arm"], .wanchor[data-an^="leg"]'); if (w) w.parentNode.setAttribute("data-limbs", "1"); }
+    par(L); par(R);
+    pair('[data-limbs]'); pair('.wanchor[data-an^="arm"]'); pair('.wanchor[data-an^="leg"]');
+    if (!root._ro && window.ResizeObserver){ var t = 0; root._ro = new ResizeObserver(function(){ if (t) return; t = requestAnimationFrame(function(){ t = 0; drawWires(); }); }); root._ro.observe(L); root._ro.observe(R); }
   }
   function drawWires(){
     adWires();
     var root = document.getElementById("chrome2"), svg = document.getElementById("wires"), fig = document.getElementById("bodyfig");
     if (!root || !svg || !fig) return;
+    alignRows(root);
     svg.innerHTML = "";
     if (getComputedStyle(svg).display === "none") return;
     var R0 = root.getBoundingClientRect(), F = fig.getBoundingClientRect(), out = "";
@@ -3295,6 +3361,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var lanes = {L:0, R:0}, fx = F.left - R0.left, fr = F.right - R0.left, ft = F.top - R0.top;
     [].forEach.call(root.querySelectorAll(".wanchor"), function(el){
       var a = FIG().anch[el.dataset.an]; if (!a) return;
+      if (el.dataset.dx) a = [a[0] + (+el.dataset.dx), a[1]];
+      if (el.dataset.wire){
+        var W = el.getBoundingClientRect(), wx = fx + F.width * a[0] / 100, wy = ft + F.height * a[1] / 100, d2, sx, sy;
+        if (el.dataset.wire === "top"){
+          sy = W.bottom - R0.top + 2; if (wy < sy || ft - sy > 90) return;
+          sx = Math.max(W.left - R0.left + 14, Math.min(W.right - R0.left - 14, wx));
+          d2 = 'M' + sx + ' ' + sy + (Math.abs(sx - wx) < 2 ? '' : ' V' + (sy + 8) + ' H' + wx) + ' V' + wy;
+        } else {
+          sy = W.top - R0.top - 2; if (sy < wy) return;
+          sx = fx - 8 - (lanes.L++) * 7; if (sx < W.left - R0.left + 8) return;
+          d2 = 'M' + sx + ' ' + sy + ' V' + wy + ' H' + wx;
+        }
+        out += '<path data-for="' + el.dataset.an + '" d="' + d2 + '"/><circle cx="' + wx + '" cy="' + wy + '" r="2.6"/><rect x="' + (sx - 2) + '" y="' + (sy - 2) + '" width="4" height="4"/>';
+        return;
+      }
       var hb = el.querySelector(".zh, .hb"), B = (hb || el).getBoundingClientRect(), E = el.getBoundingClientRect();
       var y = B.top + B.height / 2 - R0.top;
       if (y < ft - 10 || y > F.bottom - R0.top) return;
