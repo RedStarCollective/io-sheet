@@ -3569,7 +3569,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var limbSel = "", nanoWas = false, cloWas = null, CLOFF = false;
   /* Nude view (Oak, Oct 5): a third body option behind a password the admin sets. The check runs in the page, so it is a curtain, not a lock:
      the image files are public to anyone who goes looking. Only a salted SHA-256 of the password is stored. */
-  var NUDE = false, NUOK = false, NUUI = "", NUMSG = "";
+  var NUDE = false, NUOK = false, NUUI = "", NUMSG = "", nuWas = null;
   function nuHash(){ return (S && S.nude && S.nude.hash) || ""; }
   /* GitHub copy only: the two image files are not put on the Claude copy */
   function nuCan(){ return (HOSTED || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && WHO === "io" && (isAdmin() || !!nuHash()); }
@@ -3624,9 +3624,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var cloCan = !!(F.cloth && !editing && (!sel || sel === "gear")), clo = cloCan && !CLOFF && !nude;
     var boot = !editing && !reduce && now - bootT0 < 2200, bootEl = now - bootT0;   /* a re-render mid-scan (sheet sync, rules load) picks the scan up where it was */
     var clA = (cloWas === null || reduce || boot || cloWas === clo) ? '' : (clo ? ' cl-on' : ' cl-off'); cloWas = clo;
+    /* Bare <-> Nude gets the same scan line: the old picture is wiped away over the new one */
+    var clSrc = F.cloth, nuSwap = nuWas !== null && nuWas !== nude && !clA && !clo && !reduce && !boot && !!F.nude; nuWas = nude;
+    if (nuSwap){ clA = ' cl-off'; clSrc = nude ? F.img : F.nude; }
     var stage = '<div class="stage"><figure class="bodyfig tone-' + esc(sz && sz.tone || "red") + (sel === "adv" ? ' genome' : '') + (nOn ? ' nanoon' + (nanoWas || reduce ? '' : ' nanoin') : '') + (clo ? ' clothed' : '') + clA + (F.skel ? ' xray' : '') + (boot ? ' boot' : '') + '" id="bodyfig"' + (boot ? ' data-bt="' + bootEl + '"' : '') + '' + (F.skel ? ' style="--sk:url(' + XLSRC(F) + ')"' : '') + ' data-sel="' + on.join(" ") + '" data-hov="">' +
       '<img id="bodyimg" src="' + (nude ? F.nude : F.img) + '" alt="' + esc(F.alt) + '">' +
-      (clo || clA ? '<i class="cloth" aria-hidden="true" style="--ci:url(' + F.cloth + ')"></i>' + (clA ? '<i class="clline" aria-hidden="true"></i>' : '') : '') +
+      (clo || clA ? '<i class="cloth" aria-hidden="true" style="--ci:url(' + clSrc + ')"></i>' + (clA ? '<i class="clline" aria-hidden="true"></i>' : '') : '') +
       ((F.nano && !reduce) || nOn ? '<span class="nano" aria-hidden="true" style="--nm:url(' + F.nano + ')"><i class="nm-r"></i><i class="nm-c"></i><i class="nm-a"></i><i class="nm-s"></i></span>' : '') +
       (F.skel ? '<i class="xsweep" aria-hidden="true"></i>' : F.nomask ? '' : '<i class="sweep" style="--m:url(' + F.m + 'body.png)"></i>') + layers +
       (F.lens && !reduce ? '<span class="lens' + (F.nerve ? '' : ' two') + '" id="lens" aria-hidden="true" style="--lm:url(' + F.lens + ')"><i class="ln-mus" style="--li:url(' + F.mus + ')"></i><i class="ln-nrv" style="--li:url(' + (F.nerve || F.mus) + ')"></i><i class="ln-bone" style="--li:url(' + F.skel + ')"></i><i class="ln-ring"></i></span>' : '') +
@@ -3767,7 +3770,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       nanoArm(9000 + Math.random() * 7000);
     }, ms);
   }
-  function wareReset(){ cloWas = null; CLOFF = false; NUDE = false; NUUI = ""; NUMSG = ""; zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
+  function wareReset(){ cloWas = null; nuWas = null; CLOFF = false; NUDE = false; NUUI = ""; NUMSG = ""; zoneSel = ""; limbSel = ""; XOPEN = {}; tagOpen = ""; wareBoot = true; pulseNext = false; }
   function wireUp(){
     var img = document.getElementById("bodyimg");
     var bf = document.getElementById("bodyfig");
