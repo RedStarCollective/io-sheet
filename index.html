@@ -1983,6 +1983,98 @@ body.zolo .ws-line::before{background:linear-gradient(0deg,rgba(159,224,245,.14)
 .wboot .zpanel{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
 .wboot .ring .side{animation:wsin .5s ease-out calc(var(--bt,0ms) + 1.2s) both}
 @keyframes wsin{from{opacity:0;transform:translateY(8px)}}
+/* ---------- CONTACTS (Oak, Oct 5): edgerunners as slats that open into a file, NPC contacts as a ledger. Prefix .cx ---------- */
+.cx{position:relative;z-index:2;padding-bottom:40px}
+.cxsec{display:flex;align-items:baseline;gap:12px;margin:28px 0 10px}
+.cxsec h3{margin:0;font:700 20px/1 var(--f-disp);letter-spacing:.1em;text-transform:uppercase}
+.cxsec .dec{font:600 14px/1 var(--f-num);color:var(--gold)}
+.cxslats{display:flex;flex-wrap:wrap;gap:6px}
+.cxslats.few{flex-wrap:nowrap}
+.cxslat{position:relative;flex:1 1 130px;min-width:0;height:400px;display:flex;border:2px solid var(--line);background:linear-gradient(180deg,rgba(28,23,22,.82),rgba(17,13,12,.92));overflow:hidden;transition:flex-grow .4s cubic-bezier(.2,.8,.2,1),border-color .2s}
+.cxslat:hover{border-color:var(--gold-dim)}
+.cxslat.on{border-color:var(--frame);flex:1 1 100%;height:auto;min-height:400px}
+.cxslats.few .cxslat.on{flex:5 1 0}
+.cxtab{position:relative;flex:1;min-width:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;padding:0;display:flex;flex-direction:column;justify-content:flex-end;text-align:left}
+.cxtab:focus-visible,.cxline:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.cxslat.on .cxtab{flex:0 0 clamp(150px,30%,300px)}
+.cxart{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.cxnone{display:grid;place-items:center;font:700 150px/1 var(--f-disp);color:transparent;-webkit-text-stroke:1px rgba(181,143,82,.35);user-select:none}
+.cxtab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(transparent,rgba(8,6,5,.94));pointer-events:none}
+.cxcap{position:relative;z-index:1;padding:12px;display:block}
+.cxcap b{display:block;font:700 21px/1 var(--f-cond);letter-spacing:.05em;text-transform:uppercase;overflow-wrap:anywhere}
+.cxcap i{display:block;margin-top:3px;font-style:normal;font-size:13px;font-weight:600;color:var(--gold)}
+.cxslat.on .cxcap,.cxslat.on .cxtab::after{display:none}
+.cxbody{flex:1;min-width:0;padding:22px 24px;border-left:1px solid var(--line)}
+.cxbody.pop{animation:cxfade .35s .12s both}
+.cxfile > .lab{margin:0;color:var(--gold)}
+.cxfile h3{margin:3px 0 4px;font:700 38px/1 var(--f-disp);letter-spacing:.02em;overflow-wrap:anywhere}
+.cxrole{margin:0;font:600 17px/1.2 var(--f-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.cxchips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.cxchip{font:600 11.5px/1.5 var(--f-cond);letter-spacing:.14em;text-transform:uppercase;padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.cxchip.g{border-color:var(--frame);color:var(--gold)}
+.cxdl{display:grid;grid-template-columns:160px minmax(0,1fr);gap:9px 16px;margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);max-width:640px}
+.cxdl dt{font-weight:700;font-size:11.5px;line-height:1.9;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.cxdl dd{margin:0;min-width:0;font-size:15.5px;line-height:1.45;color:var(--ink-2);overflow-wrap:anywhere}
+.cxdl a,.cxgigs a{color:var(--ink);text-decoration-color:var(--frame);text-underline-offset:3px}
+.cxdl a:hover,.cxgigs a:hover{color:var(--gold)}
+.cxgigs{list-style:none;margin:0;padding:0}
+.cxgigs li{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.cxgigs li span{font:500 13px/1.6 var(--f-num);color:var(--ink-3);white-space:nowrap}
+.cxact{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 0}
+.cxact .btn{padding:5px 12px;font-size:12px}
+.cxact .rm{margin-left:auto;color:var(--red-hi)}
+.cxled{border-top:2px solid var(--frame)}
+.cxkind{display:grid;grid-template-columns:160px minmax(0,1fr);border-bottom:1px solid var(--line)}
+.cxkind > .lab{padding:15px 0;margin:0;color:var(--gold)}
+.cxrow + .cxrow{border-top:1px solid var(--line)}
+.cxline{display:grid;grid-template-columns:210px minmax(0,1fr) auto;gap:16px;align-items:baseline;width:100%;padding:11px 10px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.cxline:hover,.cxrow.on{background:rgba(17,13,12,.78)}
+.cxn{font:600 19px/1.1 var(--f-cond);letter-spacing:.03em;overflow-wrap:anywhere}
+.cxt{color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cxt.none{color:var(--ink-3);font-style:italic}
+.cxrow.on .cxt{visibility:hidden}
+.cxmore{display:flex;gap:18px;padding:2px 10px 18px}
+.cxmore.pop{animation:cxfade .3s both}
+.cxmore .cxart{position:static;flex:none;width:120px;height:160px;border:1px solid var(--line)}
+.cxmore .cxnone{font-size:64px}
+.cxmore > div{flex:1;min-width:0}
+.cxmore .cxdl{margin-top:0;padding-top:0;border-top:0}
+.cxform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;max-width:640px}
+.cxf{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cxf.w,.cxform > .lab,.cxgrow,.cxform > .add{grid-column:1/-1}
+.cxform > .lab{margin:6px 0 -4px}
+.cxf .ed{padding:6px 8px;font:inherit;font-size:15px}
+.cxf textarea.ed{resize:vertical;line-height:1.4}
+.cxgrow{display:grid;grid-template-columns:minmax(0,2fr) 76px minmax(0,2fr) auto;gap:6px;align-items:center}
+.cxgrow .ed{padding:5px 8px;font:inherit;font-size:14.5px}
+.cxempty{margin:0;padding:18px;border:1px dashed var(--line);color:var(--ink-3)}
+.cxadd{margin-top:10px}
+.cx.in .cxslat{animation:cxup .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*55ms)}
+.cx.in .cxkind{animation:cxfade .5s .25s both}
+@keyframes cxup{from{opacity:0;transform:translateY(22px)}}
+@keyframes cxfade{from{opacity:0}}
+@media (max-width:760px){
+  .cxslats,.cxslats.few{flex-direction:column;flex-wrap:nowrap}
+  .cxslat{flex:none;height:78px}
+  .cxslat.on,.cxslats.few .cxslat.on{flex:none;flex-direction:column;min-height:0}
+  .cxslat.on .cxtab{flex:none;height:230px}
+  .cxtab::after{height:100%;background:linear-gradient(90deg,rgba(8,6,5,.9),transparent 70%)}
+  .cxtab{justify-content:center}
+  .cxnone{font-size:60px;place-items:center end;padding-right:16px}
+  .cxslat.on .cxnone{font-size:130px;place-items:center;padding:0}
+  .cxbody{border-left:0;border-top:1px solid var(--line);padding:16px}
+  .cxfile h3{font-size:30px}
+  .cxkind{grid-template-columns:1fr}
+  .cxkind > .lab{padding:12px 0 0}
+  .cxline{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 0}
+  .cxt{grid-column:1/-1;grid-row:2}
+  .cxrow.on .cxt{display:none}
+  .cxmore{flex-direction:column;padding:2px 0 16px}
+  .cxdl,.cxform{grid-template-columns:1fr}
+  .cxdl{gap:2px 0}.cxdl dd{margin-bottom:8px}
+  .cxgrow{grid-template-columns:minmax(0,1fr) 76px}
+}
+@media (prefers-reduced-motion:reduce){ .cxslat{transition:none} .cx.in .cxslat,.cx.in .cxkind,.cxbody.pop,.cxmore.pop{animation:none} }
 /* ---------- FANS (work in progress): collectible cards ---------- */
 .fans{position:relative;z-index:2}
 .fnhead{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;padding:30px 0 20px;margin-bottom:18px;border-bottom:1px solid var(--frame)}
@@ -2629,9 +2721,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     for (var k in GI) if (String(name).indexOf(k) === 0) return '<svg class="gi" viewBox="' + GI[k].v + '" aria-hidden="true">' + GI[k].b + '</svg>';
     return "";
   }
-  var READY = ["dossier","ware","casefile","rep","fans","posse","vehicles","advance"];
+  var READY = ["dossier","ware","casefile","rep","fans","contacts","posse","vehicles","advance"];
   var tab = (location.hash || "").replace("#",""), bootWho = /^zolo/.test(tab) ? "zolo" : "io"; if (bootWho === "zolo") tab = tab.replace(/^zolo-?/, "") || "dossier"; if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
-  var TABS = ["Dossier","Ware","Case File","Rep","Fans","Posse","Vehicles","HQ","Advance"];
+  var TABS = ["Dossier","Ware","Case File","Rep","Fans","Contacts","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
   var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];
   var IO = null, WHO = "io", roIo = false, zMask = false;
@@ -4455,7 +4547,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var VADJ = ["Neon","Chrome","Ghost","Static","Rust","Glass","Silent","Velvet","Iron","Midnight"];
   function vName(id){ var h = vHash(id); return VADJ[Math.floor(h / 10) % VADJ.length] + " " + VROLES[h % VROLES.length]; }
   function vHue(id){ return (vHash(id) * 47) % 360; }
-  function vTab(v){ var t = String(v.tab || ""); var lab = {dossier:"Dossier", ware:"Ware", casefile:"Case File", rep:"Rep", fans:"Fans", posse:"Posse", vehicles:"Vehicles", advance:"Advance", closed:"the closed screen"}[t] || t || "the page"; return (v.who === "zolo" && t !== "closed" ? "Zolo · " : "") + lab; }
+  function vTab(v){ var t = String(v.tab || ""); var lab = {dossier:"Dossier", ware:"Ware", casefile:"Case File", rep:"Rep", fans:"Fans", contacts:"Contacts", posse:"Posse", vehicles:"Vehicles", advance:"Advance", closed:"the closed screen"}[t] || t || "the page"; return (v.who === "zolo" && t !== "closed" ? "Zolo · " : "") + lab; }
   function vAgo(ms){ var m = Math.round(ms / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 1440 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " d ago"; }
   function sendBeat(bye){
     if (!HOSTED || !SHEET_API || isAdmin() || (hostWait && !bye)) return;   /* wait until we know what they're seeing */
@@ -5419,12 +5511,92 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     zr.raf = requestAnimationFrame(frame);
     zr.draw = function(ms, loop){ zr.loop = loop || null; cancelAnimationFrame(zr.raf); frame(ms); cancelAnimationFrame(zr.raf); zr.raf = 1; zr.loop = null; return low; }; window.__zolorun = zr;
   }
+  /* ---------- CONTACTS (Oak, Oct 5) ----------
+     io.json -> contacts {runners[], npcs[]}. Runners = player-character edgerunners {name, role, player, stand, rel, text, img, gigs[{name, year, link}]}.
+     NPCs = contacts who are not fans {name, kind, stand, gig, gm, link, text, img}; the ledger groups them by kind.
+     The owner edits in place (no Edit mode needed). Saving: Claude copy persist(); hosted copy meta "contacts" (once saved there it overrides io.json). */
+  var CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true};
+  var CX_STAND = ["", "Trusted", "Friendly", "Known", "Owes Iō"];
+  function cxD(){ if (!S.contacts || typeof S.contacts !== "object") S.contacts = {}; var c = S.contacts; if (!Array.isArray(c.runners)) c.runners = []; if (!Array.isArray(c.npcs)) c.npcs = []; return c; }
+  function cxCan(){ return fnCanArrange(); }
+  function cxSave(){ clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"contacts", value:cxD()}); else persist(); }, 600); }
+  function cxUrl(u){ return /^https?:\/\//i.test(String(u || "").trim()) ? esc(String(u).trim()) : ""; }
+  function cxText(t){ return esc(String(t || "").trim()).replace(/\n/g, "<br>"); }
+  function cxArt(c){ return c.img ? '<img class="cxart" src="' + esc(c.img) + '" alt="" loading="lazy">' : '<span class="cxart cxnone" aria-hidden="true">' + esc(String(c.name || "?").trim().charAt(0).toUpperCase()) + '</span>'; }
+  function cxDl(rows){ rows = rows.filter(function(r){ return r[1]; }); return rows.length ? '<dl class="cxdl">' + rows.map(function(r){ return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>'; }).join("") + '</dl>' : ''; }
+  function cxIn(p, label, o){ o = o || {}; var v = getP(p), id = "cx-" + p.replace(/\./g, "-"), c;
+    if (o.area) c = '<textarea class="ed" id="' + id + '" rows="' + o.area + '" data-p="' + p + '">' + esc(v) + '</textarea>';
+    else if (o.opts) c = '<select class="ed" id="' + id + '" data-p="' + p + '">' + o.opts.map(function(x){ return '<option value="' + esc(x) + '"' + (x === (v || "") ? ' selected' : '') + '>' + (x ? esc(x) : "Not set") + '</option>'; }).join("") + '</select>';
+    else c = '<input class="ed" id="' + id + '" data-p="' + p + '" value="' + esc(v) + '"' + (o.list ? ' list="' + o.list + '"' : '') + (o.ph ? ' placeholder="' + esc(o.ph) + '"' : '') + '>';
+    return '<label class="cxf' + (o.w ? ' w' : '') + '"><span class="lab">' + label + '</span>' + c + '</label>'; }
+  function cxActs(k, editing2){ if (!cxCan()) return "";
+    return '<p class="cxact">' + (editing2 ? '<button type="button" class="btn primary" data-cx="done">Done</button><button type="button" class="btn" data-cx="cancel">Cancel</button><button type="button" class="btn rm" data-cx="rm" data-cxk="' + k + '">' + (CX.rm === k ? "Confirm remove" : "Remove") + '</button>'
+      : '<button type="button" class="btn" data-cx="edit" data-cxk="' + k + '">Edit</button>') + '</p>'; }
+  function cxRunFile(c, i){
+    var gigs = (c.gigs || []).filter(function(g){ return g && g.name; });
+    return '<div class="cxfile"><p class="lab">Edgerunner</p><h3>' + esc(c.name) + '</h3>' + (c.role ? '<p class="cxrole">' + esc(c.role) + '</p>' : '') +
+      (c.stand || c.player ? '<p class="cxchips">' + (c.stand ? '<span class="cxchip g">' + esc(c.stand) + '</span>' : '') + (c.player ? '<span class="cxchip">Player · ' + esc(c.player) + '</span>' : '') + '</p>' : '') +
+      cxDl([["How he knows them", cxText(c.rel)], ["Notes", cxText(c.text)],
+        ["Shared gigs", gigs.length ? '<ul class="cxgigs">' + gigs.map(function(g){ var u = cxUrl(g.link); return '<li>' + (u ? '<a href="' + u + '" target="_blank" rel="noopener">' + esc(g.name) + '</a>' : esc(g.name)) + '<span>' + esc(g.year || "") + '</span></li>'; }).join("") + '</ul>' : ""]]) +
+      cxActs("r:" + i, false) + '</div>'; }
+  function cxRunForm(i){ var p = "contacts.runners." + i, c = getP(p);
+    return '<div class="cxfile"><p class="lab">Editing edgerunner</p><div class="cxform">' + cxIn(p + ".name", "Handle") + cxIn(p + ".role", "Role and rank", {ph:"Solo 5"}) + cxIn(p + ".player", "Player", {ph:"Discord name"}) + cxIn(p + ".stand", "Standing", {opts:CX_STAND}) +
+      cxIn(p + ".rel", "How he knows them", {w:1}) + cxIn(p + ".text", "Notes", {area:4, w:1}) + cxIn(p + ".img", "Portrait file", {w:1, ph:"img/contacts/name.webp"}) +
+      '<span class="lab">Shared gigs · name, in-game year, gig-log link</span>' + (c.gigs || []).map(function(g, k){ var gp = p + ".gigs." + k;
+        return '<div class="cxgrow"><input class="ed" data-p="' + gp + '.name" value="' + esc(g.name) + '" aria-label="Gig name" placeholder="Gig name"><input class="ed" data-p="' + gp + '.year" value="' + esc(g.year) + '" aria-label="In-game year" placeholder="2048"><input class="ed" data-p="' + gp + '.link" value="' + esc(g.link) + '" aria-label="Gig-log link" placeholder="https://discord.com/…"><button type="button" class="x" data-cx="gdel" data-cxi="' + i + '" data-cxg="' + k + '" aria-label="Remove gig">×</button></div>'; }).join("") +
+      '<button type="button" class="add" data-cx="gadd" data-cxi="' + i + '">+ Add gig</button></div>' + cxActs("r:" + i, true) + '</div>'; }
+  function cxNpcMore(c, i){
+    if (CX.edit === "n:" + i && cxCan()){ var p = "contacts.npcs." + i;
+      return '<div class="cxmore"><div><div class="cxform">' + cxIn(p + ".name", "Name") + cxIn(p + ".kind", "What they are", {list:"cxkinds", ph:"Fixer"}) + cxIn(p + ".stand", "Standing", {opts:CX_STAND}) + cxIn(p + ".gm", "GM") +
+        cxIn(p + ".gig", "Gig origin", {w:1}) + cxIn(p + ".link", "Gig-log link", {w:1, ph:"https://discord.com/…"}) + cxIn(p + ".text", "Notes", {area:4, w:1}) + cxIn(p + ".img", "Portrait file", {w:1, ph:"img/contacts/name.webp"}) + '</div>' + cxActs("n:" + i, true) + '</div></div>'; }
+    var u = cxUrl(c.link), met = c.gig ? (u ? '<a href="' + u + '" target="_blank" rel="noopener">' + esc(c.gig) + '</a>' : esc(c.gig)) : "";
+    var body = cxDl([["Met on", met], ["GM", esc(c.gm || "")], ["Notes", cxText(c.text)]]);
+    return '<div class="cxmore' + (CX.pop ? ' pop' : '') + '">' + (c.img ? cxArt(c) : '') + '<div>' + (body || '<p class="cxempty">Nothing on file yet.</p>') + cxActs("n:" + i, false) + '</div></div>'; }
+  function contactsPage(){
+    var D = cxD(), can = cxCan(), R = D.runners, N = D.npcs, pop = CX.pop ? ' pop' : '';
+    if (CX.sel >= R.length) CX.sel = -1; if (CX.open >= N.length) CX.open = -1;
+    var head = '<header class="fnhead"><div class="fnghost" aria-hidden="true">Contacts</div><div class="fntitle"><p class="lab">Who he knows</p><h2>Contacts</h2>' +
+      '<p class="fnstats"><b class="dec">' + R.length + '</b> edgerunners <i></i> <b class="dec">' + N.length + '</b> contacts</p></div></header>';
+    var slats = R.length ? '<div class="cxslats' + (R.length <= 6 ? ' few' : '') + '">' + R.map(function(c, i){ var on = i === CX.sel;
+      return '<div class="cxslat' + (on ? ' on' : '') + '" style="--n:' + Math.min(i, 12) + '"><button type="button" class="cxtab" data-cx="sel" data-cxi="' + i + '" aria-expanded="' + on + '" aria-label="' + esc(c.name) + (on ? ", close file" : ", open file") + '">' + cxArt(c) +
+        '<span class="cxcap"><b>' + esc(c.name) + '</b>' + (c.role ? '<i>' + esc(c.role) + '</i>' : '') + '</span></button>' + (on ? '<div class="cxbody' + pop + '">' + (CX.edit === "r:" + i && can ? cxRunForm(i) : cxRunFile(c, i)) + '</div>' : '') + '</div>'; }).join("") + '</div>'
+      : '<p class="cxempty">No edgerunners on file yet.</p>';
+    var kinds = []; N.forEach(function(c){ var k = String(c.kind || "").trim(); if (k && kinds.indexOf(k) < 0) kinds.push(k); });
+    var groups = kinds.slice(); if (N.some(function(c){ return !String(c.kind || "").trim(); })) groups.push("");
+    var led = N.length ? '<div class="cxled">' + groups.map(function(k){
+      return '<section class="cxkind"><p class="lab">' + (k ? esc(k) : "Unsorted") + '</p><div>' + N.map(function(c, i){ if (String(c.kind || "").trim() !== k) return ""; var on = i === CX.open, t = String(c.text || "").trim();
+        return '<div class="cxrow' + (on ? ' on' : '') + '"><button type="button" class="cxline" data-cx="open" data-cxi="' + i + '" aria-expanded="' + on + '"><span class="cxn">' + esc(c.name) + '</span><span class="cxt' + (t ? '' : ' none') + '">' + (t ? esc(t) : "Nothing on file yet.") + '</span>' + (c.stand ? '<span class="cxchip g">' + esc(c.stand) + '</span>' : '<span></span>') + '</button>' + (on ? cxNpcMore(c, i) : '') + '</div>'; }).join("") + '</div></section>'; }).join("") + '</div>'
+      : '<p class="cxempty">No contacts on file yet.</p>';
+    var enter = CX.enter && !reduce; CX.enter = false; CX.pop = false;
+    return '<main class="cx' + (enter ? ' in' : '') + '">' + head +
+      '<div class="cxsec"><h3>Edgerunners</h3><span class="dec">' + R.length + '</span></div>' + slats + (can ? '<button type="button" class="btn cxadd" data-cx="addr">+ Add edgerunner</button>' : '') +
+      '<div class="cxsec"><h3>Contacts</h3><span class="dec">' + N.length + '</span></div>' + led + (can ? '<button type="button" class="btn cxadd" data-cx="addn">+ Add contact</button>' : '') +
+      '<datalist id="cxkinds">' + kinds.map(function(k){ return '<option value="' + esc(k) + '">'; }).join("") + '</datalist></main>';
+  }
+  app.addEventListener("click", function(ev){
+    if (tab !== "contacts") return; var b = ev.target.closest("[data-cx]"); if (!b) return;
+    var a = b.dataset.cx, i = +b.dataset.cxi, k = b.dataset.cxk || "", D = cxD();
+    function leave(){ if (CX.edit){ CX.edit = ""; CX.rm = ""; cxSave(); } }
+    function begin(key){ CX.snap = JSON.stringify(D); CX.edit = key; CX.rm = ""; }
+    if (a === "sel"){ leave(); CX.pop = true; CX.sel = CX.sel === i ? -1 : i; render(); return; }
+    if (a === "open"){ leave(); CX.pop = true; CX.open = CX.open === i ? -1 : i; render(); return; }
+    if (!cxCan()) return;
+    if (a === "edit"){ leave(); begin(k); render(); return; }
+    if (a === "done"){ CX.edit = ""; CX.rm = ""; render(); cxSave(); return; }
+    if (a === "cancel"){ try { S.contacts = JSON.parse(CX.snap); } catch(e){} CX.edit = ""; CX.rm = ""; render(); return; }
+    if (a === "addr"){ leave(); begin(""); D.runners.push({name:"New edgerunner", role:"", player:"", stand:"", rel:"", text:"", img:"", gigs:[]}); CX.sel = D.runners.length - 1; CX.edit = "r:" + CX.sel; render(); return; }
+    if (a === "addn"){ leave(); begin(""); D.npcs.push({name:"New contact", kind:"", stand:"", gig:"", gm:"", link:"", text:"", img:""}); CX.open = D.npcs.length - 1; CX.edit = "n:" + CX.open; render(); return; }
+    if (a === "rm"){ if (CX.rm !== k){ CX.rm = k; render(); return; } var t = k.split(":"); (t[0] === "r" ? D.runners : D.npcs).splice(+t[1], 1); if (t[0] === "r") CX.sel = -1; else CX.open = -1; CX.edit = ""; CX.rm = ""; render(); cxSave(); return; }
+    if (a === "gadd"){ var r = D.runners[i]; if (!Array.isArray(r.gigs)) r.gigs = []; r.gigs.push({name:"", year:"", link:""}); render(); return; }
+    if (a === "gdel"){ D.runners[i].gigs.splice(+b.dataset.cxg, 1); render(); return; }
+  });
+
   function render(){
     if (HOSTED && !isAdmin() && (hostWait || !hostOpen)){ app.innerHTML = hostWait ? '<main class="hostgate wait" aria-busy="true"><p class="lab">Connecting…</p></main>' : closedPage(); beatOnRender(); return; }
     var y = window.scrollY;
     document.body.classList.toggle("editing", editing);
     if (!editing && S && WHO === "io") deriveSkills();
-    var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : tab === "fans" ? fansPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
+    var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : tab === "fans" ? fansPage() : tab === "contacts" ? contactsPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" && WHO === "io" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware") wireUp();
     if (tab === "fans") fansAfter();
@@ -5688,6 +5860,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
       if (j.meta && j.meta.nude && typeof j.meta.nude === "object"){ var nio = WHO === "zolo" ? IO : S; if (nio) nio.nude = j.meta.nude.wk ? {salt:String(j.meta.nude.salt), iv:String(j.meta.nude.iv), wk:String(j.meta.nude.wk)} : {}; }
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
+      if (j.meta && j.meta.contacts && Array.isArray(j.meta.contacts.runners) && Array.isArray(j.meta.contacts.npcs) && !CX.edit){ var cio = WHO === "zolo" ? IO : S; if (cio) cio.contacts = j.meta.contacts; }
       if (j.meta && j.meta.fanx && typeof j.meta.fanx === "object") fnXApply(WHO === "zolo" ? IO : S, j.meta.fanx);
       if (Array.isArray(j.fanrsc)){ var fio = WHO === "zolo" ? IO : S; if (fio && fio.fans) fnRscApply(fio, j.fanrsc); }
       if (j.tt && typeof j.tt === "object") S.tt = {active:!!j.tt.active, tier:j.tt.tier, weeks:j.tt.weeks};
@@ -5826,7 +5999,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }

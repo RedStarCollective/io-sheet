@@ -8769,5 +8769,90 @@
    }
   },
   "palm": "Incendiary Grenade"
+ },
+ "contacts": {
+  "runners": [],
+  "npcs": [
+   {
+    "name": "Mortimer",
+    "kind": "Fixer",
+    "stand": "",
+    "gig": "Just Because You're Paranoid",
+    "gm": "Rache",
+    "link": "",
+    "text": "Fixer that Io aided in repelling an assault on during the Dark Zone saga.",
+    "img": ""
+   },
+   {
+    "name": "Maximum Muscle",
+    "kind": "Fixer",
+    "stand": "",
+    "gig": "Just Because You're Paranoid",
+    "gm": "Rache",
+    "link": "",
+    "text": "Fixer that Io aided in repelling an assault on during the Dark Zone saga.",
+    "img": ""
+   },
+   {
+    "name": "Julien",
+    "kind": "Faction head",
+    "stand": "",
+    "gig": "I'm In The Market To Please No One",
+    "gm": "CTibbs",
+    "link": "",
+    "text": "Head of a small faction on the edge of the Hot Zone",
+    "img": ""
+   },
+   {
+    "name": "Sid",
+    "kind": "Faction head",
+    "stand": "",
+    "gig": "I'm In The Market To Please No One",
+    "gm": "CTibbs",
+    "link": "",
+    "text": "Head of the Wolves, a faction occupying the Wild sections of the Hot Zone",
+    "img": ""
+   },
+   {
+    "name": "Gino Anoki",
+    "kind": "Gang",
+    "stand": "",
+    "gig": "High Stakes Door Dash",
+    "gm": "CTibbs",
+    "link": "",
+    "text": "Kimen Gumi Section Captain",
+    "img": ""
+   },
+   {
+    "name": "Worker",
+    "kind": "",
+    "stand": "",
+    "gig": "What's Mine Ain't Yours",
+    "gm": "Nano",
+    "link": "",
+    "text": "A worker that helped Io infiltrate the Morello Wedding.",
+    "img": ""
+   },
+   {
+    "name": "FBC Spikewall",
+    "kind": "",
+    "stand": "",
+    "gig": "Dying of Laughter",
+    "gm": "Valk",
+    "link": "",
+    "text": "",
+    "img": ""
+   },
+   {
+    "name": "Michael",
+    "kind": "",
+    "stand": "",
+    "gig": "",
+    "gm": "Rache",
+    "link": "",
+    "text": "",
+    "img": ""
+   }
+  ]
  }
 }
