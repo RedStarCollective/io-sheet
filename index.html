@@ -2721,9 +2721,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     for (var k in GI) if (String(name).indexOf(k) === 0) return '<svg class="gi" viewBox="' + GI[k].v + '" aria-hidden="true">' + GI[k].b + '</svg>';
     return "";
   }
-  var READY = ["dossier","ware","casefile","rep","fans","contacts","posse","vehicles","advance"];
+  var READY = ["dossier","ware","casefile","rep","fans","posse","vehicles","advance"];
   var tab = (location.hash || "").replace("#",""), bootWho = /^zolo/.test(tab) ? "zolo" : "io"; if (bootWho === "zolo") tab = tab.replace(/^zolo-?/, "") || "dossier"; if (tab === "chrome") tab = "ware"; if (tab === "garage") tab = "vehicles"; if (tab === "lifepath") tab = "casefile"; if (READY.indexOf(tab) < 0) tab = "dossier";
-  var TABS = ["Dossier","Ware","Case File","Rep","Fans","Contacts","Posse","Vehicles","HQ","Advance"];
+  /* Contacts tab hidden for now (Oak, Oct 8): contactsPage() and io.json contacts stay in place; add "contacts" back to READY and TABS to restore it */
+  var TABS = ["Dossier","Ware","Case File","Rep","Fans","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
   var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];
   var IO = null, WHO = "io", roIo = false, zMask = false;
