@@ -1137,6 +1137,81 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
 .L2 .rcard p,.L3 .rcard p{font-size:13.5px}
 
 
+
+/* ---- Throwables: bandolier ---- */
+.lo-belt .bando{position:relative;padding:6px 0 2px}
+.bstrap{position:absolute;left:0;right:0;top:22px;height:17px;z-index:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 35%,rgba(0,0,0,.4)),repeating-linear-gradient(90deg,#2d2621 0 3px,#231d19 3px 6px);
+  border-top:1px dashed rgba(181,143,82,.32);border-bottom:1px dashed rgba(181,143,82,.32);box-shadow:0 4px 8px rgba(0,0,0,.55)}
+.bbuckle{position:absolute;left:12px;top:-5px;width:22px;height:25px;border:3px solid #9a9087;border-radius:3px;box-shadow:inset 0 0 0 1px #000,0 1px 3px rgba(0,0,0,.6);background:linear-gradient(90deg,transparent 45%,#9a9087 45% 55%,transparent 55%)}
+.lo-belt .bando .beltrow{position:relative;z-index:1;display:flex;gap:6px;padding:0 10px 4px 44px;overflow-x:auto;background:none}
+.bando .slot{flex:1 0 92px;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;position:relative}
+.bloop{position:relative;z-index:3;margin-top:10px;width:36px;height:23px;border-radius:4px;background:linear-gradient(180deg,#3d342d,#1f1a16);border:1px solid #4e4239;box-shadow:0 2px 4px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08)}
+.bloop::after{content:"";position:absolute;left:3px;right:3px;top:3px;bottom:3px;border:1px dashed rgba(181,143,82,.3);border-radius:2px}
+.bhang{position:relative;z-index:2;margin-top:-9px;width:48px;height:60px;transform-origin:50% -4px}
+.bcan,.bghost{position:absolute;left:6px;top:0;width:36px;height:54px;border-radius:12px 12px 15px 15px}
+.bcan{display:grid;place-items:center;z-index:2;background:linear-gradient(90deg,#0d0a09,color-mix(in srgb,var(--tc,#b58f52) 34%,#1d1714) 45%,#0b0908);border:1px solid color-mix(in srgb,var(--tc,#b58f52) 50%,#2a221d);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -6px 10px rgba(0,0,0,.5),0 0 12px -4px var(--tc,#b58f52)}
+.bcan::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:15px;height:7px;border-radius:2px 2px 0 0;background:linear-gradient(90deg,#57504a,#a49b92,#57504a)}
+.bcan::after{content:"";position:absolute;left:5px;right:5px;top:9px;height:1px;background:rgba(255,255,255,.08);box-shadow:0 30px 0 rgba(255,255,255,.06)}
+.bcan svg{width:25px;height:25px;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--tc,#b58f52) 60%,transparent))}
+.bghost{background:#15110f;border:1px solid #2c251f;z-index:1}
+.bghost.g1{transform:translate(8px,3px) rotate(7deg)}.bghost.g2{transform:translate(-8px,3px) rotate(-7deg)}
+.bcnt{position:absolute;right:-4px;top:36px;z-index:3;min-width:19px;height:19px;padding:0 4px;display:grid;place-items:center;font:600 12px/1 var(--f-num);color:#140f0e;background:var(--gold);border-radius:10px;border:1.5px solid #0e0a09}
+.bando .slot.empty{padding:0;color:inherit;font-size:inherit}
+.bando .slot.empty .bcan{background:transparent;border:1.5px dashed rgba(181,143,82,.35);box-shadow:none}
+.bando .slot.empty .bcan::before{opacity:.25}.bando .slot.empty .bcan svg{opacity:.22;filter:grayscale(1)}
+.bando .slot.empty .bcnt{background:var(--red-hi);color:#fff}
+.bando .slot.empty .sl-n{opacity:.55}
+.bando .slot.inpalm .bcan{border-color:var(--gold);box-shadow:0 0 14px rgba(217,180,106,.55),inset 0 2px 0 rgba(255,255,255,.08)}
+.bando .slot.on .bcan{outline:1px solid var(--gold);outline-offset:2px}
+.bando .sl-c{top:44px;width:96px}
+.bfly{display:grid;place-items:center;border-radius:12px 12px 15px 15px}
+.pbico.pbland{animation:pbLand .65s ease-out}
+@keyframes pbLand{0%{transform:scale(1.7);filter:drop-shadow(0 0 8px var(--pbc,#ff3a1e)) brightness(1.6)}100%{transform:scale(1);filter:none}}
+@media (prefers-reduced-motion:no-preference){
+  .bando .slot:hover .bhang{animation:bsway 1.5s ease-in-out infinite}
+  @keyframes bsway{0%,100%{transform:rotate(0)}25%{transform:rotate(6deg)}75%{transform:rotate(-6deg)}}
+  .bando.settle .bhang{animation:bsettle 1.7s ease-out both;animation-delay:calc(var(--i) * 70ms)}
+  @keyframes bsettle{0%{transform:rotate(14deg)}22%{transform:rotate(-10deg)}45%{transform:rotate(6deg)}68%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+}
+/* ---- Pharma & Drugs: open med case ---- */
+.mcase{position:relative;margin:8px;border:1px solid #2c2420;border-radius:6px;overflow:hidden;perspective:900px;
+  background:radial-gradient(circle,rgba(255,255,255,.04) 0 1.5px,transparent 2.5px) 0 0/11px 11px,linear-gradient(180deg,#0f0c0b,#0a0807);box-shadow:inset 0 8px 16px rgba(0,0,0,.85),inset 0 0 0 1px rgba(0,0,0,.6)}
+.mrack + .mrack{border-top:1px solid #241e1b}
+.mcase .vg{background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 16%,transparent),transparent 70%);border-top:0;border-bottom:1px solid #1d1816}
+.g-med{--lc:#4cc37a}.g-street{--lc:#e0a040}.g-neuro{--lc:#8f9dff}.g-poison{--lc:#e0434f}
+.mtubes{display:flex;flex-wrap:wrap;gap:12px 4px;padding:12px 8px 8px}
+.tube{position:relative;flex:0 0 84px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.tb-cap{width:22px;height:9px;border-radius:3px 3px 1px 1px;background:linear-gradient(90deg,color-mix(in srgb,var(--lc) 45%,#111),color-mix(in srgb,var(--lc) 75%,#fff 10%),color-mix(in srgb,var(--lc) 45%,#111));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.tb-glass{position:relative;margin-top:-1px;width:24px;height:64px;border:1.5px solid rgba(225,225,225,.3);border-top-color:rgba(225,225,225,.15);border-radius:0 0 12px 12px;background:linear-gradient(90deg,rgba(255,255,255,.07),rgba(255,255,255,.01) 45%,rgba(255,255,255,.09));overflow:hidden;box-shadow:inset 0 0 6px rgba(0,0,0,.7),0 4px 8px rgba(0,0,0,.5)}
+.tb-glass::after{content:"";position:absolute;left:4px;top:5px;bottom:10px;width:3px;border-radius:2px;background:rgba(255,255,255,.2);z-index:2}
+.tb-liq{position:absolute;left:0;right:0;bottom:0;transition:height .8s cubic-bezier(.3,.7,.2,1);background:linear-gradient(180deg,color-mix(in srgb,var(--lc) 70%,#fff),var(--lc) 35%,color-mix(in srgb,var(--lc) 55%,#000));box-shadow:0 0 12px color-mix(in srgb,var(--lc) 55%,transparent)}
+.tb-liq::before{content:"";position:absolute;left:-3px;right:-3px;top:-3px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--lc) 50%,#fff);opacity:.75}
+.tb-n{font:600 15px/1 var(--f-num);color:var(--ink);margin-top:3px}
+.tube .lo-i{font-family:var(--f-cond);font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.1;display:flex;flex-direction:column;gap:2px;align-items:center}
+.tube .lo-i .lo-tags{justify-content:center}
+.tube.tb-out .tb-glass{border-color:rgba(255,255,255,.12);background:rgba(0,0,0,.4)}
+.tube.tb-out .tb-cap{filter:grayscale(1) brightness(.45)}
+.tube.tb-out .tb-liq{display:none}
+.tube.tb-out .tb-n{font:700 10px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
+.tube.tb-out .lo-i{color:var(--ink-3)}
+.tube .ctr{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:80px;display:flex;justify-content:space-between;opacity:0;transition:opacity .15s;border:0;background:none}
+.tube:hover .ctr,.tube:focus-within .ctr{opacity:1}
+.tube .ctr button{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--cell);color:var(--ink-2);font:700 13px/1 var(--f-body);cursor:pointer;padding:0}
+.tube .ctr button:hover:not(:disabled){background:var(--red-dim);color:#fff}
+.tube .ctr button:disabled{opacity:.3;cursor:default}
+.minfo{padding:0 10px}.minfo .lo-info{margin:0 0 10px}
+.mlid{display:none;position:absolute;inset:0;z-index:6;transform-origin:50% 0;border-radius:6px;
+  background:linear-gradient(180deg,#2c2521,#191412);border:1px solid #42372f;box-shadow:inset 0 2px 0 rgba(255,255,255,.06)}
+.mlid b{position:absolute;left:50%;top:50%;width:46px;height:46px;transform:translate(-50%,-50%);background:linear-gradient(#a3121c,#a3121c) 50% 50%/14px 46px no-repeat,linear-gradient(#a3121c,#a3121c) 50% 50%/46px 14px no-repeat;opacity:.85;filter:drop-shadow(0 0 6px rgba(209,28,40,.45))}
+.mcase.closed .mlid,.mcase.opening .mlid{display:block}
+@media (prefers-reduced-motion:no-preference){
+  .mcase.opening .mlid{animation:mlidOpen 1s cubic-bezier(.5,.05,.25,1) forwards}
+  @keyframes mlidOpen{0%{transform:rotateX(0)}100%{transform:rotateX(-104deg);opacity:0}}
+  .tube.slosh .tb-liq::before{animation:slosh .9s ease-out}
+  @keyframes slosh{0%{transform:rotate(0)}18%{transform:rotate(-12deg) translateY(1px)}42%{transform:rotate(8deg)}68%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+}
+@media (prefers-reduced-motion:reduce){ .mlid{display:none!important} }
 /* ---- power-on (all tabs) ---- */
 .pwf,.pwsl{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -3302,7 +3377,35 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   /* Loadout v2. The lists themselves still come from the sheet (inventory, pharma, throwables, concealed); S.lo holds what the
      sheet doesn't say, keyed by an item's base name: what is stashed rather than carried, where concealed items sit, rules notes. */
-  var LOX = {};
+  var LOX = {}, PHL = {};   /* PHL: last drawn liquid level per pharma key, so a change animates from it */
+  function loAfter(entering){
+    if (tab !== "dossier") return;
+    [].forEach.call(document.querySelectorAll(".tb-liq[data-k]"), function(l){ var k = l.dataset.k, to = +l.dataset.to, from = PHL[k]; PHL[k] = to;
+      if (from == null || from === to || reduce){ l.style.height = to + "%"; return; }
+      l.style.transition = "none"; l.style.height = from + "%"; void l.offsetHeight; l.style.transition = ""; l.style.height = to + "%";
+      var t = l.closest(".tube"); if (t){ t.classList.add("slosh"); setTimeout(function(){ t.classList.remove("slosh"); }, 950); } });
+    if (!entering || reduce || !("IntersectionObserver" in window)) return;
+    var mc = document.querySelector(".mcase"), bd = document.querySelector(".bando");
+    if (mc) mc.classList.add("closed");
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (!e.isIntersecting) return; io.unobserve(e.target); var el = e.target;
+      if (el.classList.contains("mcase")) setTimeout(function(){ el.classList.add("opening"); el.classList.remove("closed"); setTimeout(function(){ el.classList.remove("opening"); }, 1500); }, 520);
+      else { el.classList.add("settle"); setTimeout(function(){ el.classList.remove("settle"); }, 2400); } }); }, {rootMargin:"0px 0px -10% 0px"});
+    if (mc) io.observe(mc); if (bd) io.observe(bd);
+  }
+  /* a grenade leaving the belt: pops off and drops (use), or flies to the Palm Bomb (load); done() runs when it lands */
+  function thrFly(slot, toPalm, done){
+    var can = slot && slot.querySelector(".bcan"), dest = toPalm && document.querySelector(".wa .pbico");
+    if (!can || reduce || !can.animate){ done(); return; }
+    var R = can.getBoundingClientRect(), f = can.cloneNode(true); f.classList.add("bfly"); f.style.cssText = "position:fixed;left:" + R.left + "px;top:" + R.top + "px;width:" + R.width + "px;height:" + R.height + "px;margin:0;z-index:60;pointer-events:none;--tc:" + (getComputedStyle(slot).getPropertyValue("--tc") || "#b58f52");
+    document.body.appendChild(f);
+    var a;
+    if (dest){ var D = dest.getBoundingClientRect(), dx = D.left + D.width / 2 - (R.left + R.width / 2), dy = D.top + D.height / 2 - (R.top + R.height / 2);
+      a = f.animate([{transform:"translate(0,0) scale(1) rotate(0)", opacity:1}, {transform:"translate(" + dx * .5 + "px," + (dy * .5 - 120) + "px) scale(.8) rotate(-160deg)", opacity:1, offset:.5}, {transform:"translate(" + dx + "px," + dy + "px) scale(.35) rotate(-340deg)", opacity:.2}], {duration:700, easing:"cubic-bezier(.4,.1,.3,1)"}); }
+    else a = f.animate([{transform:"translate(0,0) rotate(0)", opacity:1}, {transform:"translate(6px,-22px) rotate(14deg)", opacity:1, offset:.35}, {transform:"translate(14px,46px) rotate(55deg)", opacity:0}], {duration:560, easing:"cubic-bezier(.3,.2,.5,1)"});
+    a.onfinish = function(){ f.remove(); done(); };
+    if (!toPalm) done();   /* using one updates at once; the falling copy is only the effect */
+    else if (!dest){ a.cancel(); f.remove(); done(); }
+  }
   /* a throwable slot is one click target: it opens that throwable's notes and, for grenades, the Palm Bomb option */
   document.addEventListener("click", function(ev){
     var sl = ev.target.closest && ev.target.closest(".lo-belt .slot[data-slot]"); if (!sl || ev.target.closest(".sl-c")) return;
@@ -3366,10 +3469,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var low = (out0.length || one.length) && !lock ? '<div class="lo-low" role="note">' + (out0.length ? '<b>Out</b>' + out0.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join("") : '') + (one.length ? '<b class="one">Last one</b>' + one.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join("") : '') + '</div>' : '';
     /* loading the Palm Bomb is done from the belt: click a grenade, then load it (Oak, Oct 3) */
     var palmRow = (S.cyberweapons || []).filter(function(r){ return r.load; })[0], palmW = palmRow ? String(palmRow.name).replace(/\s*\[.*$/, "").toLowerCase().replace(/\b[a-z]/g, function(c){ return c.toUpperCase(); }) : "", palmCur = (L.palm) || "", palmCan = WHO === "io" && !readOnly;
-    var belt = '<section class="box lo-belt"><div class="hb"><span class="sp">Throwables</span><span class="gnote">On the belt</span></div><div class="beltrow">' + (S.throwables || []).map(function(r, i){
+    /* Throwables as a bandolier (Oak, Oct 12): a webbing strap with a buckle; each grenade hangs from its own loop.
+       Several of one kind show as a small stack, an empty loop keeps a dashed outline. Hover sways them; using one pops it off the strap;
+       loading the Palm Bomb flies it to the Arm box (thrFly). */
+    var belt = '<section class="box lo-belt"><div class="hb"><span class="sp">Throwables</span><span class="gnote">On the belt</span></div><div class="bando"><span class="bstrap" aria-hidden="true"><i class="bbuckle"></i></span><div class="beltrow">' + (S.throwables || []).map(function(r, i){
       var p = loParse(r.name), n = +r.n || 0, tk = thrKind(p.base), ico = tk ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + tk[3] + '</svg>' : /grenade|bomb/i.test(r.name) ? THR_ICO.g : /bola|weight/i.test(r.name) ? THR_ICO.w : THR_ICO.b;
-      return '<div class="slot' + (tk ? ' th-' + tk[1] : '') + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '"' + (tk ? ' style="--tc:' + tk[2] + '"' : '') + '><span class="sl-o">' + ico + '<b>' + n + '</b></span><span class="sl-n">' + loName(p) + '</span>' +
-        (lock ? '' : '<span class="sl-c" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div>' +
+      var ghosts = ''; for (var g = 1; g < Math.min(n, 3); g++) ghosts += '<i class="bghost g' + g + '"></i>';
+      return '<div class="slot' + (tk ? ' th-' + tk[1] : '') + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '" style="--i:' + i + (tk ? ';--tc:' + tk[2] : '') + '">' +
+        '<span class="bloop" aria-hidden="true"></span><span class="bhang">' + ghosts + '<span class="bcan">' + ico + '</span><b class="bcnt">' + n + '</b></span>' +
+        '<span class="sl-n">' + loName(p) + '</span>' +
+        (lock ? '' : '<span class="sl-c" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div></div>' +
       '<div class="sl-info">' + (S.throwables || []).map(function(r){ var p = loParse(r.name), h = loInfoP(p);
         if (LOX[p.key] && palmW && palmCan && /grenade/i.test(r.name)) h += '<p class="lo-info lo-palm"><b>' + esc(p.base) + '</b>' + (palmCur === r.name
           ? '<span>Loaded in the ' + esc(palmW) + '</span><button type="button" data-palm="">Unload</button>'
@@ -3380,16 +3489,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (r.head){ groups.push({name:r.name, cls:/street/i.test(r.name) ? "street" : /neuro/i.test(r.name) ? "neuro" : /poison/i.test(r.name) ? "poison" : "med", items:[]}); return; }
       groups[groups.length - 1].items.push([r, i]);
     });
-    var ph = '<section class="box lo-ph"><div class="hb"><span class="sp">Pharma &amp; Drugs</span><span class="gnote">Doses</span></div>' + groups.filter(function(g){ return g.items.length; }).map(function(g){
-      var tot = g.items.reduce(function(a, x){ return a + (+x[0].n || 0); }, 0), live = g.items.filter(function(x){ return (+x[0].n || 0) > 0; }), dead = g.items.filter(function(x){ return (+x[0].n || 0) <= 0; });
+    /* Pharma & Drugs as an open med case (Oak, Oct 12): foam racks by group, each drug an upright vial whose liquid level is its dose count.
+       Using or restocking a dose drains / fills the vial with a slosh (loAfter animates from the last level in PHL). Empties stay dark in their slot.
+       The lid opens the first time the case comes into view on a Dossier visit. */
+    var ph = '<section class="box lo-ph"><div class="hb"><span class="sp">Pharma &amp; Drugs</span><span class="gnote">Doses</span></div><div class="mcase"><i class="mlid" aria-hidden="true"><b></b></i>' + groups.filter(function(g){ return g.items.length; }).map(function(g){
+      var tot = g.items.reduce(function(a, x){ return a + (+x[0].n || 0); }, 0), live = g.items.filter(function(x){ return (+x[0].n || 0) > 0; });
       var gk = "g:" + g.name, hide = !live.length && !LOX[gk];
-      var outs = dead.length ? '<div class="vout"><span class="lab">Out</span>' + dead.map(function(x){ var p = loParse(x[0].name); return '<span class="lo-chip">' + esc(p.base) + (lock ? '' : '<button data-dose="' + x[1] + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '" title="Restock one">+</button>') + '</span>'; }).join("") + '</div>' : '';
-      return '<div class="g-' + g.cls + (hide ? ' g-hid' : '') + '"><h4 class="vg">' + esc(g.name) + (live.length ? '' : '<button type="button" class="vshow" data-lox="' + esc(gk) + '">' + (hide ? 'All out · show' : 'Hide') + '</button>') + '<b>' + tot + '</b></h4>' +
-        (live.length ? '<div class="vials">' + live.map(function(x){
-          var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(6, n)) * 100);
-          return '<div class="vial"><span class="vv" aria-hidden="true"><i style="height:' + pct + '%"></i></span>' + loName(p) + '<span class="vn">' + n + '</span>' +
-            '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>−</button><output>' + n + '</output><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '"' + (lock ? ' disabled' : '') + '>+</button></span>' + loInfoP(p) + '</div>'; }).join("") + '</div>' : '') +
-        (hide ? '' : outs) + '</div>'; }).join("") + '</section>';
+      return '<div class="mrack g-' + g.cls + (hide ? ' g-hid' : '') + '"><h4 class="vg">' + esc(g.name) + (live.length ? '' : '<button type="button" class="vshow" data-lox="' + esc(gk) + '">' + (hide ? 'All out · show' : 'Hide') + '</button>') + '<b>' + tot + '</b></h4>' +
+        (hide ? '' : '<div class="mtubes">' + g.items.map(function(x){
+          var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(6, n)) * 100), from = PHL[p.key] != null ? PHL[p.key] : pct;
+          return '<div class="tube' + (n <= 0 ? ' tb-out' : '') + '"><span class="tb-cap" aria-hidden="true"></span><span class="tb-glass" aria-hidden="true"><i class="tb-liq" data-k="' + esc(p.key) + '" data-to="' + pct + '" style="height:' + from + '%"></i></span>' +
+            '<b class="tb-n">' + (n <= 0 ? 'Out' : n) + '</b>' + loName(p) +
+            (lock ? '' : '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div>' +
+          '<div class="minfo">' + g.items.map(function(x){ return loInfoP(loParse(x[0].name)); }).join("") + '</div>') + '</div>'; }).join("") + '</div></section>';
     var fig = WHO === "io" && L.figure && L.figure.img ? L.figure : null, pins = L.pins || {}, canPin = fig && !lock;
     var dot = function(i){ return LO_DOTS[i % LO_DOTS.length]; };
     var con = '<section class="box lo-con' + (fig ? '' : ' nofig') + '"><div class="hb"><span class="sp">Concealed Items</span>' + (canPin ? '<span class="gnote">Drag a dot to move it</span>' : '') + '</div><div class="conin">' +
@@ -5921,6 +6033,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     zrunInit();
     ioFxInit();
     ioVidAfter();
+    loAfter(pwTab && !editing);
     if (pwTab && !editing){ pwTab = false; powerOn(tab); }
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
@@ -6337,8 +6450,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
-    if (b.dataset.palm !== undefined){ if (readOnly || WHO !== "io") return; if (!S.lo) S.lo = {}; S.lo.palm = b.dataset.palm; open["cw.palm"] = false; render();
-      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins || {}, palm:S.lo.palm}}); else persist(); }, 900); return; }
+    if (b.dataset.palm !== undefined){ if (readOnly || WHO !== "io") return; if (!S.lo) S.lo = {}; var pv = b.dataset.palm, pslot = pv && document.querySelector('.lo-belt .slot[data-slot="' + loParse(pv).key + '"]');
+      var land = function(){ S.lo.palm = pv; open["cw.palm"] = false; render(); var ic = document.querySelector(".wa .pbico"); if (ic && pv && !reduce){ ic.classList.add("pbland"); setTimeout(function(){ ic.classList.remove("pbland"); }, 700); } };
+      if (pv && pslot) thrFly(pslot, true, land); else land();
+      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins || {}, palm:pv}}); else persist(); }, 1600); return; }
     if (b.dataset.tog){ if (editing) return; if (ev.target.closest(".wref")) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
     if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
     if (b.dataset.cfch != null){ var ci = +b.dataset.cfch; cfOpen[ci] = !cfOpen[ci]; render(); return; }
@@ -6356,7 +6471,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.lop){ LOP = b.dataset.lop; render(); return; }
     if (b.dataset.lox){ LOX[b.dataset.lox] = !LOX[b.dataset.lox]; render(); return; }
     if (b.dataset.thr != null){ if (readOnly) return;
-      var tr = S.throwables[+b.dataset.thr]; tr.n = Math.max(0, (+tr.n || 0) + (+b.dataset.d));
+      var tr = S.throwables[+b.dataset.thr];
+      if (+b.dataset.d < 0 && (+tr.n || 0) > 0) thrFly(b.closest(".slot"), false, function(){});
+      tr.n = Math.max(0, (+tr.n || 0) + (+b.dataset.d));
       render(); status("Unsaved"); clearTimeout(saveTimer);
       if (HOSTED){ thrQueue[tr.name] = tr.n; saveTimer = setTimeout(pushThrow, 1500); return; }
       saveTimer = setTimeout(persist, 1500); return; }
