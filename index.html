@@ -358,6 +358,22 @@ span.cwload{cursor:default;margin:3px 0 1px;flex-wrap:wrap;gap:0 5px;padding:1px
 .sl-c button{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--cell);color:var(--ink-2);font:700 13px/1 var(--f-body);cursor:pointer;padding:0}
 .sl-c button:hover:not(:disabled){background:var(--red-dim);color:#fff}
 .sl-c button:disabled{opacity:.3;cursor:default}
+.slot[class*=" th-"] .sl-o{border-color:color-mix(in srgb,var(--tc) 55%,var(--frame));background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--tc) 18%,#1c1512),#0e0a09 72%);box-shadow:inset 0 0 0 3px rgba(0,0,0,.5),0 0 12px -4px var(--tc)}
+.slot[class*=" th-"] .sl-o svg{width:28px;height:28px}
+.slot.th-oil .sl-o{background:radial-gradient(circle at 35% 30%,#1a1424,#060507 72%)}
+.slot.inpalm .sl-o{border-color:var(--gold)}
+@media (prefers-reduced-motion:no-preference){
+  .slot.th-rave .sl-o svg{animation:thRave 2.4s steps(1) infinite}
+  @keyframes thRave{0%{filter:none}25%{filter:hue-rotate(70deg) brightness(1.15)}50%{filter:hue-rotate(-60deg)}75%{filter:hue-rotate(140deg) brightness(1.2)}}
+  .slot.th-fire .sl-o svg{animation:flick 1.6s infinite}
+  .slot.th-volt .sl-o svg{animation:zap 3.8s infinite}
+  .slot.th-smoke .sl-o svg{animation:thDrift 5s ease-in-out infinite}
+  @keyframes thDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px) scale(1.03)}}
+  .slot.th-conc .sl-o svg{animation:thPulse 2.8s ease-out infinite}
+  @keyframes thPulse{0%,70%,100%{transform:scale(1);opacity:1}80%{transform:scale(1.12);opacity:.8}}
+  .slot.th-oil .sl-o svg{animation:thOil 7s linear infinite}
+  @keyframes thOil{from{filter:hue-rotate(0)}to{filter:hue-rotate(360deg)}}
+}
 .slot.empty .sl-o{opacity:.45}.slot.empty .sl-o b{background:var(--red-hi);color:#fff}.slot.empty .sl-n{opacity:.55}
 .sl-info{padding:0 10px}.sl-info .lo-info{margin:0 0 10px}
 .lo-ph .vg{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 5px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--vc);background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 16%,transparent),transparent 70%);border-top:1px solid var(--line);box-shadow:inset 3px 0 0 var(--vc)}
@@ -386,6 +402,12 @@ span.cwload{cursor:default;margin:3px 0 1px;flex-wrap:wrap;gap:0 5px;padding:1px
 .g-ico{width:20px;height:20px;color:var(--gold-dim,var(--ink-3))}
 .gtile:hover .g-ico{color:var(--gold)}
 .gtile .lo-info{grid-column:1/-1}
+.gtile.g-agent .lo-x.ag-n{border:0;padding:0;font:600 11px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.gtile.g-agent.open{grid-column:1/-1}
+@media (min-width:900px){.gtile.g-agent.open{grid-column:span 2}}
+.ag-apps{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px 14px;margin-top:4px;padding:10px 12px;border:1px solid var(--frame);border-radius:12px;background:linear-gradient(180deg,#15100e,#0a0707);box-shadow:inset 0 0 0 2px #000;animation:agIn .2s ease-out}
+.ag-apps .ph-app{width:76px}
+@keyframes agIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 .ph-wrap{padding:12px;display:flex;justify-content:center}
 .phone{width:min(100%,250px);border:2px solid var(--frame);border-radius:16px;background:linear-gradient(180deg,#15100e,#0a0707);padding:8px 10px 10px;box-shadow:inset 0 0 0 2px #000,0 8px 20px rgba(0,0,0,.5)}
 .ph-top{display:flex;justify-content:center;padding-bottom:8px}.ph-top i{width:54px;height:5px;border-radius:3px;background:#000;box-shadow:inset 0 0 0 1px var(--line)}
@@ -416,7 +438,7 @@ button.lo-ash{cursor:pointer;color:var(--gold)!important}
 .conlist em{grid-column:2;font-style:normal;font-size:13px;color:var(--ink-3);line-height:1.25}
 .conlist .lo-tags{grid-column:2}
 .lo-con.nofig .conin{grid-template-columns:minmax(0,1fr)}
-.gear{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;padding:8px}
+.gear{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;padding:8px;align-items:start}
 .gtile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);padding:7px 9px;min-height:38px}
 .gtile .lo-i{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15;display:flex;flex-wrap:wrap;gap:3px 5px;align-items:center}
 .lo-as{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-top:1px solid var(--frame)}
@@ -3196,6 +3218,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var THR_ICO = {g:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 2h6v3h-1.2v1.3a7.2 7.2 0 1 1-3.6 0V5H9zm8.6 1.2 2.2 1.1-1.5 3-1.7-1z"/></svg>',
     b:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5 15 9l7.5 3-7.5 3-3 7.5L9 15l-7.5-3L9 9z"/></svg>',
     w:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="3" fill="currentColor"/><circle cx="19" cy="6" r="3" fill="currentColor"/><circle cx="12" cy="19" r="3" fill="currentColor"/><path d="M5 6 12 12 19 6M12 12v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'};
+  /* each throwable has its own mark and colour on the belt (Oak, Oct 12); unknown ones fall back to the gold grenade */
+  var THR_KIND = [
+    [/smoke/i, "smoke", "#a3a9b0", '<g fill="#a3a9b0"><circle cx="8.6" cy="8.8" r="3.9"/><circle cx="14" cy="6.6" r="4.4" fill="#c4c9ce"/><circle cx="17.6" cy="11" r="3.4"/></g><rect x="7" y="13.2" width="6.4" height="8.4" rx="1.3" fill="#5f656b"/><rect x="8.6" y="11.6" width="3.2" height="2" fill="#3d4246"/>'],
+    [/sov.?oil|oil/i, "oil", "#9b7cff", '<defs><linearGradient id="oilg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b47cff"/><stop offset=".45" stop-color="#3fd6c9"/><stop offset="1" stop-color="#e8c25a"/></linearGradient></defs><path d="M12 2.6c3.2 4.6 6.3 8.2 6.3 11.6a6.3 6.3 0 0 1-12.6 0C5.7 10.8 8.8 7.2 12 2.6z" fill="#0b0b0e" stroke="url(#oilg)" stroke-width="1.7"/><path d="M9.4 13.6c.2 1.8 1.2 3 2.8 3.4" fill="none" stroke="url(#oilg)" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>'],
+    [/concuss|flash|stun/i, "conc", "#ece8df", '<circle cx="12" cy="12" r="2.7" fill="#f4f1ea"/><g fill="none" stroke="#ece8df" stroke-width="1.7" stroke-linecap="round"><path d="M7.6 7.4a6.5 6.5 0 0 0 0 9.2M16.4 7.4a6.5 6.5 0 0 1 0 9.2"/><path d="M4.3 4.4a10.8 10.8 0 0 0 0 15.2M19.7 4.4a10.8 10.8 0 0 1 0 15.2" stroke-opacity=".5"/></g>'],
+    [/rave|strobe|neon/i, "rave", "#ff3fb4", '<circle cx="12" cy="12.6" r="4.8" fill="#ff3fb4"/><circle cx="10.6" cy="11.2" r="1.4" fill="#ffd2ef"/><g stroke-width="1.7" stroke-linecap="round"><path stroke="#38f2ff" d="M12 2.8v2.6M2.6 12.6h2.6M21.4 12.6h-2.6"/><path stroke="#fff35c" d="M5.4 6l1.8 1.8M18.6 6l-1.8 1.8"/><path stroke="#38f2ff" d="M5.8 19.4l1.7-1.7M18.2 19.4l-1.7-1.7"/></g>'],
+    [/incend|napalm|fire|thermite/i, "fire", "#ff6a1f", '<defs><linearGradient id="thfg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d12"/><stop offset=".6" stop-color="#ff9a2e"/><stop offset="1" stop-color="#ffe08a"/></linearGradient></defs><path fill="url(#thfg)" d="M12.6 2c.6 3-1.3 4.6-2.7 6.2C8.2 10.1 7 12 7 14.6 7 18.2 9.3 21 12.4 21c3.4 0 5.6-2.6 5.6-6.1 0-2.4-1.1-4-2.1-5.3-.2 1.4-.8 2.3-1.7 2.8.4-3.6-.6-7.3-1.6-9.4z"/><path fill="#fff1c2" opacity=".85" d="M12.3 12.2c.3 1.6-.8 2.4-1.4 3.3-.4.6-.6 1.2-.6 1.9 0 1.5 1 2.5 2.2 2.5 1.4 0 2.3-1.1 2.3-2.5 0-1.9-1.6-3.2-2.5-5.2z"/>'],
+    [/bola/i, "volt", "#8f9dff", '<g fill="#c9d0ff"><circle cx="4.8" cy="5.6" r="2.7"/><circle cx="19.2" cy="5.6" r="2.7"/><circle cx="12" cy="19.6" r="2.7"/></g><path d="M4.8 5.6 12 12l7.2-6.4M12 12v7.6" fill="none" stroke="#8f9dff" stroke-width="1.5"/><path d="m12.8 7.2-2.4 3.4h2l-1.2 3" fill="none" stroke="#fff" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/>'],
+    [/star|shuriken/i, "steel", "#c9ced6", '<path fill="#c9ced6" stroke="#3a3f46" stroke-width=".6" d="M12 1.5 14.6 9.4 22.5 12l-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z"/><circle cx="12" cy="12" r="1.8" fill="#1a1d21"/>'],
+    [/counterweight|weight/i, "steel", "#c9ced6", '<path fill="#9aa1ab" stroke="#3a3f46" stroke-width=".6" d="M7.5 8h9l3 12.5h-15z"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0" fill="none" stroke="#c9ced6" stroke-width="1.8"/>']];
+  function thrKind(name){ for (var i = 0; i < THR_KIND.length; i++) if (THR_KIND[i][0].test(name)) return THR_KIND[i]; return null; }
   var GEAR_ICO = [
     [/detector|scanner|radar/i, '<path d="M12 21a9 9 0 1 1 9-9M12 16.5A4.5 4.5 0 1 1 16.5 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/>'],
     [/phone|agent/i, '<rect x="7" y="2.5" width="10" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10.5 18.5h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'],
@@ -3215,8 +3248,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     /* loading the Palm Bomb is done from the belt: click a grenade, then load it (Oak, Oct 3) */
     var palmRow = (S.cyberweapons || []).filter(function(r){ return r.load; })[0], palmW = palmRow ? String(palmRow.name).replace(/\s*\[.*$/, "").toLowerCase().replace(/\b[a-z]/g, function(c){ return c.toUpperCase(); }) : "", palmCur = (L.palm) || "", palmCan = WHO === "io" && !readOnly;
     var belt = '<section class="box lo-belt"><div class="hb"><span class="sp">Throwables</span><span class="gnote">On the belt</span></div><div class="beltrow">' + (S.throwables || []).map(function(r, i){
-      var p = loParse(r.name), n = +r.n || 0, ico = /grenade|bomb/i.test(r.name) ? THR_ICO.g : /bola|weight/i.test(r.name) ? THR_ICO.w : THR_ICO.b;
-      return '<div class="slot' + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '"><span class="sl-o">' + ico + '<b>' + n + '</b></span><span class="sl-n">' + loName(p) + '</span>' +
+      var p = loParse(r.name), n = +r.n || 0, tk = thrKind(p.base), ico = tk ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + tk[3] + '</svg>' : /grenade|bomb/i.test(r.name) ? THR_ICO.g : /bola|weight/i.test(r.name) ? THR_ICO.w : THR_ICO.b;
+      return '<div class="slot' + (tk ? ' th-' + tk[1] : '') + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '"' + (tk ? ' style="--tc:' + tk[2] + '"' : '') + '><span class="sl-o">' + ico + '<b>' + n + '</b></span><span class="sl-n">' + loName(p) + '</span>' +
         (lock ? '' : '<span class="sl-c" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div>' +
       '<div class="sl-info">' + (S.throwables || []).map(function(r){ var p = loParse(r.name), h = loInfoP(p);
         if (LOX[p.key] && palmW && palmCan && /grenade/i.test(r.name)) h += '<p class="lo-info lo-palm"><b>' + esc(p.base) + '</b>' + (palmCur === r.name
@@ -3252,15 +3285,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (had[p.key]) return; had[p.key] = 1; carried.push(p); });
     var chip = function(p){ return '<span class="lo-chip">' + esc(p.base) + (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags) + '</span>'; };
     var agentBox = boxes.filter(function(b){ return b.c.kind === "apps"; })[0];
-    var phone = agentBox ? '<section class="box lo-agent"><div class="hb"><span class="sp">Agent</span><span class="gnote">' + agentBox.items.length + ' app' + (agentBox.items.length === 1 ? '' : 's') + '</span></div><div class="ph-wrap"><div class="phone"><span class="ph-top"><i></i></span><div class="ph-apps">' +
-      (agentBox.items.length ? agentBox.items.map(function(p){ var ini = p.base.split(/\s+/).map(function(w){ return w.charAt(0); }).join("").slice(0, 2).toUpperCase(), h = 0; for (var k = 0; k < p.base.length; k++) h = (h * 31 + p.base.charCodeAt(k)) % 360;
-        return '<span class="ph-app"><i style="--ah:' + h + '">' + esc(ini) + '</i><span>' + esc(p.base) + '</span></span>'; }).join("") : '<span class="u">No apps</span>') + '</div><span class="ph-bar"></span></div></div></section>' : '';
+    /* the Agent is a tile in Carried (Oak, Oct 12: a whole phone box for one app was too much); tap it for its apps */
+    var agOpen = !!LOX["agent:apps"], agN = agentBox ? agentBox.items.length : 0;
+    var agentT = agentBox ? '<div class="gtile g-agent' + (agOpen ? ' open' : '') + '">' + gearIcon("phone") + '<button type="button" class="lo-i has" data-lox="agent:apps" aria-expanded="' + agOpen + '" title="Show the apps"><span>Agent</span></button><span class="lo-x ag-n">' + agN + ' app' + (agN === 1 ? '' : 's') + '</span>' +
+      (agOpen ? '<div class="ag-apps">' + (agN ? agentBox.items.map(function(p){ var ini = p.base.split(/\s+/).map(function(w){ return w.charAt(0); }).join("").slice(0, 2).toUpperCase(), h = 0; for (var k = 0; k < p.base.length; k++) h = (h * 31 + p.base.charCodeAt(k)) % 360;
+        return '<span class="ph-app"><i style="--ah:' + h + '">' + esc(ini) + '</i><span>' + esc(p.base) + '</span></span>'; }).join("") : '<span class="u">No apps</span>') + '</div>' : '') + '</div>' : '';
     var tools = carried.filter(function(p){ return !(agentBox && agentBox.p === p); });
-    var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + tools.length + ' items</span></div><div class="gear">' + tools.map(function(p){
+    var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + (tools.length + (agentBox ? 1 : 0)) + ' items</span></div><div class="gear">' + agentT + tools.map(function(p){
         return '<div class="gtile">' + gearIcon(p.base) + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) + '</div>'; }).join("") + '</div>' +
       boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
         return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
-    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + con + phone + '</div>' + gear + '</div>';
+    return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + con + '</div>' + gear + '</div>';
   }
   var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
   /* concealed-item dots: the owner drags them on the figure; positions are kept as percentages in S.lo.pins */
@@ -3837,11 +3872,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   /* region hit-testing from a small label map */
   var RMAPS = {}, RMAP = null;
-  function loadRMap(){ var src = FIG().m + "map.png"; if (RMAPS[src] !== undefined){ RMAP = RMAPS[src]; return; } RMAPS[src] = null; RMAP = null;
-    var im = new Image(); im.onload = function(){ try { var c = document.createElement("canvas"); c.width = im.width; c.height = im.height; var x = c.getContext("2d"); x.drawImage(im, 0, 0); RMAPS[src] = {w:im.width, h:im.height, d:x.getImageData(0, 0, im.width, im.height).data}; if (FIG().m + "map.png" === src) RMAP = RMAPS[src]; } catch(e){} }; im.src = src; }
+  /* the map loads once per figure. It used to load on the first hover, so a tap (no hover on touch screens) or a quick first
+     click arrived before it and did nothing (Oak, Oct 12: "click on the right cyberarm, it doesn't work"). Now it preloads when the
+     Ware tab renders, and a click that still beats it waits for it (RWAIT) and is replayed. */
+  var RWAIT = {};
+  function loadRMap(cb){ var src = FIG().m + "map.png"; if (RMAPS[src]){ RMAP = RMAPS[src]; if (cb) cb(); return; }
+    if (cb) (RWAIT[src] = RWAIT[src] || []).push(cb);
+    if (RMAPS[src] === null) return; RMAPS[src] = null; RMAP = null;
+    var im = new Image(); im.onload = function(){ try { var c = document.createElement("canvas"); c.width = im.width; c.height = im.height; var x = c.getContext("2d"); x.drawImage(im, 0, 0); RMAPS[src] = {w:im.width, h:im.height, d:x.getImageData(0, 0, im.width, im.height).data}; if (FIG().m + "map.png" === src) RMAP = RMAPS[src]; } catch(e){ delete RMAPS[src]; }
+      var q = RWAIT[src] || []; delete RWAIT[src]; if (RMAPS[src]) q.forEach(function(f){ try { f(); } catch(e){} }); };
+    im.onerror = function(){ delete RMAPS[src]; delete RWAIT[src]; }; im.src = src; }
   function regionAt(fig, ev){
     if (FIG().nomask) return "";
-    loadRMap(); if (!RMAP) return "";
+    loadRMap(); if (!RMAP || RMAPS[FIG().m + "map.png"] !== RMAP) return "";
     var R = fig.getBoundingClientRect(), u = (ev.clientX - R.left) / R.width, v = (ev.clientY - R.top) / R.height;
     if (u < 0 || v < 0 || u >= 1 || v >= 1) return "";
     var i = (Math.floor(v * RMAP.h) * RMAP.w + Math.floor(u * RMAP.w)) * 4, k = Math.round(RMAP.d[i] / 30);
@@ -3875,6 +3918,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (tab !== "ware") return;
     var fig = ev.target.closest && ev.target.closest("#bodyfig"); if (!fig) return;
     if (ev.target.closest("[data-limb]")) return;
+    if (!FIG().nomask && !RMAPS[FIG().m + "map.png"]){ var cx = ev.clientX, cy = ev.clientY;
+      loadRMap(function(){ var f2 = document.getElementById("bodyfig"); if (f2) f2.dispatchEvent(new MouseEvent("click", {bubbles:true, clientX:cx, clientY:cy})); }); return; }
     var rg = regionAt(fig, ev), lm = limbAt(fig, ev, rg), zid = RZONE[rg] || ""; if (!zid) return;
     if (lm){ if (zoneSel === "limbs" && limbSel === lm){ setLimb(""); } else { zoneSel = "limbs"; setLimb(lm); } pulseNext = true; render(); return; }
     zoneSel = zid === zoneSel ? "" : zid; pulseNext = true;
@@ -5666,7 +5711,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (!editing && S && WHO === "io") deriveSkills();
     var body = tab === "ware" ? chrome() : tab === "rep" ? (WHO === "zolo" ? zRepPage() : repPage()) : tab === "posse" ? possePage() : tab === "vehicles" ? garagePage() : tab === "advance" ? advPage() : tab === "casefile" ? casePage() : tab === "fans" ? fansPage() : tab === "contacts" ? contactsPage() : '<main class="dossier">' + idColumn() + statsRail() + skills() + vitals() + weaponsArmor() + loadout() + '</main>';
     app.innerHTML = header() + body + (tab === "dossier" && WHO === "io" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
-    if (tab === "ware") wireUp();
+    if (tab === "ware"){ wireUp(); loadRMap(); }
     if (tab === "fans") fansAfter();
     if (tab === "rep" && !editing) repApply();
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
