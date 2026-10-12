@@ -220,6 +220,11 @@ body:not(.editing) .t td.name > .flex{display:block}
 .tone-blast .tn{color:#fff0e4;text-shadow:0 0 5px #ff3a1e,0 0 13px rgba(209,28,40,.65)}
 
 /* Palm Bomb: look follows the loaded grenade */
+.ico.pbico{width:21px;height:21px;vertical-align:-5px}
+.tone-blast,.row-blast{--pbc:#ff3a1e}.tone-pb-fire,.row-pb-fire{--pbc:#ff7a2e}.tone-pb-rave,.row-pb-rave{--pbc:#ff3fb4}.tone-pb-conc,.row-pb-conc{--pbc:#dfeaf2}.tone-pb-oil,.row-pb-oil{--pbc:#9b7cff}.tone-pb-smoke,.row-pb-smoke{--pbc:#b4b9be}
+.pbico .pbring{filter:drop-shadow(0 0 1.6px var(--pbc,#d11c28))}
+.pbico .pbhand{filter:drop-shadow(0 0 1.4px var(--pbc,#d11c28))}
+@media (prefers-reduced-motion:no-preference){ .pbico .pbring{animation:pbRing 2.4s ease-in-out infinite} @keyframes pbRing{0%,100%{opacity:.55}50%{opacity:1}} }
 .t tr[class*="row-pb-"] td.name{background:repeating-linear-gradient(-45deg,var(--pa) 0 4px,var(--pb2) 4px 8px) 0 0/4px 100% no-repeat,linear-gradient(90deg,var(--pg),transparent 80%)}
 .row-pb-fire{--pa:#ff5a1f;--pb2:#ffc04a;--pg:rgba(255,106,31,.14)}
 .row-pb-rave{--pa:#ff3fb4;--pb2:#38f2ff;--pg:rgba(255,63,180,.12)}
@@ -3330,9 +3335,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     [/counterweight|weight/i, "steel", "#c9ced6", '<path fill="#9aa1ab" stroke="#3a3f46" stroke-width=".6" d="M7.5 8h9l3 12.5h-15z"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0" fill="none" stroke="#c9ced6" stroke-width="1.8"/>']];
   /* Palm Bomb takes the look of whatever is loaded (Oak, Oct 12): "pb-<kind>" tone, the belt mark of the loaded grenade
      seated in the gold palm cradle, and that grenade's colours and motion. Empty or unknown loads keep the red "blast" look. */
-  var PB_CRADLE = '<path d="M3.6 11.6v3a8.4 8.4 0 0 0 16.8 0v-3" fill="none" stroke="#d9b46a" stroke-width="1.9" stroke-linecap="round"/><path d="M3.6 11.6l-1.3-1.4M20.4 11.6l1.3-1.4" stroke="#d9b46a" stroke-width="1.6" stroke-linecap="round"/>';
+  /* the Palm Bomb hand: a dark cyber-palm with plated finger joints and a charge ring in the palm that glows in the load's colour (--pbc);
+     the loaded grenade's mark sits in front of the palm (Oak, Oct 12: "a palm, with the icon in front of it") */
+  var PB_GRENADE = '<ellipse cx="11.6" cy="10.6" rx="4.3" ry="4.9" fill="#c4151f" stroke="#2a0507" stroke-width=".6"/><path d="M8 9.2h7.2M7.6 11.8h8M11.6 5.8v9.6" fill="none" stroke="#3a0608" stroke-width=".55" opacity=".7"/><rect x="10.1" y="4.1" width="3.2" height="1.9" rx=".4" fill="#9aa1ab"/><path d="M13.3 4.6h2.3l.7 3.4" fill="none" stroke="#c9ced6" stroke-width=".9" stroke-linecap="round"/><circle cx="8.9" cy="4.6" r="1.3" fill="none" stroke="#c9ced6" stroke-width=".8"/>';
+  function palmIcon(inner){ return '<svg class="ico pbico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="pbh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5550"/><stop offset=".5" stop-color="#2b2724"/><stop offset="1" stop-color="#141110"/></linearGradient></defs>' +
+    '<path class="pbhand" fill="url(#pbh)" stroke="#8a8178" stroke-width=".55" stroke-linejoin="round" d="M6.6 13.4V5.4a1.45 1.45 0 0 1 2.9 0v4.9V3.6a1.45 1.45 0 0 1 2.9 0v6.7V4.1a1.45 1.45 0 0 1 2.9 0v6.3V6.2a1.45 1.45 0 0 1 2.9 0v9.1c0 3.9-2.6 6.9-6.4 6.9h-.7c-2.4 0-4-1.1-5.1-2.9l-2.8-4.6a1.45 1.45 0 0 1 2.5-1.5z"/>' +
+    '<path d="M6.6 7.6h2.9M9.5 6.2h2.9M12.4 6.6h2.9M15.3 8.4h2.9M6.6 10.4h2.9M9.5 9.2h2.9M12.4 9.4h2.9M15.3 11h2.9" stroke="#0c0a09" stroke-width=".6" opacity=".9"/>' +
+    '<circle class="pbring" cx="12.5" cy="15.4" r="4.1" fill="none" style="stroke:var(--pbc,#d11c28)" stroke-width="1.1"/>' +
+    '<g transform="translate(7.1 10) scale(.45)"><g class="pbm nade">' + inner + '</g></g></svg>'; }
+  ICONS.blast = palmIcon(PB_GRENADE);
   function palmTone(){ var cur = S && S.lo && S.lo.palm; if (!cur) return ""; var tk = thrKind(String(cur).replace(/\s*\[.*$/, "")); if (!tk || tk[1] === "volt" || tk[1] === "steel") return "";
-    var key = "pb-" + tk[1]; if (!ICONS[key]) ICONS[key] = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(4.9 1.6) scale(.6)"><g class="pbm">' + tk[3] + '</g></g>' + PB_CRADLE + '</svg>';
+    var key = "pb-" + tk[1]; if (!ICONS[key]) ICONS[key] = palmIcon(tk[3]);
     return key; }
   function thrKind(name){ for (var i = 0; i < THR_KIND.length; i++) if (THR_KIND[i][0].test(name)) return THR_KIND[i]; return null; }
   var GEAR_ICO = [
