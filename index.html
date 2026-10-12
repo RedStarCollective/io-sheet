@@ -215,6 +215,8 @@ body:not(.editing) .t td.name > .flex{display:block}
 .tone-med .tn{color:var(--med)}
 .t tr.row-fire td.name{background:linear-gradient(90deg,rgba(255,90,30,.10),transparent 95%)}
 .t tr.row-ice td.name{background:linear-gradient(90deg,rgba(124,200,242,.09),transparent 95%)}
+.tone-earth .tn{color:#d8b47a;text-shadow:0 0 8px rgba(196,154,90,.45)}
+.t tr.row-earth td.name{background:linear-gradient(90deg,rgba(196,154,90,.10),transparent 95%)}
 .t tr.row-volt td.name{background:linear-gradient(90deg,rgba(143,157,255,.10),transparent 95%)}
 .t tr.row-gold td.name{background:linear-gradient(90deg,rgba(217,180,106,.08),transparent 95%)}
 @media (prefers-reduced-motion:no-preference){
@@ -2712,7 +2714,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     repEvents: {lvl:3, head:"New rep event", text:"", kinds:[], who:[], date:(new Date().getFullYear() + 22) + new Date().toISOString().slice(4,10), link:""}
   };
   var ELEMENTS = [["","No element"],["earth","Earth"],["fire","Fire"],["water","Water"],["air","Air"]];
-  var TONES = [["","Plain"],["gold","Gold"],["fire","Fire"],["ice","Ice"],["volt","Volt"],["med","Medical"]];
+  var TONES = [["","Plain"],["gold","Gold"],["fire","Fire"],["ice","Ice"],["volt","Volt"],["earth","Earth"],["med","Medical"]];
 
   var STAR = '<svg class="star" viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#b30f1b" points="50,2 60.4,32 92,26 71,50 92,74 60.4,68 50,98 39.6,68 8,74 29,50 8,26 39.6,32"/></svg>';
   /* Icons: game-icons.net (Lorc, Delapouite, Caro Asercion), CC BY 3.0 */
@@ -3053,10 +3055,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     gold: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d58e"/><stop offset=".55" stop-color="#c9973f"/><stop offset="1" stop-color="#7d5a22"/></linearGradient></defs><path fill="url(#gg)" stroke="#3a2a10" stroke-width=".8" d="M6.2 9.2c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8V6.6c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v.4c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v1.4c.2-.9.9-1.4 1.7-1.4 1 0 1.7.8 1.7 1.8v5.4c0 3.4-2.6 5.6-6 5.6h-2.3c-2.4 0-4.2-1.4-5-3.6L5 12.9c-.4-1 .1-2 1.2-2.3z"/><path fill="none" stroke="#3a2a10" stroke-width=".8" d="M9.8 9.2v3M13.4 7v5M17 8.4v4"/><rect x="7.6" y="19.4" width="9.6" height="3.2" rx=".6" fill="url(#gg)" stroke="#3a2a10" stroke-width=".8"/></svg>',
     fire: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="fg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d12"/><stop offset=".6" stop-color="#ff9a2e"/><stop offset="1" stop-color="#ffe08a"/></linearGradient></defs><path fill="url(#fg)" d="M12.6 2c.6 3-1.3 4.6-2.7 6.2C8.2 10.1 7 12 7 14.6 7 18.2 9.3 21 12.4 21c3.4 0 5.6-2.6 5.6-6.1 0-2.4-1.1-4-2.1-5.3-.2 1.4-.8 2.3-1.7 2.8.4-3.6-.6-7.3-1.6-9.4z"/><path fill="#fff1c2" opacity=".85" d="M12.3 12.2c.3 1.6-.8 2.4-1.4 3.3-.4.6-.6 1.2-.6 1.9 0 1.5 1 2.5 2.2 2.5 1.4 0 2.3-1.1 2.3-2.5 0-1.9-1.6-3.2-2.5-5.2z"/></svg>',
     ice: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#bfeaff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/><path d="M9.6 3.8 12 6l2.4-2.2M9.6 20.2 12 18l2.4 2.2M3.9 10.1l3.1-1 .7-3.2M16.3 18.1l-.7-3.2 3.1-1M3.9 13.9l3.1 1 .7 3.2M16.3 5.9l-.7 3.2 3.1 1"/></g></svg>',
+    earth: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#c49a5a" stroke="#6f5532" stroke-width="1" stroke-linejoin="round" d="M2 20.5 8.2 9.6l3.2 4.4 3.4-7.6 7.2 14.1z"/><path fill="#e2c18a" d="m14.8 6.4 1.7 3.4-1.9-.6-1.2 2.4z"/></svg>',
     volt: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#dfe3ff" stroke="#8f9dff" stroke-width="1.2" stroke-linejoin="round" d="M13.5 2 5 13.4h5.6L9.4 22 19 9.8h-5.8z"/></svg>'
   };
   function cwTags(r){ return '<span class="lo-tags cwt">' + r.tags.map(function(k){ return '<span class="chip2 ' + (TAGC[String(k).replace(/\s*×\d+$/, "").toUpperCase()] || '') + '"' + (CWTIP[k] ? ' title="' + CWTIP[k] + '"' : '') + '>' + esc(k) + '</span>'; }).join("") + '</span>'; }
-  var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", VHM:"Very Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded"};
+  var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", VHM:"Very Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded", RETRO:"Retrofit", PRECISE:"Precise feature"};
   /* "Name [EQ LM - FAB, Ultra Snag'Em]" or "Name [BIOWARE] [UPG]" -> bare name + tag chips */
   function tagName(name){
     var str = String(name), base = str.replace(/\s*[\(\[].*$/, ""), tags = [];
@@ -3289,7 +3292,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   card.className = "card"; card.id = "rcard"; card.setAttribute("role", "tooltip"); card.hidden = true;
   document.body.appendChild(card);
   var cardFor = null, pinned = false, showT = 0, hideT = 0;
-  function para(s){ return String(s).split(/\n•\s*/).map(function(p, i){ return i ? '<li>' + nm(p) + '</li>' : '<p>' + nm(p) + '</p>'; }).join("").replace(/(<li>.*<\/li>)/, '<ul>$1</ul>'); }
+  /* plain line breaks start a new paragraph; "\n• " lines become a list under the paragraph before them */
+  function para(s){ return String(s).split(/\n(?!•)/).map(function(ch){ return ch.split(/\n•\s*/).map(function(p, i){ return i ? '<li>' + nm(p) + '</li>' : '<p>' + nm(p) + '</p>'; }).join("").replace(/(<li>.*<\/li>)/, '<ul>$1</ul>'); }).join(""); }
   function refHTML(key){
     var r = REF[key]; if (!r) return "";
     var meta = [r.type, r.install && r.install !== "—" ? "Install: " + r.install : "", r.cost, r.hl !== "" ? "HL " + r.hl : ""].filter(Boolean);
@@ -3582,10 +3586,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var wr = 0; window.addEventListener("scroll", function(){ if (tab !== "ware" || wr) return; wr = requestAnimationFrame(function(){ wr = 0; if (document.querySelector(".ring")) drawWires(); }); }, {passive:true});
   var wt; window.addEventListener("resize", function(){ clearTimeout(wt); wt = setTimeout(function(){ if (tab === "ware") drawWires(); }, 100); });
   /* Right Cyberarm diagram: the arm cut large, each option pinned where it sits (Oak, Oct 2) */
-  var ADSPOT = [[/quick.?change/i,"joint","Shoulder mount"],[/superchrome/i,"cap","Covering"],[/reinforced/i,"bicep","Frame"],[/popup|magi/i,"hand","Whole hand"],[/watch.?man/i,"wrist","Wrist"],[/wolvers/i,"under","Under the wrist"],[/medical/i,"tips","Fingers"],[/palm bomb|high five/i,"palm","Palm"],[/holo.?palm/i,"palm2","Palm"]];
+  var ADSPOT = [[/quick.?change/i,"joint","Shoulder mount"],[/superchrome/i,"cap","Covering"],[/reinforced/i,"bicep","Frame"],[/popup|magi/i,"hand","Whole hand"],[/watch.?man/i,"wrist","Wrist"],[/wolvers/i,"under","Under the wrist"],[/kong|big.?knuck/i,"knuck","Knuckles"],[/arclight/i,"fore","Forearm to hand"],[/medical/i,"tips","Fingers"],[/palm bomb|high five/i,"palm","Palm"],[/holo.?palm/i,"palm2","Palm"]];
   function ADFIG(){ return WHO === "zolo"
-    ? {img:"img/zolo/arm1.webp", w:298, h:1152, alt:"Zolo’s right arm under its Concealment Sleeve", at:{joint:[84,6,"R"], cap:[52,13,"L"], bicep:[70,31,"R"], hand:[17,89,"L"], wrist:[20,76,"L"], under:[40,78,"R"], tips:[40,96,"L"], palm:[40,84,"R"], palm2:[46,90,"R"]}, spare:[[60,44,"R"],[30,58,"L"],[40,70,"R"]]}
-    : {img:"img/io/arm1.webp", w:310, h:1174, alt:"Iō’s gold right cyberarm, shoulder to fingertips", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}; }
+    ? {img:"img/zolo/arm1.webp", w:298, h:1152, alt:"Zolo’s right arm under its Concealment Sleeve", at:{joint:[84,6,"R"], cap:[52,13,"L"], bicep:[70,31,"R"], hand:[17,89,"L"], wrist:[20,76,"L"], under:[40,78,"R"], knuck:[26,86,"L"], fore:[38,60,"R"], tips:[40,96,"L"], palm:[40,84,"R"], palm2:[46,90,"R"]}, spare:[[60,44,"R"],[30,58,"L"],[40,70,"R"]]}
+    : {img:"img/io/arm1.webp", w:310, h:1174, alt:"Iō’s gold right cyberarm, shoulder to fingertips", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], knuck:[24,85,"L"], fore:[36,60,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}; }
   var adSel = "", adIn = false;
   function adOpts(zi, g, gi){
     var A = ADFIG(), gp = "chrome.zones." + zi + ".groups." + gi, ri = -1;
@@ -5750,7 +5754,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var n = g.at(r, wp[1]), o = old[normN(n)] || {};
         out2.push({name:o.name || cleanName(n), dmg:dc > 0 ? g.at(r, dc) : "", rof:rc > 0 ? numV(g.at(r, rc)) : ""});
       });
-      if (out2.length) S.weapons = out2;
+      if (out2.length){ var wB = function(t){ return normN(String(t).replace(/\s*[\(\[].*$/, "")); }, seen2 = {}; out2.forEach(function(x){ seen2[wB(x.name)] = 1; }); (S.weapons || []).forEach(function(x){ if (x.site && !seen2[wB(x.name)]) out2.push(x); }); S.weapons = out2; }
     }
     var cw = g.find("Cyberweapon");
     if (cw){
@@ -5760,7 +5764,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var n = g.at(r, cw[1]), o = old2[normN(n)] || old2b[cwB(cleanName(n))] || {};
         out3.push({tags:o.tags, name:o.name || cleanName(n), dmg:dc2 > 0 ? g.at(r, dc2) : "", ammo:ac > 0 ? numV(g.at(r, ac)) : "", rof:rc2 > 0 ? numV(g.at(r, rc2)) : "", head:!!o.head, tone:o.tone || "", ind:!!o.ind});
       });
-      /* rows the site owns (Wolvers, Palm Bomb) stay even when the sheet does not list them */
+      /* rows the site owns (Palm Bomb, Kong Knucks, Radline Arclight) stay even when the sheet does not list them */
       if (out3.length){ var seen3 = {}; out3.forEach(function(x){ seen3[cwB(x.name)] = 1; }); (S.cyberweapons || []).forEach(function(x){ if (x.site && !seen3[cwB(x.name)]) out3.push(x); }); out3.forEach(function(x){ var o = old2b[cwB(x.name)]; if (o && o.site){ x.site = true; x.load = o.load; } }); S.cyberweapons = out3; }
     }
     var inv = g.find("Other Inventory");

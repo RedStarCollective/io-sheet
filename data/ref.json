@@ -898,5 +898,55 @@
   "type": "Vehicle Room",
   "flavor": "",
   "rules": "When building a vehicle that has rooms, any room may be upgraded to a Luxury Room for double the cost of that room. A Luxury Room only differs in aesthetics. A Luxury Room is a room suitable for a king, CEO, or diplomat, and everyone can tell the difference. If the room is being rented, the GM should decide what category of housing it is.\nThe Housing Capacity Nomad Vehicle Upgrade, when taken at Moto Rank 5 (5,000eb if purchased separately) or above, can upgrade an existing room in a vehicle to a Luxury Room instead of adding a new room. Multiple upgrades can be installed."
+ },
+ "bigknucks": {
+  "name": "Big Knucks",
+  "src": "Cyberpunk RED core rulebook · p.364",
+  "cost": "100eb (Premium)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "",
+  "rules": "Cyberarm Option. Armored knuckles. A Medium Melee Weapon (2d6 damage, 2 ROF) that can be successfully concealed without a Check. When wielded as a weapon, user can't hold anything in this arm's hand. Can be installed as the only piece of Cyberware in a meat arm.",
+  "type": "Cyberarm Option"
+ },
+ "kongknucks": {
+  "name": "Kong Knucks",
+  "src": "Old Dogs, New Tricks (Retrofits) (RUSH)",
+  "cost": "2,500eb (Very Expensive)",
+  "install": "Tech, 1 hour",
+  "hl": "",
+  "flavor": "Tungsten-reinforced striking surfaces extend across the knuckles, palm, and outer edge of the hand. A contact-triggered electromagnetic driver delivers a secondary impulse through the striking surface, overwhelming conventional armor.",
+  "rules": "Retrofit for Big Knucks. Big Knucks become Excellent Quality Heavy Melee. Damage dealt by Big Knucks with this Retrofit ignores armor lower than SP 8.\nOnce per turn, when you inflict a Critical Injury with this weapon, the target is pushed 4m/yds directly away from you. Targets with BODY 13 or higher and targets in a Grapple with you are not pushed. If a wall, a piece of cover, or another character blocks the target's path, the target stops there and suffers the effects of a Throw (CP:R 178) from you.\nBig Knucks with this Retrofit are incompatible with the Cyberweapon Feature Upgrade.\nPrecise (Tech Upgrade, RUSH Up Your Arsenal): When you inflict a Critical Injury as a result of getting two sixes (or equivalent) on an attack damage roll with this weapon, roll twice on the Critical Injury table and choose which result to apply to the target. If you roll a Critical Injury the target already has or that you've already rolled this turn, reroll until you get a new one and then choose from the two final results.",
+  "type": "Retrofit"
+ },
+ "elementa": {
+  "name": "Elementa Retrofit",
+  "src": "Old Dogs, New Tricks (Retrofits) (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Tech, 1 hour",
+  "hl": "",
+  "flavor": "Faisal's Customs developed the Elementa after pit promoters asked for bouts that looked different every week. The rebuild replaces the gauntlet's vial seats with keyed seats and reprograms the injection controller and electromagnetic coil. This lets the gauntlet run three new formulas of Magi-Palm fluid.",
+  "rules": "Retrofit for Faisal's Magi-Palm. When this Retrofit is installed, choose any number of the Magi-Palm's vial types (Ignis, Frigus, and Fulgur). Replace each chosen type with a different vial type from the list below. The Magi-Palm can only load its current vial types. The selection can only be changed by uninstalling and reinstalling the Retrofit. When the Retrofit is uninstalled, the Magi-Palm returns to Ignis, Frigus, and Fulgur. Replacement Aer, Terra, and Ferrum vials cost 100eb (Premium).\n• Aer (Air): Anyone hit by the weapon twice in one turn must try to beat a DV15 Athletics Skill Check. On a failure, they are pushed 4m directly away from you and are knocked Prone.\n• Terra (Earth): Anyone hit by the weapon twice in one turn must try to beat a DV15 Endurance Skill Check. On a failure, until the end of your next turn, each lethal attack that deals damage to the target (after armor) deals an additional 3 damage. This effect does not stack with Red River.\n• Ferrum (Metal): Only one Ferrum vial can be loaded at a time. The weapon can also be used as a shield with 10 HP. When the shield is destroyed, the Ferrum effect ends, but the fractured shell stays in the gauntlet. You cannot use that arm until you purge it as an Action.",
+  "type": "Retrofit"
+ },
+ "arclight": {
+  "name": "Radline \"Arclight\"",
+  "src": "Chromed Up (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "Radline builds the Arclight for bodyguards and dueling circuit fighters. A capacitor bank runs the length of the forearm and feeds a copper-ringed emitter set somewhere on the hand. The emitter projects a guide laser that ionizes a thin line of air, and the capacitor discharges down it as a visible arc of artificial lightning. The bolt goes wherever the emitter is thrust. A hit to the hand seizes the forearm muscles until the grip fails.",
+  "rules": "Cyberarm Option. An Excellent Quality Exotic One-Handed Light Melee Weapon that can make Melee Attacks against targets up to 10 m/yds (5 squares) away. Can be successfully concealed without a Check. When wielded as a weapon, user can't hold anything in this arm's hand. Requires a Cyberarm and takes 1 Option Slot.\nAimed Shots: Held Item (CP:R 170) made with this weapon are made at a −6 instead of a −8 and do not need to deal damage to be effective. On a hit, the chosen item falls to the ground in front of the target.",
+  "type": "Cyberarm Option"
+ },
+ "hiddenholster": {
+  "name": "Hidden Holster",
+  "src": "Cyberpunk RED core rulebook · p.364",
+  "cost": "500eb (Expensive)",
+  "install": "Clinic",
+  "hl": "7 (2d6)",
+  "flavor": "",
+  "rules": "External Body Cyberware. Holster inside the user's body can store a weapon already capable of concealment so that it can be successfully concealed without a roll. Weapon can be drawn from the hidden holster without an Action, as long as it is implanted in an easily accessible place on the user's body. You don't want one in your thigh unless you don't wear pants.",
+  "type": "External Body Cyberware"
  }
 }

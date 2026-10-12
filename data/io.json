@@ -979,9 +979,10 @@
    "rof": 2
   },
   {
-   "name": "EnVogue Chi Restraint Pack [EQ LM - FAB, Ultra Snag'Em, WF Kit Leisurewear]",
-   "dmg": "1d6",
-   "rof": 2
+   "name": "Kendachi Mono-Knife [EQ MM - Monomolecular Edge, Weapon Retention System]",
+   "dmg": "2d6",
+   "rof": 2,
+   "site": true
   }
  ],
  "cyberweapons": [
@@ -996,25 +997,26 @@
     "EQ",
     "HM",
     "UPG",
-    "REACH"
+    "REACH",
+    "RETRO"
    ]
   },
   {
    "name": "IGNIS (Sets Strong On Fire)",
    "dmg": "3d6",
-   "ammo": 0,
+   "ammo": 1,
    "rof": 2,
    "head": false,
    "tone": "fire",
    "ind": true
   },
   {
-   "name": "FRIGUS (DV 15 Endurance: Frost)",
+   "name": "TERRA (DV 15 Endurance: REDRIVER)",
    "dmg": "3d6",
    "ammo": 1,
    "rof": 2,
    "head": false,
-   "tone": "ice",
+   "tone": "earth",
    "ind": true
   },
   {
@@ -1058,16 +1060,31 @@
    "ind": true
   },
   {
-   "name": "WOLVERS",
+   "name": "KONG KNUCKS",
    "dmg": "3d6",
    "ammo": "",
-   "rof": 1,
+   "rof": 2,
    "head": false,
-   "tone": "",
+   "tone": "gold",
    "tags": [
-    "UPG ×2",
+    "EQ",
+    "HM",
+    "UPG",
     "PRECISE",
-    "ARMOR SHRED"
+    "RETRO"
+   ],
+   "site": true
+  },
+  {
+   "name": "RADLINE ARCLIGHT",
+   "dmg": "1d6",
+   "ammo": "",
+   "rof": 2,
+   "head": false,
+   "tone": "volt",
+   "tags": [
+    "EQ",
+    "LM"
    ],
    "site": true
   },
@@ -1244,12 +1261,8 @@
    "where": "Inside Bumbag & attached to beltstraps."
   },
   {
-   "name": "EnVogue Chi Restraint Pack [EQ LM - FAB, Ultra Snag'Em, WF Kit Leisurewear]",
-   "where": "Looks like Bumbag"
-  },
-  {
-   "name": "Weapon Retention System [Attached to Chi Restraint Pack]",
-   "where": "Straps of Bumbag"
+   "name": "Kendachi Mono-Knife [Weapon Retention System]",
+   "where": "Hidden Holster"
   }
  ],
  "cash": 450,
@@ -1633,19 +1646,18 @@
           "kind": "cyber",
           "tags": [
            "UPG",
-           "REACH"
+           "REACH",
+           "RETRO"
           ],
-          "ref": "popup",
-          "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Three modes: Ignis, Frigus, and Fulgur."
+          "ref": "popup,elementa",
+          "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Elementa Retrofit: three modes, Ignis, Terra, and Fulgur."
          },
          {
-          "name": "Wolvers",
+          "name": "Radline Arclight",
           "kind": "cyber",
-          "tags": [
-           "UPG"
-          ],
-          "ref": "wolvers",
-          "setup": "3d6. Armor Shredding. Precise."
+          "tags": [],
+          "ref": "arclight",
+          "setup": "6m Range. Light Melee. -6 Aimed Shot Held."
          },
          {
           "name": "Medical Hand",
@@ -1657,11 +1669,14 @@
           "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
          },
          {
-          "name": "Reinforced Cyberlimb",
+          "name": "Kong Knucks",
           "kind": "cyber",
-          "tags": [],
-          "ref": "reinforced",
-          "setup": ""
+          "tags": [
+           "UPG",
+           "RETRO"
+          ],
+          "ref": "bigknucks,kongknucks",
+          "setup": "3d6 EQ HM. Precise. Ignores SP8 or lower. Push on Crit."
          },
          {
           "name": "Quick Change Mount",
@@ -1889,13 +1904,11 @@
         "setup": ""
        },
        {
-        "name": "Radskin",
-        "kind": "bio",
-        "tags": [
-         "BIOWARE"
-        ],
-        "ref": "radskin",
-        "setup": ""
+        "name": "Hidden Holster",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "hiddenholster",
+        "setup": "Holds the Kendachi Mono-Knife on its Weapon Retention System."
        }
       ]
      }
@@ -8718,11 +8731,7 @@
     58,
     80
    ],
-   "envogue chi restraint pack": [
-    44,
-    78
-   ],
-   "weapon retention system": [
+   "kendachi mono-knife": [
     66,
     74
    ]
