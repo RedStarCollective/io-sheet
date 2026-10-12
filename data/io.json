@@ -1038,6 +1038,7 @@
    "tags": [
     "EQ",
     "LM",
+    "UPG",
     "AIRHYPO"
    ]
   },
@@ -1665,8 +1666,8 @@
           "tags": [
            "UPG"
           ],
-          "ref": "medhand",
-          "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
+          "ref": "medhand,mithridatic",
+          "setup": "Mithridatic Edge: a concealed blade (EQ Exotic Light Melee) and a hidden vial of Poison or Biotoxin, applied silently without an Action. Integrated Airhypo gets +1 on Melee Attack rolls to apply contents."
          },
          {
           "name": "Kong Knucks",
@@ -7118,8 +7119,8 @@
            "tags": [
             "UPG"
            ],
-           "ref": "medhand",
-           "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
+           "ref": "medhand,mithridatic",
+           "setup": "Mithridatic Edge: a concealed blade (EQ Exotic Light Melee) and a hidden vial of Poison or Biotoxin, applied silently without an Action. Integrated Airhypo gets +1 on Melee Attack rolls to apply contents."
           },
           {
            "name": "Kong Knucks",

@@ -1078,5 +1078,15 @@
   "flavor": "A stylish metal sheath for a blade or other melee weapon.",
   "rules": "The Weapon Retention System can attach to any Melee Weapon without a BODY requirement to wield and retrieve it automatically when it is dropped, stowing it without an Action. The weapon will be disconnected from the Weapon Retention System if removed by force, such as if taken using the Grab action, and an attached weapon can be Grabbed even while you aren't holding it. You may only have one weapon attached to you by a Weapon Retention System at a time. You cannot have a weapon attached to you by Myomar Sling if you are using a Weapon Retention System and vice versa.",
   "type": "Weapon Attachment"
+ },
+ "mithridatic": {
+  "name": "Mithridatic Edge",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "A specialized modification that transforms a medical or infiltrator hand into a deadly assassination tool. The hand is outfitted with a concealed blade and integrated poison delivery system, allowing the user to strike with lethal precision while maintaining the appearance of innocuous medical equipment.",
+  "rules": "Invented Upgrade. The item gains an Excellent Quality Exotic Light Melee Weapon permanently installed that is concealed without a check. A Vial of Poison or Biotoxin can be safely stored and concealed in a compartment in the hand without a check. The contents of the stored vial can then be applied to the Hand silently anytime without an Action as if coating a Light Melee Weapon. If the item did not already have it, it gains the benefits of the Airhypo Cyberfinger (BC 24). The item's integrated Airhypo gains a +1 bonus to Melee Weapon Attack rolls when attempting to administer a drug, pharmaceutical, or poison to an unwilling target.",
+  "type": "Invented Upgrade"
  }
 }
