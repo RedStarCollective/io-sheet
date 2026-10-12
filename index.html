@@ -218,6 +218,35 @@ body:not(.editing) .t td.name > .flex{display:block}
 .tone-kong .tn{color:#d4d9e0;font-weight:800;letter-spacing:.12em;text-shadow:0 1px 0 #000,0 0 7px rgba(170,180,195,.35)}
 .t tr.row-kong td.name{background:linear-gradient(90deg,rgba(150,160,175,.13),transparent 70%),repeating-linear-gradient(-60deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px);background-size:auto,38px 100%;background-repeat:no-repeat}
 .tone-blast .tn{color:#fff0e4;text-shadow:0 0 5px #ff3a1e,0 0 13px rgba(209,28,40,.65)}
+
+/* Palm Bomb: look follows the loaded grenade */
+.t tr[class*="row-pb-"] td.name{background:repeating-linear-gradient(-45deg,var(--pa) 0 4px,var(--pb2) 4px 8px) 0 0/4px 100% no-repeat,linear-gradient(90deg,var(--pg),transparent 80%)}
+.row-pb-fire{--pa:#ff5a1f;--pb2:#ffc04a;--pg:rgba(255,106,31,.14)}
+.row-pb-rave{--pa:#ff3fb4;--pb2:#38f2ff;--pg:rgba(255,63,180,.12)}
+.row-pb-conc{--pa:#e8eef2;--pb2:#7f8a92;--pg:rgba(220,235,245,.10)}
+.row-pb-oil{--pa:#b47cff;--pb2:#3fd6c9;--pg:rgba(120,90,200,.12)}
+.row-pb-smoke{--pa:#a3a9b0;--pb2:#4d5257;--pg:rgba(160,166,172,.10)}
+.tone-pb-fire .tn{background:linear-gradient(0deg,#ff4d1a,#ffb347 55%,#ffe29a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 5px rgba(255,110,40,.6))}
+.tone-pb-rave .tn{background:linear-gradient(90deg,#ff3fb4,#38f2ff 25%,#fff35c 50%,#a46bff 75%,#ff3fb4);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 5px rgba(255,63,180,.55))}
+.tone-pb-conc .tn{color:#f2f6f8;letter-spacing:.06em;text-shadow:0 0 6px rgba(220,236,246,.85),0 0 14px rgba(160,190,210,.4)}
+.tone-pb-oil .tn{background:linear-gradient(100deg,#b47cff,#3fd6c9 35%,#e8c25a 60%,#b47cff);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 4px rgba(63,214,201,.35))}
+.tone-pb-smoke .tn{color:#c9ced3;text-shadow:0 0 8px rgba(170,176,182,.75),0 0 18px rgba(120,126,132,.4)}
+@media (prefers-reduced-motion:no-preference){
+  .tone-pb-fire .ico .pbm{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.6s infinite}
+  .tone-pb-rave .tn{animation:pbRave 2.6s linear infinite}
+  @keyframes pbRave{from{background-position:0 0}to{background-position:300% 0}}
+  .tone-pb-rave .ico .pbm{animation:thRave 2.4s steps(1) infinite}
+  .tone-pb-conc .ico .pbm{transform-box:fill-box;transform-origin:50% 50%;animation:pbBlast 2.2s ease-out infinite}
+  @keyframes pbBlast{0%,60%,100%{transform:scale(1);opacity:1}70%{transform:scale(1.25);opacity:.75}80%{transform:scale(1.05);opacity:1}}
+  .tone-pb-conc .tn{animation:pbGust 2.2s ease-out infinite}
+  @keyframes pbGust{0%,60%,100%{letter-spacing:.06em}70%{letter-spacing:.13em;text-shadow:0 0 9px rgba(230,242,250,1),0 0 22px rgba(170,200,220,.55)}}
+  .tone-pb-oil .tn{animation:pbOil 6s ease-in-out infinite alternate}
+  @keyframes pbOil{from{background-position:0 0}to{background-position:100% 0}}
+  .tone-pb-oil .ico .pbm{animation:thOil 7s linear infinite}
+  .tone-pb-smoke .ico .pbm{animation:thDrift 5s ease-in-out infinite}
+  .tone-pb-smoke .tn{animation:pbSmoke 5s ease-in-out infinite}
+  @keyframes pbSmoke{0%,100%{opacity:1;filter:none}50%{opacity:.8;filter:blur(.4px)}}
+}
 .t tr.row-blast td.name{background:repeating-linear-gradient(-45deg,#d11c28 0 4px,#e8b23a 4px 8px) 0 0/4px 100% no-repeat,linear-gradient(90deg,rgba(209,28,40,.13),transparent 80%)}
 .tone-orbit .tn{background:linear-gradient(100deg,#e9e4ff 0%,#ffffff 38%,#ff4a5c 47%,#ffffff 55%,#efe8ff 100%);background-size:260% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 4px rgba(255,90,110,.35))}
 .t tr.row-orbit td.name{background:linear-gradient(90deg,rgba(255,74,92,.08),rgba(185,169,230,.06) 45%,transparent 90%)}
@@ -3237,7 +3266,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         return '<tr class="' + (tn ? 'row-' + tn : '') + '"><td class="name"><span class="flex">' + nm2 + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
     var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.cyberweapons.map(function(r0,i){ var p="cyberweapons."+i, r = editing || r0.ind ? r0 : Object.assign({}, r0, {tone:wTone(r0)});
+      S.cyberweapons.map(function(r0,i){ var p="cyberweapons."+i, r = editing || r0.ind ? r0 : Object.assign({}, r0, {tone:r0.load ? palmTone() || wTone(r0) : wTone(r0)});
         /* a weapon followed by indented rows (Magi Palm canisters, Medical Hand loads) folds them under a drop-down */
         var kids = 0; if (!r.ind) for (var k = i + 1; k < S.cyberweapons.length && S.cyberweapons[k].ind; k++) kids++;
         var par = -1; if (r.ind) for (var q = i - 1; q >= 0; q--) if (!S.cyberweapons[q].ind){ par = q; break; }
@@ -3299,6 +3328,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     [/bola/i, "volt", "#8f9dff", '<g fill="#c9d0ff"><circle cx="4.8" cy="5.6" r="2.7"/><circle cx="19.2" cy="5.6" r="2.7"/><circle cx="12" cy="19.6" r="2.7"/></g><path d="M4.8 5.6 12 12l7.2-6.4M12 12v7.6" fill="none" stroke="#8f9dff" stroke-width="1.5"/><path d="m12.8 7.2-2.4 3.4h2l-1.2 3" fill="none" stroke="#fff" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/>'],
     [/star|shuriken/i, "steel", "#c9ced6", '<path fill="#c9ced6" stroke="#3a3f46" stroke-width=".6" d="M12 1.5 14.6 9.4 22.5 12l-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z"/><circle cx="12" cy="12" r="1.8" fill="#1a1d21"/>'],
     [/counterweight|weight/i, "steel", "#c9ced6", '<path fill="#9aa1ab" stroke="#3a3f46" stroke-width=".6" d="M7.5 8h9l3 12.5h-15z"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0" fill="none" stroke="#c9ced6" stroke-width="1.8"/>']];
+  /* Palm Bomb takes the look of whatever is loaded (Oak, Oct 12): "pb-<kind>" tone, the belt mark of the loaded grenade
+     seated in the gold palm cradle, and that grenade's colours and motion. Empty or unknown loads keep the red "blast" look. */
+  var PB_CRADLE = '<path d="M3.6 11.6v3a8.4 8.4 0 0 0 16.8 0v-3" fill="none" stroke="#d9b46a" stroke-width="1.9" stroke-linecap="round"/><path d="M3.6 11.6l-1.3-1.4M20.4 11.6l1.3-1.4" stroke="#d9b46a" stroke-width="1.6" stroke-linecap="round"/>';
+  function palmTone(){ var cur = S && S.lo && S.lo.palm; if (!cur) return ""; var tk = thrKind(String(cur).replace(/\s*\[.*$/, "")); if (!tk || tk[1] === "volt" || tk[1] === "steel") return "";
+    var key = "pb-" + tk[1]; if (!ICONS[key]) ICONS[key] = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(4.9 1.6) scale(.6)"><g class="pbm">' + tk[3] + '</g></g>' + PB_CRADLE + '</svg>';
+    return key; }
   function thrKind(name){ for (var i = 0; i < THR_KIND.length; i++) if (THR_KIND[i][0].test(name)) return THR_KIND[i]; return null; }
   var GEAR_ICO = [
     [/detector|scanner|radar/i, '<path d="M12 21a9 9 0 1 1 9-9M12 16.5A4.5 4.5 0 1 1 16.5 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/>'],
