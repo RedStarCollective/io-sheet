@@ -4099,9 +4099,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return [{sel:".znav .zbtns, .znav .zitem", kind:"box", base:b, step:40}, {sel:".zpanel", kind:"box", base:b + 250}, {sel:".ring .side > .box, .ring .side > *", kind:"box", base:b + 250, step:50}]; }
     if (t === "casefile") return [{sel:".cfhd", kind:"line"}, {sel:".cfs", kind:"line", step:90}, {sel:".cfidx button", kind:"box", step:35}];
     if (t === "rep") return [{sel:".rephero > .box", kind:"box", step:90}, {sel:".rephero > .zrfig", kind:"holo", base:200}, {sel:".rside", kind:"box", base:200}, {sel:".zrc", kind:"box", step:80}];
-    if (t === "fans") return [{sel:".fnwip, .fnnote", kind:"box", step:80}, {sel:".fngrid > .fcard", kind:"holo", step:55}];
-    if (t === "posse") return [{sel:".lineup > .fig", kind:"holo", step:110, order:"center"}, {sel:".pcard, .pspot", kind:"box"}];
-    if (t === "vehicles") return [{sel:".hgr .hv", kind:"holo", step:260}, {sel:".gstage .box, .gside .box", kind:"box", step:60}];
+    /* Fans, Posse and Vehicles keep their own entrances (Oak, Oct 12) */
     if (t === "advance") return [{sel:":scope > section, :scope > .box", kind:"box", step:90}];
     return [];
   }
@@ -4306,7 +4304,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
 
   /* ---------- FANS (work in progress): collectible cards, one per fan; filter by GM; a spotlight on click ---------- */
-  var FN = {gm:"", q:"", open:-1}, fnEnter = false;   /* the old deal-in is replaced by the power-on */
+  var FN = {gm:"", q:"", open:-1}, fnEnter = true;
   var FN_HUES = [355, 40, 192, 272, 145, 22, 318, 212, 58, 168, 300, 8, 232, 95, 335, 180, 250, 30, 125, 285, 200, 345, 75, 155];
   function FL(){ return (S.fans && S.fans.list) || []; }
   /* Arrange mode: the edit-key holder (or the page owner on the Claude copy) puts the cards in any order.
@@ -5520,7 +5518,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var pap = (C.papers || []).length ? '<div class="cfpl">' + C.papers.map(function(x){ return '<div><b>' + esc(x.name) + (x.count > 1 ? '<small>×' + x.count + '</small>' : '') + (x.note ? '<small>' + esc(x.note) + '</small>' : '') + '</b><span' + (x.kind === "forged" ? ' class="forged"' : '') + '>' + esc(KIND[x.kind] || x.kind) + (x.term ? ' · ' + esc(x.term) + ' term' : '') + '</span></div>'; }).join("") + '</div>' : none();
     var items = [["brief","Brief"],["threads","Open threads"],["people","People"],["history","History"],["presentation","Presentation"],["papers","Papers"]];
     var bodies = {brief:brief, threads:thr, people:people, history:hist, presentation:pres, papers:pap};
-    items = items.filter(function(x){ return !!bodies[x[0]]; });
+    /* History and Presentation are hidden while Oak rewrites their copy (Oct 12). The data stays in io.json and the sheet; delete a key here to bring it back. */
+    var CF_HIDE = {history:1, presentation:1};
+    items = items.filter(function(x){ return !!bodies[x[0]] && !CF_HIDE[x[0]]; });
     var idx = '<nav class="cfidx" aria-label="Case file sections">' + items.map(function(x, i){ return '<button type="button" data-cfgo="' + x[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>0' + (i + 1) + '</i>' + x[1] + '</button>'; }).join("") + '</nav>';
     return '<main class="cf' + (cfEnter ? ' cf-in' : '') + '">' + idx + '<div class="cfdoc">' + head +
       items.map(function(x, i){ return sec(x[0], "0" + (i + 1), x[1], bodies[x[0]]); }).join("") +
@@ -6250,7 +6250,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; pwTab = true; if (tab === "rep") repEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = false; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; pwTab = true; if (tab === "rep") repEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
