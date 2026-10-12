@@ -1650,7 +1650,7 @@
            "REACH",
            "RETRO"
           ],
-          "ref": "popup,elementa",
+          "ref": "popup,elementa,reachft",
           "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Elementa Retrofit: three modes, Ignis, Terra, and Fulgur."
          },
          {
@@ -7133,7 +7133,7 @@
             "REACH",
             "RETRO"
            ],
-           "ref": "popup,elementa",
+           "ref": "popup,elementa,reachft",
            "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Elementa Retrofit: three modes, Ignis, Terra, and Fulgur."
           },
           {

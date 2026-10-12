@@ -3233,7 +3233,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (/orbital knife|mono-?knife/i.test(b)) return "orbit";
     if (/magi.?palm/i.test(b)) return "magi"; if (/kong|big.?knuck/i.test(b)) return "kong"; if (/palm bomb|high five/i.test(b)) return "blast"; if (/medical hand/i.test(b)) return "med";
     return ""; }
-  var WREF = [[/^martial arts/i, "martialarts"], [/orbital knife|mono-?knife/i, "monoknife,monoedge,wretention"], [/magi.?palm/i, "magipalm,elementa"], [/kong|big.?knuck/i, "bigknucks,kongknucks"],
+  var WREF = [[/^martial arts/i, "martialarts"], [/orbital knife|mono-?knife/i, "monoknife,monoedge,wretention"], [/magi.?palm/i, "magipalm,elementa,reachft"], [/kong|big.?knuck/i, "bigknucks,kongknucks"],
     [/medical hand/i, "medhand,mithridatic"], [/palm bomb|high five/i, "palmbomb"], [/arclight/i, "arclight"]];
   function wRefs(name){ for (var i = 0; i < WREF.length; i++) if (WREF[i][0].test(String(name))) return WREF[i][1].split(",").filter(function(k){ return REF[k]; }); return []; }
   /* book text opens in the shared rules card (#rcard): hover on desktop, tap on touch. The name carries data-ref. */
@@ -3505,6 +3505,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     UPG: {t:"Upgraded", c:"t-upg", d:"Improved once with Upgrade Expertise (the Tech's Maker ability), often an Invented Upgrade from Aftermarket Modifications. An item can only be upgraded once."},
     INFOLINKED: {t:"InfoLinked", c:"t-link", d:"Networked through the Rocklin Augmentics InfoLink. Biomonitor, up to 2 Chipware Sockets, Chyron, Cyberaudio Suite, Cybereyes, 1 set of Interface Plugs, 1 Internal Agent and Virtuality cost no Humanity, no Max Humanity and no option slot while the InfoLink is installed, and they share all their data with each other."},
     REACH: {t:"Reach", c:"t-reach", d:"Weapon feature (Up Your Arsenal): the weapon is very long, so its melee range is 4m instead of the usual 2m."},
+    PRECISE: {t:"Precise", c:"t-reach", d:"Weapon feature (Up Your Arsenal): when you inflict a Critical Injury from two sixes on the damage roll, roll twice on the Critical Injury table and choose which result to apply."},
     SLOTS: {t:"Option slots", c:"t-slot", d:"How many option slots this takes in its foundation or category. Neural Link 5, Cybereye 3, Cyberaudio Suite 3, Cyberarm 4, Cyberleg 3. Fashion, Internal and External allow 7 with no foundation. Physiological Tailoring adds +1 to several of these."}
   };
   var card = document.createElement("div");
@@ -3581,7 +3582,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   document.addEventListener("scroll", function(ev){ if (ev.target && ev.target.id === "zpanel" && !card.hidden && cardFor) placeCard(cardFor); }, true);
 
   /* ---------- CHROME ---------- */
-  var TAGC = {BIOWARE:"t-bio", UPG:"t-upg", FAB:"t-fab", ADV:"t-adv", INFOLINKED:"t-link", REACH:"t-reach"};
+  var TAGC = {BIOWARE:"t-bio", UPG:"t-upg", FAB:"t-fab", ADV:"t-adv", INFOLINKED:"t-link", REACH:"t-reach", PRECISE:"t-reach"};   /* weapon Features (Reach, Precise) share one colour */
   var KINDS = [["cyber","Cyberware"],["bio","Bioware"],["adv","Advanced Bioware"],["worn","Worn"],["chip","Chipware"],["upgrade","Upgrade"]];
   var zoneSel = "", hlId = "";
   /* the Ware tab always opens on Hide all (Oak, Oct 1): no restore of the last selection */

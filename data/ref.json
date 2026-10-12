@@ -1128,5 +1128,15 @@
   "flavor": "",
   "rules": "In 2020, Segotari released Mindgames: a line of chipware that transformed your neural link into a mobile console. The line didn’t sell well, even before the 4th Corporate War went final boss on supply lines. Mindgames has enjoyed a resurgence in popularity recently, due to knock-off chips appearing for sale in stalls at local day markets. Rumor has it they’re the work of a tong or a triad or a cartel or some other criminal gang.\nSegotari Mindgames Chip: 50eb (Costly). The cost of individual games may vary.",
   "type": "Chipware"
+ },
+ "reachft": {
+  "name": "Reach",
+  "src": "Up Your Arsenal (RUSH)",
+  "cost": "",
+  "install": "",
+  "hl": "",
+  "flavor": "This weapon is very long, allowing it to threaten a wider area than a melee weapon normally can.",
+  "rules": "Tech Upgrade (Feature). This weapon’s melee range is 4m instead of the usual 2m.",
+  "type": "Weapon Feature"
  }
 }
