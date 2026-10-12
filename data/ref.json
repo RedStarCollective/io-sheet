@@ -948,5 +948,85 @@
   "flavor": "",
   "rules": "External Body Cyberware. Holster inside the user's body can store a weapon already capable of concealment so that it can be successfully concealed without a roll. Weapon can be drawn from the hidden holster without an Action, as long as it is implanted in an easily accessible place on the user's body. You don't want one in your thigh unless you don't wear pants.",
   "type": "External Body Cyberware"
+ },
+ "holowear": {
+  "name": "Masetto Holo-Wear",
+  "src": "Black Chrome · Masetto Tech Clothing",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "—",
+  "hl": "0",
+  "type": "Worn gear · Fashion",
+  "flavor": "Simply slap on the ankle, neck, waist, and wrist units, jump on your Agent, and download your outfit. Who needs closet space when you're wearing light sculpted by the best fashion designers in the industry!",
+  "rules": "Gives the user the appearance of wearing clothing of the type shown by the hologram. With an Action, the user can change between purchased outfits using a paired Agent.\nEach Holo-Wear comes with one outfit for free; more outfits of any fashion can be bought and downloaded from an Agent in 1 minute at 100eb (Premium) each.\nIf the user is hit by an EMP, Microwaver pulse or similar effect, the Holo-Wear shuts down and stays inoperable for 1 minute, on top of any other effects on their Cyberware or carried electronics. Bulky worn clothing or items may clip through the hologram.\nMasetto HoloWare (Chromed Up, RUSH): an implanted version, External Cyberware, 500eb (Expensive), Mall, HL 3 (1d6); projectors sit in the wrists, ankles, throat and waist. Otherwise identical."
+ },
+ "olfactory": {
+  "name": "Olfactory Boost",
+  "src": "Cyberpunk RED core rulebook · p.359",
+  "cost": "100eb (Premium)",
+  "install": "N/A",
+  "hl": "7 (2d6)",
+  "type": "Chipware",
+  "flavor": "",
+  "rules": "Chipware. User can use Tracking Skill to track via scent. Requires Chipware Socket."
+ },
+ "olfactoryup": {
+  "name": "Olfactory Boost Enhancement",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "—",
+  "hl": "",
+  "type": "Invented Upgrade",
+  "flavor": "The chipware program is upgraded with code from the KTech Doberman 500, enhancing its sensitivity and giving the user an intuitive sense of how to follow a scent trail.",
+  "rules": "Invented Upgrade. The user also receives +2 to Tracking Skill Checks made while the chip is installed."
+ },
+ "skillchip": {
+  "name": "Skill Chip",
+  "src": "Cyberpunk RED core rulebook · p.360",
+  "cost": "500eb (Expensive); 1,000eb for (x2) Skills",
+  "install": "N/A",
+  "hl": "",
+  "type": "Chipware",
+  "flavor": "",
+  "rules": "Chipware. While installed into a Chipware Socket, a Skill Chip makes the Skill it was made for trained for the user at +3, unless the user's Skill was already trained higher than +3, in which case it does nothing. Skill Chips for (x2) cost Skills are 1,000eb; chips for all other skills are 500eb. Requires Chipware Socket."
+ },
+ "skillchipup": {
+  "name": "Skill Chip Upgrade",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "—",
+  "hl": "",
+  "type": "Invented Upgrade",
+  "flavor": "The program on the Skill Chip is upgraded with cutting-edge developments in skill recording technology.",
+  "rules": "Invented Upgrade. The Skill Chip sets the user's Skill Level to 4 unless it is already 4 or higher."
+ },
+ "shifttacts": {
+  "name": "Shift Tacts",
+  "src": "Cyberpunk RED core rulebook · p.358",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "type": "Fashionware",
+  "flavor": "",
+  "rules": "Color-changing lenses implanted into the eye. Several patterns are also available. Lenses can optionally be temperature-sensitive or reactant to hormone changes in the body. Only one choice of color and pattern can be made, but the user can deactivate the color change at any time desired without an Action."
+ },
+ "lighttattoo": {
+  "name": "Light Tattoo",
+  "src": "Cyberpunk RED core rulebook · p.358",
+  "cost": "100eb (Premium)",
+  "install": "Mall",
+  "hl": "0",
+  "type": "Fashionware",
+  "flavor": "",
+  "rules": "Subdermal patches store light and project colored tattoos under the skin. The larger the piece, the more installations of this fashionware you need to complete it. A user with three or more Light Tattoo installations adds +2 to their Wardrobe & Style Skill (this bonus only applies once)."
+ },
+ "faceplate": {
+  "name": "Quick Change Faceplate Mount",
+  "src": "Interface RED Vol. 5",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "Hospital",
+  "hl": "14 (4d6)",
+  "type": "Internal Body Cyberware",
+  "flavor": "One implant provides infinite looks, transforming you into a new beauty each day of the week.",
+  "rules": "Internal Body Cyberware. Replaces your meat face with a quick change mounting to which a Faceplate can be attached. A Faceplate can be installed or uninstalled with an Action. The purchase comes with one personalized Faceplate. Additional personalized Faceplates, including ones covered with Realskinn™ and SuperChrome®, are available for 100eb (Premium)."
  }
 }

@@ -1261,8 +1261,8 @@
    "where": "Inside Bumbag & attached to beltstraps."
   },
   {
-   "name": "Kendachi Mono-Knife [Weapon Retention System]",
-   "where": "Hidden Holster"
+   "name": "Weapon Retention System",
+   "where": "Mono-Knife / Hidden Holster"
   }
  ],
  "cash": 450,
@@ -1657,7 +1657,7 @@
           "kind": "cyber",
           "tags": [],
           "ref": "arclight",
-          "setup": "6m Range. Light Melee. -6 Aimed Shot Held."
+          "setup": "10m Range. Light Melee. -6 Aimed Shot Held."
          },
          {
           "name": "Medical Hand",
@@ -1847,7 +1847,7 @@
           "name": "Faceplates",
           "kind": "cyber",
           "tags": [],
-          "ref": "",
+          "ref": "faceplate",
           "setup": "Io, Zolo, Galileo, IP Man, Generic"
          }
         ]
@@ -2287,7 +2287,7 @@
         "name": "Holoware",
         "kind": "worn",
         "tags": [],
-        "ref": "",
+        "ref": "holowear",
         "setup": "Additional: Handwraps, Magna Defender, Ed Hardy.",
         "children": [
          {
@@ -6805,7 +6805,7 @@
              "tags": [
               "UPG"
              ],
-             "ref": "",
+             "ref": "olfactory,olfactoryup",
              "setup": ""
             },
             {
@@ -6814,7 +6814,7 @@
              "tags": [
               "UPG"
              ],
-             "ref": "",
+             "ref": "skillchip,skillchipup",
              "setup": "Drive Land · Pilot Air Vehicle · Heavy Weapons."
             },
             {
@@ -7099,10 +7099,18 @@
            "kind": "cyber",
            "tags": [
             "UPG",
-            "REACH"
+            "REACH",
+            "RETRO"
            ],
-           "ref": "popup",
-           "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Three modes: Ignis, Frigus, and Fulgur."
+           "ref": "popup,elementa",
+           "setup": "Excellent Quality Exotic One-Handed Heavy Melee Weapon. Elementa Retrofit: three modes, Ignis, Terra, and Fulgur."
+          },
+          {
+           "name": "Radline Arclight",
+           "kind": "cyber",
+           "tags": [],
+           "ref": "arclight",
+           "setup": "10m Range. Light Melee. -6 Aimed Shot Held."
           },
           {
            "name": "Medical Hand",
@@ -7112,6 +7120,16 @@
            ],
            "ref": "medhand",
            "setup": "Integrated Airhypo that provides +1 on Melee Attack rolls to apply contents."
+          },
+          {
+           "name": "Kong Knucks",
+           "kind": "cyber",
+           "tags": [
+            "UPG",
+            "RETRO"
+           ],
+           "ref": "bigknucks,kongknucks",
+           "setup": "3d6 EQ HM. Precise. Ignores SP8 or lower. Push on Crit."
           },
           {
            "name": "Quick Change Mount",
@@ -7318,6 +7336,13 @@
          ],
          "ref": "draco",
          "setup": ""
+        },
+        {
+         "name": "Hidden Holster",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "hiddenholster",
+         "setup": "Holds the Kendachi Mono-Knife on its Weapon Retention System."
         }
        ]
       }
@@ -7356,14 +7381,14 @@
          "name": "Shift Tacts x2",
          "kind": "cyber",
          "tags": [],
-         "ref": "",
+         "ref": "shifttacts",
          "setup": "Eclipse Iris on Spaceman Gatorade. Galileo gray."
         },
         {
          "name": "Highrider Ritual Scarring & Tattoos",
          "kind": "cyber",
          "tags": [],
-         "ref": "",
+         "ref": "lighttattoo",
          "setup": "Reflavor of Light Tattoos, x2 installs."
         }
        ]
@@ -8734,6 +8759,10 @@
    "kendachi mono-knife": [
     66,
     74
+   ],
+   "weapon retention system": [
+    66,
+    74
    ]
   },
   "info": {
@@ -8760,6 +8789,86 @@
    "medscanner": {
     "text": "+2 to First Aid and Paramedic Checks.",
     "src": "CRB"
+   },
+   "bug detector": {
+    "text": "Device beeps when the user is within 2m/yds of a tap, bug, or other listening device.",
+    "src": "CRB"
+   },
+   "disposable phone": {
+    "text": "There are still billions of the things around. A good choice for Fixers and other people who don't want to be tracked.",
+    "src": "CRB"
+   },
+   "bio pill": {
+    "text": "A small pill that senses and transmits biometric data. After swallowing one, the user gains the benefits of a Biomonitor for 24 hours. Data can be sent to a linked Agent, Computer, or Cyberware as a Biomonitor normally could.",
+    "src": "General Gear (RUSH)"
+   },
+   "biosystem": {
+    "text": "Holds the brain (and other choice bits) in an integrated Biopod with its own computer systems and batteries, ready to be installed into a Full Body Conversion. Installing one is permanent. 10,000eb (Super Luxury), Hospital, HL 14 (4d6).",
+    "src": "Interface RED Vol. 3"
+   },
+   "lastchance": {
+    "text": "Pharmaceutical. If a target injected with LastChance would have to make a Death Save within 24 hours of injection, they do not. This only applies once per dose. One dose a day.",
+    "src": "Vein Melters"
+   },
+   "red lace": {
+    "text": "Street drug. Lasts 24 hours. A user not addicted takes 1d6 Humanity Loss on taking a dose. While active, Melee Weapon attacks treat 5s as 6s on damage dice for causing Critical Injuries, and Black Lace's REF reduction is lifted. Secondary (DV17): addicted; DEX -2 while not under the Primary Effect.",
+    "src": "Interface RED Vol. 5"
+   },
+   "white lace": {
+    "text": "Street drug. Lasts 12 hours. User takes 1d6 Humanity Loss, returned if they avoid the Secondary Effect. While active, a user not addicted to Black Lace ignores the Seriously Wounded Wound State; a user addicted to Black or Red Lace loses those REF and DEX reductions. Secondary (DV15): HL isn't returned, and they become addicted to Black Lace (REF -2 when not under it).",
+    "src": "Interface RED Vol. 5"
+   },
+   "piranha smash": {
+    "text": "Street drug (Smash). Lasts 4 hours. +2 to Dance, Contortionist, Conversation, Human Perception, Persuasion and Acting. Secondary (DV15): addicted; -2 to those Skills.",
+    "src": "CRB"
+   },
+   "synthcoke": {
+    "text": "Street drug. Lasts 4 hours. REF +1 (can go above 8); prone to paranoid ideation. Secondary (DV15): addicted; REF -2 when not under the Primary Effect.",
+    "src": "CRB"
+   },
+   "9-volt": {
+    "text": "Street drug. Lasts 8 hours. No penalties for uncomfortable sleeping and +1 to Perception; ignores the -2 for under 6 hours of sleep (larger no-sleep penalties are only reduced by 2). Secondary (DV9): addicted; -1 Perception and chronic fatigue.",
+    "src": "Vein Melters"
+   },
+   "bliss": {
+    "text": "Street drug. Lasts 4 hours. Minor hallucinations of religious imagery and either high-energy euphoria or deep meditative calm. Secondary (DV9): addicted; religious-themed obsessions.",
+    "src": "Vein Melters"
+   },
+   "insense": {
+    "text": "Street drug, inhaled from an incense stick for 1 minute (not by Airhypo). Lasts 4 hours: euphoria, arousal and improved stamina, without impairing judgement. Secondary (DV9): addicted; anhedonia and risk-seeking while not under it.",
+    "src": "Vein Melters"
+   },
+   "brain fog": {
+    "text": "Poison. DV13 Resist Torture/Drugs. On a failure, the target can't recall anything from within 2 hours of exposure (before and after), starting the next time they wake. Can't be applied to a Light Melee Weapon.",
+    "src": "Vein Melters"
+   },
+   "stealth": {
+    "text": "Neurochemical Memory Compound. Injected by Airhypo, grants Stealth at Skill Level 4 for 4 hours. Needs Neurochemical Memory Receptors.",
+    "src": "Flesh & Bone Redefined"
+   },
+   "tracking": {
+    "text": "Neurochemical Memory Compound. Injected by Airhypo, grants Tracking at Skill Level 4 for 4 hours. Needs Neurochemical Memory Receptors.",
+    "src": "Flesh & Bone Redefined"
+   },
+   "sov oil grenade": {
+    "text": "SovOil Lubricant Grenade. No damage; covers the area in lubricant. Moving through costs 2m per 1m, or DV15 Athletics (no Action) to move at full speed, falling Prone on a failure. On the surface: -2 to melee attacks, Evasion and swift footwork. Vehicles: DV15 Drive Land Vehicle or lose control.",
+    "src": "Bigger Booms"
+   },
+   "electric bolas": {
+    "text": "Electric Bola. Normal Bola effects plus 5d6 electrocution. That damage can't cause Critical Injuries, doesn't ablate armor, and leaves the target Unconscious at 1 HP instead of lower. Becomes a normal Bola once fired.",
+    "src": "Bigger Booms"
+   },
+   "incendiary grenade": {
+    "text": "Incendiary ammunition. Damage dealt through armor ignites the target: until they spend an Action to put themselves out, they take 2 damage directly to HP at the end of each of their Turns. Doesn't stack.",
+    "src": "CRB"
+   },
+   "weapon retention system": {
+    "text": "Holds the Kendachi Mono-Knife. Retrieves the attached weapon automatically when dropped, stowing it without an Action. Disconnects if taken by force (e.g. a Grab), and the attached weapon can be Grabbed even while you aren't holding it. One weapon at a time.",
+    "src": "Custom Killers"
+   },
+   "kendachi mono-knife": {
+    "text": "Excellent Quality One-Handed Exotic Medium Melee Weapon, concealable. With the correct biometric key it ignores armor below SP11; the Monomolecular Edge Alignment Upgrade makes that below SP12. Without the key it doesn't vibrate and is only an EQ Exotic Light Melee Weapon.",
+    "src": "Up Your Arsenal · Aftermarket Modifications"
    }
   },
   "containers": {
