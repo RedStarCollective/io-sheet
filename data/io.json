@@ -979,7 +979,7 @@
    "rof": 2
   },
   {
-   "name": "Kendachi Mono-Knife [EQ MM - Monomolecular Edge, Weapon Retention System]",
+   "name": "Orbital Knife [EQ MM - Monomolecular Edge, Weapon Retention System]",
    "dmg": "2d6",
    "rof": 2,
    "site": true
@@ -992,7 +992,7 @@
    "ammo": "",
    "rof": 2,
    "head": false,
-   "tone": "gold",
+   "tone": "magi",
    "tags": [
     "EQ",
     "HM",
@@ -1065,7 +1065,7 @@
    "ammo": "",
    "rof": 2,
    "head": false,
-   "tone": "gold",
+   "tone": "kong",
    "tags": [
     "EQ",
     "HM",
@@ -1094,7 +1094,7 @@
    "ammo": 1,
    "rof": 1,
    "head": false,
-   "tone": "fire",
+   "tone": "blast",
    "tags": [
     "EQ",
     "VHM"
@@ -1908,7 +1908,7 @@
         "kind": "cyber",
         "tags": [],
         "ref": "hiddenholster",
-        "setup": "Holds the Kendachi Mono-Knife on its Weapon Retention System."
+        "setup": "Holds the Orbital Knife (Kendachi Mono-Knife) on its Weapon Retention System."
        }
       ]
      }
@@ -7342,7 +7342,7 @@
          "kind": "cyber",
          "tags": [],
          "ref": "hiddenholster",
-         "setup": "Holds the Kendachi Mono-Knife on its Weapon Retention System."
+         "setup": "Holds the Orbital Knife (Kendachi Mono-Knife) on its Weapon Retention System."
         }
        ]
       }
@@ -8863,10 +8863,14 @@
     "src": "CRB"
    },
    "weapon retention system": {
-    "text": "Holds the Kendachi Mono-Knife. Retrieves the attached weapon automatically when dropped, stowing it without an Action. Disconnects if taken by force (e.g. a Grab), and the attached weapon can be Grabbed even while you aren't holding it. One weapon at a time.",
+    "text": "Holds the Orbital Knife (Kendachi Mono-Knife). Retrieves the attached weapon automatically when dropped, stowing it without an Action. Disconnects if taken by force (e.g. a Grab), and the attached weapon can be Grabbed even while you aren't holding it. One weapon at a time.",
     "src": "Custom Killers"
    },
    "kendachi mono-knife": {
+    "text": "Excellent Quality One-Handed Exotic Medium Melee Weapon, concealable. With the correct biometric key it ignores armor below SP11; the Monomolecular Edge Alignment Upgrade makes that below SP12. Without the key it doesn't vibrate and is only an EQ Exotic Light Melee Weapon.",
+    "src": "Up Your Arsenal · Aftermarket Modifications"
+   },
+   "orbital knife": {
     "text": "Excellent Quality One-Handed Exotic Medium Melee Weapon, concealable. With the correct biometric key it ignores armor below SP11; the Monomolecular Edge Alignment Upgrade makes that below SP12. Without the key it doesn't vibrate and is only an EQ Exotic Light Melee Weapon.",
     "src": "Up Your Arsenal · Aftermarket Modifications"
    }

@@ -1028,5 +1028,55 @@
   "type": "Internal Body Cyberware",
   "flavor": "One implant provides infinite looks, transforming you into a new beauty each day of the week.",
   "rules": "Internal Body Cyberware. Replaces your meat face with a quick change mounting to which a Faceplate can be attached. A Faceplate can be installed or uninstalled with an Action. The purchase comes with one personalized Faceplate. Additional personalized Faceplates, including ones covered with Realskinn™ and SuperChrome®, are available for 100eb (Premium)."
+ },
+ "magipalm": {
+  "name": "Faisal's Magi-Palm",
+  "src": "Up Your Arsenal (RUSH)",
+  "cost": "5,000eb (Luxury)",
+  "install": "",
+  "hl": "",
+  "flavor": "After seeing the popularity of Magna Knuckles in fighting pits, Faisal produced a new iteration designed to apply more special effects. Enter the Magi-Palm. The Magi-Palm is a gauntlet with vials that give it hot and cold modes in addition to the EMP feature the old model possesses.",
+  "rules": "An Excellent Quality Exotic One-Handed Heavy Melee Weapon. Can load up to three vials of Magi-Palm fluid that come with the following effects:\n• Ignis (Fire): When you hit a target, they become Strong On Fire (4 damage at the end of each of their turns).\n• Frigus (Cryo): Anyone hit by the weapon twice in one turn must try to beat a DV15 Endurance Skill Check or become Frosted. While Frosted, the target cannot take Move actions or dodge ranged Attacks. Additionally, the target suffers -2 MOVE, DEX, and REF. Removing the Frosted condition requires a DV13 Brawling Skill Check, which may be attempted as an Action by the target or anyone within melee range. Taking damage from any source immediately ends the Frosted condition. Ineffective on ACPAs (RED: IR5).\n• Fulgur (Lightning): Anyone hit by the weapon twice in one turn must try to beat a DV15 Cybertech Skill Check. On a failure, the GM chooses two pieces of their cyberware to become inoperable for one minute. Cyberlimbs rendered inoperable act as their meat counterparts do when they have been dismembered but still hang loosely. Additionally, if damage dealt while Fulgur is active would reduce a target to under 1 HP, they are instead Unconscious at 1 HP.\nA vial can be applied without an Action, after which the effect persists for 1 minute. During this time, you cannot apply another vial or hold anything in the hand wearing the gauntlet, but you can end the effect early when stowing it. Replacement vials cost 100eb (Premium). Cyberware installed in the arm wearing the Magi-Palm is rendered inaccessible while it is worn.",
+  "type": "Exotic Weapon"
+ },
+ "martialarts": {
+  "name": "Martial Arts",
+  "src": "Cyberpunk RED core rulebook · p.178",
+  "cost": "",
+  "install": "",
+  "hl": "",
+  "flavor": "",
+  "rules": "Martial Arts uses the Martial Arts Skill to make Martial Arts Attacks and perform Martial Arts Special Moves. Martial Arts Attacks are made at 2 ROF. You can't use Martial Arts Attacks unless you have at least one point in the Skill.\nWhen dealing damage, Martial Arts Attacks ignore half of the Defender's armor. Round up.\nYou deal damage based on your BODY: BODY 4 or under 1d6 · 5 to 6 2d6 · 7 to 10 3d6 · 11 or higher 4d6.\nMartial Arts Attacks and Special Move Resolutions are made using DEX + That Form's Skill + 1d10 vs. the Defender's DEX + Evasion + 1d10, or a DV for some Special Moves.\nAll Forms can use Shared Special Moves and each Form has two Special Moves unique to it. You can't use a Martial Arts Special Move without at least one point in that move's Form, and many Special Moves also have individual requirements. Unless stated otherwise, Martial Arts Special Moves cannot be used to make Aimed Shots.",
+  "type": "Fighting Skill"
+ },
+ "monoknife": {
+  "name": "Kendachi Mono-Knife",
+  "src": "Up Your Arsenal (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "An orbital crystal knife based on the same technology as the Mono-Three. Far less shatter-prone than it used to be!",
+  "rules": "An Excellent Quality One-Handed Exotic Medium Melee Weapon that can be concealed. With the correct biometric key, damage dealt by this weapon ignores the target's armor entirely if it is lower than SP11. Armor with a higher SP is still interacted with as normal. In the hands of a user without the correct biometric key, the blade will not vibrate, leaving it only an Excellent Quality One-Handed Exotic Light Melee Weapon. At no additional cost, any color of laser can be installed into the hilt to refract within the crystal blade, giving it a flaring neon glow. The most popular color is red.",
+  "type": "Exotic Weapon"
+ },
+ "monoedge": {
+  "name": "Monomolecular Edge Alignment Upgrade",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "Each molecule in the mono-edge is carefully aligned to maximize armor penetration qualities.",
+  "rules": "Invented Upgrade. The weapon becomes Excellent Quality if it was not already. If a weapon would ignore armor under a certain SP, it ignores that SP plus 1. On the Orbital Knife: ignores armor below SP12.",
+  "type": "Invented Upgrade"
+ },
+ "wretention": {
+  "name": "Weapon Retention System",
+  "src": "Custom Killers (RUSH)",
+  "cost": "1,000eb (Very Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "A stylish metal sheath for a blade or other melee weapon.",
+  "rules": "The Weapon Retention System can attach to any Melee Weapon without a BODY requirement to wield and retrieve it automatically when it is dropped, stowing it without an Action. The weapon will be disconnected from the Weapon Retention System if removed by force, such as if taken using the Grab action, and an attached weapon can be Grabbed even while you aren't holding it. You may only have one weapon attached to you by a Weapon Retention System at a time. You cannot have a weapon attached to you by Myomar Sling if you are using a Weapon Retention System and vice versa.",
+  "type": "Weapon Attachment"
  }
 }

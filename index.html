@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E%E6%AD%A6&display=swap">
 <style>
 :root{
   color-scheme: dark;
@@ -213,6 +213,26 @@ body:not(.editing) .t td.name > .flex{display:block}
 .tone-ice .tn{background:linear-gradient(100deg,#bfeaff,#ffffff 45%,#7cc8f2);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 4px rgba(124,200,242,.5))}
 .tone-volt .tn{color:#c9d0ff;text-shadow:0 0 6px rgba(143,157,255,.8),0 0 14px rgba(143,157,255,.35)}
 .tone-med .tn{color:var(--med)}
+.tone-magi .tn{background:linear-gradient(90deg,#e9c47c 0%,#ffd99a 18%,#ff9a52 32%,#e9c47c 46%,#d8b47a 58%,#b8c2ff 72%,#e9c47c 86%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 5px rgba(217,180,106,.35))}
+.t tr.row-magi td.name{background:linear-gradient(90deg,rgba(217,180,106,.11),rgba(255,122,46,.04) 40%,rgba(143,157,255,.04) 70%,transparent 95%)}
+.tone-kong .tn{color:#d4d9e0;font-weight:800;letter-spacing:.12em;text-shadow:0 1px 0 #000,0 0 7px rgba(170,180,195,.35)}
+.t tr.row-kong td.name{background:linear-gradient(90deg,rgba(150,160,175,.13),transparent 70%),repeating-linear-gradient(-60deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px);background-size:auto,38px 100%;background-repeat:no-repeat}
+.tone-blast .tn{color:#fff0e4;text-shadow:0 0 5px #ff3a1e,0 0 13px rgba(209,28,40,.65)}
+.t tr.row-blast td.name{background:repeating-linear-gradient(-45deg,#d11c28 0 4px,#e8b23a 4px 8px) 0 0/4px 100% no-repeat,linear-gradient(90deg,rgba(209,28,40,.13),transparent 80%)}
+.tone-orbit .tn{background:linear-gradient(100deg,#e9e4ff 0%,#ffffff 38%,#ff4a5c 47%,#ffffff 55%,#efe8ff 100%);background-size:260% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 4px rgba(255,90,110,.35))}
+.t tr.row-orbit td.name{background:linear-gradient(90deg,rgba(255,74,92,.08),rgba(185,169,230,.06) 45%,transparent 90%)}
+.seal{display:inline-grid;place-items:center;width:19px;height:19px;margin-right:7px;vertical-align:-4px;background:#a3121c;color:#f6efe2;font:400 16px/1 var(--f-brush);border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,220,200,.25),0 0 8px rgba(209,28,40,.35);transform:rotate(-4deg)}
+.tone-art .tn{color:var(--ink);letter-spacing:.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(90deg,var(--red-hi),rgba(209,28,40,0)) no-repeat 0 100%/100% 2px;padding-bottom:1px}
+.t tr.row-art td.name{background:linear-gradient(90deg,rgba(163,18,28,.10),transparent 80%)}
+.wxt{flex-wrap:nowrap;align-items:flex-start}.wxt .chev{flex:none;margin-top:4px}.wxn{flex:1;min-width:0;text-align:left}.wxn > span[class^="tone-"]{display:block}
+.wxt[aria-expanded="true"] .chev,.cwpar .tog[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.t tr.wx td{padding:2px 9px 10px 26px;border-top:0}
+.wxin{display:grid;gap:10px;width:0;min-width:100%;box-sizing:border-box;border-left:2px solid var(--gold-dim);padding:4px 0 2px 11px;animation:wxIn .22s ease-out}
+.wxb h5{margin:0 0 3px;font:700 13px/1.25 var(--f-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.wxb h5 em{font:700 9.5px/1 var(--f-body);font-style:normal;letter-spacing:.12em;color:var(--ink-3);margin-left:7px}
+.wxb q{display:block;margin:0 0 5px;font:500 13px/1.4 var(--f-body);color:#d9b46a;quotes:none}
+.wxr{font:italic 500 13px/1.42 var(--f-body);color:var(--ink-2)}.wxr p{margin:0 0 4px}.wxr ul{margin:2px 0 4px;padding-left:16px}.wxr li{margin:0 0 3px}
+@keyframes wxIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 .t tr.row-fire td.name{background:linear-gradient(90deg,rgba(255,90,30,.10),transparent 95%)}
 .t tr.row-ice td.name{background:linear-gradient(90deg,rgba(124,200,242,.09),transparent 95%)}
 .tone-earth .tn{color:#d8b47a;text-shadow:0 0 8px rgba(196,154,90,.45)}
@@ -227,6 +247,17 @@ body:not(.editing) .t td.name > .flex{display:block}
   .tone-ice .ico{animation:spinslow 14s linear infinite}
   @keyframes spinslow{to{transform:rotate(360deg)}}
   .tone-volt .tn,.tone-volt .ico{animation:zap 3.8s infinite}
+  .tone-magi .tn{animation:magiShift 9s linear infinite}
+  @keyframes magiShift{from{background-position:0 0}to{background-position:300% 0}}
+  .tone-kong .ico{animation:kongHit 3.6s infinite}.tone-kong .ico .spk{transform-origin:20.6px 4.3px;animation:kongSpk 3.6s infinite}
+  @keyframes kongHit{0%,78%,100%{transform:none}82%{transform:translateX(2px) scale(1.06)}86%{transform:translateX(-1px)}90%{transform:none}}
+  @keyframes kongSpk{0%,80%,100%{opacity:0;transform:scale(.3)}84%{opacity:1;transform:scale(1.3)}92%{opacity:0;transform:scale(.6)}}
+  .tone-blast .ico{animation:blastTick 1.4s infinite}
+  @keyframes blastTick{0%,60%,100%{transform:scale(1);filter:none}70%{transform:scale(1.12);filter:drop-shadow(0 0 4px #ff4a1e)}}
+  .tone-orbit .tn{animation:laser 5s ease-in-out infinite}
+  @keyframes laser{0%,15%{background-position:100% 0}60%,100%{background-position:0 0}}
+  .tone-orbit .ico .orb{transform-origin:12px 12px;animation:orbitSpin 7s linear infinite}
+  @keyframes orbitSpin{to{transform:rotate(360deg)}}
   @keyframes zap{0%,86%,100%{opacity:1;filter:none}87%{opacity:.35}88%{opacity:1;filter:brightness(1.8)}90%{opacity:.5}91%{opacity:1;filter:brightness(2.2)}93%{filter:none}}
 }
 .pen{padding:6px 9px;text-align:center;font-weight:700;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line)}
@@ -263,7 +294,7 @@ body:not(.editing) .t td.name > .flex{display:block}
 .cwload:disabled{cursor:default}.cwload.none{color:var(--ink-3);border-style:dashed}
 .cwload i{font:700 9px/1 var(--f-body);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .cwload b{font:600 12px/1 var(--f-num);color:var(--gold)}.cwload .chev{font-size:10px;color:var(--ink-3)}
-span.cwload{cursor:default;margin:3px 0 1px;flex-wrap:nowrap;white-space:nowrap;gap:5px;padding:1px 5px}
+span.cwload{cursor:default;margin:3px 0 1px;flex-wrap:wrap;gap:0 5px;padding:1px 5px}
 .lo-belt .slot[data-slot]{cursor:pointer}
 .slot.on .sl-n{color:var(--ink)}
 .slot.inpalm .sl-o{filter:drop-shadow(0 0 5px var(--gold))}
@@ -2714,7 +2745,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     repEvents: {lvl:3, head:"New rep event", text:"", kinds:[], who:[], date:(new Date().getFullYear() + 22) + new Date().toISOString().slice(4,10), link:""}
   };
   var ELEMENTS = [["","No element"],["earth","Earth"],["fire","Fire"],["water","Water"],["air","Air"]];
-  var TONES = [["","Plain"],["gold","Gold"],["fire","Fire"],["ice","Ice"],["volt","Volt"],["earth","Earth"],["med","Medical"]];
+  var TONES = [["","Plain"],["gold","Gold"],["fire","Fire"],["ice","Ice"],["volt","Volt"],["earth","Earth"],["med","Medical"],["magi","Magi"],["kong","Tungsten"],["blast","Blast"],["orbit","Orbital"]];
 
   var STAR = '<svg class="star" viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#b30f1b" points="50,2 60.4,32 92,26 71,50 92,74 60.4,68 50,98 39.6,68 8,74 29,50 8,26 39.6,32"/></svg>';
   /* Icons: game-icons.net (Lorc, Delapouite, Caro Asercion), CC BY 3.0 */
@@ -3056,8 +3087,34 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     fire: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="fg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d12"/><stop offset=".6" stop-color="#ff9a2e"/><stop offset="1" stop-color="#ffe08a"/></linearGradient></defs><path fill="url(#fg)" d="M12.6 2c.6 3-1.3 4.6-2.7 6.2C8.2 10.1 7 12 7 14.6 7 18.2 9.3 21 12.4 21c3.4 0 5.6-2.6 5.6-6.1 0-2.4-1.1-4-2.1-5.3-.2 1.4-.8 2.3-1.7 2.8.4-3.6-.6-7.3-1.6-9.4z"/><path fill="#fff1c2" opacity=".85" d="M12.3 12.2c.3 1.6-.8 2.4-1.4 3.3-.4.6-.6 1.2-.6 1.9 0 1.5 1 2.5 2.2 2.5 1.4 0 2.3-1.1 2.3-2.5 0-1.9-1.6-3.2-2.5-5.2z"/></svg>',
     ice: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#bfeaff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/><path d="M9.6 3.8 12 6l2.4-2.2M9.6 20.2 12 18l2.4 2.2M3.9 10.1l3.1-1 .7-3.2M16.3 18.1l-.7-3.2 3.1-1M3.9 13.9l3.1 1 .7 3.2M16.3 5.9l-.7 3.2 3.1 1"/></g></svg>',
     earth: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#c49a5a" stroke="#6f5532" stroke-width="1" stroke-linejoin="round" d="M2 20.5 8.2 9.6l3.2 4.4 3.4-7.6 7.2 14.1z"/><path fill="#e2c18a" d="m14.8 6.4 1.7 3.4-1.9-.6-1.2 2.4z"/></svg>',
-    volt: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#dfe3ff" stroke="#8f9dff" stroke-width="1.2" stroke-linejoin="round" d="M13.5 2 5 13.4h5.6L9.4 22 19 9.8h-5.8z"/></svg>'
+    volt: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#dfe3ff" stroke="#8f9dff" stroke-width="1.2" stroke-linejoin="round" d="M13.5 2 5 13.4h5.6L9.4 22 19 9.8h-5.8z"/></svg>',
+    /* Magi-Palm: an open gold gauntlet palm with the three Elementa seats in its core */
+    magi: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="mgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc9a"/><stop offset=".55" stop-color="#c9973f"/><stop offset="1" stop-color="#7d5a22"/></linearGradient></defs><g fill="url(#mgg)" stroke="#3a2a10" stroke-width=".7"><rect x="6.6" y="4.6" width="2.6" height="8.4" rx="1.3"/><rect x="9.6" y="2.6" width="2.6" height="10" rx="1.3"/><rect x="12.6" y="3" width="2.6" height="9.6" rx="1.3"/><rect x="15.6" y="5" width="2.6" height="8" rx="1.3"/><rect x="2.4" y="10.4" width="2.6" height="6.6" rx="1.3" transform="rotate(-38 3.7 13.7)"/><path d="M6.4 10.6h12v5.2c0 3.2-2.4 5.8-5.8 5.8h-.6c-3.2 0-5.6-2.6-5.6-5.8z"/></g><g fill="none" stroke-width="1.4" stroke-linecap="round"><path stroke="#ff7a2e" d="M12.4 13.2a2.5 2.5 0 0 1 2.2 3.7"/><path stroke="#9fb0ff" d="M14.2 17.6a2.5 2.5 0 0 1-3.7.2"/><path stroke="#d8b47a" d="M10 17.1a2.5 2.5 0 0 1 1.6-3.8"/></g><circle cx="12.4" cy="15.7" r="1" fill="#fff6dc"/></svg>',
+    /* Kong Knucks: tungsten knuckle bar with an impact spark */
+    kong: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="kgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f3f6"/><stop offset=".5" stop-color="#9aa1ab"/><stop offset="1" stop-color="#454b54"/></linearGradient></defs><g fill="url(#kgg)" fill-rule="evenodd" stroke="#23272d" stroke-width=".5"><path d="M1.6 9.4a3.4 3.4 0 1 0 6.8 0a3.4 3.4 0 1 0-6.8 0zm2 0a1.4 1.4 0 1 1 2.8 0a1.4 1.4 0 1 1-2.8 0z"/><path d="M7.4 8.6a3.4 3.4 0 1 0 6.8 0a3.4 3.4 0 1 0-6.8 0zm2 0a1.4 1.4 0 1 1 2.8 0a1.4 1.4 0 1 1-2.8 0z"/><path d="M13.2 8.6a3.4 3.4 0 1 0 6.8 0a3.4 3.4 0 1 0-6.8 0zm2 0a1.4 1.4 0 1 1 2.8 0a1.4 1.4 0 1 1-2.8 0z"/><path d="M17.6 10.6a3 3 0 1 0 5.4-.4l-1.6-.6zm2 .2a1.2 1.2 0 1 1 2.2-.2z"/><path d="M2.6 13.4h19.6c-.6 4.4-4.6 7.6-9.8 7.6s-9.2-3.2-9.8-7.6z"/></g><path fill="#2a2e35" d="M6 15.2h12.6c-1 2.2-3.3 3.6-6.3 3.6S7 17.4 6 15.2z"/><path class="spk" fill="#ffd27a" d="m21 .6.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>',
+    /* Medical Hand: an open hand outline with a cross in the palm */
+    med: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#4cc37a" stroke-width="1.4" stroke-linejoin="round"><path d="M7 13V5.8a1.3 1.3 0 0 1 2.6 0V11V4.2a1.3 1.3 0 0 1 2.6 0V11V4.6a1.3 1.3 0 0 1 2.6 0V11V6.6a1.3 1.3 0 0 1 2.6 0v8.6c0 3.5-2.4 6.3-5.8 6.3h-.6c-2.2 0-3.6-1-4.6-2.6l-2.5-4.2a1.3 1.3 0 0 1 2.2-1.4z"/></g><path fill="#7ff0a8" d="M11.4 13.2h2v1.8h1.8v2h-1.8v1.8h-2V17H9.6v-2h1.8z"/></svg>',
+    /* Palm Bomb: a detonation burst, red to white-hot */
+    blast: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="bgg" cx=".5" cy=".5" r=".55"><stop offset="0" stop-color="#fff4c8"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".75" stop-color="#e2241a"/><stop offset="1" stop-color="#7a0b10"/></radialGradient></defs><polygon fill="url(#bgg)" stroke="#3a0608" stroke-width=".6" stroke-linejoin="round" points="12.0,1.2 14.7,7.3 20.3,7.2 17.0,12.0 21.5,17.5 14.8,16.8 12.0,21.4 9.4,16.5 2.8,17.3 7.0,12.0 3.5,7.1 9.3,7.3"/><circle cx="12" cy="12" r="2.3" fill="#fffbe8"/></svg>',
+    /* Orbital Knife: a crystal blade with a laser in its spine, inside a tilted orbit */
+    orbit: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ogg" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#f2d9f0"/><stop offset="1" stop-color="#b9a9e6"/></linearGradient></defs><path fill="url(#ogg)" fill-opacity=".9" stroke="#e8e2ff" stroke-width=".5" stroke-linejoin="round" d="M21.2 2.8 10.6 15.2l-1.8-1.8z"/><path stroke="#ff3b4a" stroke-width=".8" d="M20.4 3.6 10 14.4"/><path stroke="#9a9caa" stroke-width="1.5" stroke-linecap="round" d="M7.6 12.2l4.2 4.2"/><path stroke="#2c2c36" stroke-width="2.6" stroke-linecap="round" d="M9.4 15.6 5 20"/><g class="orb"><ellipse cx="12" cy="12" rx="10.6" ry="3.6" transform="rotate(-24 12 12)" fill="none" stroke="#ff7a8a" stroke-width=".8" stroke-opacity=".75" stroke-dasharray="14 3 2 3"/><circle cx="21.6" cy="7.7" r="1.1" fill="#ffd6dc"/></g></svg>'
   };
+  /* a hanko-style seal for the Martial Arts row (Iō only; Zolo's art rows carry no icons) */
+  var ART_SEAL = '<span class="seal" aria-hidden="true">武</span>';
+  /* designs and book text keyed off the weapon's name, so they survive the sheet sync */
+  function wTone(r){ if (r.tone) return r.tone; var b = String(r.name).replace(/\s*[\(\[].*$/, "");
+    if (/^martial arts$/i.test(b)) return WHO === "io" ? "art" : "";
+    if (/orbital knife|mono-?knife/i.test(b)) return "orbit";
+    if (/magi.?palm/i.test(b)) return "magi"; if (/kong|big.?knuck/i.test(b)) return "kong"; if (/palm bomb|high five/i.test(b)) return "blast"; if (/medical hand/i.test(b)) return "med";
+    return ""; }
+  var WREF = [[/^martial arts/i, "martialarts"], [/orbital knife|mono-?knife/i, "monoknife,monoedge,wretention"], [/magi.?palm/i, "magipalm,elementa"], [/kong|big.?knuck/i, "bigknucks,kongknucks"],
+    [/medical hand/i, "medhand"], [/palm bomb|high five/i, "palmbomb"], [/arclight/i, "arclight"]];
+  function wRefs(name){ for (var i = 0; i < WREF.length; i++) if (WREF[i][0].test(String(name))) return WREF[i][1].split(",").filter(function(k){ return REF[k]; }); return []; }
+  /* the expanded book text under a weapon row */
+  function wInfo(name, cols){ var ks = wRefs(name); if (!ks.length) return '';
+    return '<tr class="wx"><td colspan="' + cols + '"><div class="wxin">' + ks.map(function(k){ var x = REF[k];
+      return '<div class="wxb"><h5>' + esc(x.name) + '<em>' + esc(x.src || "") + '</em></h5>' + (x.flavor ? '<q>' + esc(x.flavor) + '</q>' : '') + '<div class="wxr">' + para(x.rules) + '</div></div>'; }).join("") + '</div></td></tr>'; }
+  function wBtn(key, inner, on){ return '<button type="button" class="tog wxt" data-lox="' + esc(key) + '" aria-expanded="' + !!on + '" title="Show what it does"><span class="chev">▶</span><span class="wxn">' + inner + '</span></button>'; }
   function cwTags(r){ return '<span class="lo-tags cwt">' + r.tags.map(function(k){ return '<span class="chip2 ' + (TAGC[String(k).replace(/\s*×\d+$/, "").toUpperCase()] || '') + '"' + (CWTIP[k] ? ' title="' + CWTIP[k] + '"' : '') + '>' + esc(k) + '</span>'; }).join("") + '</span>'; }
   var CWTIP = {EQ:"Excellent Quality", HM:"Heavy Melee", VHM:"Very Heavy Melee", LM:"Light Melee", "UPG ×2":"Upgraded twice", UPG:"Upgraded", RETRO:"Retrofit", PRECISE:"Precise feature"};
   /* "Name [EQ LM - FAB, Ultra Snag'Em]" or "Name [BIOWARE] [UPG]" -> bare name + tag chips */
@@ -3067,7 +3124,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (/^((EQ|PQ|LM|MM|HM|VHM)\s+)+(EQ|PQ|LM|MM|HM|VHM)$/i.test(t)) t.split(/\s+/).forEach(function(x){ tags.push(x.toUpperCase()); }); else tags.push(t); }); });
     return tags.length ? '<span class="tn">' + esc(base) + '</span>' + cwTags({tags:tags}) : esc(str);
   }
+  function tagList(name){ var tags = [];
+    (String(name).match(/[\[\(]([^\]\)]*)[\]\)]/g) || []).forEach(function(b){ b.slice(1, -1).split(/\s*,\s*|\s+[-–]\s+/).forEach(function(t){ t = t.trim(); if (!t) return;
+      if (/^((EQ|PQ|LM|MM|HM|VHM)\s+)+(EQ|PQ|LM|MM|HM|VHM)$/i.test(t)) t.split(/\s+/).forEach(function(x){ tags.push(x.toUpperCase()); }); else tags.push(t); }); });
+    return tags; }
   function toneName(r){
+    if (r.tone === "art") return ART_SEAL + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>';
     if (r.tags && r.tags.length) return (ICONS[r.tone] || '') + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>' + cwTags(r);
     var m = String(r.name).match(/^([^\(\[]*?)\s*(\(.*?\))?\s*(\[.*)?$/) || [null, r.name];
     return (ICONS[r.tone] || '') + '<span class="tn">' + esc(m[1]) + '</span>' +
@@ -3078,21 +3140,25 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       S.armor.map(function(r,i){ var p="armor."+i; return '<tr><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("armor","Add armor") + '<div class="pen">Penalty applies to REF, DEX &amp; MOVE</div></section>';
     var weapons = '<section class="box"><div class="hb"><span class="sp">Weapon</span><span class="c">DMG</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.weapons.map(function(r,i){ var p="weapons."+i; return '<tr><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+      S.weapons.map(function(r,i){ var p="weapons."+i, tn = editing ? "" : wTone(r), wk = "w:" + String(r.name).replace(/\s*[\(\[].*$/, "").toLowerCase(), has = !editing && wRefs(r.name).length, on = has && LOX[wk];
+        var nm2 = editing ? f(p+".name",{fmt:1}) + del(p) : tn ? '<span class="tone-' + tn + '">' + toneName({name:r.name, tone:tn, tags:tagList(r.name)}) + '</span>' : '<span>' + tagName(r.name) + '</span>';
+        return '<tr class="' + (tn ? 'row-' + tn : '') + (has ? ' wxp' : '') + '"><td class="name">' + (has ? wBtn(wk, nm2, on) : '<span class="flex">' + nm2 + '</span>') + '</td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>' + (on ? wInfo(r.name, 3) : ''); }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
     var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.cyberweapons.map(function(r,i){ var p="cyberweapons."+i;
+      S.cyberweapons.map(function(r0,i){ var p="cyberweapons."+i, r = editing || r0.ind ? r0 : Object.assign({}, r0, {tone:wTone(r0)});
         /* a weapon followed by indented rows (Magi Palm canisters, Medical Hand loads) folds them under a drop-down */
         var kids = 0; if (!r.ind) for (var k = i + 1; k < S.cyberweapons.length && S.cyberweapons[k].ind; k++) kids++;
         var par = -1; if (r.ind) for (var q = i - 1; q >= 0; q--) if (!S.cyberweapons[q].ind){ par = q; break; }
         var tk = "cw." + (par >= 0 ? par : i);
         if (!editing && r.ind && par >= 0 && !open[tk]) return '';
-        if (!editing && kids) return '<tr class="cwpar' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] || (r.tags && r.tags.length) ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>';
+        if (!editing && kids) return '<tr class="cwpar wxp' + (r.tone && r.tone !== "med" ? ' row-' + esc(r.tone) : '') + '"><td class="name"><button class="tog" data-tog="' + tk + '" aria-expanded="' + !!open[tk] + '" title="Show what it does"><span class="chev">▶</span><span class="tone-' + esc(r.tone || "none") + '" style="flex:1">' + toneName(r) + '</span><span class="cnt">' + (open[tk] || (r.tags && r.tags.length) ? '' : kids + (/palm/i.test(r.name) ? ' canisters' : ' loads')) + '</span></button></td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>' + (open[tk] ? wInfo(r.name, 4) : '');
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + toneName(r) + '</span>';
         var ld = "";
         if (!editing && r.load){ var cur = (S.lo && S.lo.palm) || "", can = WHO === "io" && !readOnly, nade = function(t){ return String(t).replace(/\s*\[.*$/, "").replace(/\s*Grenade$/i, ""); };
           if (cur) name += '<span class="cwload"><i>Loaded</i>' + esc(nade(cur)) + '<b>then 6d6</b></span>'; }
-        return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>' + ld; }).join("") +
+        var wk = "w:" + String(r.name).replace(/\s*[\(\[].*$/, "").toLowerCase(), has = !editing && !r.ind && wRefs(r.name).length, on = has && LOX[wk];
+        if (has){ var ldp = name.indexOf('<span class="cwload">'); name = ldp > 0 ? wBtn(wk, name.slice(0, ldp), on) + name.slice(ldp) : wBtn(wk, name, on); ld = on ? wInfo(r.name, 4) : ''; }
+        return '<tr class="' + (r.ind ? 'ind ' : '') + (has ? 'wxp ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + f(p+".dmg",{dash:1}) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>' + ld; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
     var glitch = '<figure class="box glitch"><img src="' + esc(S.glitch || "img/io-glitch.webp") + '" alt="' + (WHO === "zolo" ? 'Zolo masked and hooded, katanas at his back, under the moon' : 'Glitching animated portrait of Iō drinking tea') + '" loading="lazy"></figure>';
     return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + weapons + cyber + (WHO === "zolo" ? '' : glitch) + '</div>';
