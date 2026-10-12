@@ -1329,7 +1329,7 @@
             "name": "Segotari Mindgames",
             "kind": "chip",
             "tags": [],
-            "ref": "mindpalace",
+            "ref": "mindgames,mindpalace",
             "setup": ""
            }
           ]
@@ -1614,7 +1614,7 @@
           "tags": [
            "FAB"
           ],
-          "ref": "",
+          "ref": "sleeve",
           "setup": "Used for when incognito/Galileo. Presents as Realskinn and biological to cyberscanners."
          },
          {
@@ -1623,7 +1623,7 @@
           "tags": [
            "UPG"
           ],
-          "ref": "",
+          "ref": "holopalm",
           "setup": "Consumer Ergonomics. Soda can sized hologram."
          },
          {
@@ -2215,7 +2215,7 @@
           "tags": [
            "UPG"
           ],
-          "ref": "jamup",
+          "ref": "jammer,jamup",
           "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle as a Free Action. Power upgrade: DV15, 12m.",
           "slots": 1
          }
@@ -7122,7 +7122,7 @@
            "tags": [
             "FAB"
            ],
-           "ref": "",
+           "ref": "sleeve",
            "setup": "Used for when incognito/Galileo. Presents as Realskinn and biological to cyberscanners."
           },
           {
@@ -7131,7 +7131,7 @@
            "tags": [
             "UPG"
            ],
-           "ref": "",
+           "ref": "holopalm",
            "setup": "Consumer Ergonomics. Soda can sized hologram."
           },
           {
@@ -7689,7 +7689,7 @@
            "name": "Signal Jammer",
            "kind": "cyber",
            "tags": [],
-           "ref": "",
+           "ref": "jammer",
            "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle on/off: Free Action. (Affects you too).",
            "slots": 1
           }
@@ -8920,6 +8920,38 @@
    "orbital knife": {
     "text": "Excellent Quality One-Handed Exotic Medium Melee Weapon, concealable. With the correct biometric key it ignores armor below SP11; the Monomolecular Edge Alignment Upgrade makes that below SP12. Without the key it doesn't vibrate and is only an EQ Exotic Light Melee Weapon.",
     "src": "Up Your Arsenal · Aftermarket Modifications"
+   },
+   "sedative": {
+    "text": "When administered a dose of Sedative by a Medtech, a willing target falls unconscious for 4 Hours. During this time, a Medtech who attempts a Treatment on the target gains a +2 Bonus to their Surgery Check. If administered to an unwilling target by a Medtech, the target must succeed a DV15 Resist Torture/Drugs check or fall unconscious and be incapable of Actions for either 1 minute (20 Combat Rounds) or until they are awoken by taking damage or by an outside party taking an Action to rouse them.",
+    "src": "Hornet’s Pharmacy (DLC) · 50eb"
+   },
+   "primetime": {
+    "text": "Primary Effect (lasts 4 hours): the user takes 4d6 Humanity Loss upon taking a dose, which is returned after the Primary Effect ends (it can’t reduce a character below 0 Humanity). COOL and WILL are increased by 2 points (the WILL increase doesn’t increase HP). The user’s emotions are repressed. Secondary Effect (DV17): the user takes 1 point of Humanity Loss. If not already addicted to Prime Time, they are now; while addicted, COOL is lowered by 2 unless under the Primary Effect.",
+    "src": "Hornet’s Pharmacy (DLC) · Prime Time · 50eb per dose"
+   },
+   "distilling c.": {
+    "text": "As an Action, this compound can be mixed with a Vial of Poison or Biotoxin to increase its Resist Torture/Drugs DV by 2. Multiple applications do not stack.",
+    "src": "Hornet’s Pharmacy (DLC) · Distilling Compound · 100eb"
+   },
+   "rave grenade": {
+    "text": "Grenade Ammunition; can’t be loaded into a Grenade Launcher. When thrown, it sticks to a surface in the square it landed in and starts a thumping bass beat and colorful light show (generic techno, or the music on an inserted Memory Chip). Anyone who starts their Turn within a 10 m/yd by 10 m/yd (5 by 5 Square) area centered on the grenade during the show must succeed at a DV13 Concentration Check or suffer a −2 penalty to all Checks until the end of their Turn. The show lasts 2 Rounds. At the top of the third Round it explodes, acting like a Smoke Grenade (CP:R p.347) but with much more glitter. A slotted Memory Chip is destroyed.",
+    "src": "12 Days of Cutiemas (DLC) · Hello Cutie Chromatic Rave Grenade · 50eb"
+   },
+   "ion cuffs": {
+    "text": "Any non-hardened cyberware options installed in a non-hardened Cyberlimb bound by Ion Cuffs become inoperable until the cuffs are removed. Ion Cuffs can be broken easily if a subject’s BODY is 13 or higher.",
+    "src": "12 Days of Gearmas (DLC) · 500eb"
+   },
+   "mag speakers": {
+    "text": "MiniMag Speakers by Telectronics: one inch in diameter, magnetic, can connect wirelessly to a linked Agent within 100 m/yds, and come in a variety of colors. Stick a speaker anywhere.",
+    "src": "12 Days of Gearmas (DLC) · 50eb"
+   },
+   "professional disguise kit": {
+    "text": "Using a Professional Disguise Kit adds a +2 bonus to Personal Grooming Checks to appear as someone else. There are limits to how far an appearance can change without Biosculpting or expensive special effects: no Disguise Kit can add or subtract more than a few inches from your height or fake five extra, fully functional cybereyes in your forehead.",
+    "src": "Going Quiet (DLC) · 100eb"
+   },
+   "signal jammer": {
+    "text": "Cyberaudio Option. The user projects a wide spectrum frequency field over 6m/yd by 6 m/yd (3 square by 3 square) area, centered on them. Anyone in the field, including the user, who attempts to transmit or receive a wireless signal must take an Action and succeed at a DV13 Electronics/Security Tech Check to prevent it from being lost in the noise. The Signal Jammer can be activated/deactivated without an Action.",
+    "src": "Mixing Drinks—Changing Lives (DLC)"
    }
   },
   "containers": {

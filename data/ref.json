@@ -1088,5 +1088,45 @@
   "flavor": "A specialized modification that transforms a medical or infiltrator hand into a deadly assassination tool. The hand is outfitted with a concealed blade and integrated poison delivery system, allowing the user to strike with lethal precision while maintaining the appearance of innocuous medical equipment.",
   "rules": "Invented Upgrade. The item gains an Excellent Quality Exotic Light Melee Weapon permanently installed that is concealed without a check. A Vial of Poison or Biotoxin can be safely stored and concealed in a compartment in the hand without a check. The contents of the stored vial can then be applied to the Hand silently anytime without an Action as if coating a Light Melee Weapon. If the item did not already have it, it gains the benefits of the Airhypo Cyberfinger (BC 24). The item's integrated Airhypo gains a +1 bonus to Melee Weapon Attack rolls when attempting to administer a drug, pharmaceutical, or poison to an unwilling target.",
   "type": "Invented Upgrade"
+ },
+ "holopalm": {
+  "name": "Holo Projector Palm",
+  "src": "Must Have Cyberware Deals (DLC)",
+  "cost": "100eb (Premium)",
+  "install": "Clinic",
+  "hl": "2 (1d6/2 Round up)",
+  "flavor": "Now this one’s just neat. Makes a great pop-up advertisement, a neat trick for those first dates, and it’s waterproof and doesn’t get covered up by your wetsuit, making it great for checking the news while you’re surfing. Somewhere else. Don’t surf in Night City, the water will kill you.",
+  "rules": "Cyberarm Option. A hologram projector built into the user’s palm. Can output an potentially interactive holographic projection roughly the size of a soda can when linked to an Agent. Can be installed as the only piece of Cyberware in a meat arm.",
+  "type": "Cyberarm Option"
+ },
+ "sleeve": {
+  "name": "Concealment Sleeve",
+  "src": "Going Quiet (DLC)",
+  "cost": "500eb (Very Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "You’ve got to sneak into a Corporate joint and extract a target. For that, you’ll need weapons and tools. You might be thinking, if the gear’s inside my chrome, security will miss it, right? Wrong! Plenty of Corps shell out for cyberware detectors at the front door. There’s a solution, though. Find a Tech with the right skills, and they’ll fit a Concealment Sleeve over your cyberlimb. Then you can walk through with no problem.",
+  "rules": "A special sleeve, fitted over a cybernetic limb, containing ultra-thin emitters wrapped in sculpted RealSkinn™. When wearing a Concealment Sleeve, a user’s cyberlimb reads as biological to a cyberware scanner. Each sleeve must be custom-fitted to a specific cyberlimb. Once fitted, a sleeve cannot be adjusted to work for any other limb.",
+  "type": "Gear"
+ },
+ "jammer": {
+  "name": "Signal Jammer",
+  "src": "Mixing Drinks—Changing Lives (DLC)",
+  "cost": "500eb (Premium)",
+  "install": "Clinic",
+  "hl": "3 (1d6)",
+  "flavor": "Is your mainline spending more time talking to their Agent than cuddling with you? Solve the problem with the Signal Jammer! Now available as pop-up “cat ears!”",
+  "rules": "Cyberaudio Option. The user projects a wide spectrum frequency field over 6m/yd by 6 m/yd (3 square by 3 square) area, centered on them. Anyone in the field, including the user, who attempts to transmit or receive a wireless signal must take an Action and succeed at a DV13 Electronics/Security Tech Check to prevent it from being lost in the noise. The Signal Jammer can be activated/deactivated without an Action.",
+  "type": "Cyberaudio Option"
+ },
+ "mindgames": {
+  "name": "Segotari Mindgames",
+  "src": "Segotari Power (DLC)",
+  "cost": "50eb (Costly) per chip",
+  "install": "",
+  "hl": "",
+  "flavor": "",
+  "rules": "In 2020, Segotari released Mindgames: a line of chipware that transformed your neural link into a mobile console. The line didn’t sell well, even before the 4th Corporate War went final boss on supply lines. Mindgames has enjoyed a resurgence in popularity recently, due to knock-off chips appearing for sale in stalls at local day markets. Rumor has it they’re the work of a tong or a triad or a cartel or some other criminal gang.\nSegotari Mindgames Chip: 50eb (Costly). The cost of individual games may vary.",
+  "type": "Chipware"
  }
 }

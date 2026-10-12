@@ -446,6 +446,8 @@ button.lo-ash{cursor:pointer;color:var(--gold)!important}
 .lo-as span:not(.lab):not(.lo-tags):not(.chip2),.lo-as button{font:inherit;font-family:var(--f-cond);font-size:15px;color:var(--ink-2);background:transparent;border:1px dashed var(--line);padding:3px 9px;display:inline-flex;gap:6px;align-items:center}
 .lo-as button{cursor:pointer;color:var(--gold);border-style:solid}
 .lo-as button:hover{border-color:var(--gold)}
+.lo-as .lo-info{flex-basis:100%;margin-top:2px}
+.lo-as button.lo-chip{color:var(--ink-2);border-style:dashed}
 @media (max-width:1100px){ .lo2{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:600px){ .lo-con .conin{grid-template-columns:96px minmax(0,1fr)} .vials{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))} }
 /* ---------- edit mode ---------- */
@@ -3352,7 +3354,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (c){ cur = {p:p, c:c, items:[]}; boxes.push(cur); if (c.kind === "apps") carried.push(p); return; }
       if (cur){ cur.items.push(p); return; }
       if (had[p.key]) return; had[p.key] = 1; carried.push(p); });
-    var chip = function(p){ return '<span class="lo-chip">' + esc(p.base) + (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags) + '</span>'; };
+    /* stash chips open their notes too when there are any (e.g. the Professional Disguise Kit in the car) */
+    var chip = function(p){ var x = (p.qty > 1 ? ' <i class="lo-x">×' + p.qty + '</i>' : '') + loTags(p.tags);
+      return loInfo(p.key) ? '<button type="button" class="lo-chip lo-i has" data-lox="' + esc(p.key) + '" aria-expanded="' + !!LOX[p.key] + '" title="Show what it does">' + esc(p.base) + x + '</button>' : '<span class="lo-chip">' + esc(p.base) + x + '</span>'; };
     var agentBox = boxes.filter(function(b){ return b.c.kind === "apps"; })[0];
     /* the Agent is a tile in Carried (Oak, Oct 12: a whole phone box for one app was too much); tap it for its apps */
     var agOpen = !!LOX["agent:apps"], agN = agentBox ? agentBox.items.length : 0;
@@ -3363,7 +3367,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var gear = '<section class="box lo-gear"><div class="hb"><span class="sp">Carried</span><span class="gnote">' + (tools.length + (agentBox ? 1 : 0)) + ' items</span></div><div class="gear">' + agentT + tools.map(function(p){
         return '<div class="gtile">' + gearIcon(p.base) + loName(p) + (p.qty > 1 ? '<span class="lo-x">×' + p.qty + '</span>' : '<span></span>') + loInfoP(p) + '</div>'; }).join("") + '</div>' +
       boxes.filter(function(b){ return b.c.kind !== "apps"; }).map(function(b){ var to = b.c.link, head = esc(b.c.label) + loTags(b.p.tags);
-        return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + '</div>'; }).join("") + '</section>';
+        return '<div class="lo-as">' + (to && READY.indexOf(to) >= 0 && WHO === "io" ? '<button type="button" class="lo-ash" data-tab="' + to + '">' + head + ' →</button>' : '<span class="lo-ash">' + head + '</span>') + (b.items.length ? b.items.map(chip).join("") : '<span class="u">Nothing listed</span>') + b.items.map(loInfoP).join("") + '</div>'; }).join("") + '</section>';
     return '<div class="lo2 a-lo">' + loHead() + low + belt + ph + '<div class="lo-side">' + con + '</div>' + gear + '</div>';
   }
   var LO_DOTS = ["#e0323c", "#e0a23c", "#4cc37a", "#7cc8f2", "#c3a4ff", "#f0ebe3", "#ff8a3d", "#d9ab5e"];
