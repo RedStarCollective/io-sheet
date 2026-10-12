@@ -3281,7 +3281,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var name = editing ? '<span class="flex">' + f(p+".name") + sel(p+".tone", TONES, "Colour") + del(p) + '</span>' : '<span class="tone-' + esc(r.tone || "none") + '">' + (r.ind ? toneName(r) : wRef(r.name, toneName(r))) + '</span>';
         var ld = "";
         if (!editing && r.load){ var cur = (S.lo && S.lo.palm) || "", can = WHO === "io" && !readOnly, nade = function(t){ return String(t).replace(/\s*\[.*$/, "").replace(/\s*Grenade$/i, ""); };
-          if (cur) name += '<span class="cwload"><i>Loaded</i>' + esc(nade(cur)) + '<b>then 6d6</b></span>'; }
+          if (cur) name += '<span class="cwload"><i>Loaded</i>' + esc(nade(cur)) + '</span>'; }
         return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + (wDef(r, "dmg") || f(p+".dmg",{dash:1})) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + (wDef(r, "rof") || f(p+".rof",{num:1,dash:1})) + '</td></tr>' + ld; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
     /* the tea-drinking glitch portrait was removed (Oak, Oct 12) so the three boxes get its width; img/io-glitch.webp stays on disk */
