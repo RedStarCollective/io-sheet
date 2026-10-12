@@ -1182,7 +1182,7 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
 .g-med{--lc:#4cc37a}.g-street{--lc:#e0a040}.g-neuro{--lc:#8f9dff}.g-poison{--lc:#e0434f}
 .mtubes{display:flex;flex-wrap:wrap;gap:12px 4px;padding:12px 8px 8px}
 .tube{position:relative;flex:0 0 84px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
-.tb-cap{width:22px;height:9px;border-radius:3px 3px 1px 1px;background:linear-gradient(90deg,color-mix(in srgb,var(--lc) 45%,#111),color-mix(in srgb,var(--lc) 75%,#fff 10%),color-mix(in srgb,var(--lc) 45%,#111));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.tb-cap{width:22px;height:9px;border-radius:3px 3px 1px 1px;background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 45%,#111),color-mix(in srgb,var(--vc) 85%,#fff 15%),color-mix(in srgb,var(--vc) 45%,#111));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
 .tb-glass{position:relative;margin-top:-1px;width:24px;height:64px;border:1.5px solid rgba(225,225,225,.3);border-top-color:rgba(225,225,225,.15);border-radius:0 0 12px 12px;background:linear-gradient(90deg,rgba(255,255,255,.07),rgba(255,255,255,.01) 45%,rgba(255,255,255,.09));overflow:hidden;box-shadow:inset 0 0 6px rgba(0,0,0,.7),0 4px 8px rgba(0,0,0,.5)}
 .tb-glass::after{content:"";position:absolute;left:4px;top:5px;bottom:10px;width:3px;border-radius:2px;background:rgba(255,255,255,.2);z-index:2}
 .tb-liq{position:absolute;left:0;right:0;bottom:0;transition:height .8s cubic-bezier(.3,.7,.2,1);background:linear-gradient(180deg,color-mix(in srgb,var(--lc) 70%,#fff),var(--lc) 35%,color-mix(in srgb,var(--lc) 55%,#000));box-shadow:0 0 12px color-mix(in srgb,var(--lc) 55%,transparent)}
@@ -3377,6 +3377,27 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   /* Loadout v2. The lists themselves still come from the sheet (inventory, pharma, throwables, concealed); S.lo holds what the
      sheet doesn't say, keyed by an item's base name: what is stashed rather than carried, where concealed items sit, rules notes. */
+  /* each drug's liquid colour (Oak, Oct 12: "what the liquid likely looks like"); caps keep the group colour. Unlisted drugs use the group colour. */
+  var DOSE_COL = {
+    "lastchance":"#ff4a2e",        /* emergency adrenal shot: hot red-orange */
+    "rapid detox":"#3fd6c9",       /* flush: clear teal */
+    "speedheal":"#46d36e",         /* healing: bright medical green */
+    "nyozi":"#f29ac0",             /* Iō's empathy compound: soft rose */
+    "sedative":"#4a5bd6",          /* knock-out: deep night blue */
+    "primetime":"#a9c4dc",         /* cold corporate calm: icy steel blue */
+    "boost":"#ff9a1f",             /* stimulant: electric orange */
+    "red lace":"#e0102a",          /* crimson */
+    "white lace":"#efe9e0",        /* milky white */
+    "piranha smash":"#a6f03a",     /* frenzy: acid green */
+    "synthcoke":"#cfe6ff",         /* powder in suspension: snow blue */
+    "9-volt":"#ffe23a",            /* electric yellow */
+    "bliss":"#ff4fd8",             /* euphoria: hot pink */
+    "insense":"#9d6bff",           /* sensory: amethyst */
+    "stealth":"#56607a",           /* smoky slate */
+    "tracking":"#2fb37d",          /* hunter green */
+    "brain fog":"#9a8fae",         /* murky grey-violet */
+    "distilling c.":"#d9f27a"      /* reagent: pale chartreuse */
+  };
   var LOX = {}, PHL = {};   /* PHL: last drawn liquid level per pharma key, so a change animates from it */
   function loAfter(entering){
     if (tab !== "dossier") return;
@@ -3498,7 +3519,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return '<div class="mrack g-' + g.cls + (hide ? ' g-hid' : '') + '"><h4 class="vg">' + esc(g.name) + (live.length ? '' : '<button type="button" class="vshow" data-lox="' + esc(gk) + '">' + (hide ? 'All out · show' : 'Hide') + '</button>') + '<b>' + tot + '</b></h4>' +
         (hide ? '' : '<div class="mtubes">' + g.items.map(function(x){
           var r = x[0], i = x[1], p = loParse(r.name), n = +r.n || 0, pct = Math.round(Math.min(1, n / Math.max(6, n)) * 100), from = PHL[p.key] != null ? PHL[p.key] : pct;
-          return '<div class="tube' + (n <= 0 ? ' tb-out' : '') + '"><span class="tb-cap" aria-hidden="true"></span><span class="tb-glass" aria-hidden="true"><i class="tb-liq" data-k="' + esc(p.key) + '" data-to="' + pct + '" style="height:' + from + '%"></i></span>' +
+          var lc = DOSE_COL[p.key];
+          return '<div class="tube' + (n <= 0 ? ' tb-out' : '') + '"' + (lc ? ' style="--lc:' + lc + '"' : '') + '><span class="tb-cap" aria-hidden="true"></span><span class="tb-glass" aria-hidden="true"><i class="tb-liq" data-k="' + esc(p.key) + '" data-to="' + pct + '" style="height:' + from + '%"></i></span>' +
             '<b class="tb-n">' + (n <= 0 ? 'Out' : n) + '</b>' + loName(p) +
             (lock ? '' : '<span class="ctr" role="group" aria-label="' + esc(p.base) + ' doses"><button data-dose="' + i + '" data-d="-1" aria-label="Use one dose of ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-dose="' + i + '" data-d="1" aria-label="Add one dose of ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div>' +
           '<div class="minfo">' + g.items.map(function(x){ return loInfoP(loParse(x[0].name)); }).join("") + '</div>') + '</div>'; }).join("") + '</div></section>';
