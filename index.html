@@ -1190,18 +1190,13 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
 /* mixed liquids: two tones swirling (--lc deep, --lc2 light), shaded at the glass edges */
 .tube[style*="--lc2"] .tb-liq{background:radial-gradient(ellipse 80% 22% at 30% 25%,color-mix(in srgb,var(--lc2) 85%,transparent),transparent 70%) 0 0/100% 200%,radial-gradient(ellipse 70% 18% at 72% 62%,color-mix(in srgb,var(--lc2) 70%,transparent),transparent 70%) 0 0/100% 200%,radial-gradient(ellipse 55% 14% at 38% 88%,color-mix(in srgb,var(--lc2) 60%,transparent),transparent 70%) 0 0/100% 200%,linear-gradient(180deg,color-mix(in srgb,var(--lc) 75%,var(--lc2)),var(--lc) 45%,color-mix(in srgb,var(--lc) 65%,#000));box-shadow:0 0 12px color-mix(in srgb,var(--lc) 55%,transparent)}
 .tb-liq::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.38),transparent 32%,rgba(255,255,255,.08) 55%,transparent 70%,rgba(0,0,0,.38)),radial-gradient(ellipse 60% 18% at 40% 70%,color-mix(in srgb,var(--lc2,var(--lc)) 55%,transparent),transparent)}
-/* Nyozi: a glowing pocket of space, with drifting nebula and twinkling stars */
-.tube[data-fx="nebula"] .tb-liq{background:radial-gradient(ellipse 45% 20% at 30% 74%,rgba(98,232,255,.75),transparent 70%),radial-gradient(ellipse 30% 14% at 70% 30%,rgba(98,232,255,.5),transparent 70%),radial-gradient(ellipse 75% 45% at 45% 50%,rgba(123,63,228,.95),transparent 75%),radial-gradient(circle at 50% 100%,#2a0f63,#0d0526 70%);background-size:220% 220%;box-shadow:0 0 8px rgba(123,63,228,.5)}
-.tube[data-fx="nebula"] .tb-liq::after{background:radial-gradient(1.5px 1.5px at 22% 30%,#fff,transparent),radial-gradient(1.2px 1.2px at 68% 18%,#fff,transparent),radial-gradient(2px 2px at 44% 56%,#fff,transparent),radial-gradient(1.3px 1.3px at 78% 66%,#dff,transparent),radial-gradient(1.5px 1.5px at 30% 84%,#fff,transparent),radial-gradient(1.6px 1.6px at 60% 40%,#ffe,transparent),radial-gradient(1.2px 1.2px at 18% 52%,#fcf,transparent),radial-gradient(1.2px 1.2px at 74% 88%,#fff,transparent),linear-gradient(90deg,rgba(0,0,0,.35),transparent 32%,transparent 70%,rgba(0,0,0,.35))}
-.tube[data-fx="nebula"] .tb-glass{box-shadow:inset 0 0 6px rgba(0,0,0,.7),0 0 9px rgba(98,232,255,.28)}
+/* Nyozi: a slight glow */
+.tube[data-fx="glow"] .tb-liq{box-shadow:0 0 9px rgba(242,154,192,.55)}
+.tube[data-fx="glow"] .tb-glass{box-shadow:inset 0 0 6px rgba(0,0,0,.7),0 0 10px rgba(242,154,192,.3)}
 @media (prefers-reduced-motion:no-preference){
   .tube[style*="--lc2"] .tb-liq{animation:liqSwirl 8s ease-in-out infinite alternate}
   @keyframes liqSwirl{from{background-position:0 0,0 0,0 0,0 0}to{background-position:0 100%,0 -100%,0 100%,0 0}}
   .tube:nth-child(2n) .tb-liq{animation-duration:10s}.tube:nth-child(3n) .tb-liq{animation-duration:6.5s}
-  .tube[data-fx="nebula"] .tb-liq{animation:nebDrift 9s ease-in-out infinite alternate}
-  @keyframes nebDrift{0%{background-position:0% 0%}50%{background-position:100% 40%}100%{background-position:30% 100%}}
-  .tube[data-fx="nebula"] .tb-liq::after{animation:nebTwinkle 2.8s ease-in-out infinite}
-  @keyframes nebTwinkle{0%,100%{opacity:1}50%{opacity:.45}}
 }
 .tb-n{font:600 15px/1 var(--f-num);color:var(--ink);margin-top:3px}
 .tube .lo-i{font-family:var(--f-cond);font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.1;display:flex;flex-direction:column;gap:2px;align-items:center}
@@ -3398,7 +3393,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     "lastchance":["#e8321e","#ffb02e"],      /* emergency adrenal shot */
     "rapid detox":["#5ab8f2","#e6f7ff"],     /* IV flush */
     "speedheal":["#25b75b","#a6f2b0"],       /* healing */
-    "nyozi":{fx:"nebula", c:["#7b3fe4","#62e8ff"]},  /* Iō's compound: deep-space violet, one starlight-cyan accent, soft glow */
+    "nyozi":{fx:"glow", c:["#f29ac0","#b49bff"]},  /* Iō's compound: rose with a lavender swirl and a soft glow */
     "sedative":["#2633a0","#7383f2"],        /* night */
     "primetime":["#b8861f","#ffe49a"],       /* golden (Oak) */
     "boost":["#17b0a3","#a4f6ee"],           /* teal (Oak) */
