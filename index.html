@@ -1099,6 +1099,80 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
 .L2 .rcard,.L3 .rcard{background:rgba(17,13,12,.62)}
 .L2 .rcard h3,.L3 .rcard h3{font-size:16px}
 .L2 .rcard p,.L3 .rcard p{font-size:13.5px}
+
+/* ---- Rep: reach orbits ---- */
+.orbit .orbwrap{position:relative;flex:1;display:flex;align-items:center;padding:4px 6px 0;min-height:0}
+.orbsvg{width:100%;height:auto;display:block;overflow:visible}
+.ogrid path{stroke:var(--gold);stroke-width:.6;opacity:.09;fill:none}
+.orl .hit{fill:none;stroke:transparent;stroke-width:12;pointer-events:stroke}
+.orl:not(.none){cursor:pointer;outline:0}
+.orl .ring{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:.004 .008;transition:stroke .25s,stroke-width .25s,opacity .25s;opacity:.85}
+.orl.lit .ring{stroke:var(--gold-dim,#7e6438);stroke-dasharray:none;opacity:.75}
+.orl.cur .ring{stroke:var(--gold);stroke-width:1.6;opacity:1;filter:drop-shadow(0 0 4px rgba(217,180,106,.55))}
+.orl.hov .ring,.orl:focus-visible .ring{stroke:var(--ink);opacity:1;stroke-width:1.6}
+.orl.on .ring{stroke:var(--red-hi);stroke-width:2;opacity:1;filter:drop-shadow(0 0 5px rgba(209,28,40,.6))}
+.orn{font:600 10px var(--f-num);fill:var(--ink-3);pointer-events:none}
+.orn.lit{fill:var(--gold-dim,#7e6438)}.orn.cur{fill:var(--gold);font-size:12px}
+.osat{fill:var(--kc,#9aa);stroke:#0b0807;stroke-width:1;cursor:pointer;transition:r .15s}
+.osats.back .osat{opacity:.42}
+.osat.big{stroke:var(--gold);stroke-width:1.4;filter:drop-shadow(0 0 4px var(--gold))}
+.osat:hover{r:6.5;opacity:1}
+.ocore .oglow{fill:rgba(217,180,106,.12);filter:blur(3px)}
+.ocore .orim{fill:none;stroke:var(--gold);stroke-width:1.5}
+.oini{font:700 18px var(--f-disp);fill:var(--ink);text-anchor:middle}
+.otip{position:absolute;z-index:3;width:240px;pointer-events:none;background:rgba(10,8,7,.94);border:1px solid var(--frame);border-left:3px solid var(--gold);padding:6px 9px 7px;display:flex;flex-direction:column;gap:2px}
+.otip b{font:600 14px/1.2 var(--f-disp);color:var(--ink)}.otip em{font:600 10.5px var(--f-num);font-style:normal;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
+.orbcap{margin:0;padding:8px 14px 10px;border-top:1px solid var(--line);display:flex;align-items:baseline;gap:10px;min-height:38px}
+.orbcap b{font:600 18px var(--f-num);color:var(--gold);flex:none}
+.orbcap span{flex:1;font-size:14px;font-style:italic;color:var(--ink-2);line-height:1.25}
+.orbcap em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+body.zolo .orl.cur .ring{filter:drop-shadow(0 0 4px rgba(108,198,230,.5))}
+body.zolo .ocore .oglow{fill:rgba(108,198,230,.12)}
+@media (prefers-reduced-motion:no-preference){
+  .orbit.pwr .orl .ring{stroke-dasharray:1 1;stroke-dashoffset:1;animation:orbDraw .9s cubic-bezier(.3,.6,.2,1) forwards;animation-delay:calc((10 - var(--l)) * 70ms)}
+  .orbit.pwr .orl.lit:not(.cur) .ring,.orbit.pwr .orl.cur .ring{stroke-dasharray:1 1}
+  @keyframes orbDraw{to{stroke-dashoffset:0}}
+  .orbit.pwr .osat{opacity:0;animation:orbSat .4s ease-out forwards;animation-delay:calc(900ms + var(--n) * 14ms)}
+  .orbit.pwr .osats.back .osat{animation-name:orbSatB}
+  @keyframes orbSat{to{opacity:1}} @keyframes orbSatB{to{opacity:.42}}
+  .orbit.pwr .ocore{animation:orbCore .6s ease-out both}
+  @keyframes orbCore{from{opacity:0;transform:scale(.6);transform-origin:330px 150px}}
+}
+/* ---- Rep: worn tape. Older stories go softer, warmer and grainier; hover brings one back to sharp ---- */
+.rev .rcard{filter:sepia(calc(var(--age,0) * .38)) saturate(calc(1 - var(--age,0) * .4)) brightness(calc(1 - var(--age,0) * .14)) contrast(calc(1 - var(--age,0) * .1));transition:filter .35s ease}
+.rev .rcard::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:calc(var(--age,0) * .55);mix-blend-mode:overlay;transition:opacity .35s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+.rev:hover .rcard,.rev.flash .rcard,.rev:focus-within .rcard{filter:none}
+.rev:hover .rcard::after,.rev.flash .rcard::after,.rev:focus-within .rcard::after{opacity:0}
+.rev.flash .rcard{box-shadow:0 0 0 1px var(--gold),0 0 22px rgba(217,180,106,.35)}
+/* ---- Rep: power-on ---- */
+.pwsl{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .rev.pwr .rcard{border-color:transparent;background:transparent;box-shadow:none}
+  .rev.pwr .rcard > :not(.pwsl),.rev.pwr .rgut,.rev.pwr .rdot{opacity:0}
+  .rev.pwr .rcard::before{content:"";position:absolute;inset:-1px;border:1px solid var(--gold);border-left:3px solid var(--kc);clip-path:inset(0 100% 100% 0);pointer-events:none}
+  .rev.pwr.pw-on .rcard::before{animation:pwFrame .42s cubic-bezier(.4,.1,.2,1) forwards}
+  @keyframes pwFrame{0%{clip-path:inset(0 100% calc(100% - 1px) 0)}45%{clip-path:inset(0 0 calc(100% - 1px) 0)}100%{clip-path:inset(0 0 0 0)}}
+  .rev.pwr.pw-on .rcard{transition:background .3s .38s,border-color .2s .4s;background:rgba(17,13,12,.8)}
+  .rev.pwr.pw-on .rcard > :not(.pwsl),.rev.pwr.pw-on .rgut,.rev.pwr.pw-on .rdot{opacity:1;transition:opacity .32s .36s}
+  .rev.pwr .pwsl{display:block;position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-linear-gradient(90deg,rgba(217,180,106,.13) 0 1px,transparent 1px 4px)}
+  .rev.pwr.pw-on .pwsl{animation:pwScan .95s ease-out forwards}
+  @keyframes pwScan{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+}
+/* ---- Rep: portraits lit like paintings: deep shadow, warm side light; the hovered year steps into the light ---- */
+.film{background:#050403}
+.frame{border-color:#1a1411}
+.frame img{filter:brightness(.42) contrast(1.28) saturate(.55) sepia(.18);transition:filter .45s ease}
+.frame::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .45s;
+  background:radial-gradient(ellipse 70% 60% at 18% 30%,rgba(255,186,104,.30),transparent 62%),radial-gradient(ellipse 120% 90% at 45% 35%,transparent 35%,rgba(0,0,0,.78) 92%);mix-blend-mode:normal}
+.frame::after{content:"";position:absolute;top:0;bottom:0;left:0;width:2px;z-index:1;pointer-events:none;background:linear-gradient(transparent 5%,rgba(226,184,108,.55) 30%,rgba(226,184,108,.15) 75%,transparent);opacity:.5;transition:opacity .45s}
+.frame figcaption{z-index:2}
+.film:hover .frame img{filter:brightness(.26) contrast(1.3) saturate(.4) sepia(.25)}
+.film .frame:hover img,.film:not(:hover) .frame.now img{filter:brightness(1.02) contrast(1.12) saturate(.92) sepia(.08)}
+.film .frame:hover::before,.film:not(:hover) .frame.now::before{background:radial-gradient(ellipse 60% 70% at 12% 32%,rgba(255,190,110,.38),transparent 60%),radial-gradient(ellipse 120% 95% at 50% 35%,transparent 45%,rgba(0,0,0,.6) 95%);mix-blend-mode:soft-light}
+.film .frame:hover::after,.film:not(:hover) .frame.now::after{opacity:1}
+.film .frame:hover,.film:not(:hover) .frame.now{border-color:var(--frame)}
+.film .frame:hover figcaption,.film:not(:hover) .frame.now figcaption{color:var(--gold)}
 /* by reach */
 .rgh{display:flex;align-items:baseline;gap:12px;margin:18px 0 10px;font-weight:600}
 .rgh b{font-family:var(--f-num);font-size:30px;color:var(--gold);line-height:1}
@@ -4048,18 +4122,114 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }
     return '<section class="box ladder"><div class="hb"><span class="sp">Who knows about him</span><span class="gnote">Tap a level to filter</span></div><div class="lrows">' + rows + '</div></section>';
   }
+
+  /* Reach as orbits (Oak, Oct 12): Iō at the centre, ten orbit rings for the ten reach levels, every rep event a satellite on its ring.
+     Rings filter the feed (same RF.lvl as the old ladder), satellites jump to their card. The plane is tilted like an orbit seen at an angle. */
+  var ORB = {cx:330, cy:150, k:.36, tilt:-9, raf:0, t0:0, spin:0, hold:false, hov:0};
+  function orbR(l){ return 38 + l * 27.5; }
+  function orbPt(l, a){ var rx = orbR(l), ry = rx * ORB.k, x = rx * Math.cos(a), y = ry * Math.sin(a), t = ORB.tilt * Math.PI / 180;
+    return [ORB.cx + x * Math.cos(t) - y * Math.sin(t), ORB.cy + x * Math.sin(t) + y * Math.cos(t), Math.sin(a)]; }
+  function orbSats(){
+    var by = {}; RE().forEach(function(e, i){ var l = Math.max(1, Math.min(10, +e.lvl || 1)); (by[l] = by[l] || []).push([e, i]); });
+    var out = [];
+    Object.keys(by).forEach(function(l){ var g = by[l]; l = +l;
+      g.sort(function(a, b){ return String(a[0].date || "").localeCompare(String(b[0].date || "")) || a[1] - b[1]; });
+      var off = l * 2.39996;   /* golden angle, so rings don't line up */
+      g.forEach(function(x, n){ out.push({e:x[0], i:x[1], l:l, a0:off + n * (Math.PI * 2 / g.length)}); }); });
+    return out;
+  }
+  function orbCap(l){ var r = repNum(), n = RE().filter(function(e){ return +e.lvl === l; }).length;
+    return '<b>' + l + '</b><span>' + esc(REACH[l] || "") + '</span><em>' + (l === r ? (WHO === "zolo" ? 'Zolo' : 'Iō') + ' is here · ' : '') + (n ? n + ' event' + (n === 1 ? '' : 's') : 'no events yet') + '</em>'; }
+  function repOrbit(){
+    var r = repNum(), sats = orbSats(), cx = ORB.cx, cy = ORB.cy, rings = "", grid = "", back = "", front = "";
+    for (var gx = 10; gx < 660; gx += 30) grid += '<path d="M' + gx + ' 0V300"/>';
+    for (var gy = 0; gy < 300; gy += 30) grid += '<path d="M0 ' + gy + 'H660"/>';
+    for (var l = 10; l >= 1; l--){ var rx = orbR(l), n = RE().filter(function(e){ return +e.lvl === l; }).length;
+      rings += '<g class="orl' + (l <= r ? ' lit' : '') + (l === r ? ' cur' : '') + (RF.lvl === l ? ' on' : '') + (n ? '' : ' none') + '" data-orl="' + l + '"' + (n ? ' tabindex="0" role="button" aria-label="Reach ' + l + ': ' + esc(REACH[l]) + ', ' + n + ' events. Filter the feed."' : '') + ' style="--l:' + l + '">' +
+        '<ellipse class="hit" cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + (rx * ORB.k).toFixed(1) + '" transform="rotate(' + ORB.tilt + ' ' + cx + ' ' + cy + ')"/>' +
+        '<ellipse class="ring" pathLength="1" cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + (rx * ORB.k).toFixed(1) + '" transform="rotate(' + ORB.tilt + ' ' + cx + ' ' + cy + ')"/></g>'; }
+    /* ring numbers sit on the right-hand ends of the rings */
+    var nums = ""; for (var m = 1; m <= 10; m++){ var q = orbPt(m, 0); nums += '<text class="orn' + (m <= r ? ' lit' : '') + (m === r ? ' cur' : '') + '" x="' + (q[0] + 7).toFixed(1) + '" y="' + (q[1] + 3.5).toFixed(1) + '">' + m + '</text>'; }
+    sats.forEach(function(s, n){ var k = (s.e.kinds || [])[0] || "ops", P = orbPt(s.l, s.a0);
+      var c = '<circle class="osat rk-' + esc(k) + (s.l >= 7 ? ' big' : '') + '" data-osat="' + s.i + '" data-a="' + s.a0.toFixed(4) + '" data-l="' + s.l + '" cx="' + P[0].toFixed(1) + '" cy="' + P[1].toFixed(1) + '" r="' + (s.l >= 7 ? 5 : 3.4) + '" style="--n:' + n + '"><title>' + esc(s.e.head || s.e.text || "") + '</title></circle>';
+      if (P[2] < 0) back += c; else front += c; });
+    var P0 = (S.repPortraits || []), face = WHO === "io" && P0.length ? P0[P0.length - 1] : null;
+    var core = '<g class="ocore"><circle cx="' + cx + '" cy="' + cy + '" r="27" class="oglow"/>' +
+      (face ? '<clipPath id="ocl"><circle cx="' + cx + '" cy="' + cy + '" r="22"/></clipPath><image href="' + esc(face.img) + '" x="' + (cx - 26) + '" y="' + (cy - 22) + '" width="52" height="52" preserveAspectRatio="xMidYMin slice" clip-path="url(#ocl)"/>' : '<text x="' + cx + '" y="' + (cy + 7) + '" class="oini">' + (WHO === "zolo" ? 'Z' : 'Iō') + '</text>') +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="22" class="orim"/></g>';
+    return '<section class="box orbit' + (orbEnter ? ' pwr' : '') + '"><div class="hb"><span class="sp">Who knows about him</span><span class="gnote">Tap a ring to filter</span></div>' +
+      '<div class="orbwrap"><svg class="orbsvg" viewBox="0 0 660 300" role="group" aria-label="Reach: ten orbit rings, rep events as satellites">' +
+      '<defs><radialGradient id="ogf" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".55" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><mask id="ogm"><rect width="660" height="300" fill="url(#ogf)"/></mask></defs>' +
+      '<g class="ogrid" mask="url(#ogm)">' + grid + '</g>' + rings + '<g class="osats back">' + back + '</g>' + core + '<g class="osats front">' + front + '</g>' + nums + '</svg>' +
+      '<div class="otip" id="otip" hidden></div></div>' +
+      '<p class="orbcap" id="orbcap">' + orbCap(RF.lvl || r) + '</p></section>';
+  }
+  /* slow orbit: satellites drift round their rings (one turn in ~6 minutes); paused while the pointer is over the diagram */
+  function orbSpin(){
+    cancelAnimationFrame(ORB.raf);
+    if (reduce) return;
+    var last = performance.now();
+    (function fr(now){ var svg = document.querySelector(".orbsvg"); if (!svg || tab !== "rep"){ ORB.raf = 0; return; }
+      if (!ORB.hold) ORB.spin += (now - last) / 1000 * (Math.PI * 2 / 360); last = now;
+      var fr0 = svg.querySelector(".osats.front"), bk = svg.querySelector(".osats.back");
+      [].forEach.call(svg.querySelectorAll(".osat"), function(c){ var l = +c.dataset.l, a = +c.dataset.a + ORB.spin * (1.15 - l * .04), P = orbPt(l, a);
+        c.setAttribute("cx", P[0].toFixed(1)); c.setAttribute("cy", P[1].toFixed(1));
+        var want = P[2] < 0 ? bk : fr0; if (c.parentNode !== want) want.appendChild(c); });
+      ORB.raf = requestAnimationFrame(fr); })(last);
+  }
+  function orbMark(){ [].forEach.call(document.querySelectorAll(".orl"), function(g){ g.classList.toggle("on", +g.dataset.orl === RF.lvl); });
+    var cap = document.getElementById("orbcap"); if (cap) cap.innerHTML = orbCap(ORB.hov || RF.lvl || repNum()); }
+  function orbPick(l){ RF.lvl = RF.lvl === l ? 0 : l; repApply(); orbMark(); if (RF.lvl){ var fd = document.getElementById("rfeed"); if (fd && fd.getBoundingClientRect().top > window.innerHeight) fd.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); } }
+  function orbJump(i){ var el = document.querySelector('.rev[data-i="' + i + '"]'); if (!el) return;
+    if (el.hidden){ RF = {kind:"", who:"", lvl:0, q:""}; var qi = document.getElementById("repq"); if (qi) qi.value = ""; repApply(); orbMark(); }
+    el.classList.remove("pwr", "pw-on"); el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"center"}); el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1800); }
+  document.addEventListener("pointerover", function(ev){ if (tab !== "rep") return;
+    var t = ev.target.closest && ev.target.closest(".orbsvg"); ORB.hold = !!t;
+    var sat = ev.target.closest && ev.target.closest(".osat"), tip = document.getElementById("otip");
+    if (sat && tip){ var e = RE()[+sat.dataset.osat]; if (e){ var w = sat.closest(".orbwrap").getBoundingClientRect(), R = sat.getBoundingClientRect();
+      tip.innerHTML = '<b>' + esc(e.head || "") + '</b><em>' + fdate(e.date) + (e.date ? ' · ' : '') + 'REP ' + e.lvl + '</em>'; tip.hidden = false;
+      tip.style.left = Math.max(0, Math.min(w.width - 240, R.left - w.left - 110)) + "px"; tip.style.top = (R.top - w.top + 14) + "px"; } }
+    else if (tip) tip.hidden = true;
+    var g = ev.target.closest && ev.target.closest(".orl:not(.none)"), h = g ? +g.dataset.orl : (sat ? +sat.dataset.l : 0);
+    if (h !== ORB.hov){ ORB.hov = h; [].forEach.call(document.querySelectorAll(".orl"), function(x){ x.classList.toggle("hov", +x.dataset.orl === h); }); var cap = document.getElementById("orbcap"); if (cap) cap.innerHTML = orbCap(h || RF.lvl || repNum()); }
+  });
+  app.addEventListener("click", function(ev){ if (tab !== "rep") return;
+    var sat = ev.target.closest && ev.target.closest(".osat"); if (sat){ orbJump(+sat.dataset.osat); return; }
+    var g = ev.target.closest && ev.target.closest(".orl:not(.none)"); if (g) orbPick(+g.dataset.orl); });
+  app.addEventListener("keydown", function(ev){ if (tab !== "rep" || (ev.key !== "Enter" && ev.key !== " ")) return; var g = ev.target.closest && ev.target.closest(".orl:not(.none)"); if (g){ ev.preventDefault(); orbPick(+g.dataset.orl); } });
+
+  /* Power-on (first open of the Rep tab): each card draws its frame, then its text comes up, with faint vertical scan lines only
+     while it powers on. Cards below the fold power on as they scroll into view. */
+  var orbEnter = true, repEnter = true, repIO = null;
+  function repAfter(){
+    orbMark();
+    orbSpin();
+    if (orbEnter){ orbEnter = false; setTimeout(function(){ var o = document.querySelector(".orbit.pwr"); if (o) o.classList.remove("pwr"); }, 2600); }
+    if (repIO){ repIO.disconnect(); repIO = null; }
+    if (!repEnter || reduce || !("IntersectionObserver" in window)) { repEnter = false; return; }
+    repEnter = false;
+    var cards = [].slice.call(document.querySelectorAll(".rep .rev")); cards.forEach(function(c){ c.classList.add("pwr"); });
+    var q = [], qt = 0;
+    repIO = new IntersectionObserver(function(ents){ ents.forEach(function(en){ if (en.isIntersecting){ repIO.unobserve(en.target); q.push(en.target); } });
+      if (!qt) qt = setTimeout(function(){ q.forEach(function(c, n){ setTimeout(function(){ c.classList.add("pw-on"); setTimeout(function(){ c.classList.remove("pwr", "pw-on"); }, 1100); }, Math.min(n, 8) * 70); }); q = []; qt = 0; }, 30);
+    }, {rootMargin:"0px 0px -6% 0px"});
+    cards.forEach(function(c){ repIO.observe(c); });
+  }
   function repYears(){
     var P = S.repPortraits || [];
     if (!P.length) return "";
     return '<section class="box years"><div class="hb"><span class="sp">Dr. Kōru Singh through the years</span></div><div class="film">' +
       P.map(function(p, i){ return '<figure class="frame' + (i === P.length - 1 ? ' now' : '') + '"><img src="' + esc(p.img) + '" alt="Iō, ' + esc(p.cap) + '" loading="lazy" style="object-position:' + esc(p.pos || "50% 20%") + '"><figcaption>' + esc(p.cap).replace(/^(Circa\s*)/i, '<span>$1</span>') + '</figcaption></figure>'; }).join("") + '</div></section>';
   }
+  /* wear: how old a story is, 0 (newest) to 1 (three years or more), drives the worn-tape look */
+  function repAge(d){ var all = RE().map(function(e){ return String(e.date || ""); }).filter(Boolean).sort(), top = all[all.length - 1];
+    if (!d || !top) return 0; var a = Date.parse(top), b = Date.parse(d); return isNaN(a) || isNaN(b) ? 0 : Math.max(0, Math.min(1, (a - b) / (3 * 365.25 * 864e5))); }
   function evCard(e, i, mode){
     var k = (e.kinds || [])[0] || "ops", kinds = (e.kinds || []).map(function(x){ var d = RKIND[x]; return d ? '<span class="kk k-' + x + '"><i></i>' + d[0] + '</span>' : ''; }).join("");
     var hay = [e.head, e.text, (e.who || []).join(" ")].join(" ").toLowerCase();
-    return '<article class="rev L' + e.lvl + ' rk-' + esc(k) + '" data-i="' + i + '" data-l="' + e.lvl + '" data-k="' + esc((e.kinds || []).join(" ")) + '" data-w="' + esc("|" + (e.who || []).join("|") + "|") + '" data-q="' + esc(hay) + '">' +
+    return '<article class="rev L' + e.lvl + ' rk-' + esc(k) + '" data-i="' + i + '" data-l="' + e.lvl + '" data-k="' + esc((e.kinds || []).join(" ")) + '" data-w="' + esc("|" + (e.who || []).join("|") + "|") + '" data-q="' + esc(hay) + '" style="--age:' + repAge(e.date).toFixed(2) + '">' +
       (mode === "time" ? '<div class="rgut"><time datetime="' + esc(e.date) + '">' + fdate(e.date) + '</time>' + lvt(e.lvl) + '<span class="rt">' + esc(RTIER[e.lvl] || "") + '</span></div><span class="rdot" aria-hidden="true"></span>' : '') +
-      '<div class="rcard">' +
+      '<div class="rcard"><i class="pwsl" aria-hidden="true"></i>' +
         '<div class="rkick">' + (e.lvl >= 7 ? '<span class="fp">Front page</span>' : '') + kinds + (mode === "time" ? '' : '<span class="sp"></span>' + sig(e.lvl) + '<b class="rl">' + e.lvl + '</b>') + '</div>' +
         '<h3>' + esc(e.head || "") + '</h3>' +
         '<p>' + esc(e.text || "") + '</p>' +
@@ -4108,7 +4278,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     }).join("") + '</section>';
   }
   function repPage(){
-    var hero = '<div class="rephero">' + repDial() + repLadder() + repYears() + '</div>';
+    var hero = '<div class="rephero">' + repDial() + repOrbit() + repYears() + '</div>';
     if (editing) return '<main class="rep">' + hero + repEdit() + '</main>';
     var bar = '<div class="rbar"><div class="seg"><button type="button" class="' + (repView === "time" ? 'on' : '') + '" data-repview="time">Timeline</button><button type="button" class="' + (repView === "reach" ? 'on' : '') + '" data-repview="reach">By reach</button></div>' +
       '<span class="rshown" id="rshown"></span><button type="button" class="rclear" id="rclear" hidden>Clear filters</button></div>';
@@ -4124,7 +4294,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<div class="zrl"><b class="dec">' + l + '</b><span>' + esc(RTIER[l] || "") + '</span></div>' +
         '<div class="zrt"><p>' + esc(e.text || "") + '</p><small>' + esc(REACH[l] || "") + '</small></div></article>'; }).join("");
     var fig = '<figure class="zrfig" aria-hidden="true"><img src="img/zolo/hip-mask.webp" alt=""></figure>';
-    return '<main class="rep zrep">' + '<div class="rephero">' + repDial() + repLadder() + fig + '</div>' +
+    return '<main class="rep zrep">' + '<div class="rephero">' + repDial() + repOrbit() + fig + '</div>' +
       '<h2 class="sec-title"><span class="glx">Rep events</span><span class="rshown" id="rshown"></span><button type="button" class="rclear" id="rclear" hidden>Clear filter</button></h2>' +
       '<div class="zrboard">' + (cards || '<p class="zhint">No rep events on file.</p>') + '</div><p class="rnone" id="rnone" hidden>Nothing at that level.</p></main>';
   }
@@ -4141,6 +4311,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     [].forEach.call(root.querySelectorAll(".wrow"), function(b){ b.classList.toggle("on", b.dataset.repwho === RF.who); });
     [].forEach.call(root.querySelectorAll(".wchip"), function(b){ b.classList.toggle("on", b.dataset.repwho === RF.who); });
     [].forEach.call(root.querySelectorAll(".lrow"), function(b){ b.classList.toggle("on", +b.dataset.replvl === RF.lvl); });
+    [].forEach.call(root.querySelectorAll(".orl"), function(g){ g.classList.toggle("on", +g.dataset.orl === RF.lvl); });
     var any = RF.kind || RF.who || RF.lvl || q, s = document.getElementById("rshown"), c = document.getElementById("rclear"), n = document.getElementById("rnone");
     if (s) s.textContent = any ? shown + " of " + total + " events" : total + " events";
     if (c) c.hidden = !any; if (n) n.hidden = shown > 0;
@@ -4153,7 +4324,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.repwho){ RF.who = RF.who === b.dataset.repwho ? "" : b.dataset.repwho; repApply(); return; }
     if (b.dataset.replvl){ var l = +b.dataset.replvl; RF.lvl = RF.lvl === l ? 0 : l; repApply(); if (RF.lvl){ var fd = document.getElementById("rfeed"); if (fd && fd.getBoundingClientRect().top > window.innerHeight) fd.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); } return; }
     if (b.id === "wmore"){ var rw = b.closest(".rwho"); rw.classList.toggle("open"); b.textContent = rw.classList.contains("open") ? "Show fewer" : "Show all " + whoCounts().length; return; }
-    if (b.id === "rclear"){ RF = {kind:"", who:"", lvl:0, q:""}; var qi = document.getElementById("repq"); if (qi) qi.value = ""; repApply(); return; }
+    if (b.id === "rclear"){ RF = {kind:"", who:"", lvl:0, q:""}; var qi = document.getElementById("repq"); if (qi) qi.value = ""; repApply(); orbMark(); return; }
   });
   app.addEventListener("input", function(ev){ if (tab === "rep" && ev.target.id === "repq"){ RF.q = ev.target.value; repApply(); } });
 
@@ -5714,7 +5885,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     app.innerHTML = header() + body + (tab === "dossier" && WHO === "io" ? '<p class="credit">Martial arts icons by Lorc, Delapouite and Caro Asercion from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, used under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p>' : '');
     if (tab === "ware"){ wireUp(); loadRMap(); }
     if (tab === "fans") fansAfter();
-    if (tab === "rep" && !editing) repApply();
+    if (tab === "rep" && !editing){ repApply(); repAfter(); }
     if (tab === "vehicles" && gZone && !editing) setZone(gZone, false);
     advAfter();
     cfAfter();
@@ -6113,7 +6284,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; if (tab === "dossier") dzEnter = true; if (tab === "casefile") cfEnter = true; if (tab === "rep"){ repEnter = true; orbEnter = true; } if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
@@ -6143,7 +6314,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel) bf.style.setProperty("--sk", "url(" + XLSRC(F2) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
-    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; dzEnter = true; repEnter = true; orbEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
