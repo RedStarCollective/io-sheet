@@ -6863,24 +6863,8 @@
              ],
              "ref": "skillchip,skillchipup",
              "setup": "Drive Land · Pilot Air Vehicle · Heavy Weapons."
-            },
-            {
-             "name": "Chip Vault",
-             "kind": "chip",
-             "tags": [],
-             "ref": "",
-             "setup": "Segotari Mindgames, Chemical Analyzer."
             }
            ]
-          },
-          {
-           "name": "Kaliarov",
-           "kind": "bio",
-           "tags": [
-            "BIOWARE"
-           ],
-           "ref": "",
-           "setup": "A user may reallocate their Combat Awareness points in Combat, once, without an action."
           },
           {
            "name": "Neurochemical Memory Receptors",
@@ -8952,6 +8936,10 @@
    "signal jammer": {
     "text": "Cyberaudio Option. The user projects a wide spectrum frequency field over 6m/yd by 6 m/yd (3 square by 3 square) area, centered on them. Anyone in the field, including the user, who attempts to transmit or receive a wireless signal must take an Action and succeed at a DV13 Electronics/Security Tech Check to prevent it from being lost in the noise. The Signal Jammer can be activated/deactivated without an Action.",
     "src": "Mixing Drinks—Changing Lives (DLC)"
+   },
+   "concussion grenade": {
+    "text": "Concussion Ammunition, available for all ammo types. When using this ammunition, you deal no damage with your Attack. Anyone hit by your Attack must make a DV 15 Athletics Skill Check, or they are knocked prone.",
+    "src": "Bigger Booms (RUSH) · 50eb"
    }
   },
   "containers": {
