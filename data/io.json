@@ -3166,6 +3166,36 @@
    ],
    "date": "2048-08-04",
    "link": "https://discord.com/channels/1061931924010045522/1532994217889103973/1534086338087751831"
+  },
+  {
+   "lvl": 3,
+   "head": "Tyger Claws Arms Deal Broken Up at Kira's Bar",
+   "text": "Cleared Kira's bar in an Arasaka underground network of Iron Sights and Tyger Claws, breaking up their arms deal. The Claws know the faces of the crew who stopped it, but not their names.",
+   "kinds": [
+    "ops"
+   ],
+   "who": [
+    "Tyger Claws",
+    "Iron Sights",
+    "Arasaka"
+   ],
+   "date": "2048-09-05",
+   "link": "https://discord.com/channels/1061931924010045522/1545547213466374186/1545660571486003250"
+  },
+  {
+   "lvl": 4,
+   "head": "Sword and Sheath Holds Against the Inquisitors",
+   "text": "Held the Sword and Sheath, the University District's ELO-themed strip club and tavern, against a multi-wave Inquisitor attack on Elf Night. Not a single civilian was lost and not one explosive damaged the building.",
+   "kinds": [
+    "shield"
+   ],
+   "who": [
+    "Inquisitors",
+    "University District",
+    "Elfsculpts"
+   ],
+   "date": "2048-09-08",
+   "link": "https://discord.com/channels/1061931924010045522/1539682886377017485/1546688798564421693"
   }
  ],
  "repPortraits": [
