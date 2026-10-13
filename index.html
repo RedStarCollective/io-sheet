@@ -2913,6 +2913,42 @@ body.zolo .dossier .stat b{font-family:var(--f-witch);letter-spacing:.14em}
 body.zolo .nanox .nzuses .pips{gap:5px;padding:0 3px}
 body.zolo .nanox .nzuses .pips i{width:8px;height:8px;transform:rotate(45deg)}
 body.zolo .nanox.on .nzuses .pips i.on{box-shadow:0 0 8px var(--nano)}
+/* ---- Zolo's Loadout, Witcher-style (Oak, Oct 13): potions instead of vials, bombs and leather pouches on the belt ---- */
+/* potions: the glass is masked into a bottle shape per rack (pharmaceuticals = round flask, street drugs = shouldered bottle,
+   neurochems and poisons = a diamond decoction); the liquid fills the same shape. Corks with a wax seal in the rack colour. */
+body.zolo .mtubes{gap:14px 6px}
+body.zolo .tb-cap{width:12px;height:11px;border-radius:2px 2px 1px 1px;background:linear-gradient(90deg,#5c4630,#a8835a 45%,#6b5136);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25);position:relative;z-index:2}
+body.zolo .tb-cap::after{content:"";position:absolute;left:-3px;right:-3px;bottom:-4px;height:5px;border-radius:2px 2px 4px 4px;background:var(--vc);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 1px 2px rgba(0,0,0,.5)}
+body.zolo .tb-glass{width:40px;height:60px;margin-top:-2px;border:0;border-radius:0;background:radial-gradient(circle at 35% 65%,rgba(255,255,255,.08),rgba(255,255,255,.02) 60%),rgba(10,14,18,.35);box-shadow:none;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M14.5 1h11v18.6a18 18 0 1 1-11 0z%27 fill=%27black%27/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M14.5 1h11v18.6a18 18 0 1 1-11 0z%27 fill=%27black%27/%3E%3C/svg%3E") center/100% 100% no-repeat}
+body.zolo .tb-glass::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M14.5 1h11v18.6a18 18 0 1 1-11 0z%27 fill=%27none%27 stroke=%27rgba%28225%2C235%2C240%2C.42%29%27 stroke-width=%272.4%27/%3E%3C/svg%3E") center/100% 100% no-repeat}
+body.zolo .tb-glass::after{left:9px;top:30px;bottom:auto;width:3px;height:14px;transform:rotate(18deg);background:rgba(255,255,255,.28);z-index:4}
+body.zolo .mrack.g-street .tb-glass{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M15 1h10v11l9 9q2 2 2 5v28q0 5-5 5H9q-5 0-5-5V26q0-3 2-5l9-9z%27 fill=%27black%27/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M15 1h10v11l9 9q2 2 2 5v28q0 5-5 5H9q-5 0-5-5V26q0-3 2-5l9-9z%27 fill=%27black%27/%3E%3C/svg%3E")}
+body.zolo .mrack.g-street .tb-glass::before{background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M15 1h10v11l9 9q2 2 2 5v28q0 5-5 5H9q-5 0-5-5V26q0-3 2-5l9-9z%27 fill=%27none%27 stroke=%27rgba%28225%2C235%2C240%2C.42%29%27 stroke-width=%272.4%27/%3E%3C/svg%3E")}
+body.zolo .mrack.g-street .tb-glass::after{left:8px;top:24px;height:22px;transform:none}
+body.zolo .mrack:is(.g-neuro,.g-poison) .tb-glass{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M16 1h8v10l12 21-12 27h-8L4 32l12-21z%27 fill=%27black%27/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M16 1h8v10l12 21-12 27h-8L4 32l12-21z%27 fill=%27black%27/%3E%3C/svg%3E")}
+body.zolo .mrack:is(.g-neuro,.g-poison) .tb-glass::before{background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 60%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M16 1h8v10l12 21-12 27h-8L4 32l12-21z%27 fill=%27none%27 stroke=%27rgba%28225%2C235%2C240%2C.42%29%27 stroke-width=%272.4%27/%3E%3C/svg%3E")}
+body.zolo .mrack:is(.g-neuro,.g-poison) .tb-glass::after{left:12px;top:22px;height:14px;transform:rotate(-30deg)}
+body.zolo .tube.tb-out .tb-glass{background:rgba(0,0,0,.45)}
+body.zolo .tube.tb-out .tb-cap::after{filter:grayscale(1) brightness(.5)}
+/* the belt: grenades become round bombs (iron-banded clay pots, cloth-wrapped neck, a lit wick); bolas, stars and weights ride in leather pouches */
+body.zolo .bcan,body.zolo .bghost{left:6px;top:4px;height:50px;border-radius:7px 7px 13px 13px}
+body.zolo .bcan{background:linear-gradient(180deg,#4b3a2b,#2b2119 60%,#1e1712);border:1px solid #5d4734;box-shadow:inset 0 -6px 10px rgba(0,0,0,.45),0 0 10px -4px var(--tc,#b58f52)}
+body.zolo .bcan::before{top:-1px;left:-1px;right:-1px;width:auto;transform:none;height:17px;border-radius:7px 7px 50% 50%/7px 7px 9px 9px;background:linear-gradient(180deg,#5a4633,#3a2d21);border-bottom:1px dashed rgba(217,190,140,.35);box-shadow:0 2px 3px rgba(0,0,0,.5)}
+body.zolo .bcan::after{left:50%;right:auto;top:12px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f0d9a0,#8a6a32);box-shadow:none;z-index:3}
+body.zolo .bcan svg{margin-top:14px;width:22px;height:22px}
+body.zolo .bghost{background:#241b14;border-color:#3a2d21}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) :is(.bcan,.bghost){top:13px;left:3px;width:42px;height:42px;border-radius:50%}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcan{background:radial-gradient(circle at 34% 30%,color-mix(in srgb,var(--tc) 30%,#5a5148),#221d19 62%,#0e0c0a);border:1px solid color-mix(in srgb,var(--tc) 35%,#3b342d);box-shadow:inset 0 -5px 8px rgba(0,0,0,.55),0 0 12px -3px var(--tc)}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcan::before{top:-15px;left:50%;right:auto;width:18px;height:20px;margin-left:-9px;border:0;border-radius:0;box-shadow:none;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 18%27%3E%3Cpath d=%27M9 6c1-3 4-3 5-5%27 fill=%27none%27 stroke=%27%23cdbb93%27 stroke-width=%271.1%27 stroke-linecap=%27round%27/%3E%3Ccircle cx=%2714.2%27 cy=%271.3%27 r=%271.1%27 fill=%27%23ffb347%27/%3E%3Crect x=%273%27 y=%275%27 width=%2710%27 height=%2713%27 rx=%271.5%27 fill=%27%23bfae8a%27/%3E%3Cpath d=%27M3 9h10M3 13h10%27 stroke=%27%236b5a3e%27 stroke-width=%271.2%27/%3E%3Cpath d=%27M3 7.5l10 3M3 11.5l10 3%27 stroke=%27%238a7752%27 stroke-width=%27.6%27/%3E%3C/svg%3E") center/100% 100% no-repeat}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcan::after{left:-1px;right:-1px;top:50%;width:auto;height:3px;margin:-1px 0 0;border-radius:0;background:linear-gradient(90deg,transparent,rgba(160,150,140,.55) 15% 85%,transparent);box-shadow:0 -11px 0 -1px rgba(160,150,140,.0);z-index:1}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcan svg{margin-top:0;width:24px;height:24px;position:relative;z-index:2}
+body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcnt{top:38px}
+body.zolo .bando .slot.empty .bcan{background:transparent;border:1.5px dashed rgba(181,143,82,.35);box-shadow:none}
+@media (prefers-reduced-motion:no-preference){
+  body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire):not(.empty) .bcan::before{animation:zwick 1.4s steps(2) infinite}
+  @keyframes zwick{50%{filter:brightness(1.35) drop-shadow(0 0 2px #ffb347)}}
+}
 /* persona switch (header) */
 .whosw{display:inline-flex;border:1px solid var(--frame);background:rgba(0,0,0,.35)}
 .whosw button{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--ink-3);font:700 12px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px 7px;cursor:pointer}
