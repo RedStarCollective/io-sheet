@@ -1965,16 +1965,24 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .nanox .prsw[aria-pressed="true"]{color:var(--nano);border-color:var(--nano-d)}
 .nanox .prsw[aria-pressed="true"] i::after{background:var(--nano)}
 .nzctl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.wacol{display:flex;flex-direction:column;gap:12px;min-width:0}
-.nanox .hb{gap:8px}
-.nanox .nzsub{font:600 10px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
-.nanox .hb .prstate{margin-left:auto}
-.nzin{padding:10px 12px 11px;display:flex;flex-direction:column;gap:10px}
-.nanox .prsw{align-self:auto}
-.nzrules{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font:700 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
-.nzrules .chev{font-size:8px;color:var(--nano);transition:transform .2s}
+.wacol{display:flex;flex-direction:column;gap:12px;min-width:0;align-self:stretch}
+.wacol > .nanox{flex:1}   /* ends exactly where The Arm ends */
+.nanox .hb{gap:10px}
+.nanox .hb .nzuses{margin-left:auto}
+.nanox .nzuses .pips i{width:7px;height:11px}
+.nanox .nzuses b{font-size:14px}.nanox .nzuses em{font-size:11px}
+.nzin{padding:8px 10px 9px;display:flex;flex-direction:column;gap:8px}
+.nanox .nzctl{gap:6px;flex-wrap:nowrap}
+.nanox .prsw{align-self:auto;padding:5px 8px;gap:8px;font-size:12px}
+.nanox .prsw i{width:26px;height:12px}.nanox .prsw i::after{width:8px;height:6px}.nanox .prsw[aria-pressed="true"] i::after{left:14px}
+.nanox .nzb{padding:6px 8px;font-size:11px}
+.nanox .nzfx{gap:3px 11px}
+.nanox .nzr{gap:4px;font-size:9.5px;letter-spacing:.12em}
+.nanox .nzr b{font-size:13.5px}
+.nzrules{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font:700 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.nzrules .chev{font-size:7px;color:var(--nano);transition:transform .2s}
 .nzrules[aria-expanded="true"] .chev{transform:rotate(90deg)}
-.nzrules:hover{color:var(--ink-2)}
+.nzrules:hover{color:var(--ink)}
 .nanox.on{box-shadow:0 0 0 1px rgba(143,216,239,.3),0 0 22px rgba(143,216,239,.08)}
 .nzuses{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-num);color:var(--ink-3)}
 .nzuses .lab{font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase}
@@ -3318,18 +3326,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var arm0 = Math.max.apply(null, (S.armor || []).map(function(r){ return +r.sp || 0; }).concat([0]));
     var pips = ''; for (var i = 0; i < st.max; i++) pips += '<i class="' + (i < st.uses ? 'on' : '') + '"></i>';
     var fx = function(k, a, z){ return '<span class="nzr"><span>' + k + '</span><b>' + esc(a) + '</b><span class="arr">→</span><b class="to">' + esc(z) + '</b></span>'; };
-    return '<section class="box nanox' + (on ? ' on' : '') + '"><div class="hb"><span class="sp">Nanomatrix</span><span class="nzsub">Armstrong</span>' +
-        '<span class="prstate' + (on ? ' on nz' : '') + '">' + (on ? 'Active' : 'Dormant') + '</span></div>' +
+    /* kept short so, with the rules folded, Weapon + this box end where The Arm ends (Oak, Oct 13) */
+    return '<section class="box nanox' + (on ? ' on' : '') + '"><div class="hb"><span class="sp">Nanomatrix</span>' +
+        '<span class="nzuses" title="' + (st.uses ? 'Uses left before the nanites need 24 hours to regenerate' : 'No uses left: the nanites need 24 hours to regenerate') + '"><span class="pips">' + pips + '</span><b>' + st.uses + '</b><em>/' + st.max + '</em></span>' +
+        '<button type="button" class="nzrules" data-tog="nano" aria-expanded="' + rOpen + '" title="Rules"><span class="chev">▶</span>Rules</button></div>' +
       '<div class="nzin">' +
-      '<div class="nzctl"><button type="button" class="prsw" id="nanosw" aria-pressed="' + on + '"' + (lock || (!on && !st.uses) ? ' disabled' : '') + '><i></i>' + (on ? 'Active' : 'Dormant') + '</button>' +
-        '<span class="nzuses" title="Uses left before the nanites need 24 hours to regenerate"><span class="lab">Uses</span><span class="pips">' + pips + '</span><b>' + st.uses + '</b><em>/ ' + st.max + '</em></span></div>' +
-      (lock ? '' : (on || st.uses < st.max ? '<div class="nzbtns">' +
-        (on ? '<button type="button" class="nzb" data-nano="again"' + (st.uses ? '' : ' disabled') + ' title="Spend a use: 5 more minutes and +' + d + ' HP">Re-activate · +' + d + ' HP</button>' : '') +
-        (st.uses < st.max ? '<button type="button" class="nzb q" data-nano="regen" title="24 hours have passed: all uses are back">Nanites regenerated</button>' : '') + '</div>' : '')) +
-      (!on && !st.uses ? '<p class="prule">No uses left. The nanites need 24 hours to regenerate.</p>' : '') +
-      '<div class="nzfx">' + fx("BODY", b, nb) + fx("Max HP", S.hp[1], (+S.hp[1] || 0) + d) + fx("Death Save", S.deathSave, (+S.deathSave || 0) + nb - b) + fx("SP", arm0, Math.max(arm0, NANO_PLATE)) + fx("Martial Arts", maDice(b), maDice(nb)) + '</div>' +
-      '<button type="button" class="nzrules" data-tog="nano" aria-expanded="' + rOpen + '"><span class="chev">▶</span>Rules</button>' +
-      (rOpen ? '<p class="prule"><b>Borgware.</b> Activate at any time without an Action, even after being hit but before damage. BODY +3 (max 11) for 5 minutes, affecting HP and Death Saves; gain the HP difference at once. While active, spend another use to refresh the 5 minutes and heal that difference again. When it ends, HP above your normal max drops to it. <b>Dermal Plating:</b> head and body armored at SP13 while active, no Armor Penalty. Uses return after 24 hours. <b>Chromed Up · RUSH</b></p>' : '') +
+      '<div class="nzctl"><button type="button" class="prsw" id="nanosw" aria-pressed="' + on + '"' + (lock || (!on && !st.uses) ? ' disabled' : '') + ' title="' + (!on && !st.uses ? 'No uses left: the nanites need 24 hours to regenerate' : on ? 'Turn the Nanomatrix off' : 'Activate: spends a use, +' + d + ' HP') + '"><i></i>' + (on ? 'Active' : !st.uses ? 'Spent' : 'Dormant') + '</button>' +
+        (lock ? '' : (on ? '<button type="button" class="nzb" data-nano="again"' + (st.uses ? '' : ' disabled') + ' title="Re-activate: spend a use for 5 more minutes and +' + d + ' HP">↻ +' + d + ' HP</button>' : '') +
+          (st.uses < st.max ? '<button type="button" class="nzb q" data-nano="regen" title="Nanites regenerated: 24 hours have passed, all uses are back">24h ↺</button>' : '')) + '</div>' +
+      '<div class="nzfx">' + fx("BODY", b, nb) + fx("HP", S.hp[1], (+S.hp[1] || 0) + d) + fx("Death", S.deathSave, (+S.deathSave || 0) + nb - b) + fx("SP", arm0, Math.max(arm0, NANO_PLATE)) + fx("MA", maDice(b), maDice(nb)) + '</div>' +
+      (rOpen ? '<p class="prule"><b>Borgware.</b> Activate at any time without an Action, even after being hit but before damage. BODY +3 (max 11) for 5 minutes, affecting HP and Death Saves; gain the HP difference at once. While active, spend another use to refresh the 5 minutes and heal that difference again. When it ends, HP above your normal max drops to it. <b>Dermal Plating:</b> head and body armored at SP13 while active, no Armor Penalty. Uses return after 24 hours. <b>Armstrong · Chromed Up · RUSH</b></p>' : '') +
     '</div></section>';
   }
   var nanoHpDirty = false;
