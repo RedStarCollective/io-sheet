@@ -1965,6 +1965,17 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .nanox .prsw[aria-pressed="true"]{color:var(--nano);border-color:var(--nano-d)}
 .nanox .prsw[aria-pressed="true"] i::after{background:var(--nano)}
 .nzctl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.wacol{display:flex;flex-direction:column;gap:12px;min-width:0}
+.nanox .hb{gap:8px}
+.nanox .nzsub{font:600 10px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.nanox .hb .prstate{margin-left:auto}
+.nzin{padding:10px 12px 11px;display:flex;flex-direction:column;gap:10px}
+.nanox .prsw{align-self:auto}
+.nzrules{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font:700 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.nzrules .chev{font-size:8px;color:var(--nano);transition:transform .2s}
+.nzrules[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.nzrules:hover{color:var(--ink-2)}
+.nanox.on{box-shadow:0 0 0 1px rgba(143,216,239,.3),0 0 22px rgba(143,216,239,.08)}
 .nzuses{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-num);color:var(--ink-3)}
 .nzuses .lab{font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase}
 .nzuses .pips{display:inline-flex;gap:3px}
@@ -1972,7 +1983,7 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .nzuses .pips i.on{background:var(--nano);box-shadow:0 0 6px var(--nano-d)}
 .nzuses b{font-size:18px;color:var(--ink)}.nzuses em{font-style:normal;font-size:13px}
 .nzbtns{display:flex;flex-wrap:wrap;gap:6px}
-.nzb{background:rgba(143,216,239,.08);border:1px solid var(--nano-d);color:var(--nano);font:600 12px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
+.nzb{background:rgba(143,216,239,.08);border:1px solid var(--nano-d);color:var(--nano);font:600 11px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;cursor:pointer;white-space:nowrap}
 .nzb.q{background:none;border-color:var(--line);color:var(--ink-3)}
 .nzb:hover:not(:disabled){border-color:var(--nano);color:#fff}
 .nzb:disabled{opacity:.4;cursor:default}
@@ -3301,23 +3312,24 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function maDice(b){ return b <= 4 ? "1d6" : b <= 6 ? "2d6" : b <= 10 ? "3d6" : "4d6"; }
   function nzv(v, t){ return '<span class="dec nzv" title="' + esc(t) + '">' + esc(v) + '</span>'; }
   var NANO_PLATE = 13;
+  /* lives under the Weapon box in Weapons & Armor (Oak, Oct 13): the switch, uses and effects always show; the rules fold away */
   function nanoBox(){
-    var st = nanoSt(), on = st.on, isOpen = !!open.nano, lock = readOnly, b = statV("BODY"), nb = bodyFx(b), d = nanoDiff();
+    var st = nanoSt(), on = st.on, rOpen = !!open.nano, lock = readOnly, b = statV("BODY"), nb = bodyFx(b), d = nanoDiff();
     var arm0 = Math.max.apply(null, (S.armor || []).map(function(r){ return +r.sp || 0; }).concat([0]));
     var pips = ''; for (var i = 0; i < st.max; i++) pips += '<i class="' + (i < st.uses ? 'on' : '') + '"></i>';
-    var head = '<div class="hb"><button class="prtog" data-tog="nano" aria-expanded="' + isOpen + '"><span class="chev">▶</span><span class="prl">Nanomatrix</span>' +
-      '<span class="prstate' + (on ? ' on nz' : '') + '" title="' + (on ? 'Active' : 'Dormant') + '"><i class="lg">' + (on ? 'Active' : 'Dormant') + '</i><i class="sm">' + (on ? 'On' : 'Off') + '</i></span></button></div>';
-    if (!isOpen) return '<section class="box pract nanox' + (on ? ' on' : '') + '">' + head + '</section>';
     var fx = function(k, a, z){ return '<span class="nzr"><span>' + k + '</span><b>' + esc(a) + '</b><span class="arr">→</span><b class="to">' + esc(z) + '</b></span>'; };
-    return '<section class="box pract nanox' + (on ? ' on' : '') + '">' + head + '<div class="prbody">' +
+    return '<section class="box nanox' + (on ? ' on' : '') + '"><div class="hb"><span class="sp">Nanomatrix</span><span class="nzsub">Armstrong</span>' +
+        '<span class="prstate' + (on ? ' on nz' : '') + '">' + (on ? 'Active' : 'Dormant') + '</span></div>' +
+      '<div class="nzin">' +
       '<div class="nzctl"><button type="button" class="prsw" id="nanosw" aria-pressed="' + on + '"' + (lock || (!on && !st.uses) ? ' disabled' : '') + '><i></i>' + (on ? 'Active' : 'Dormant') + '</button>' +
         '<span class="nzuses" title="Uses left before the nanites need 24 hours to regenerate"><span class="lab">Uses</span><span class="pips">' + pips + '</span><b>' + st.uses + '</b><em>/ ' + st.max + '</em></span></div>' +
-      (lock ? '' : '<div class="nzbtns">' +
+      (lock ? '' : (on || st.uses < st.max ? '<div class="nzbtns">' +
         (on ? '<button type="button" class="nzb" data-nano="again"' + (st.uses ? '' : ' disabled') + ' title="Spend a use: 5 more minutes and +' + d + ' HP">Re-activate · +' + d + ' HP</button>' : '') +
-        (st.uses < st.max ? '<button type="button" class="nzb q" data-nano="regen" title="24 hours have passed: all uses are back">Nanites regenerated</button>' : '') + '</div>') +
+        (st.uses < st.max ? '<button type="button" class="nzb q" data-nano="regen" title="24 hours have passed: all uses are back">Nanites regenerated</button>' : '') + '</div>' : '')) +
       (!on && !st.uses ? '<p class="prule">No uses left. The nanites need 24 hours to regenerate.</p>' : '') +
       '<div class="nzfx">' + fx("BODY", b, nb) + fx("Max HP", S.hp[1], (+S.hp[1] || 0) + d) + fx("Death Save", S.deathSave, (+S.deathSave || 0) + nb - b) + fx("SP", arm0, Math.max(arm0, NANO_PLATE)) + fx("Martial Arts", maDice(b), maDice(nb)) + '</div>' +
-      '<p class="prule"><b>Borgware.</b> Activate at any time without an Action, even after being hit but before damage. BODY +3 (max 11) for 5 minutes, affecting HP and Death Saves; gain the HP difference at once. While active, spend another use to refresh the 5 minutes and heal that difference again. When it ends, HP above your normal max drops to it. <b>Dermal Plating:</b> head and body armored at SP13 while active, no Armor Penalty. Uses return after 24 hours. <b>Chromed Up · RUSH</b></p>' +
+      '<button type="button" class="nzrules" data-tog="nano" aria-expanded="' + rOpen + '"><span class="chev">▶</span>Rules</button>' +
+      (rOpen ? '<p class="prule"><b>Borgware.</b> Activate at any time without an Action, even after being hit but before damage. BODY +3 (max 11) for 5 minutes, affecting HP and Death Saves; gain the HP difference at once. While active, spend another use to refresh the 5 minutes and heal that difference again. When it ends, HP above your normal max drops to it. <b>Dermal Plating:</b> head and body armored at SP13 while active, no Armor Penalty. Uses return after 24 hours. <b>Chromed Up · RUSH</b></p>' : '') +
     '</div></section>';
   }
   var nanoHpDirty = false;
@@ -3425,7 +3437,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? '<div class="zpr">' + trainingBox() + nyoziBox() + nanoBox() + '</div>' + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -3598,7 +3610,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         return '<tr class="' + (r.ind ? 'ind ' : '') + (r.tone && r.tone !== "med" ? 'row-' + esc(r.tone) : '') + '"><td class="name">' + name + '</td><td class="n dmg">' + (wDef(r, "dmg") || f(p+".dmg",{dash:1})) + '</td><td class="n">' + f(p+".ammo",{num:1,dash:1}) + '</td><td class="n">' + (wDef(r, "rof") || f(p+".rof",{num:1,dash:1})) + '</td></tr>' + ld; }).join("") +
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
     /* the tea-drinking glitch portrait was removed (Oak, Oct 12) so the three boxes get its width; img/io-glitch.webp stays on disk */
-    return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + weapons + cyber + '</div>';
+    var nzb = !editing && nanoHas() ? nanoBox() : '';
+    return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + (nzb ? '<div class="wacol">' + weapons + nzb + '</div>' : weapons) + cyber + '</div>';
   }
 
   function pharma(){
@@ -4535,7 +4548,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var M = app.querySelector("main"); if (!M) return [];
     if (t === "dossier") return [
       {sel:".portrait.iop .iopw, .portrait.zfull img", kind:"fig"}, {sel:".zrun", kind:"holo"},
-      {sel:".idcol > .box, .stat, .skcol > .box, .skcol > .tarea, .vit .box, .wa > .box, .lo2 .box", kind:"box", step:45},
+      {sel:".idcol > .box, .stat, .skcol > .box, .skcol > .tarea, .vit .box, .wa > .box, .wa > .wacol > .box, .lo2 .box", kind:"box", step:45},
       {sel:".sec-title", kind:"line"}];
     if (t === "ware"){ var b = M.classList.contains("wboot") ? 950 : 0;
       return [{sel:".znav .zbtns, .znav .zitem", kind:"box", base:b, step:40}, {sel:".zpanel", kind:"box", base:b + 250}, {sel:".ring .side > .box, .ring .side > *", kind:"box", base:b + 250, step:50}]; }
