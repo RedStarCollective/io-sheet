@@ -2965,6 +2965,19 @@ body.zolo .bando .slot.empty .bcan{background:transparent;border:1.5px dashed rg
   body.zolo .pw-fig.pw-go{animation:pwFigWipe 1.05s cubic-bezier(.3,.6,.25,1) both,pwFigLitZ 1.3s ease-out both}
   @keyframes pwFigLitZ{0%{filter:grayscale(1) brightness(1.9) contrast(1.15)}55%{filter:grayscale(.7) brightness(1.35)}62%{opacity:.6}68%{opacity:1}100%{opacity:1}}
 }
+/* hologram projection (zHolo): the projector beam, and each panel's arrival behind it */
+.zhbeam{position:fixed;top:0;bottom:0;left:0;width:0;z-index:70;pointer-events:none;will-change:transform}
+.zhbeam i{position:absolute;top:0;bottom:0}
+.zh-core{left:-1px;width:2px;background:linear-gradient(180deg,rgba(220,248,255,0),#f2fcff 12%,#ffffff 50%,#f2fcff 88%,rgba(220,248,255,0));box-shadow:0 0 10px #bff1ff,0 0 26px rgba(108,198,230,.85),0 0 60px rgba(108,198,230,.45)}
+.zh-lead{left:0;width:46px;background:linear-gradient(90deg,rgba(143,227,255,.22),transparent)}
+.zh-wake{right:0;width:180px;background:repeating-linear-gradient(90deg,rgba(170,232,255,.22) 0 1px,transparent 1px 4px),linear-gradient(90deg,transparent,rgba(108,198,230,.16));-webkit-mask:linear-gradient(90deg,transparent,#000);mask:linear-gradient(90deg,transparent,#000)}
+.zhbeam.out{opacity:0;transition:opacity .35s}
+.zh-pend{opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .zh-in{animation:zhIn .85s ease-out}
+  body.zolo .box.zh-in,body.zolo .stat.zh-in{background-image:repeating-linear-gradient(90deg,rgba(143,227,255,.10) 0 1px,transparent 1px 3px)!important}
+  @keyframes zhIn{0%{opacity:.5;filter:brightness(1.7) saturate(.4) drop-shadow(0 0 6px rgba(143,227,255,.7))}18%{opacity:.95}26%{opacity:.55}34%{opacity:1;filter:brightness(1.25) saturate(.7)}60%{opacity:.85}100%{opacity:1;filter:none}}
+}
 /* decrypting numbers (zDecrypt): ice-blue while scrambling, a white flash as each one locks */
 .zdec-s{color:#8fe3ff!important;text-shadow:0 0 8px rgba(108,198,230,.7);display:inline-block;text-align:center;overflow:visible;white-space:nowrap}
 .zdec-l{animation:zdecLock .5s ease-out}
@@ -4731,6 +4744,38 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
      zGlint: every few seconds light catches the edge of one panel.
      The dash afterimage is CSS only (.zdash keyframes). All of it is off with reduced motion, and Zolo only.
      (Tried and removed, Oak Oct 13: the iaido-draw entrance, the sheath scroll bar, vertical kanji seals.) */
+  /* Zolo's Dossier entrance: hologram projection (Oak, Oct 13; after Ghost in the Shell's "solograms").
+     One tall projector beam sweeps the screen left to right. Every panel is hidden until the beam reaches it, then is
+     projected in behind it (a clip that follows the beam), arriving with fine vertical scan lines and a flicker that settles.
+     The silver power-on (V209) is kept in CSS but not used for Zolo while this runs. */
+  var zhT = 0;
+  function zHolo(){
+    cancelAnimationFrame(zhT); var old = document.querySelector(".zhbeam"); if (old) old.remove();
+    pwT.forEach(clearTimeout); pwT = []; if (pwIO){ pwIO.disconnect(); pwIO = null; }
+    if (reduce) return; var main = app.querySelector(".dossier"); if (!main) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var els = [].slice.call(main.querySelectorAll(".portrait.zfull img, .portrait.zfull, .zrun, .idcol > .box, .stat, .skcol > .box, .zpr > .box, .vit .box, .wa > .sec-title, .wa > .box, .wacol > .box, .lo2 > .sec-title, .lo2 .box"))
+      .filter(function(e){ return e.getClientRects().length; })
+      .map(function(e){ var r = e.getBoundingClientRect(), keepClip = e.classList.contains("portrait");
+        if (keepClip) e.classList.add("zh-pend"); else { e.style.clipPath = "inset(0 100% 0 0)"; e.style.webkitClipPath = "inset(0 100% 0 0)"; }
+        return {e:e, l:r.left, w:r.width, frame:keepClip}; });
+    var beam = document.createElement("div"); beam.className = "zhbeam"; beam.setAttribute("aria-hidden", "true");
+    beam.innerHTML = '<i class="zh-wake"></i><i class="zh-core"></i><i class="zh-lead"></i>'; document.body.appendChild(beam);
+    var dur = 1350, t0 = performance.now(), from = -0.08 * vw, to = vw * 1.06;
+    var ease = function(k){ return k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; };
+    function frame(t){
+      var k = Math.min(1, (t - t0) / dur), x = from + (to - from) * ease(k);
+      beam.style.transform = "translateX(" + x.toFixed(1) + "px)";
+      els.forEach(function(o){
+        if (o.done) return; var rev = x - o.l;
+        if (o.frame){ if (rev > 0){ o.done = true; o.e.classList.remove("zh-pend"); o.e.classList.add("zh-in"); setTimeout(function(){ o.e.classList.remove("zh-in"); }, 900); } return; }
+        if (rev >= o.w || k >= 1){ o.done = true; o.e.style.clipPath = ""; o.e.style.webkitClipPath = ""; o.e.classList.add("zh-in"); setTimeout(function(){ o.e.classList.remove("zh-in"); }, 900); return; }
+        var c = "inset(0 " + Math.max(0, o.w - Math.max(0, rev)).toFixed(1) + "px 0 0)"; o.e.style.clipPath = c; o.e.style.webkitClipPath = c;
+      });
+      if (k < 1) zhT = requestAnimationFrame(frame); else { beam.classList.add("out"); setTimeout(function(){ beam.remove(); }, 400); }
+    }
+    zhT = requestAnimationFrame(frame);
+  }
   var zGlintT = 0;
   function zGlint(){
     clearTimeout(zGlintT);
@@ -6511,7 +6556,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     ioFxInit();
     ioVidAfter();
     loAfter(pwTab && !editing);
-    if (pwTab && !editing){ pwTab = false; powerOn(tab); }   /* Zolo's Dossier runs the same power-on in silver (Oak, Oct 13); his numbers decrypt on top */
+    if (pwTab && !editing){ pwTab = false; if (tab === "dossier" && WHO === "zolo") zHolo(); else powerOn(tab); }   /* Zolo's Dossier: hologram projection (the silver power-on is kept in CSS); his numbers decrypt on top */
     if (WHO === "zolo" && tab === "dossier" && !zGlintT) zGlint();
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
