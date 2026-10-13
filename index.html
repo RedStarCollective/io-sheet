@@ -472,6 +472,22 @@ button.lo-ash{cursor:pointer;color:var(--gold)!important}
 .conlist em{grid-column:2;font-style:normal;font-size:13px;color:var(--ink-3);line-height:1.25}
 .conlist .lo-tags{grid-column:2}
 .lo-con.nofig .conin{grid-template-columns:minmax(0,1fr)}
+.conr{min-width:0;display:flex;flex-direction:column;gap:12px}
+.pin.pin-g{width:11px;height:15px;margin:-7.5px 0 0 -5.5px;border-radius:3px 3px 5px 5px;background:linear-gradient(180deg,#8d8a84 0 22%,#0b0808 22% 30%,var(--pc) 30%)}
+.conlist .cg-ico{width:18px;height:22px;margin:-1px 0 0 -2px;display:grid;place-items:center}
+.conlist .cg-ico svg{width:18px;height:18px;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--tc) 60%,transparent))}
+.conlist li.con-g{grid-template-columns:14px minmax(0,1fr)}
+.con-add{border-top:1px dashed rgba(181,143,82,.25);padding-top:9px}
+.ca-h{display:block;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.ca-row{display:flex;flex-wrap:wrap;gap:6px}
+.ca-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px 4px 5px;border-radius:14px;border:1px solid rgba(181,143,82,.3);background:#120e0d;color:var(--ink-2);font:500 13px/1 var(--f-body);cursor:pointer}
+.ca-chip svg{width:16px;height:16px;opacity:.7}
+.ca-chip:hover{border-color:var(--tc);color:var(--ink)}
+.ca-chip.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 16%,#120e0d);color:var(--ink);box-shadow:0 0 8px color-mix(in srgb,var(--tc) 35%,transparent)}
+.ca-chip.on svg{opacity:1}
+.bando .slot.hid .sl-n::after{content:"Concealed";display:block;margin-top:2px;font:700 9px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--tc,#d9ab5e)}
+.bando .slot.hid .bcan{border-style:dashed}
+.bando .slot.inpalm.hid .sl-n::after{content:"In palm"}
 .gear{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;padding:8px;align-items:start}
 .gtile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 6px;align-items:center;background:var(--cell);border:1px solid var(--line);padding:7px 9px;min-height:38px}
 .gtile .lo-i{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15;display:flex;flex-wrap:wrap;gap:3px 5px;align-items:center}
@@ -1253,6 +1269,17 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
   .pw-holo.pw-go > .pwsl{animation:pwBand .6s linear forwards,pwHoloSl 1.1s ease-out forwards}
   @keyframes pwBand{from{background-position:0 0%,0 0}to{background-position:0 100%,0 0}}
   @keyframes pwHoloSl{0%{opacity:1}55%{opacity:.9}100%{opacity:0}}
+  /* fig: the character art. A soft-edged wipe up the silhouette itself (mask, so it follows the cut-out, never a box;
+     the mask runs 80px past each side and 60px below with no-clip, so the art's shadow and glow are never cut to the frame),
+     lit gold as it forms, with one flicker, then settles to the normal art */
+  .pw-fig:not(.pw-go){opacity:0}
+  .pw-fig.pw-go{-webkit-mask-image:linear-gradient(to top,#000 0 44%,transparent 56% 100%);mask-image:linear-gradient(to top,#000 0 44%,transparent 56% 100%);-webkit-mask-size:calc(100% + 160px) 300%;mask-size:calc(100% + 160px) 300%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-clip:no-clip;mask-clip:no-clip;
+    animation:pwFigWipe 1.05s cubic-bezier(.3,.6,.25,1) both,pwFigLit 1.3s ease-out both}
+  .portrait.iop .iopw.pw-fig.pw-go{animation:pwFigWipe 1.05s cubic-bezier(.3,.6,.25,1) both,pwFigLit 1.3s ease-out both,iobreathe 5.2s ease-in-out infinite}
+  @keyframes pwFigWipe{from{-webkit-mask-position:-80px 0%;mask-position:-80px 0%}to{-webkit-mask-position:-80px calc(100% + 60px);mask-position:-80px calc(100% + 60px)}}
+  @keyframes pwFigLit{0%{filter:sepia(1) saturate(1.6) brightness(1.75)}
+    55%{filter:sepia(.6) saturate(1.3) brightness(1.3)}
+    62%{opacity:.6}68%{opacity:1}100%{opacity:1}}
 }
 /* ---- Rep: worn tape. Older stories go softer, warmer and grainier; hover brings one back to sharp ---- */
 .rev .rcard{filter:sepia(calc(var(--age,0) * .38)) saturate(calc(1 - var(--age,0) * .4)) brightness(calc(1 - var(--age,0) * .14)) contrast(calc(1 - var(--age,0) * .1));transition:filter .35s ease}
@@ -3462,6 +3489,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     b:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5 15 9l7.5 3-7.5 3-3 7.5L9 15l-7.5-3L9 9z"/></svg>',
     w:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="3" fill="currentColor"/><circle cx="19" cy="6" r="3" fill="currentColor"/><circle cx="12" cy="19" r="3" fill="currentColor"/><path d="M5 6 12 12 19 6M12 12v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'};
   /* each throwable has its own mark and colour on the belt (Oak, Oct 12); unknown ones fall back to the gold grenade */
+  function thrIco(name){ var tk = thrKind(loParse(name).base); return tk ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + tk[3] + '</svg>' : /grenade|bomb/i.test(name) ? THR_ICO.g : /bola|weight/i.test(name) ? THR_ICO.w : THR_ICO.b; }
+  /* what the Loadout keeps in the sheet's meta "lo" (pins, the Palm Bomb load, throwables hidden on the body) */
+  function loMetaV(){ var L = S.lo || {}; return {pins:L.pins || {}, palm:L.palm || "", hide:L.hide || []}; }
   var THR_KIND = [
     [/smoke/i, "smoke", "#a3a9b0", '<g fill="#a3a9b0"><circle cx="8.6" cy="8.8" r="3.9"/><circle cx="14" cy="6.6" r="4.4" fill="#c4c9ce"/><circle cx="17.6" cy="11" r="3.4"/></g><rect x="7" y="13.2" width="6.4" height="8.4" rx="1.3" fill="#5f656b"/><rect x="8.6" y="11.6" width="3.2" height="2" fill="#3d4246"/>'],
     [/sov.?oil|oil/i, "oil", "#9b7cff", '<defs><linearGradient id="oilg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b47cff"/><stop offset=".45" stop-color="#3fd6c9"/><stop offset="1" stop-color="#e8c25a"/></linearGradient></defs><path d="M12 2.6c3.2 4.6 6.3 8.2 6.3 11.6a6.3 6.3 0 0 1-12.6 0C5.7 10.8 8.8 7.2 12 2.6z" fill="#0b0b0e" stroke="url(#oilg)" stroke-width="1.7"/><path d="M9.4 13.6c.2 1.8 1.2 3 2.8 3.4" fill="none" stroke="url(#oilg)" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>'],
@@ -3508,9 +3538,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
        Several of one kind show as a small stack, an empty loop keeps a dashed outline. Hover sways them; using one pops it off the strap;
        loading the Palm Bomb flies it to the Arm box (thrFly). */
     var belt = '<section class="box lo-belt"><div class="hb"><span class="sp">Throwables</span><span class="gnote">On the belt</span></div><div class="bando"><span class="bstrap" aria-hidden="true"><i class="bbuckle"></i></span><div class="beltrow">' + (S.throwables || []).map(function(r, i){
-      var p = loParse(r.name), n = +r.n || 0, tk = thrKind(p.base), ico = tk ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + tk[3] + '</svg>' : /grenade|bomb/i.test(r.name) ? THR_ICO.g : /bola|weight/i.test(r.name) ? THR_ICO.w : THR_ICO.b;
+      var p = loParse(r.name), n = +r.n || 0, tk = thrKind(p.base), ico = thrIco(r.name);
       var ghosts = ''; for (var g = 1; g < Math.min(n, 3); g++) ghosts += '<i class="bghost g' + g + '"></i>';
-      return '<div class="slot' + (tk ? ' th-' + tk[1] : '') + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '" style="--i:' + i + (tk ? ';--tc:' + tk[2] : '') + '">' +
+      return '<div class="slot' + (tk ? ' th-' + tk[1] : '') + (n <= 0 ? ' empty' : '') + (palmW && palmCur === r.name ? ' inpalm' : '') + ((L.hide || []).indexOf(p.key) >= 0 ? ' hid' : '') + (LOX[p.key] ? ' on' : '') + '" data-slot="' + esc(p.key) + '" style="--i:' + i + (tk ? ';--tc:' + tk[2] : '') + '">' +
         '<span class="bloop" aria-hidden="true"></span><span class="bhang">' + ghosts + '<span class="bcan">' + ico + '</span><b class="bcnt">' + n + '</b></span>' +
         '<span class="sl-n">' + loName(p) + '</span>' +
         (lock ? '' : '<span class="sl-c" role="group" aria-label="' + esc(p.base) + '"><button data-thr="' + i + '" data-d="-1" aria-label="Use one ' + esc(p.base) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button><button data-thr="' + i + '" data-d="1" aria-label="Add one ' + esc(p.base) + '">+</button></span>') + '</div>'; }).join("") + '</div></div>' +
@@ -3539,9 +3569,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
           '<div class="minfo">' + g.items.map(function(x){ return loInfoP(loParse(x[0].name)); }).join("") + '</div>') + '</div>'; }).join("") + '</div></section>';
     var fig = WHO === "io" && L.figure && L.figure.img ? L.figure : null, pins = L.pins || {}, canPin = fig && !lock;
     var dot = function(i){ return LO_DOTS[i % LO_DOTS.length]; };
+    /* throwables can be hidden on the body too (Oak, Oct 13): picked from the chips under the list, they join it with their own
+       canister marker on the figure (dragged like the rest), and their loop on the belt reads "Concealed" */
+    var hideK = L.hide || [], thrAll = S.throwables || [];
+    var hid = thrAll.filter(function(r){ return hideK.indexOf(loParse(r.name).key) >= 0; });
+    var conN = (S.concealed || []).length;
+    var gpin = function(r, j){ var p = loParse(r.name), tk = thrKind(p.base), xy = pins[p.key] || [34 + (j % 3) * 14, 50 + Math.floor(j / 3) * 7];
+      return '<span class="pin pin-g" data-pin="' + esc(p.key) + '" style="left:' + xy[0] + '%;top:' + xy[1] + '%;--pc:' + (tk ? tk[2] : '#d9ab5e') + '" title="' + esc(p.base) + '"></span>'; };
     var con = '<section class="box lo-con' + (fig ? '' : ' nofig') + '"><div class="hb"><span class="sp">Concealed Items</span>' + (canPin ? '<span class="gnote">Drag a dot to move it</span>' : '') + '</div><div class="conin">' +
-      (fig ? '<figure class="config' + (canPin ? ' canpin' : '') + '"><img src="' + esc(fig.img) + '" alt="Iō, standing" loading="lazy" draggable="false">' + (S.concealed || []).map(function(r, i){ var k = loParse(r.name).key, xy = pins[k] || [8, 10 + i * 9]; return '<span class="pin" data-pin="' + esc(k) + '" style="left:' + xy[0] + '%;top:' + xy[1] + '%;--pc:' + dot(i) + '" title="' + esc(loParse(r.name).base) + '"></span>'; }).join("") + '</figure>' : '') +
-      '<ol class="conlist">' + (S.concealed || []).map(function(r, i){ var p = loParse(r.name); return '<li><span class="pin" style="--pc:' + dot(i) + '" aria-hidden="true"></span><b>' + esc(p.base) + '</b><em>' + esc(r.where || "") + '</em>' + loTags(p.tags) + '</li>'; }).join("") + '</ol></div></section>';
+      (fig ? '<figure class="config' + (canPin ? ' canpin' : '') + '"><img src="' + esc(fig.img) + '" alt="Iō, standing" loading="lazy" draggable="false">' + (S.concealed || []).map(function(r, i){ var k = loParse(r.name).key, xy = pins[k] || [8, 10 + i * 9]; return '<span class="pin" data-pin="' + esc(k) + '" style="left:' + xy[0] + '%;top:' + xy[1] + '%;--pc:' + dot(i) + '" title="' + esc(loParse(r.name).base) + '"></span>'; }).join("") + hid.map(gpin).join("") + '</figure>' : '') +
+      '<div class="conr"><ol class="conlist">' + (S.concealed || []).map(function(r, i){ var p = loParse(r.name); return '<li><span class="pin" style="--pc:' + dot(i) + '" aria-hidden="true"></span><b>' + esc(p.base) + '</b><em>' + esc(r.where || "") + '</em>' + loTags(p.tags) + '</li>'; }).join("") +
+        hid.map(function(r){ var p = loParse(r.name), tk = thrKind(p.base), n = +r.n || 0;
+          return '<li class="con-g"><span class="cg-ico" style="--tc:' + (tk ? tk[2] : '#d9ab5e') + '">' + thrIco(r.name) + '</span><b>' + esc(p.base) + '</b><em>Hidden on the body' + (n > 1 ? ' · ×' + n : n <= 0 ? ' · used up' : '') + '</em></li>'; }).join("") + '</ol>' +
+        (WHO === "io" && !lock && thrAll.length ? '<div class="con-add"><span class="ca-h">Hide a throwable</span><div class="ca-row">' + thrAll.map(function(r){ var p = loParse(r.name), tk = thrKind(p.base), on = hideK.indexOf(p.key) >= 0;
+          return '<button type="button" class="ca-chip' + (on ? ' on' : '') + '" data-hide="' + esc(p.key) + '" aria-pressed="' + on + '" title="' + (on ? 'Put it back on the belt' : 'Conceal it on the body') + '" style="--tc:' + (tk ? tk[2] : '#d9ab5e') + '">' + thrIco(r.name) + '<span>' + esc(p.base.replace(/\s+grenade$/i, "")) + '</span></button>'; }).join("") + '</div></div>' : '') +
+      '</div></div></section>';
     /* carried, agent apps, and what is stashed in the car or at home. In the sheet's list a container (Agent, Car, Home) is a heading:
        the rows under it belong to it until the next container. */
     var C = L.containers || {}, carried = [], boxes = [], cur = null, had = {};
@@ -3581,7 +3623,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (!pinDrag) return; var d = pinDrag; pinDrag = null; d.el.classList.remove("drag"); if (!d.xy) return;
     if (!S.lo) S.lo = {}; if (!S.lo.pins) S.lo.pins = {}; S.lo.pins[d.key] = d.xy;
     clearTimeout(saveTimer); status("Unsaved");
-    saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins, palm:S.lo.palm || ""}}); else persist(); }, 900);
+    saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:loMetaV()}); else persist(); }, 900);
   }
   app.addEventListener("pointerup", pinDrop); app.addEventListener("pointercancel", pinDrop);
   var LOP = "gear";
@@ -4288,11 +4330,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
        line - for frameless pages: a gold hairline draws across, then the text comes up
      Each tab picks its own targets (pwPlan). Runs once per tab visit (pwTab); nothing happens with reduced motion. */
   var pwTab = true, pwIO = null, pwT = [];
-  var PW_DUR = {box:1050, holo:1150, line:950};
+  var PW_DUR = {box:1050, holo:1150, line:950, fig:1300};
   function pwPlan(t){
     var M = app.querySelector("main"); if (!M) return [];
     if (t === "dossier") return [
-      {sel:".portrait", kind:"holo"}, {sel:".zrun", kind:"holo"},
+      {sel:".portrait.iop .iopw, .portrait.zfull img", kind:"fig"}, {sel:".zrun", kind:"holo"},
       {sel:".idcol > .box, .stat, .skcol > .box, .skcol > .tarea, .vit .box, .wa > .box, .lo2 .box", kind:"box", step:45},
       {sel:".sec-title", kind:"line"}];
     if (t === "ware"){ var b = M.classList.contains("wboot") ? 950 : 0;
@@ -4303,7 +4345,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (t === "advance") return [{sel:":scope > section, :scope > .box", kind:"box", step:90}];
     return [];
   }
-  function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-go", "pw-rel");
+  function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-fig", "pw-go", "pw-rel");
     [].forEach.call(el.querySelectorAll(":scope > .pwf, :scope > .pwsl"), function(x){ x.remove(); }); }
   function powerOn(t){
     pwT.forEach(clearTimeout); pwT = []; if (pwIO){ pwIO.disconnect(); pwIO = null; }
@@ -4318,9 +4360,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         els = els.map(function(e, i){ return [e, Math.abs(i - li)]; }).sort(function(a, b){ return a[1] - b[1]; }).map(function(x){ return x[0]; }); }
       els.forEach(function(el, i){
         var cs = getComputedStyle(el);
-        el.classList.add("pw", "pw-" + g.kind); if (cs.position === "static") el.classList.add("pw-rel");
+        el.classList.add("pw", "pw-" + g.kind); if (cs.position === "static" && g.kind !== "fig") el.classList.add("pw-rel");
         el._pw = {base:g.base || 0, step:g.step == null ? 70 : g.step, ord:rank++, kind:g.kind};
-        if (g.kind !== "holo" || el.tagName !== "IMG"){
+        if (g.kind !== "fig" && (g.kind !== "holo" || el.tagName !== "IMG")){
           if (g.kind !== "holo"){ var f = document.createElement("i"), bw = parseFloat(cs.borderTopWidth) || 0; f.className = "pwf"; f.setAttribute("aria-hidden", "true"); f.style.inset = (-bw) + "px"; if (g.kind === "box") f.style.borderLeftWidth = Math.max(1, parseFloat(cs.borderLeftWidth) || 1) + "px"; el.appendChild(f); }
           if (g.kind !== "line"){ var sl = document.createElement("i"); sl.className = "pwsl"; sl.setAttribute("aria-hidden", "true"); el.appendChild(sl); } }
         marked.push(el); });
@@ -6310,6 +6352,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
       if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
+      if (j.meta && j.meta.lo && Array.isArray(j.meta.lo.hide) && S.lo) S.lo.hide = j.meta.lo.hide;
       if (j.meta && j.meta.nude && typeof j.meta.nude === "object"){ var nio = WHO === "zolo" ? IO : S; if (nio) nio.nude = j.meta.nude.wk ? {salt:String(j.meta.nude.salt), iv:String(j.meta.nude.iv), wk:String(j.meta.nude.wk)} : {}; }
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
       if (j.meta && j.meta.contacts && Array.isArray(j.meta.contacts.runners) && Array.isArray(j.meta.contacts.npcs) && !CX.edit){ var cio = WHO === "zolo" ? IO : S; if (cio) cio.contacts = j.meta.contacts; }
@@ -6485,10 +6528,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
+    if (b.dataset.hide){ if (readOnly || WHO !== "io") return; if (!S.lo) S.lo = {}; var hk = b.dataset.hide, hl = (S.lo.hide || []).slice(), hi = hl.indexOf(hk);
+      if (hi >= 0){ hl.splice(hi, 1); if (S.lo.pins) delete S.lo.pins[hk]; } else hl.push(hk);
+      S.lo.hide = hl; render();
+      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:loMetaV()}); else persist(); }, 900); return; }
     if (b.dataset.palm !== undefined){ if (readOnly || WHO !== "io") return; if (!S.lo) S.lo = {}; var pv = b.dataset.palm, pslot = pv && document.querySelector('.lo-belt .slot[data-slot="' + loParse(pv).key + '"]');
       var land = function(){ S.lo.palm = pv; open["cw.palm"] = false; render(); var ic = document.querySelector(".wa .pbico"); if (ic && pv && !reduce){ ic.classList.add("pbland"); setTimeout(function(){ ic.classList.remove("pbland"); }, 700); } };
       if (pv && pslot) thrFly(pslot, true, land); else land();
-      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:{pins:S.lo.pins || {}, palm:pv}}); else persist(); }, 1600); return; }
+      clearTimeout(saveTimer); status("Unsaved"); saveTimer = setTimeout(function(){ if (HOSTED) pushState("meta", {name:"lo", value:loMetaV()}); else persist(); }, 1600); return; }
     if (b.dataset.tog){ if (editing) return; if (ev.target.closest(".wref")) return; open[b.dataset.tog] = !open[b.dataset.tog]; try { localStorage.setItem("io-open", JSON.stringify(open)); } catch(e){} render(); return; }
     if (b.id === "ttflip"){ ttBack = !ttBack; b.classList.toggle("back", ttBack); b.setAttribute("aria-pressed", ttBack); return; }
     if (b.dataset.cfch != null){ var ci = +b.dataset.cfch; cfOpen[ci] = !cfOpen[ci]; render(); return; }
