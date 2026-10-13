@@ -3197,7 +3197,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Contacts tab hidden for now (Oak, Oct 8): contactsPage() and io.json contacts stay in place; add "contacts" back to READY and TABS to restore it */
   var TABS = ["Dossier","Ware","Case File","Rep","Fans","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
-  var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];
+  var ZTABS = ["Dossier","Rep"], ZREADY = ["dossier","rep"];   /* Zolo's Ware is hidden for now (Oak, Oct 13); its code and data stay. Add "Ware"/"ware" back to show it */
   var IO = null, WHO = "io", roIo = false, zMask = false;
   function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; out.nano = z.nano || {}; return out; }
@@ -6995,7 +6995,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (HOSTED) readOnly = !(SHEET_API && EDIT_KEY); /* hosted copy: dose counters only with the edit key */
     if (HOSTED && SHEET_API){ var cj = sheetCache.load(); if (cj){ try { applySheet(cj); syncInfo = "copy from " + sheetCache.when(); } catch(e){ try { console.error("[Io sheet] saved copy unreadable:", e); } catch(e2){} } } }
     if (HOSTED && SHEET_API && readOnly && !sheetCache.at) hostWait = true;   /* first visit: hold the page until we know whether it's public */
-    if (bootWho === "zolo") setWho("zolo");
+    if (bootWho === "zolo"){ setWho("zolo"); try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} }   /* a link to a hidden Zolo tab lands on his Dossier */
     document.body.classList.add("boot");
     render();
     decode();
