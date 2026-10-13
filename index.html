@@ -2952,6 +2952,19 @@ body.zolo .bando .slot.empty .bcan{background:transparent;border:1.5px dashed rg
 .zglint.rev::before{animation-name:zglintT2}.zglint.rev::after{animation-name:zglintB2}
 @keyframes zglintT{to{left:102%}}@keyframes zglintB{to{right:102%}}
 @keyframes zglintT2{from{left:102%}to{left:-40%}}@keyframes zglintB2{from{right:102%}to{right:-40%}}
+/* Zolo's power-on, in silver: the same frames, line draws and portrait reveal as Iō's, recoloured moonlit steel and ice */
+@media (prefers-reduced-motion:no-preference){
+  body.zolo .pw .pwf{border-color:#e6ecf0;box-shadow:0 0 6px rgba(143,227,255,.45)}
+  body.zolo .pw .pwsl{background:repeating-linear-gradient(90deg,rgba(200,225,240,.13) 0 1px,transparent 1px 4px)}
+  body.zolo .pw-line .pwf{border-top-color:#e6ecf0;box-shadow:0 0 8px rgba(143,227,255,.55)}
+  body.zolo .pw-holo.pw-go{animation-name:pwHoloZ}
+  @keyframes pwHoloZ{0%{opacity:1;clip-path:inset(100% -20% 0 -20%);filter:grayscale(1) brightness(1.7) contrast(1.1)}
+    55%{opacity:1;clip-path:inset(0 -20% 0 -20%);filter:grayscale(.8) brightness(1.35)}
+    62%{opacity:.55}68%{opacity:1}100%{opacity:1;clip-path:inset(-20% -20% -20% -20%);filter:none}}
+  body.zolo .pw-holo > .pwsl{background:linear-gradient(to top,transparent 47%,rgba(170,225,245,.7) 49.5%,rgba(235,248,255,.95) 50%,transparent 51%) 0 0/100% 200% no-repeat,repeating-linear-gradient(90deg,rgba(200,225,240,.2) 0 1px,transparent 1px 4px)}
+  body.zolo .pw-fig.pw-go{animation:pwFigWipe 1.05s cubic-bezier(.3,.6,.25,1) both,pwFigLitZ 1.3s ease-out both}
+  @keyframes pwFigLitZ{0%{filter:grayscale(1) brightness(1.9) contrast(1.15)}55%{filter:grayscale(.7) brightness(1.35)}62%{opacity:.6}68%{opacity:1}100%{opacity:1}}
+}
 /* decrypting numbers (zDecrypt): ice-blue while scrambling, a white flash as each one locks */
 .zdec-s{color:#8fe3ff!important;text-shadow:0 0 8px rgba(108,198,230,.7);display:inline-block;text-align:center;overflow:visible;white-space:nowrap}
 .zdec-l{animation:zdecLock .5s ease-out}
@@ -6498,7 +6511,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     ioFxInit();
     ioVidAfter();
     loAfter(pwTab && !editing);
-    if (pwTab && !editing){ pwTab = false; if (tab === "dossier" && WHO === "zolo") dzIn(); else powerOn(tab); }
+    if (pwTab && !editing){ pwTab = false; powerOn(tab); }   /* Zolo's Dossier runs the same power-on in silver (Oak, Oct 13); his numbers decrypt on top */
     if (WHO === "zolo" && tab === "dossier" && !zGlintT) zGlint();
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
