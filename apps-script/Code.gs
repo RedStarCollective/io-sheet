@@ -14,7 +14,8 @@
  *   That keeps the same URL.
  *
  * Reading is open to anyone with the URL (the same as a view link).
- * Writing needs EDIT_KEY, and can only change pharma dose counts, the Training Area picks, the Trauma Team card, the Nyozi switch and the Public switch.
+ * Writing needs EDIT_KEY, and can only change pharma dose counts, throwable counts, current HP, the Critical Injuries & Addictions list,
+ * the Training Area picks, the Trauma Team card, the Nyozi switch, the Public switch and page settings (meta).
  * These page settings are kept in Script Properties (TRAINING, TT, NYOZI, HOSTING, FANS), not in sheet cells.
  * HOSTING is the page's Public switch: when it's off, people without the edit key see a "Sheet closed" screen.
  *
@@ -65,6 +66,8 @@ function doPost(e) {
   if (body.type === 'ping') return json_({ ok: true });
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
   if (body.type === 'throwables') return json_(saveThrowables_(body.items || []));
+  if (body.type === 'hp') return json_(saveHp_(body.cur));
+  if (body.type === 'crits') return json_(saveCrits_(body.items || []));
   if (body.type === 'training') return json_(saveTraining_(body));
   if (body.type === 'tt') return json_(saveTT_(body));
   if (body.type === 'nyozi') {
@@ -755,4 +758,42 @@ function saveThrowables_(items) {
     }
   });
   return { ok: true, saved: saved };
+}
+
+/** Current HP (the Nanomatrix switch on the page adds and removes HP): writes the cell under "Hit Points". Max HP is left alone. */
+function saveHp_(cur) {
+  const n = Math.round(Number(cur));
+  if (!isFinite(n) || n < -99 || n > 999) return { ok: false, error: 'bad HP' };
+  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), TABS[0]);
+  if (!sh) return { ok: false, error: 'Stats tab not found' };
+  const vals = sh.getDataRange().getDisplayValues();
+  for (let r = 0; r < vals.length; r++) {
+    for (let c = 0; c < vals[r].length; c++) {
+      if (String(vals[r][c]).trim() === 'Hit Points') { sh.getRange(r + 2, c + 1).setValue(n); return { ok: true, hp: n }; }
+    }
+  }
+  return { ok: false, error: 'Hit Points not found' };
+}
+
+/** Critical Injuries & Addictions, picked on the page by the admin: the whole list goes into the first cell under the heading,
+ *  one per line. Other cells further down that the page would also read as entries are cleared, so nothing shows twice.
+ *  The "-2 to ..." note and the Trauma Team line are never touched. */
+function saveCrits_(items) {
+  const list = (Array.isArray(items) ? items : []).slice(0, 20).map(function (x) { return String(x).replace(/[\r\n]+/g, ' ').trim().slice(0, 120); }).filter(String);
+  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), TABS[0]);
+  if (!sh) return { ok: false, error: 'Stats tab not found' };
+  const vals = sh.getDataRange().getDisplayValues();
+  let hr = -1, hc = -1;
+  for (let r = 0; r < vals.length && hr < 0; r++) {
+    for (let c = 0; c < vals[r].length; c++) {
+      if (String(vals[r][c]).trim() === 'Critical Injuries & Addictions') { hr = r; hc = c; break; }
+    }
+  }
+  if (hr < 0) return { ok: false, error: 'Critical Injuries list not found' };
+  sh.getRange(hr + 2, hc + 1).setValue(list.join('\n'));
+  for (let r = hr + 2; r < Math.min(vals.length, hr + 12); r++) {
+    const t = String(vals[r][hc] || '').trim();
+    if (t && !/^-2 to/i.test(t) && !/^TT\b|trauma team/i.test(t)) sh.getRange(r + 1, hc + 1).setValue('');
+  }
+  return { ok: true, items: list };
 }

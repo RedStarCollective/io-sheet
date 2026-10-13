@@ -1933,6 +1933,70 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .stat.nyzon .pair span:first-child{color:var(--gold);text-shadow:0 0 10px rgba(181,143,82,.45)}
 .stat.nyzon{box-shadow:inset 0 0 0 1px rgba(181,143,82,.55)}
 .stat.nyzon b{color:var(--gold)}
+/* Nanomatrix: steel-cyan nanites. Boosted values (BODY, Max HP, SW, Death Save, SP, Martial Arts) glow while it's on */
+:root{--nano:#8fd8ef;--nano-d:rgba(143,216,239,.5)}
+.nzv{color:var(--nano);text-shadow:0 0 10px var(--nano-d)}
+.stat.nanon{box-shadow:inset 0 0 0 1px var(--nano-d)}
+.stat.nanon b{color:var(--nano)}
+.nzbox{box-shadow:0 0 0 1px rgba(143,216,239,.28),0 0 22px rgba(143,216,239,.08)}
+.nztag,.nztg{margin-left:auto;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:#05131a;background:var(--nano);padding:3px 6px 2px}
+.nztg{margin-left:8px;font-size:9px;padding:2px 5px 1px;vertical-align:2px}
+.box > .hb .nztag{align-self:center}
+.nzheal{color:var(--nano)}
+@media (prefers-reduced-motion:no-preference){
+  .nzheal{display:inline-block;animation:nzHeal 1.2s ease-out}
+  @keyframes nzHeal{0%{transform:scale(1.35);text-shadow:0 0 18px var(--nano)}100%{transform:none;text-shadow:none}}
+  .nzrow td{animation:nzRow .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--k) * 90ms)}
+  @keyframes nzRow{from{opacity:0;transform:translateY(-6px);background:rgba(143,216,239,.18)}}
+  .stat.nanon{animation:nzStat 1.1s ease-out}
+  @keyframes nzStat{0%{box-shadow:inset 0 0 0 1px var(--nano),0 0 18px var(--nano-d)}}
+}
+.t tr.nzrow td{background:rgba(143,216,239,.06)}
+.t tr.nzrow td.name{color:var(--ink)}
+.t tr.nzsup td{opacity:.45}
+.t tr.nzsup td:nth-child(3){text-decoration:line-through}
+.nanox .prstate.on.nz{background:var(--nano);border-color:var(--nano);color:#05131a}
+.nanox .prtog .chev{color:var(--nano)}
+.nanox .prsw[aria-pressed="true"]{color:var(--nano);border-color:var(--nano-d)}
+.nanox .prsw[aria-pressed="true"] i::after{background:var(--nano)}
+.nzctl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nzuses{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-num);color:var(--ink-3)}
+.nzuses .lab{font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase}
+.nzuses .pips{display:inline-flex;gap:3px}
+.nzuses .pips i{width:9px;height:14px;border:1px solid var(--nano-d);background:transparent}
+.nzuses .pips i.on{background:var(--nano);box-shadow:0 0 6px var(--nano-d)}
+.nzuses b{font-size:18px;color:var(--ink)}.nzuses em{font-style:normal;font-size:13px}
+.nzbtns{display:flex;flex-wrap:wrap;gap:6px}
+.nzb{background:rgba(143,216,239,.08);border:1px solid var(--nano-d);color:var(--nano);font:600 12px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
+.nzb.q{background:none;border-color:var(--line);color:var(--ink-3)}
+.nzb:hover:not(:disabled){border-color:var(--nano);color:#fff}
+.nzb:disabled{opacity:.4;cursor:default}
+.nzfx{display:flex;flex-wrap:wrap;gap:6px 14px}
+.nzr{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.nzr b{font-family:var(--f-num);font-size:16px;letter-spacing:0;color:var(--ink-2)}
+.nzr .arr{color:var(--nano)}
+.nanox.on .nzr b.to{color:var(--nano)}
+/* critical injuries & addictions: effect lines from the core rulebook; the admin adds from a list and removes with × */
+.crit.cr2{font-family:inherit;font-size:inherit;display:flex;flex-direction:column;gap:3px;padding:7px 9px}
+.cr2 .crn{display:flex;align-items:baseline;gap:8px}
+.cr2 .crn b{font-family:var(--f-cond);font-size:16px;font-weight:600;color:var(--ink)}
+.cr2 .crk{font:700 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi);border:1px solid rgba(224,50,60,.4);padding:2px 5px 1px}
+.cr2.k-add .crk{color:#c3a4ff;border-color:rgba(195,164,255,.4)}
+.cr2 .crx{margin-left:auto;background:none;border:1px solid var(--line);color:var(--ink-3);width:22px;height:22px;line-height:1;cursor:pointer;font-size:15px}
+.cr2 .crx:hover{border-color:var(--red-hi);color:#fff}
+.cr2 .crfx{font-size:13px;line-height:1.35;color:var(--ink-2)}
+.cr2 .crq{font-size:11.5px;line-height:1.35;color:var(--ink-3)}
+.cr2 .crq span{font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10px;color:var(--ink-3);margin-right:2px}
+.cr2 .crq span + span,.cr2 .crq span:not(:first-child){margin-left:8px}
+.cradd{display:block;padding:8px 9px;border-top:1px dashed var(--line);margin-top:auto}
+.cradd select{width:100%;background:#0d0a09;color:var(--ink-2);border:1px solid var(--line);font:500 13px/1.2 var(--f-body);padding:6px 8px;cursor:pointer}
+.cradd select:hover{border-color:var(--frame)}
+.vhid{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wnote.dsp{color:var(--red-hi)}
+.cond > div{min-width:0}
+.cr2 .crn{flex-wrap:wrap;row-gap:4px}
+.cradd select{max-width:100%;min-width:0}
+@media (max-width:600px){ .cond{grid-template-columns:minmax(0,1fr)} .cond > div + div{border-left:0;border-top:1px solid var(--line)} }
 
 /* ---------- case file: "quiet document" (one reading column, type-only sections, margin index) ---------- */
 .cf{display:grid;grid-template-columns:180px minmax(0,780px);gap:56px;justify-content:center;padding:18px 0 40px}
@@ -3071,6 +3135,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function statsRail(){
     return '<div class="stats a-st" aria-label="Stats">' + S.stats.map(function(s,i){
       var nz = !editing && s.k === "EMP" && nyoziOn() && s.max != null;
+      if (s.k === "BODY" && nanoOn()) return '<div class="stat nanon"><b>' + esc(s.k) + '</b><span class="sv">' + nzv(effBody(), "Nanomatrix: BODY " + s.v + " + 3 (max 11)") + '</span></div>';
       var inner = s.max != null
         ? '<div class="pair"><span' + (nz ? ' title="Nyozi: skills use EMP before Humanity loss"' : '') + '>' + (nz ? '<span class="dec">' + esc(s.max) + '</span>' : f("stats."+i+".v",{num:1,label:s.k})) + '</span><span class="of">out of</span><span>' + f("stats."+i+".max",{num:1,label:s.k+" max"}) + '</span></div>'
         : '<span class="sv">' + f("stats."+i+".v",{num:1,label:s.k}) + '</span>';
@@ -3211,6 +3276,125 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (HOSTED){ saveTimer = setTimeout(function(){ pushState("nyozi", {active:nyoziOn()}); }, 1200); return; }
     saveTimer = setTimeout(persist, 1200);
   }
+  /* ---------- Armstrong Myoskeletal Nanomatrix (Oak, Oct 13) ----------
+     A switch on the Dossier. While it's on: BODY +3 (max 11), so Max HP, Seriously Wounded and the Death Save follow,
+     Martial Arts damage goes up a step, and the Dermal Plating upgrade armors head and body at SP13.
+     Turning it on (and each re-activation) spends one use and heals the HP difference. Turning it off drops HP to the
+     normal max if it's above it. Uses = installs (x3), back after 24 hours. The sheet keeps the base values;
+     S.nano = {on, uses} is kept in sheet meta "nano"; current HP is written to the sheet. */
+  function nanoMaxUses(){ var n = 0;
+    ((S.chrome && S.chrome.zones) || []).forEach(function(z){ (z.groups || []).forEach(function(g){ (g.items || []).forEach(function(it){ if (it.ref === "armstrong"){ var m = String(it.count || "").match(/\d+/); n = Math.min(3, m ? +m[0] : 1); } }); }); });
+    return n || 3; }
+  function nanoHas(){ return WHO === "io"; }
+  function nanoSt(){ var m = nanoMaxUses(), n = S.nano || {}; return {on:!!n.on, uses:n.uses == null ? m : Math.max(0, Math.min(m, +n.uses || 0)), max:m}; }
+  function nanoOn(){ return nanoHas() && !editing && nanoSt().on; }
+  function bodyFx(b){ return b >= 11 ? b : Math.min(11, b + 3); }
+  function hpFor(body){ return 10 + 5 * Math.ceil((body + statV("WILL")) / 2); }
+  function nanoDiff(){ var b = statV("BODY"); return hpFor(bodyFx(b)) - hpFor(b); }
+  function effBody(){ var b = statV("BODY"); return nanoOn() ? bodyFx(b) : b; }
+  function effMaxHp(){ return (+S.hp[1] || 0) + (nanoOn() ? nanoDiff() : 0); }
+  function maDice(b){ return b <= 4 ? "1d6" : b <= 6 ? "2d6" : b <= 10 ? "3d6" : "4d6"; }
+  function nzv(v, t){ return '<span class="dec nzv" title="' + esc(t) + '">' + esc(v) + '</span>'; }
+  var NANO_PLATE = 13;
+  function nanoBox(){
+    var st = nanoSt(), on = st.on, isOpen = !!open.nano, lock = readOnly, b = statV("BODY"), nb = bodyFx(b), d = nanoDiff();
+    var arm0 = Math.max.apply(null, (S.armor || []).map(function(r){ return +r.sp || 0; }).concat([0]));
+    var pips = ''; for (var i = 0; i < st.max; i++) pips += '<i class="' + (i < st.uses ? 'on' : '') + '"></i>';
+    var head = '<div class="hb"><button class="prtog" data-tog="nano" aria-expanded="' + isOpen + '"><span class="chev">▶</span><span class="prl">Nanomatrix</span>' +
+      '<span class="prstate' + (on ? ' on nz' : '') + '" title="' + (on ? 'Active' : 'Dormant') + '"><i class="lg">' + (on ? 'Active' : 'Dormant') + '</i><i class="sm">' + (on ? 'On' : 'Off') + '</i></span></button></div>';
+    if (!isOpen) return '<section class="box pract nanox' + (on ? ' on' : '') + '">' + head + '</section>';
+    var fx = function(k, a, z){ return '<span class="nzr"><span>' + k + '</span><b>' + esc(a) + '</b><span class="arr">→</span><b class="to">' + esc(z) + '</b></span>'; };
+    return '<section class="box pract nanox' + (on ? ' on' : '') + '">' + head + '<div class="prbody">' +
+      '<div class="nzctl"><button type="button" class="prsw" id="nanosw" aria-pressed="' + on + '"' + (lock || (!on && !st.uses) ? ' disabled' : '') + '><i></i>' + (on ? 'Active' : 'Dormant') + '</button>' +
+        '<span class="nzuses" title="Uses left before the nanites need 24 hours to regenerate"><span class="lab">Uses</span><span class="pips">' + pips + '</span><b>' + st.uses + '</b><em>/ ' + st.max + '</em></span></div>' +
+      (lock ? '' : '<div class="nzbtns">' +
+        (on ? '<button type="button" class="nzb" data-nano="again"' + (st.uses ? '' : ' disabled') + ' title="Spend a use: 5 more minutes and +' + d + ' HP">Re-activate · +' + d + ' HP</button>' : '') +
+        (st.uses < st.max ? '<button type="button" class="nzb q" data-nano="regen" title="24 hours have passed: all uses are back">Nanites regenerated</button>' : '') + '</div>') +
+      (!on && !st.uses ? '<p class="prule">No uses left. The nanites need 24 hours to regenerate.</p>' : '') +
+      '<div class="nzfx">' + fx("BODY", b, nb) + fx("Max HP", S.hp[1], (+S.hp[1] || 0) + d) + fx("Death Save", S.deathSave, (+S.deathSave || 0) + nb - b) + fx("SP", arm0, Math.max(arm0, NANO_PLATE)) + fx("Martial Arts", maDice(b), maDice(nb)) + '</div>' +
+      '<p class="prule"><b>Borgware.</b> Activate at any time without an Action, even after being hit but before damage. BODY +3 (max 11) for 5 minutes, affecting HP and Death Saves; gain the HP difference at once. While active, spend another use to refresh the 5 minutes and heal that difference again. When it ends, HP above your normal max drops to it. <b>Dermal Plating:</b> head and body armored at SP13 while active, no Armor Penalty. Uses return after 24 hours. <b>Chromed Up · RUSH</b></p>' +
+    '</div></section>';
+  }
+  var nanoHpDirty = false;
+  function saveNano(){
+    render(); status("Unsaved");
+    clearTimeout(saveTimer);
+    nanoFlash = false; var hpD = nanoHpDirty; nanoHpDirty = false;
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("meta", {name:"nano", value:{on:nanoSt().on, uses:nanoSt().uses}}).then(function(ok){ if (ok && hpD) pushState("hp", {cur:+S.hp[0] || 0}); }); }, 500); return; }
+    saveTimer = setTimeout(persist, 900);
+  }
+  function nanoAct(what){
+    if (readOnly || !nanoHas()) return; var st = nanoSt(), d = nanoDiff(), cur = +S.hp[0] || 0, base = +S.hp[1] || 0;
+    if (what === "toggle"){
+      if (!st.on){ if (!st.uses) return; S.nano = {on:true, uses:st.uses - 1}; S.hp[0] = Math.min(cur + d, base + d); nanoHpDirty = true; nanoFlash = true; }
+      else { S.nano = {on:false, uses:st.uses}; if (cur > base){ S.hp[0] = base; nanoHpDirty = true; } }
+    } else if (what === "again"){ if (!st.on || !st.uses) return; S.nano = {on:true, uses:st.uses - 1}; S.hp[0] = Math.min(cur + d, base + d); nanoHpDirty = true; nanoFlash = true; }
+    else if (what === "regen"){ S.nano = {on:st.on, uses:st.max}; }
+    saveNano();
+  }
+  var nanoFlash = false;
+
+  /* ---------- Critical Injuries & Addictions: picked from the core rulebook by the admin ----------
+     Stored as plain lines in the sheet's list ("Broken Arm", "Addicted: Synthcoke"); effects are looked up by name. */
+  var CRIT_CAT = [
+    ["Dismembered Arm","Body","The arm is gone. Drop anything held in that hand. Base Death Save Penalty +1.","N/A","Surgery DV17",1],
+    ["Dismembered Hand","Body","The hand is gone. Drop anything held in it. Base Death Save Penalty +1.","N/A","Surgery DV17",1],
+    ["Collapsed Lung","Body","−2 to MOVE (minimum 1). Base Death Save Penalty +1.","Paramedic DV15","Surgery DV15",1],
+    ["Broken Ribs","Body","At the end of every Turn you move more than 4m/yds on foot, take this injury's Bonus Damage again, directly to HP.","Paramedic DV13","Paramedic DV15 or Surgery DV13",0],
+    ["Broken Arm","Body","The arm can't be used. Drop anything held in that hand.","Paramedic DV13","Paramedic DV15 or Surgery DV13",0],
+    ["Foreign Object","Body / Head","At the end of every Turn you move more than 4m/yds on foot, take this injury's Bonus Damage again, directly to HP.","First Aid or Paramedic DV13","Quick Fix removes it for good",0],
+    ["Broken Leg","Body","−4 to MOVE (minimum 1).","Paramedic DV13","Paramedic DV15 or Surgery DV13",0],
+    ["Torn Muscle","Body","−2 to Melee Attacks.","First Aid or Paramedic DV13","Quick Fix removes it for good",0],
+    ["Spinal Injury","Body","Next Turn you can't take an Action, but can still take a Move Action. Base Death Save Penalty +1.","Paramedic DV15","Surgery DV15",1],
+    ["Crushed Fingers","Body","−4 to all Actions involving that hand.","Paramedic DV13","Surgery DV15",0],
+    ["Dismembered Leg","Body","The leg is gone. −6 to MOVE (minimum 1). You can't dodge attacks. Base Death Save Penalty +1.","N/A","Surgery DV17",1],
+    ["Lost Eye","Head","The eye is gone. −4 to Ranged Attacks and to Perception Checks involving vision. Base Death Save Penalty +1.","N/A","Surgery DV17",1],
+    ["Brain Injury","Head","−2 to all Actions. Base Death Save Penalty +1.","N/A","Surgery DV17",1],
+    ["Damaged Eye","Head","−2 to Ranged Attacks and to Perception Checks involving vision.","Paramedic DV15","Surgery DV13",0],
+    ["Concussion","Head","−2 to all Actions.","First Aid or Paramedic DV13","Quick Fix removes it for good",0],
+    ["Broken Jaw","Head","−4 to all Actions involving speech.","Paramedic DV13","Paramedic or Surgery DV13",0],
+    ["Whiplash","Head","Base Death Save Penalty +1.","Paramedic DV13","Paramedic or Surgery DV13",1],
+    ["Cracked Skull","Head","Aimed Shots to your head multiply the damage that gets through your SP by 3 instead of 2. Base Death Save Penalty +1.","Paramedic DV15","Paramedic or Surgery DV15",1],
+    ["Damaged Ear","Head","After a Turn you move more than 4m/yds on foot, you can't take a Move Action on your next Turn. −2 to Perception Checks involving hearing.","Paramedic DV13","Surgery DV13",0],
+    ["Crushed Windpipe","Head","You can't speak. Base Death Save Penalty +1.","N/A","Surgery DV15",1],
+    ["Lost Ear","Head","The ear is gone. After a Turn you move more than 4m/yds on foot, you can't take a Move Action on your next Turn. −4 to Perception Checks involving hearing. Base Death Save Penalty +1.","N/A","Surgery DV17",1]
+  ];
+  var ADDICT_CAT = [
+    ["Black Lace","CRB","REF −2 unless under Black Lace's Primary Effect."],
+    ["Blue Glass","CRB","Addicted. See CRB p.228 for the effect."],
+    ["Boost","CRB","INT −2 unless under Boost's Primary Effect."],
+    ["Smash","CRB","−2 to the Skills Smash boosts unless under its Primary Effect."],
+    ["Synthcoke","CRB","REF −2 unless under Synthcoke's Primary Effect."],
+    ["Red Lace","Interface RED 5","DEX −2 unless under Red Lace's Primary Effect."],
+    ["Prime Time","Hornet's Pharmacy","COOL −2 unless under Prime Time's Primary Effect."],
+    ["Piranha Smash","CRB","−2 to Dance, Contortionist, Conversation, Human Perception, Persuasion and Acting unless under it."],
+    ["9-Volt","Vein Melters","−1 to Perception and chronic fatigue."],
+    ["Bliss","Vein Melters","Religious-themed obsessions."],
+    ["InSense","Vein Melters","Anhedonia and risk-seeking while not under it."]
+  ];
+  function critInfo(t){
+    t = String(t || "").trim(); var low = t.toLowerCase(), m = low.match(/^addict(?:ed|ion)?\s*(?:to)?\s*[:\-–—]?\s*(.+)$/);
+    if (m){ var a = ADDICT_CAT.filter(function(x){ return m[1].replace(/[^a-z0-9]/g, "").indexOf(x[0].toLowerCase().replace(/[^a-z0-9]/g, "")) === 0; })[0];
+      return {kind:"add", name:a ? "Addicted: " + a[0] : t, tag:"Addiction", fx:a ? a[2] : "", src:a ? a[1] : ""}; }
+    var c = CRIT_CAT.filter(function(x){ return low.indexOf(x[0].toLowerCase()) === 0; })[0];
+    return c ? {kind:/head/i.test(c[1]) && !/body/i.test(c[1]) ? "head" : "body", name:t, tag:c[1], fx:c[2], qf:c[3], tr:c[4], ds:c[5]} : {kind:"", name:t};
+  }
+  function critCan(){ return WHO === "io" && !editing && isAdmin(); }
+  function critPicker(){
+    var have = {}; (S.crits || []).forEach(function(c){ have[String(c).toLowerCase()] = 1; });
+    var og = function(lab, rows){ return '<optgroup label="' + lab + '">' + rows.join("") + '</optgroup>'; };
+    var op = function(v, t){ return '<option value="' + esc(v) + '">' + esc(t) + '</option>'; };
+    return '<label class="cradd"><span class="vhid">Add a critical injury or addiction</span><select data-critadd="1"><option value="">+ Add injury or addiction…</option>' +
+      og("Critical Injury · Body", CRIT_CAT.filter(function(c){ return /body/i.test(c[1]); }).map(function(c){ return op(c[0], c[0]); })) +
+      og("Critical Injury · Head", CRIT_CAT.filter(function(c){ return /head/i.test(c[1]) && !/body/i.test(c[1]); }).map(function(c){ return op(c[0], c[0]); })) +
+      og("Addiction", ADDICT_CAT.filter(function(a){ return !have[("addicted: " + a[0]).toLowerCase()]; }).map(function(a){ return op("Addicted: " + a[0], a[0] + " (" + a[1] + ")"); })) +
+      '</select></label>';
+  }
+  function saveCrits(){
+    render(); status("Unsaved"); clearTimeout(saveTimer);
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("crits", {items:(S.crits || []).slice()}); }, 400); return; }
+    saveTimer = setTimeout(persist, 900);
+  }
   function saveTraining(){
     render(); status("Unsaved");
     clearTimeout(saveTimer);
@@ -3236,7 +3420,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return S.skills.map(function(col,ci){
       var last = -1;
       col.forEach(function(g,gi){ if (groupOpen(g, "skills."+ci+"."+gi)) last = gi; });
-      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
+      return '<div class="skcol a-c' + (ci+1) + '">' + col.map(function(g,gi){ return skillGroup(g, "skills."+ci+"."+gi, gi === last); }).join("") + (ci === 0 && !editing && WHO === "io" ? '<div class="zpr">' + trainingBox() + nyoziBox() + nanoBox() + '</div>' + ioVid("arena", "Iō in the ring before a packed crowd, datamoshed") : '') + (ci === 1 && !editing && WHO === "zolo" ? '<div class="zpr">' + trainingBox() + nyoziBox() + '</div>' : '') + (ci === 0 && !editing && WHO === "zolo" ? '<div class="zrun" aria-hidden="true"><canvas id="zrun"></canvas></div>' : '') + '</div>';
     }).join("");
   }
 
@@ -3309,15 +3493,25 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     saveTimer = setTimeout(persist, 1200);
   }
   function vitals(){
+    var nz = nanoOn(), nb = effBody(), b0 = statV("BODY"), mx = effMaxHp(), nzt = "Nanomatrix active";
+    var cur = (!editing && nanoFlash) ? '<span class="dec nzheal">' + esc(S.hp[0]) + '</span>' : f("hp.0",{num:1,label:"HP"});
     var hp = '<div><div class="sub2">Hit Points</div>' +
-      '<div class="hp"><span class="n">' + f("hp.0",{num:1,label:"HP"}) + '</span><span class="of">out of</span><span class="n">' + f("hp.1",{num:1,label:"Max HP"}) + '</span></div>' +
-      '<div class="rowkv"><div class="k">Seriously Wounded</div><div class="val">' + f("sw",{num:1,label:"Seriously wounded"}) + '</div></div>' +
+      '<div class="hp' + (nz ? ' nzon' : '') + '"><span class="n">' + cur + '</span><span class="of">out of</span><span class="n">' + (nz ? nzv(mx, nzt + ": Max HP " + S.hp[1] + " → " + mx) : f("hp.1",{num:1,label:"Max HP"})) + '</span></div>' +
+      '<div class="rowkv"><div class="k">Seriously Wounded</div><div class="val">' + (nz ? nzv(Math.ceil(mx / 2), nzt + ": half of " + mx) : f("sw",{num:1,label:"Seriously wounded"})) + '</div></div>' +
       '<div class="wnote">−2 to all actions when Seriously Wounded</div>' +
-      '<div class="rowkv"><div class="k">Death Save</div><div class="val">' + f("deathSave",{num:1,label:"Death save"}) + '</div></div></div>';
-    var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div>' +
-      (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>') +
-      '</div>' + add("crits","Add entry") + '</div>';
-    return '<div class="vit a-vit"><section class="box"><div class="hb">Condition</div><div class="cond">' + hp + cr + '</div></section>' + ''   /* the kata (bending) animation is off for now; files stay in img/io/ */ + '</div>';
+      '<div class="rowkv"><div class="k">Death Save</div><div class="val">' + (nz ? nzv((+S.deathSave || 0) + nb - b0, nzt + ": BODY " + nb) : f("deathSave",{num:1,label:"Death save"})) + '</div></div>';
+    var ci = editing ? [] : (S.crits || []).map(critInfo), dsp = ci.reduce(function(a, c){ return a + (c.ds ? 1 : 0); }, 0);
+    hp += (dsp ? '<div class="wnote dsp">Base Death Save Penalty +' + dsp + ' from injuries</div>' : '') + '</div>';
+    var can = critCan();
+    var row = function(c, i){ return '<div class="crit cr2' + (c.kind ? ' k-' + c.kind : '') + '"><div class="crn"><b>' + esc(c.name) + '</b>' + (c.tag ? '<span class="crk">' + esc(c.tag) + '</span>' : '') +
+        (can ? '<button type="button" class="crx" data-critdel="' + i + '" aria-label="Remove ' + esc(c.name) + '" title="Remove">×</button>' : '') + '</div>' +
+        (c.fx ? '<div class="crfx">' + esc(c.fx) + '</div>' : '') +
+        (c.qf ? '<div class="crq"><span>Quick Fix</span> ' + esc(c.qf) + ' <span>Treatment</span> ' + esc(c.tr) + '</div>' : c.src ? '<div class="crq"><span>' + esc(c.src) + '</span></div>' : '') + '</div>'; };
+    var cr = '<div style="display:flex;flex-direction:column"><div class="sub2">Critical Injuries &amp; Addictions</div><div class="crl">' +
+      (editing ? (S.crits.length ? S.crits.map(function(c,i){ return '<div class="crit flex">' + f("crits."+i,{label:"Injury"}) + del("crits."+i) + '</div>'; }).join("") : '<div class="empty">None</div>')
+        : (ci.length ? ci.map(row).join("") : '<div class="empty">None</div>')) +
+      '</div>' + add("crits","Add entry") + (can ? critPicker() : '') + '</div>';
+    return '<div class="vit a-vit"><section class="box' + (nz ? ' nzbox' : '') + '"><div class="hb">Condition' + (nz ? '<span class="nztag">Nanomatrix</span>' : '') + '</div><div class="cond">' + hp + cr + '</div></section>' + ''   /* the kata (bending) animation is off for now; files stay in img/io/ */ + '</div>';
   }
 
   var ICONS = {
@@ -3376,12 +3570,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
   function weaponsArmor(){
     var armor = '<section class="box arm"><div class="hb"><span class="sp">Armor</span><span class="c">Type</span><span class="c">SP</span><span class="c">Pen.</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
-      S.armor.map(function(r,i){ var p="armor."+i; return '<tr><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+      S.armor.map(function(r,i){ var p="armor."+i; return '<tr' + (nanoOn() && /^(head|body)$/i.test(String(r.loc).trim()) && (+r.sp || 0) < NANO_PLATE ? ' class="nzsup" title="Under the Dermal Plating while the Nanomatrix is active"' : '') + '><td class="name"><span class="flex">' + (editing ? f(p+".name",{fmt:1}) + del(p) : '<span>' + tagName(r.name) + '</span>') + '</span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + f(p+".loc") + '</td><td class="n">' + f(p+".sp",{num:1}) + '</td><td class="n">' + f(p+".pen",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+      (nanoOn() ? ["Head", "Body"].map(function(l, k){ return '<tr class="nzrow" style="--k:' + k + '"><td class="name"><span class="flex"><span>Armstrong Dermal Plating <span class="nztg">Nanomatrix</span></span></span></td><td class="n" style="font-weight:500;color:var(--ink-2)">' + l + '</td><td class="n">' + nzv(NANO_PLATE, "While the Nanomatrix is active, no Armor Penalty") + '</td><td class="n"><span class="u">–</span></td></tr>'; }).join("") : '') +
       '</tbody></table></div>' + add("armor","Add armor") + '<div class="pen">Penalty applies to REF, DEX &amp; MOVE</div></section>';
     var weapons = '<section class="box"><div class="hb"><span class="sp">Weapon</span><span class="c">DMG</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.weapons.map(function(r,i){ var p="weapons."+i, tn = editing ? "" : wTone(r);
         var nm2 = editing ? f(p+".name",{fmt:1}) + del(p) : tn ? wRef(r.name, '<span class="tone-' + tn + '">' + toneName({name:r.name, tone:tn, tags:tagList(r.name)}) + '</span>') : wRef(r.name, '<span>' + tagName(r.name) + '</span>');
-        return '<tr class="' + (tn ? 'row-' + tn : '') + '"><td class="name"><span class="flex">' + nm2 + '</span></td><td class="n dmg">' + f(p+".dmg") + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
+        return '<tr class="' + (tn ? 'row-' + tn : '') + '"><td class="name"><span class="flex">' + nm2 + '</span></td><td class="n dmg">' + (!editing && /^martial arts\b/i.test(String(r.name).trim()) ? (nanoOn() ? nzv(maDice(effBody()), "Nanomatrix: BODY " + effBody()) : '<span title="BODY ' + statV("BODY") + '">' + maDice(statV("BODY")) + '</span>') : f(p+".dmg")) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
     var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.cyberweapons.map(function(r0,i){ var p="cyberweapons."+i, r = editing || r0.ind ? r0 : Object.assign({}, r0, {tone:r0.load ? palmTone() || wTone(r0) : wTone(r0)});
@@ -6185,7 +6380,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var sw = g.find("Seriously Wounded"); if (sw){ var swv = numV(g.right(sw[0], sw[1])); if (typeof swv === "number") S.sw = swv; }
     var ds = g.find("Death Save"); if (ds){ var dv = numV(g.at(ds[0], ds[1] - 1)); if (typeof dv !== "number") dv = numV(g.right(ds[0], ds[1])); if (typeof dv === "number") S.deathSave = dv; }
     var cr = g.find("Critical Injuries & Addictions");
-    if (cr){ var list = []; for (var r = cr[0] + 1; r < cr[0] + 12; r++){ var t2 = g.at(r, cr[1]); if (t2 && !/^-2 to/i.test(t2) && !/^TT\b|trauma team/i.test(t2)) list.push(t2); } S.crits = list; }
+    if (cr){ var list = []; for (var r = cr[0] + 1; r < cr[0] + 12; r++){ var t2 = g.at(r, cr[1]); if (t2) String(t2).split(/\r?\n/).forEach(function(l){ l = l.trim(); if (l && !/^-2 to/i.test(l) && !/^TT\b|trauma team/i.test(l)) list.push(l); }); } S.crits = list; }
     var er = g.find("Earned"); if (er){ var ev = numV(g.at(er[0] + 1, er[1])); if (typeof ev === "number") S.ip[1] = ev; }
     var tt = g.find("Tech Time Earned In Days"); if (tt){ var tv = numV(g.right(tt[0], tt[1])); if (tv !== "") S.techTime = tv; }
     var cm = g.find("Commission Time"); if (cm){ var cv = numV(g.right(cm[0], cm[1])); if (cv !== "") S.commission = cv; }
@@ -6348,6 +6543,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (sc) syncPlan(Grid(sc));
       var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
+      if (j.meta && j.meta.nano && typeof j.meta.nano === "object") S.nano = {on:!!j.meta.nano.on, uses:+j.meta.nano.uses || 0};
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
@@ -6542,6 +6738,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.dataset.cfpers){ cfPers = b.dataset.cfpers; render(); return; }
     if (b.dataset.cfgo){ var tg = document.getElementById("cf-" + b.dataset.cfgo); if (tg) tg.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); return; }
     if (b.dataset.cfposse){ tab = "posse"; posseSel = b.dataset.cfposse; pTab = "profile"; try { history.replaceState(null, "", "#posse"); } catch(e){} render(); window.scrollTo(0, 0); return; }
+    if (b.id === "nanosw"){ nanoAct("toggle"); return; }
+    if (b.dataset.nano){ nanoAct(b.dataset.nano); return; }
+    if (b.dataset.critdel != null){ if (!critCan()) return; S.crits.splice(+b.dataset.critdel, 1); saveCrits(); return; }
     if (b.id === "nyzsw"){ if (readOnly) return; S.nyozi = {active:!nyoziOn()}; saveNyozi(); return; }
     if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }
     if (b.dataset.tt){ if (readOnly) return; var t2 = ttState(); t2.tier = b.dataset.tt; S.tt = t2; saveTT(); return; }
@@ -6578,7 +6777,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     setP(el.dataset.p, v);
   }
   app.addEventListener("input", onField);
-  app.addEventListener("change", function(ev){ onField(ev); if (ev.target.tagName === "SELECT") render(); });
+  app.addEventListener("change", function(ev){
+    if (ev.target.dataset && ev.target.dataset.critadd){ var cv = ev.target.value; if (cv && critCan()){ if (!S.crits) S.crits = []; S.crits.push(cv); saveCrits(); } return; }
+    onField(ev); if (ev.target.tagName === "SELECT") render(); });
 
   fetch(DATA_PATH, {cache:"no-store"}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     S = d; IO = d; saved = clone(d);
