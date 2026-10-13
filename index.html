@@ -4,7 +4,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E%E6%AD%A6&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&text=%E7%8A%B6%E6%85%8B%E6%8A%80%E8%83%BD%E8%A3%85%E5%82%99%E6%90%BA%E8%A1%8C%E5%93%81&display=swap">
 <style>
 :root{
   color-scheme: dark;
@@ -2935,21 +2934,6 @@ body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcan sv
 body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire) .bcnt{top:38px}
 body.zolo .bando .slot.empty .bcan{background:transparent;border:1.5px dashed rgba(181,143,82,.35);box-shadow:none}
 /* ---- Zolo, swordsman-cyberpunk (Oak, Oct 13) ---- */
-/* iaido entrance */
-.iai{position:fixed;inset:0;z-index:80;pointer-events:none}
-.iai-a,.iai-b{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,#0b1117,#04060a 70%)}
-.iai-a{clip-path:polygon(0 0,100% 0,100% 47%,0 53%);animation:iaiUp .6s cubic-bezier(.7,0,.2,1) .62s forwards}
-.iai-b{clip-path:polygon(0 53%,100% 47%,100% 100%,0 100%);animation:iaiDn .6s cubic-bezier(.7,0,.2,1) .62s forwards}
-@keyframes iaiUp{to{transform:translateY(-58%)}}
-@keyframes iaiDn{to{transform:translateY(58%)}}
-.iai-cut{position:absolute;left:-5%;width:110%;top:50%;height:2px;margin-top:-1px;transform-origin:50% 50%;background:linear-gradient(90deg,transparent,#d8f3ff 12%,#ffffff 50%,#d8f3ff 88%,transparent);box-shadow:0 0 10px #8fe3ff,0 0 28px rgba(108,198,230,.6);
-  clip-path:inset(0 100% 0 0);animation:iaiDraw .16s cubic-bezier(.9,0,.3,1) .12s forwards,iaiCutOut .45s ease-out .64s forwards}
-@keyframes iaiDraw{to{clip-path:inset(0 0 0 0)}}
-@keyframes iaiCutOut{0%{height:4px;opacity:1}100%{height:1px;opacity:0}}
-.iai-fl{position:absolute;inset:0;background:#e9f8ff;opacity:0;animation:iaiFlash .22s ease-out .6s}
-@keyframes iaiFlash{0%{opacity:.22}100%{opacity:0}}
-.iai-p{animation:iaiOpen .55s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(.7s + var(--d,0ms))}
-@keyframes iaiOpen{from{clip-path:inset(48% -2px 48% -2px);opacity:.4}to{clip-path:inset(-20px -20px -20px -20px);opacity:1}}
 /* dash afterimage: hovering a weapon or anything on the belt dashes it in, ghosts trailing behind */
 @media (prefers-reduced-motion:no-preference){
   body.zolo .wa .t tr:hover .ico.zi,body.zolo .wa .t tr:hover .seal{animation:zdash .5s cubic-bezier(.2,.8,.2,1)}
@@ -2968,36 +2952,10 @@ body.zolo .bando .slot.empty .bcan{background:transparent;border:1.5px dashed rg
 .zglint.rev::before{animation-name:zglintT2}.zglint.rev::after{animation-name:zglintB2}
 @keyframes zglintT{to{left:102%}}@keyframes zglintB{to{right:102%}}
 @keyframes zglintT2{from{left:102%}to{left:-40%}}@keyframes zglintB2{from{right:102%}to{right:-40%}}
-/* sheath scroll bar */
-.zsheath{--p:0;position:fixed;right:10px;top:50%;height:min(64vh,640px);width:14px;transform:translateY(-50%);z-index:30;pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7))}
-.zs-sword{position:absolute;left:0;right:0;top:0;height:57%;transform:translateY(calc((1 - var(--p)) * 75.4%));will-change:transform}
-.zs-sword i{position:absolute;left:50%;transform:translateX(-50%)}
-.zs-kashira{top:0;width:9px;height:3%;border-radius:3px 3px 1px 1px;background:linear-gradient(90deg,#4a4f55,#b9c0c7,#4a4f55)}
-.zs-tsuka{top:3%;width:8px;height:20%;background:repeating-linear-gradient(135deg,#d9dde0 0 2px,#11161b 2px 4px),#11161b;background-blend-mode:normal;box-shadow:inset 0 0 0 1px #0a0d10;border-radius:1px}
-.zs-tsuka::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 2px,rgba(108,198,230,.35) 2px 3px,transparent 3px 5px)}
-.zs-tsuba{top:23%;width:14px;height:1.6%;border-radius:3px;background:linear-gradient(90deg,#3a4046,#c9d0d7,#3a4046);box-shadow:0 0 0 1px #0a0d10}
-.zs-habaki{top:24.6%;width:6px;height:2%;background:linear-gradient(90deg,#8f8a7f,#e6dfcf,#8f8a7f)}
-.zs-blade{top:26.6%;width:5px;height:73.4%;background:linear-gradient(90deg,#7f8b96 0 35%,#f2f6f9 42%,#b9c4cd 60%,#e9eef2 100%);clip-path:polygon(0 0,100% 0,100% 94%,0 100%);overflow:hidden}
-.zs-blade b{position:absolute;left:0;right:0;top:-30%;height:22%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.95),transparent);opacity:0}
-.zs-blade::before{content:"";position:absolute;left:1px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,rgba(143,227,255,.0),rgba(143,227,255,.7),rgba(143,227,255,.0));opacity:.8}
-.zs-saya{position:absolute;left:1px;right:1px;bottom:0;height:43%;border-radius:2px 2px 5px 5px;background:linear-gradient(90deg,#05070a,#1c242c 40%,#0a0e12);box-shadow:inset 0 0 0 1px #2a333c}
-.zs-saya i{position:absolute;left:-1px;right:-1px;height:4px;background:linear-gradient(90deg,#3a4046,#9aa3ad,#3a4046)}
-.zs-saya i:first-child{top:0}.zs-saya i:last-child{top:22%;height:3px;background:linear-gradient(90deg,#173a49,#6cc6e6,#173a49)}
-@media (prefers-reduced-motion:no-preference){ .zsheath.drawn .zs-blade b{animation:zsGlint 1.4s ease-out} @keyframes zsGlint{0%{top:-30%;opacity:1}100%{top:110%;opacity:1}} }
-@media (max-width:880px){ .zsheath{display:none!important} }
-/* vertical vermilion seals */
-.zkan b{font-weight:400;display:block;line-height:1.05}
-.zkan{position:absolute;z-index:4;display:flex;flex-direction:column;align-items:center;gap:1px;font:400 15px/1 "Yuji Syuku","Noto Serif JP","Yu Mincho",serif;letter-spacing:.08em;color:#f3ece0;background:#b8321f;padding:6px 3px;border-radius:2px;
-  box-shadow:inset 0 0 0 1px rgba(255,220,200,.25),0 2px 8px rgba(0,0,0,.55);transform:rotate(-3deg);pointer-events:none;opacity:.94}
-body.zolo .dossier .vit > .box,body.zolo .dossier .skcol > .box:first-child{position:relative}
-body.zolo .dossier .vit > .box > .zkan{left:-11px;top:-10px}
-body.zolo .dossier .skcol > .box > .zkan{left:-11px;top:-10px}
-body.zolo .dossier .skcol > .box:not(:first-child) > .zkan{display:none}
-body.zolo .dossier .vit > .box:has(> .zkan) > .hb,body.zolo .dossier .skcol > .box:has(> .zkan) > .hb{padding-left:20px}
-body.zolo .dossier .sec-title{position:relative}
-body.zolo .dossier .sec-title:has(> .zkan){padding-left:24px}
-body.zolo .dossier .sec-title:has(> .zkan)::before{display:none}
-body.zolo .dossier .sec-title > .zkan{left:-8px;top:-4px}   /* stamped over the panel corner below, like a hanko */
+/* decrypting numbers (zDecrypt): ice-blue while scrambling, a white flash as each one locks */
+.zdec-s{color:#8fe3ff!important;text-shadow:0 0 8px rgba(108,198,230,.7);display:inline-block;text-align:center;overflow:visible;white-space:nowrap}
+.zdec-l{animation:zdecLock .5s ease-out}
+@keyframes zdecLock{0%{color:#fff;text-shadow:0 0 12px #bfefff,0 0 22px rgba(108,198,230,.8)}100%{text-shadow:none}}
 @media (prefers-reduced-motion:no-preference){
   body.zolo .bando .slot:is(.th-smoke,.th-oil,.th-conc,.th-rave,.th-fire):not(.empty) .bcan::before{animation:zwick 1.4s steps(2) infinite}
   @keyframes zwick{50%{filter:brightness(1.35) drop-shadow(0 0 2px #ffb347)}}
@@ -4042,8 +4000,35 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return '<svg class="bc" viewBox="0 0 ' + x + ' 40" preserveAspectRatio="none" role="img" aria-label="SIN barcode">' + rects + '</svg>';
   }
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Zolo's Dossier: numbers decrypt instead (Oak, Oct 13). Each one cycles through digits and half-width katakana in ice blue,
+     then locks with a white flash; the locking sweeps across the page diagonally from the top-left. Width is held while scrambling. */
+  var ZDEC_G = "0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ#%&/<>=";
+  function zDecrypt(){
+    var els = [].slice.call(document.querySelectorAll(".dossier .dec, header.top .dec")).filter(function(e){ return e.getClientRects().length && e.textContent.trim(); });
+    if (!els.length) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var items = els.map(function(e){ var r = e.getBoundingClientRect(), fin = e.textContent;
+      var key = Math.min(1, Math.max(0, r.left) / vw * 0.55 + Math.max(0, r.top) / vh * 0.45);   /* diagonal sweep across the screen; anything below the fold locks last */
+      e.style.minWidth = Math.ceil(r.width) + "px"; e.classList.add("zdec-s");
+      return {e:e, fin:fin, key:key}; });
+    items.forEach(function(x){ x.at = 380 + x.key * 1400 + Math.random() * 140; });
+    var t0 = performance.now(), last = 0;
+    function frame(t){
+      var dt = t - t0, live = 0, tick = t - last > 45; if (tick) last = t;
+      items.forEach(function(x){
+        if (x.done) return;
+        if (dt >= x.at + x.fin.length * 45){ x.done = true; x.e.textContent = x.fin; x.e.classList.remove("zdec-s"); x.e.style.minWidth = ""; x.e.classList.add("zdec-l"); setTimeout(function(){ x.e.classList.remove("zdec-l"); }, 520); return; }
+        live++; if (!tick) return;
+        var lockN = dt < x.at ? 0 : Math.floor((dt - x.at) / 45);   /* characters lock left to right */
+        x.e.textContent = x.fin.split("").map(function(c, i){ return i < lockN || /\s/.test(c) ? c : ZDEC_G.charAt(Math.floor(Math.random() * ZDEC_G.length)); }).join("");
+      });
+      if (live) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
   function decode(){
     if (reduce) return;
+    if (WHO === "zolo" && tab === "dossier" && !editing){ zDecrypt(); return; }
     var els = [].slice.call(document.querySelectorAll(".dec")), finals = els.map(function(e){ return e.textContent; });
     var t0 = performance.now(), dur = 520;
     function frame(t){
@@ -4729,28 +4714,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     pwT.push(setTimeout(function(){ main.classList.remove("dz-in"); main.querySelectorAll(".dzi").forEach(function(el){ el.classList.remove("dzi"); }); }, 1900));
   }
   /* ---------- Zolo's Dossier: swordsman-cyberpunk effects (Oak, Oct 13) ----------
-     iaiIn: the page opens dark; one hairline is drawn across it; a half-beat later the screen splits along it and the
-       panels open from the cut (the iaido "nothing happened, then everything falls").
+     zDecrypt: on load every number scrambles through digits and half-width katakana, then locks in a diagonal wave.
      zGlint: every few seconds light catches the edge of one panel.
-     zSheath: a katana on the right edge is the scroll bar; the blade leaves its saya as you scroll.
-     zKanji: vertical vermilion seals on Condition, Skills, Weapons & Armor and Loadout.
-     The dash afterimage is CSS only (.zdash keyframes). All of it is off with reduced motion, and Zolo only. */
-  function iaiIn(){
-    pwT.forEach(clearTimeout); pwT = []; if (pwIO){ pwIO.disconnect(); pwIO = null; }
-    var old = document.querySelector(".iai"); if (old) old.remove();
-    if (reduce) return; var main = app.querySelector(".dossier"); if (!main) return;
-    var W = window.innerWidth, H = window.innerHeight, ang = Math.atan2(0.06 * H, W) * 180 / Math.PI;
-    var ov = document.createElement("div"); ov.className = "iai"; ov.setAttribute("aria-hidden", "true");
-    ov.innerHTML = '<i class="iai-a"></i><i class="iai-b"></i><i class="iai-cut" style="transform:rotate(' + (-ang).toFixed(2) + 'deg)"></i><i class="iai-fl"></i>';
-    document.body.appendChild(ov);
-    var n = 0, mid = H / 2;
-    main.querySelectorAll(".idcol > *, .stat, .skcol > *, .vit .box, .wa > *, .wacol > *, .lo2 > *, .lo-side > *").forEach(function(el){
-      if (el.classList.contains("wacol") || el.classList.contains("lo-side")) return;
-      var r = el.getBoundingClientRect(); if (r.top > H * 1.2) return;
-      el.classList.add("iai-p"); el.style.setProperty("--d", Math.min(Math.abs((r.top + r.height / 2) - mid) / H, 1) * 260 + "ms"); n++; });
-    var done = function(){ if (!ov.isConnected) return; ov.remove(); setTimeout(function(){ main.querySelectorAll(".iai-p").forEach(function(el){ el.classList.remove("iai-p"); el.style.removeProperty("--d"); }); }, 700); };
-    ov.querySelector(".iai-b").addEventListener("animationend", done); pwT.push(setTimeout(done, 4000));   /* ends with the plates, whatever the frame rate */
-  }
+     The dash afterimage is CSS only (.zdash keyframes). All of it is off with reduced motion, and Zolo only.
+     (Tried and removed, Oak Oct 13: the iaido-draw entrance, the sheath scroll bar, vertical kanji seals.) */
   var zGlintT = 0;
   function zGlint(){
     clearTimeout(zGlintT);
@@ -4764,28 +4731,6 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       }
       zGlint();
     }, 3200 + Math.random() * 3200);
-  }
-  var zSh = null;
-  function zSheath(){
-    var on = WHO === "zolo" && tab === "dossier" && !editing;
-    if (!on){ if (zSh) zSh.style.display = "none"; return; }
-    if (!zSh){
-      zSh = document.createElement("div"); zSh.className = "zsheath"; zSh.setAttribute("aria-hidden", "true");
-      zSh.innerHTML = '<div class="zs-sword"><i class="zs-kashira"></i><i class="zs-tsuka"></i><i class="zs-tsuba"></i><i class="zs-habaki"></i><i class="zs-blade"><b></b></i></div><div class="zs-saya"><i></i><i></i></div>';
-      document.body.appendChild(zSh);
-      var tk = 0; var upd = function(){ tk = 0; if (!zSh || zSh.style.display === "none") return; var max = document.documentElement.scrollHeight - window.innerHeight, p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-        zSh.style.setProperty("--p", p.toFixed(4)); zSh.classList.toggle("drawn", p > .985); };
-      window.addEventListener("scroll", function(){ if (!tk) tk = requestAnimationFrame(upd); }, {passive:true});
-      window.addEventListener("resize", function(){ if (!tk) tk = requestAnimationFrame(upd); });
-      zSh._u = upd;
-    }
-    zSh.style.display = ""; zSh._u();
-  }
-  var ZKAN = [[".vit > .box", "状態"], [".skcol > .box", "技能"], [".wa > .sec-title", "装備"], [".lo2 > .sec-title", "携行品"]];
-  function zKanji(){
-    if (WHO !== "zolo" || tab !== "dossier" || editing) return;
-    ZKAN.forEach(function(k){ var el = app.querySelector(".dossier " + k[0]); if (!el || el.querySelector(":scope > .zkan")) return;
-      var s = document.createElement("i"); s.className = "zkan"; s.setAttribute("aria-hidden", "true"); s.innerHTML = k[1].split("").map(function(c){ return "<b>" + c + "</b>"; }).join(""); el.appendChild(s);   /* stacked by hand: the subset web font has no vertical metrics */ });
   }
   function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-fig", "pw-idx", "pw-go", "pw-rel");
     [].forEach.call(el.querySelectorAll(":scope > .pwf, :scope > .pwsl"), function(x){ x.remove(); }); }
@@ -6553,8 +6498,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     ioFxInit();
     ioVidAfter();
     loAfter(pwTab && !editing);
-    if (pwTab && !editing){ pwTab = false; if (tab === "dossier" && WHO === "zolo") iaiIn(); else powerOn(tab); }
-    zKanji(); zSheath(); if (WHO === "zolo" && tab === "dossier" && !zGlintT) zGlint();
+    if (pwTab && !editing){ pwTab = false; if (tab === "dossier" && WHO === "zolo") dzIn(); else powerOn(tab); }
+    if (WHO === "zolo" && tab === "dossier" && !zGlintT) zGlint();
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
   }
