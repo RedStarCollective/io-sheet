@@ -2,7 +2,7 @@
 <title>Iō Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&family=Cinzel:wght@600;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E%E6%AD%A6&display=swap">
 <style>
 :root{
@@ -2861,6 +2861,58 @@ body.zolo .topin{box-shadow:inset 0 0 0 1px var(--frame)}
 body.zolo .sec-title::before{content:"";width:11px;height:11px;flex:none;background:var(--red-hi);box-shadow:0 0 12px rgba(108,198,230,.55);transform:rotate(45deg);margin:0 4px 0 2px}
 body.zolo .sec-title::after{height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 body.zolo .hb{border-bottom:1px solid rgba(220,214,200,.12)}
+/* ---- Zolo's Dossier, "Cyber Witcher" (Oak, Oct 13) ----
+   From the Witcher 3 menus: near-black smoky panels, thin silver rules that fade at both ends, a carved serif on titles,
+   steel and silver blades as the two signature weapons. Kept in Zolo's moonlit steel-blue so it reads as cyber, not costume.
+   Everything here is scoped to body.zolo .dossier. */
+body.zolo{--f-witch:"Cinzel","Times New Roman",serif}
+body.zolo .dossier .box{outline:1px solid rgba(217,221,224,.07);outline-offset:3px;
+  background-image:radial-gradient(120% 70% at 50% 0%,rgba(217,221,224,.04),transparent 62%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .85 0 0 0 0 .9 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+body.zolo .dossier .box > .hb{font-family:var(--f-witch);font-weight:700;font-size:13.5px;letter-spacing:.07em;background:linear-gradient(180deg,#0a0d10,#000)}
+body.zolo .dossier .box > .hb .c,body.zolo .dossier .box > .hb .gnote,body.zolo .dossier .box > .hb .cols,body.zolo .dossier .box > .hb th,body.zolo .dossier .box > .hb .prstate,body.zolo .dossier .box > .hb .nzuses,body.zolo .dossier .box > .hb .nzrules{font-family:var(--f-body)}
+body.zolo .dossier .box > .hb::before{content:"";position:absolute;left:6px;right:6px;bottom:-1px;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(217,221,224,.5) 18%,rgba(217,221,224,.5) 82%,transparent)}
+body.zolo .dossier .sec-title{font-family:var(--f-witch);font-weight:700;letter-spacing:.14em}
+body.zolo .dossier .sec-title::before{width:22px;height:22px;transform:none;margin:0 4px 0 0;box-shadow:none;filter:drop-shadow(0 0 6px rgba(108,198,230,.6));
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='black'%3E%3Cpath d='M3 2.2l1.6-.4 11 11-1.2 1.2z'/%3E%3Cpath d='M21 2.2l-1.6-.4-11 11 1.2 1.2z'/%3E%3Cpath d='M13.2 14.6l1.6-1.6 3.4 3.4-1.6 1.6zM10.8 14.6 9.2 13l-3.4 3.4 1.6 1.6z'/%3E%3Cpath d='M17.6 17.6l1.4 1.4-2.4 2.4-1.4-1.4zM6.4 17.6 5 19l2.4 2.4 1.4-1.4z'/%3E%3Ccircle cx='19.6' cy='21.2' r='1.4'/%3E%3Ccircle cx='4.4' cy='21.2' r='1.4'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='black'%3E%3Cpath d='M3 2.2l1.6-.4 11 11-1.2 1.2z'/%3E%3Cpath d='M21 2.2l-1.6-.4-11 11 1.2 1.2z'/%3E%3Cpath d='M13.2 14.6l1.6-1.6 3.4 3.4-1.6 1.6zM10.8 14.6 9.2 13l-3.4 3.4 1.6 1.6z'/%3E%3Cpath d='M17.6 17.6l1.4 1.4-2.4 2.4-1.4-1.4zM6.4 17.6 5 19l2.4 2.4 1.4-1.4z'/%3E%3Ccircle cx='19.6' cy='21.2' r='1.4'/%3E%3Ccircle cx='4.4' cy='21.2' r='1.4'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+  background:linear-gradient(180deg,#eef2f4,#6cc6e6)}
+body.zolo .dossier .sec-title::after{background:linear-gradient(90deg,rgba(217,221,224,.7),rgba(108,198,230,.25) 50%,transparent)}
+body.zolo .dossier .stat b{font-family:var(--f-witch);letter-spacing:.14em}
+/* the blades */
+.zseal{background:#1f6f8f;color:#eef6fa;box-shadow:inset 0 0 0 1px rgba(200,240,255,.3),0 0 8px rgba(108,198,230,.45)}
+.tone-zart .tn{color:var(--ink);letter-spacing:.08em;background:linear-gradient(90deg,#6cc6e6,rgba(108,198,230,0)) no-repeat 0 100%/100% 2px;padding-bottom:1px}
+.t tr.row-zart td.name{background:linear-gradient(90deg,rgba(31,111,143,.14),transparent 80%)}
+.tone-zsil .tn{background:linear-gradient(100deg,#a9bccb 0%,#ffffff 35%,#bdeeff 48%,#ffffff 60%,#a9bccb 100%);background-size:250% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 4px rgba(127,227,255,.4));letter-spacing:.05em}
+.t tr.row-zsil td.name{background:linear-gradient(90deg,rgba(189,238,255,.09),rgba(108,198,230,.03) 45%,transparent 85%)}
+.tone-zstl .tn{background:linear-gradient(180deg,#eef1f4,#8f9aa6);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 5px rgba(255,138,61,.3));letter-spacing:.05em}
+.t tr.row-zstl td.name{background:linear-gradient(90deg,rgba(255,138,61,.07),rgba(120,130,140,.05) 45%,transparent 85%)}
+.tone-zstar .tn{color:#e3e8ec;letter-spacing:.06em}
+.tone-zsil .tn,.tone-zstl .tn{-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.tone-zsnag .tn{color:#ffc4ec;text-shadow:0 0 7px rgba(230,130,255,.45)}
+.t tr.row-zsnag td.name{background:linear-gradient(90deg,rgba(230,130,255,.07),transparent 75%)}
+/* Witcher-style inventory slot: each of Zolo's weapon icons sits in a small dark square with a quality glow */
+.ico.zi{width:28px;height:28px;padding:2px;vertical-align:-8px;margin-right:8px;box-sizing:border-box;background:radial-gradient(circle at 50% 40%,#1b232b,#07090b 75%);border:1px solid rgba(217,221,224,.22);box-shadow:inset 0 0 6px rgba(0,0,0,.8)}
+.tone-zsil .ico.zi{border-color:rgba(127,227,255,.55);box-shadow:inset 0 0 6px rgba(0,0,0,.8),0 0 8px rgba(127,227,255,.25)}
+.tone-zstl .ico.zi{border-color:rgba(255,138,61,.45);box-shadow:inset 0 0 6px rgba(0,0,0,.8),0 0 8px rgba(255,138,61,.18)}
+.tone-zsnag .ico.zi{border-color:rgba(230,130,255,.45)}
+@media (prefers-reduced-motion:no-preference){
+  .tone-zsil .tn{animation:zsheen 6s ease-in-out infinite}
+  @keyframes zsheen{0%,60%{background-position:100% 0}90%,100%{background-position:0 0}}
+  .tone-zsil .zrune{animation:zrune 3.2s ease-in-out infinite}
+  @keyframes zrune{0%,100%{stroke:#7fe3ff;filter:none}50%{stroke:#e6fbff;filter:drop-shadow(0 0 1.5px #7fe3ff)}}
+  .tone-zstl .zember{animation:zember 2.6s ease-in-out infinite}
+  @keyframes zember{0%,100%{stroke-opacity:.55}50%{stroke-opacity:1}}
+  .t tr.row-zstar:hover .zstar-i{animation:zspin .9s cubic-bezier(.3,.6,.2,1)}
+  @keyframes zspin{to{transform:rotate(360deg)}}
+  .zstar-i{transform-origin:50% 50%}
+  .t tr.row-zsnag:hover .ztent{animation:ztent .8s ease-in-out 2}
+  @keyframes ztent{50%{transform:translateY(.6px) scaleX(1.06)}}
+  .ztent{transform-origin:12px 13px}
+}
+/* the Nanomatrix as Zolo carries it: rhombus charge gems, carved title */
+body.zolo .nanox .nzuses .pips{gap:5px;padding:0 3px}
+body.zolo .nanox .nzuses .pips i{width:8px;height:8px;transform:rotate(45deg)}
+body.zolo .nanox.on .nzuses .pips i.on{box-shadow:0 0 8px var(--nano)}
 /* persona switch (header) */
 .whosw{display:inline-flex;border:1px solid var(--frame);background:rgba(0,0,0,.35)}
 .whosw button{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--ink-3);font:700 12px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px 7px;cursor:pointer}
@@ -3088,7 +3140,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];
   var IO = null, WHO = "io", roIo = false, zMask = false;
   function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
-  function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; return out; }
+  function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; out.nano = z.nano || {}; return out; }
   function setWho(w){
     if (w === "zolo" && !(S && S.zolo) && !(IO && IO.zolo)) return;
     if (FA.on){ if (FA.orig && WHO === "io"){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; }   /* leaving mid-arrange drops the unsaved order */
@@ -3309,7 +3361,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function nanoMaxUses(){ var n = 0;
     ((S.chrome && S.chrome.zones) || []).forEach(function(z){ (z.groups || []).forEach(function(g){ (g.items || []).forEach(function(it){ if (it.ref === "armstrong"){ var m = String(it.count || "").match(/\d+/); n = Math.min(3, m ? +m[0] : 1); } }); }); });
     return n || 3; }
-  function nanoHas(){ return WHO === "io"; }
+  function nanoHas(){ return WHO === "io" || WHO === "zolo"; }
+  function nanoLock(){ return WHO === "zolo" ? roIo : readOnly; }   /* Zolo's view is read-only for the rest of the page; the owner still runs his Nanomatrix */
   function nanoSt(){ var m = nanoMaxUses(), n = S.nano || {}; return {on:!!n.on, uses:n.uses == null ? m : Math.max(0, Math.min(m, +n.uses || 0)), max:m}; }
   function nanoOn(){ return nanoHas() && !editing && nanoSt().on; }
   function bodyFx(b){ return b >= 11 ? b : Math.min(11, b + 3); }
@@ -3322,7 +3375,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var NANO_PLATE = 13;
   /* lives under the Weapon box in Weapons & Armor (Oak, Oct 13): the switch, uses and effects always show; the rules fold away */
   function nanoBox(){
-    var st = nanoSt(), on = st.on, rOpen = !!open.nano, lock = readOnly, b = statV("BODY"), nb = bodyFx(b), d = nanoDiff();
+    var st = nanoSt(), on = st.on, rOpen = !!open.nano, lock = nanoLock(), b = statV("BODY"), nb = bodyFx(b), d = nanoDiff();
     var arm0 = Math.max.apply(null, (S.armor || []).map(function(r){ return +r.sp || 0; }).concat([0]));
     var pips = ''; for (var i = 0; i < st.max; i++) pips += '<i class="' + (i < st.uses ? 'on' : '') + '"></i>';
     var fx = function(k, a, z){ return '<span class="nzr"><span>' + k + '</span><b>' + esc(a) + '</b><span class="arr">→</span><b class="to">' + esc(z) + '</b></span>'; };
@@ -3343,11 +3396,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     render(); status("Unsaved");
     clearTimeout(saveTimer);
     nanoFlash = false; var hpD = nanoHpDirty; nanoHpDirty = false;
-    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("meta", {name:"nano", value:{on:nanoSt().on, uses:nanoSt().uses}}).then(function(ok){ if (ok && hpD) pushState("hp", {cur:+S.hp[0] || 0}); }); }, 500); return; }
-    saveTimer = setTimeout(persist, 900);
+    var zo = WHO === "zolo";
+    if (zo && IO && IO.zolo){ IO.zolo.nano = S.nano; IO.zolo.hp = S.hp.slice(); }   /* Zolo's view is a copy: keep his own data in step */
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("meta", {name:zo ? "nanoz" : "nano", value:{on:nanoSt().on, uses:nanoSt().uses}}).then(function(ok){ if (ok && hpD) pushState("hp", {cur:+S.hp[0] || 0, who:zo ? "zolo" : "io"}); }); }, 500); return; }
+    saveTimer = setTimeout(function(){ persist(zo ? IO : null); }, 900);
   }
   function nanoAct(what){
-    if (readOnly || !nanoHas()) return; var st = nanoSt(), d = nanoDiff(), cur = +S.hp[0] || 0, base = +S.hp[1] || 0;
+    if (nanoLock() || !nanoHas()) return; var st = nanoSt(), d = nanoDiff(), cur = +S.hp[0] || 0, base = +S.hp[1] || 0;
     if (what === "toggle"){
       if (!st.on){ if (!st.uses) return; S.nano = {on:true, uses:st.uses - 1}; S.hp[0] = Math.min(cur + d, base + d); nanoHpDirty = true; nanoFlash = true; }
       else { S.nano = {on:false, uses:st.uses}; if (cur > base){ S.hp[0] = base; nanoHpDirty = true; } }
@@ -3538,6 +3593,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
 
   var ICONS = {
+    /* Zolo's blades (Oak, Oct 13: "Cyber Witcher"). Silver: a slender rune-etched blade, the runes lit ice-blue.
+       Steel: the bigger two-hander, blued gunmetal with an ember edge. Then the throwing stars and the Cuddlefish Snag'em. */
+    zsil: '<svg class="ico zi" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="zsg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8fa3b3"/><stop offset=".5" stop-color="#ffffff"/><stop offset="1" stop-color="#a9bccb"/></linearGradient></defs><g transform="rotate(40 12 12)"><path fill="url(#zsg)" stroke="#1d2730" stroke-width=".55" d="M12 .2l1.8 2.9v11.6h-3.6V3.1z"/><path class="zrune" stroke="#7fe3ff" stroke-width=".9" stroke-linecap="round" d="M12 4.2v1.4M12 7v1M11.4 9.3l1.2 1.1M12 11.6v1.6"/><path fill="#d6dee5" stroke="#1d2730" stroke-width=".55" d="M6.4 14.4q5.6 2 11.2 0l-.3 1.6q-5.3 1.5-10.6 0z"/><rect x="10.9" y="16" width="2.2" height="5" rx=".6" fill="#2b3036" stroke="#1d2730" stroke-width=".4"/><path stroke="#9aa6b1" stroke-width=".55" d="M10.9 17.1h2.2M10.9 18.4h2.2M10.9 19.7h2.2"/><circle cx="12" cy="22.2" r="1.5" fill="#d6dee5" stroke="#1d2730" stroke-width=".55"/></g></svg>',
+    zstl: '<svg class="ico zi" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ztg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4c5763"/><stop offset=".45" stop-color="#c9d0d8"/><stop offset=".55" stop-color="#9aa5b1"/><stop offset="1" stop-color="#3d4650"/></linearGradient></defs><g transform="rotate(-40 12 12)"><path fill="url(#ztg)" stroke="#161c22" stroke-width=".6" d="M12 0l2.7 2.8v10.8H9.3V2.8z"/><path class="zember" fill="none" stroke="#ff8a3d" stroke-width=".8" d="M14.5 3v10.4"/><path fill="none" stroke="#161c22" stroke-width=".55" d="M12 2.6v10.8"/><path fill="#9aa3ad" stroke="#161c22" stroke-width=".55" d="M5.4 13.4h13.2l-1 1.8H6.4z"/><rect x="10.8" y="15.2" width="2.4" height="6.6" rx=".6" fill="#2b2420" stroke="#161c22" stroke-width=".4"/><path stroke="#7a6650" stroke-width=".6" d="M10.8 16.4h2.4M10.8 17.7h2.4M10.8 19h2.4M10.8 20.3h2.4"/><path fill="#9aa3ad" stroke="#161c22" stroke-width=".55" d="M10.2 21.8h3.6l-.6 2.1h-2.4z"/></g></svg>',
+    zstar: '<svg class="ico zi zstar-i" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="zrg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef2f4"/><stop offset=".5" stop-color="#8e9aa6"/><stop offset="1" stop-color="#dfe5ea"/></linearGradient></defs><path fill="url(#zrg)" fill-rule="evenodd" stroke="#1d242b" stroke-width=".6" stroke-linejoin="round" d="M12 1.5l2.2 7.3 7.3 3.2-7.3 3.2L12 22.5l-2.2-7.3L2.5 12l7.3-3.2zM12 10.4a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2z"/></svg>',
+    zsnag: '<svg class="ico zi" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="zcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd2ee"/><stop offset="1" stop-color="#c58cff"/></linearGradient></defs><path fill="url(#zcg)" stroke="#4a2a58" stroke-width=".6" d="M12 2.2c3.3 0 5.4 2.6 5.4 5.9 0 2.2-.8 3.8-2 4.9H8.6c-1.2-1.1-2-2.7-2-4.9 0-3.3 2.1-5.9 5.4-5.9z"/><path fill="#e8a8ff" stroke="#4a2a58" stroke-width=".5" d="M6.7 6.4 4.4 9.6l2.6.2zM17.3 6.4l2.3 3.2-2.6.2z"/><circle cx="10.2" cy="8.4" r="1" fill="#2a1430"/><circle cx="13.8" cy="8.4" r="1" fill="#2a1430"/><circle cx="10.5" cy="8.1" r=".35" fill="#fff"/><circle cx="14.1" cy="8.1" r=".35" fill="#fff"/><g class="ztent" fill="none" stroke="#d99cff" stroke-width="1.3" stroke-linecap="round"><path d="M9 13c-.4 2.4-1.8 3.6-3.2 4.6"/><path d="M11 13.2c0 2.6-.6 4.6-1.6 6.4"/><path d="M13 13.2c0 2.6.6 4.6 1.6 6.4"/><path d="M15 13c.6 2.8 2.6 4 2.6 6.2a1.5 1.5 0 0 1-2.8.5"/></g><path fill="#fff4a8" d="M18.6 2.2a1.9 1.9 0 1 0 1.9 2.6 1.5 1.5 0 1 1-1.9-2.6z"/></svg>',
     gold: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d58e"/><stop offset=".55" stop-color="#c9973f"/><stop offset="1" stop-color="#7d5a22"/></linearGradient></defs><path fill="url(#gg)" stroke="#3a2a10" stroke-width=".8" d="M6.2 9.2c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8V6.6c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v.4c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v1.4c.2-.9.9-1.4 1.7-1.4 1 0 1.7.8 1.7 1.8v5.4c0 3.4-2.6 5.6-6 5.6h-2.3c-2.4 0-4.2-1.4-5-3.6L5 12.9c-.4-1 .1-2 1.2-2.3z"/><path fill="none" stroke="#3a2a10" stroke-width=".8" d="M9.8 9.2v3M13.4 7v5M17 8.4v4"/><rect x="7.6" y="19.4" width="9.6" height="3.2" rx=".6" fill="url(#gg)" stroke="#3a2a10" stroke-width=".8"/></svg>',
     fire: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="fg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d12"/><stop offset=".6" stop-color="#ff9a2e"/><stop offset="1" stop-color="#ffe08a"/></linearGradient></defs><path fill="url(#fg)" d="M12.6 2c.6 3-1.3 4.6-2.7 6.2C8.2 10.1 7 12 7 14.6 7 18.2 9.3 21 12.4 21c3.4 0 5.6-2.6 5.6-6.1 0-2.4-1.1-4-2.1-5.3-.2 1.4-.8 2.3-1.7 2.8.4-3.6-.6-7.3-1.6-9.4z"/><path fill="#fff1c2" opacity=".85" d="M12.3 12.2c.3 1.6-.8 2.4-1.4 3.3-.4.6-.6 1.2-.6 1.9 0 1.5 1 2.5 2.2 2.5 1.4 0 2.3-1.1 2.3-2.5 0-1.9-1.6-3.2-2.5-5.2z"/></svg>',
     ice: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#bfeaff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/><path d="M9.6 3.8 12 6l2.4-2.2M9.6 20.2 12 18l2.4 2.2M3.9 10.1l3.1-1 .7-3.2M16.3 18.1l-.7-3.2 3.1-1M3.9 13.9l3.1 1 .7 3.2M16.3 5.9l-.7 3.2 3.1 1"/></g></svg>',
@@ -3557,9 +3618,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   };
   /* a hanko-style seal for the Martial Arts row (Iō only; Zolo's art rows carry no icons) */
   var ART_SEAL = '<span class="seal" aria-hidden="true">武</span>';
+  var ZART_SEAL = '<span class="seal zseal" aria-hidden="true">武</span>';
   /* designs and book text keyed off the weapon's name, so they survive the sheet sync */
   function wTone(r){ if (r.tone) return r.tone; var b = String(r.name).replace(/\s*[\(\[].*$/, "");
-    if (/^martial arts$/i.test(b)) return WHO === "io" ? "art" : "";
+    if (/^martial arts$/i.test(b)) return WHO === "io" ? "art" : "zart";
+    if (WHO === "zolo"){ if (/silver sword/i.test(b)) return "zsil"; if (/steel.*sword|bigger sword/i.test(b)) return "zstl"; if (/ninja star|shuriken/i.test(b)) return "zstar"; if (/snag/i.test(b)) return "zsnag"; }
     if (/orbital knife|mono-?knife/i.test(b)) return "orbit";
     if (/magi.?palm/i.test(b)) return "magi"; if (/kong|big.?knuck/i.test(b)) return "kong"; if (/palm bomb|high five/i.test(b)) return "blast"; if (/medical hand/i.test(b)) return "med";
     return ""; }
@@ -3585,7 +3648,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (/^((EQ|PQ|LM|MM|HM|VHM)\s+)+(EQ|PQ|LM|MM|HM|VHM)$/i.test(t)) t.split(/\s+/).forEach(function(x){ tags.push(x.toUpperCase()); }); else tags.push(t); }); });
     return tags; }
   function toneName(r){
-    if (r.tone === "art") return ART_SEAL + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>';
+    if (r.tone === "art" || r.tone === "zart") return (r.tone === "zart" ? ZART_SEAL : ART_SEAL) + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>';
     if (r.tags && r.tags.length) return (ICONS[r.tone] || '') + '<span class="tn">' + esc(String(r.name).replace(/\s*[\(\[].*$/, "")) + '</span>' + cwTags(r);
     var m = String(r.name).match(/^([^\(\[]*?)\s*(\(.*?\))?\s*(\[.*)?$/) || [null, r.name];
     return (ICONS[r.tone] || '') + '<span class="tn">' + esc(m[1]) + '</span>' +
@@ -3617,7 +3680,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       '</tbody></table></div>' + add("cyberweapons","Add cyberweapon") + '</section>';
     /* the tea-drinking glitch portrait was removed (Oak, Oct 12) so the three boxes get its width; img/io-glitch.webp stays on disk */
     var nzb = !editing && nanoHas() ? nanoBox() : '';
-    return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + (nzb ? '<div class="wacol">' + weapons + nzb + '</div>' : weapons) + cyber + '</div>';
+    return '<div class="wa a-wa"><h2 class="sec-title"><span class="glx">Weapons &amp; Armor</span></h2>' + armor + (nzb && cyber ? '<div class="wacol">' + weapons + nzb + '</div>' : weapons) + cyber + (nzb && !cyber ? nzb : '') + '</div>';
   }
 
   function pharma(){
@@ -4563,6 +4626,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     /* Fans, Posse and Vehicles keep their own entrances (Oak, Oct 12) */
     if (t === "advance") return [{sel:":scope > section, :scope > .box", kind:"box", step:90}];
     return [];
+  }
+  /* Zolo's Dossier keeps its original entrance (Oak, Oct 13): panels rise in one after another, no power-on */
+  function dzIn(){
+    pwT.forEach(clearTimeout); pwT = []; if (pwIO){ pwIO.disconnect(); pwIO = null; }
+    if (reduce) return; var main = app.querySelector(".dossier"), n = 0; if (!main) return;
+    main.classList.add("dz-in");
+    main.querySelectorAll(".portrait, .idcol > *, .stat, .skcol > .box, .skcol > .zpr, .vit .box, .wa > *, .wacol > *, .lo2 > *, .lo-side > *").forEach(function(el){
+      if (el.closest(".dzi")) return; el.classList.add("dzi"); el.style.setProperty("--dz", Math.min(n++, 24)); });
+    pwT.push(setTimeout(function(){ main.classList.remove("dz-in"); main.querySelectorAll(".dzi").forEach(function(el){ el.classList.remove("dzi"); }); }, 1900));
   }
   function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-fig", "pw-idx", "pw-go", "pw-rel");
     [].forEach.call(el.querySelectorAll(":scope > .pwf, :scope > .pwsl"), function(x){ x.remove(); }); }
@@ -6330,7 +6402,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     ioFxInit();
     ioVidAfter();
     loAfter(pwTab && !editing);
-    if (pwTab && !editing){ pwTab = false; powerOn(tab); }
+    if (pwTab && !editing){ pwTab = false; if (tab === "dossier" && WHO === "zolo") dzIn(); else powerOn(tab); }
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
   }
@@ -6568,6 +6640,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.meta && j.meta.nano && typeof j.meta.nano === "object") S.nano = {on:!!j.meta.nano.on, uses:+j.meta.nano.uses || 0};
+      if (j.meta && j.meta.nanoz && typeof j.meta.nanoz === "object" && S.zolo) S.zolo.nano = {on:!!j.meta.nanoz.on, uses:+j.meta.nanoz.uses || 0};
       if (j.hosting && typeof j.hosting === "object") hostOpen = j.hosting.open !== false;
       if (j.fans && j.fans.order && !FA.on) fnApplyOrder(j.fans.order);
       if (j.meta && j.meta.lo && j.meta.lo.pins && S.lo && !pinDrag) S.lo.pins = j.meta.lo.pins;
@@ -6678,13 +6751,14 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     try { artifactNs = (window.claude && window.claude.use) ? await window.claude.use("artifact") : null; } catch(e){ artifactNs = null; }
     return artifactNs;
   }
-  async function persist(){
+  async function persist(o){
+    var D = o && o.handle ? o : S;   /* Zolo's Nanomatrix saves Iō's whole file (his data lives in it) */
     var a = await getArtifact();
     if (!a){ status("Can't save here"); return false; }
     status("Saving…");
     try {
-      await a.publish({ [DATA_PATH]: { content: JSON.stringify(S, null, 1), contentType: "application/json" } });
-      saved = clone(S); status("Saved"); return true;
+      await a.publish({ [DATA_PATH]: { content: JSON.stringify(D, null, 1), contentType: "application/json" } });
+      if (D === S) saved = clone(S); status("Saved"); return true;
     } catch(e){
       var c = e && e.code;
       if (c === "not_writer" || c === "not_granted"){ markReadOnly(); return false; }

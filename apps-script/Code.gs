@@ -66,7 +66,7 @@ function doPost(e) {
   if (body.type === 'ping') return json_({ ok: true });
   if (body.type === 'pharma') return json_(savePharma_(body.items || []));
   if (body.type === 'throwables') return json_(saveThrowables_(body.items || []));
-  if (body.type === 'hp') return json_(saveHp_(body.cur));
+  if (body.type === 'hp') return json_(saveHp_(body.cur, body.who));
   if (body.type === 'crits') return json_(saveCrits_(body.items || []));
   if (body.type === 'training') return json_(saveTraining_(body));
   if (body.type === 'tt') return json_(saveTT_(body));
@@ -760,11 +760,12 @@ function saveThrowables_(items) {
   return { ok: true, saved: saved };
 }
 
-/** Current HP (the Nanomatrix switch on the page adds and removes HP): writes the cell under "Hit Points". Max HP is left alone. */
-function saveHp_(cur) {
+/** Current HP (the Nanomatrix switch on the page adds and removes HP): writes the cell under "Hit Points". Max HP is left alone.
+ *  who: 'zolo' writes Zolo's tab (Stats & Skills Z), anything else Iō's. */
+function saveHp_(cur, who) {
   const n = Math.round(Number(cur));
   if (!isFinite(n) || n < -99 || n > 999) return { ok: false, error: 'bad HP' };
-  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), TABS[0]);
+  const sh = findTab_(SpreadsheetApp.getActiveSpreadsheet(), who === 'zolo' ? TABS[4] : TABS[0]);
   if (!sh) return { ok: false, error: 'Stats tab not found' };
   const vals = sh.getDataRange().getDisplayValues();
   for (let r = 0; r < vals.length; r++) {

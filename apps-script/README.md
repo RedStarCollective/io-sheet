@@ -5,7 +5,7 @@
 
 - GET returns the display values of three tabs: Stats & Skills Iō, Skill Improvements, Skill Improvement Calculator.
 - POST `{key, type:"pharma", items:[{name, n}]}` writes dose counts under the "Pharma" list. Needs the `EDIT_KEY` script property.
-- POST `{key, type:"hp", cur}` writes current HP (the cell under "Hit Points"). Used by the Nanomatrix switch.
+- POST `{key, type:"hp", cur, who}` writes current HP (the cell under "Hit Points"; `who:"zolo"` writes the Stats & Skills Z tab). Used by the Nanomatrix switch.
 - POST `{key, type:"crits", items:[...]}` writes the Critical Injuries & Addictions list (one per line, in the first cell under the heading).
 
 Unlock dose counters on a device by visiting the site once with `?key=YOUR_EDIT_KEY`.
