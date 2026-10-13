@@ -1269,6 +1269,11 @@ body.zolo .rsig i.on.hi{box-shadow:0 0 8px rgba(217,221,224,.35)}
   .pw-holo.pw-go > .pwsl{animation:pwBand .6s linear forwards,pwHoloSl 1.1s ease-out forwards}
   @keyframes pwBand{from{background-position:0 0%,0 0}to{background-position:0 100%,0 0}}
   @keyframes pwHoloSl{0%{opacity:1}55%{opacity:.9}100%{opacity:0}}
+  /* idx: Case File's margin index. No frame: each entry slides in from its rule, which flashes gold, then settles (Oak: the box was clunky) */
+  .pw-idx:not(.pw-go){opacity:0}
+  .pw-idx.pw-go{animation:pwIdx .6s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes pwIdx{0%{opacity:0;transform:translateX(-10px);border-left-color:var(--gold);color:var(--ink)}
+    45%{opacity:1;border-left-color:var(--gold);text-shadow:0 0 10px rgba(217,180,106,.5)}100%{opacity:1;transform:none}}
   /* fig: the character art. A soft-edged wipe up the silhouette itself (mask, so it follows the cut-out, never a box;
      the mask runs 80px past each side and 60px below with no-clip, so the art's shadow and glow are never cut to the frame),
      lit gold as it forms, with one flicker, then settles to the normal art */
@@ -4525,7 +4530,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
        line - for frameless pages: a gold hairline draws across, then the text comes up
      Each tab picks its own targets (pwPlan). Runs once per tab visit (pwTab); nothing happens with reduced motion. */
   var pwTab = true, pwIO = null, pwT = [];
-  var PW_DUR = {box:1050, holo:1150, line:950, fig:1300};
+  var PW_DUR = {box:1050, holo:1150, line:950, fig:1300, idx:700};
   function pwPlan(t){
     var M = app.querySelector("main"); if (!M) return [];
     if (t === "dossier") return [
@@ -4534,13 +4539,13 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       {sel:".sec-title", kind:"line"}];
     if (t === "ware"){ var b = M.classList.contains("wboot") ? 950 : 0;
       return [{sel:".znav .zbtns, .znav .zitem", kind:"box", base:b, step:40}, {sel:".zpanel", kind:"box", base:b + 250}, {sel:".ring .side > .box, .ring .side > *", kind:"box", base:b + 250, step:50}]; }
-    if (t === "casefile") return [{sel:".cfhd", kind:"line"}, {sel:".cfs", kind:"line", step:90}, {sel:".cfidx button", kind:"box", step:35}];
+    if (t === "casefile") return [{sel:".cfhd", kind:"line"}, {sel:".cfs", kind:"line", step:90}, {sel:".cfidx button", kind:"idx", step:70}];
     if (t === "rep") return [{sel:".rephero > .box", kind:"box", step:90}, {sel:".rephero > .zrfig", kind:"holo", base:200}, {sel:".rside", kind:"box", base:200}, {sel:".zrc", kind:"box", step:80}];
     /* Fans, Posse and Vehicles keep their own entrances (Oak, Oct 12) */
     if (t === "advance") return [{sel:":scope > section, :scope > .box", kind:"box", step:90}];
     return [];
   }
-  function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-fig", "pw-go", "pw-rel");
+  function pwClean(el){ el.classList.remove("pw", "pw-box", "pw-holo", "pw-line", "pw-fig", "pw-idx", "pw-go", "pw-rel");
     [].forEach.call(el.querySelectorAll(":scope > .pwf, :scope > .pwsl"), function(x){ x.remove(); }); }
   function powerOn(t){
     pwT.forEach(clearTimeout); pwT = []; if (pwIO){ pwIO.disconnect(); pwIO = null; }
@@ -4555,9 +4560,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         els = els.map(function(e, i){ return [e, Math.abs(i - li)]; }).sort(function(a, b){ return a[1] - b[1]; }).map(function(x){ return x[0]; }); }
       els.forEach(function(el, i){
         var cs = getComputedStyle(el);
-        el.classList.add("pw", "pw-" + g.kind); if (cs.position === "static" && g.kind !== "fig") el.classList.add("pw-rel");
+        el.classList.add("pw", "pw-" + g.kind); if (cs.position === "static" && g.kind !== "fig" && g.kind !== "idx") el.classList.add("pw-rel");
         el._pw = {base:g.base || 0, step:g.step == null ? 70 : g.step, ord:rank++, kind:g.kind};
-        if (g.kind !== "fig" && (g.kind !== "holo" || el.tagName !== "IMG")){
+        if (g.kind !== "fig" && g.kind !== "idx" && (g.kind !== "holo" || el.tagName !== "IMG")){
           if (g.kind !== "holo"){ var f = document.createElement("i"), bw = parseFloat(cs.borderTopWidth) || 0; f.className = "pwf"; f.setAttribute("aria-hidden", "true"); f.style.inset = (-bw) + "px"; if (g.kind === "box") f.style.borderLeftWidth = Math.max(1, parseFloat(cs.borderLeftWidth) || 1) + "px"; el.appendChild(f); }
           if (g.kind !== "line"){ var sl = document.createElement("i"); sl.className = "pwsl"; sl.setAttribute("aria-hidden", "true"); el.appendChild(sl); } }
         marked.push(el); });
