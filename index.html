@@ -3197,7 +3197,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Contacts tab hidden for now (Oak, Oct 8): contactsPage() and io.json contacts stay in place; add "contacts" back to READY and TABS to restore it */
   var TABS = ["Dossier","Ware","Case File","Rep","Fans","Posse","Vehicles","HQ","Advance"];
   /* Zolo: an alias persona. Only Dossier / Ware / Rep exist for him; Ware and Rep come later. */
-  var ZTABS = ["Dossier","Rep"], ZREADY = ["dossier","rep"];   /* Zolo's Ware is hidden for now (Oak, Oct 13); its code and data stay. Add "Ware"/"ware" back to show it */
+  var ZTABS = ["Dossier","Ware","Rep"], ZREADY = ["dossier","ware","rep"];   /* Ware back on (Oak, Oct 13): new body art fitted to Iō's, with scans */
   var IO = null, WHO = "io", roIo = false, zMask = false;
   function hashFor(t){ return WHO === "zolo" ? (t === "dossier" ? "zolo" : "zolo-" + t) : t; }
   function buildZ(){ var z = clone(IO.zolo || {}), out = {}, k; for (k in IO) out[k] = IO[k]; for (k in z) out[k] = z[k]; out.sin = ""; out.nano = z.nano || {}; return out; }
@@ -4248,8 +4248,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var LIMBSIDE = {"right cyberarm":["L","armR"], "left arm":["R","armL"], "right leg":["L","legR"], "left leg":["R","legL"]};
   var ANCH_IO = {"head": [48.7, 5.4], "eyes": [47.9, 11.0], "ears": [58.6, 10.0], "armR": [14.1, 38.0], "armL": [87.3, 37.7], "legR": [33.7, 65.4], "legL": [69.8, 66.1], "torso": [51.1, 27.8], "legs": [52.3, 65.7], "bodyL": [10.9, 27.8], "bodyR": [91.4, 27.8]};
   /* Zolo's figure: his own art, region masks drawn on it, and the aligned metal skeleton for the x-ray layer */
-  var RBOX_Z = {"body": [1.6, 0.6, 98.2, 99.3], "torso": [24.8, 13.0, 76.2, 35.7], "legs": [11.2, 35.8, 97.9, 99.3], "armL": [74.6, 15.6, 98.2, 55.1], "armR": [1.6, 15.4, 24.8, 55.1], "head": [34.1, 0.6, 63.7, 12.9], "ears": [39.3, 6.2, 61.3, 8.9], "eyes": [46.6, 7.1, 57.0, 7.9]};
-  var ANCH_Z = {"head": [49.6, 4.3], "eyes": [51.8, 7.5], "ears": [60.3, 7.2], "armR": [12.7, 33.9], "armL": [87.2, 34.6], "legR": [33.0, 62.7], "legL": [68.8, 63.0], "torso": [50.3, 24.0], "legs": [50.2, 62.8], "bodyL": [11.1, 23.9], "bodyR": [87.0, 23.9]};
+  var RBOX_Z = {"body": [1.7, 2.7, 98.5, 99.5], "torso": [27.3, 16.7, 75.4, 39.8], "legs": [8.6, 39.7, 96.6, 99.5], "armL": [75.2, 18.9, 98.5, 59.5], "armR": [1.7, 18.8, 27.6, 59.2], "head": [32.1, 2.7, 69.0, 16.9], "ears": [37.4, 8.9, 59.8, 12.0], "eyes": [40.8, 10.6, 55.1, 11.5]};   /* m4: fitted to Iō's outline (Oct 13) */
+  var ANCH_Z = ANCH_IO;   /* his body now shares Iō's outline (Oct 13) */
   var XL = "bone"; try { XL = localStorage.getItem("io-xlayer") || "bone"; } catch(e){}
   function XLSRC(F){ return (XL === "muscle" && F.mus) ? F.mus : (XL === "nerve" && F.nerve) ? F.nerve : F.skel; }
   /* Iō's back: same page, turned around (his cyberarm is on the viewer's right from behind) */
@@ -4258,7 +4258,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var VIEW = "front"; try { VIEW = localStorage.getItem("io-view") || "front"; } catch(e){}
   function FIG(){ if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back5.webp", skel:"img/io/ware-bskel3.webp", mus:"img/io/ware-bmus2.webp", nerve:"img/io/ware-bnerve1.webp", cloth:"img/io/ware-bcloth2.webp", nude:true, lens:"img/io/mb3/lens.png", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
-    ? {img:"img/zolo/ware-body2.webp", skel:"", m:"img/zolo/m3/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}
+    ? {img:"img/zolo/ware-body3.webp", skel:"img/zolo/ware-skel2.webp", mus:"img/zolo/ware-mus1.webp", nerve:"img/zolo/ware-nerve1.webp", lens:"img/zolo/m4/lens.png", m:"img/zolo/m4/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}   /* Oct 13: his art is fitted to Iō's outline, so Iō's muscle/nerve/bone layers sit on him; the scans show the cyberarm under his Concealment Sleeve in silver */
     : {img:"img/io/ware-body8.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", cloth:"img/io/ware-cloth4.webp", nude:true, m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg; he opens in a white gi top and black trousers, and stands in a black mawashi once a ware system is picked"}; }
   var AROUND = {L:["optics:L","limbs:L"], R:["optics:R","limbs:R","internal","external","fashion","borg"]}, AROUND_SKIP = {adv:1, neural:1, optics:1, audio:1, limbs:1, gear:1};
   function aroundHTML(nav, stage, sel){
@@ -4369,7 +4369,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Right Cyberarm diagram: the arm cut large, each option pinned where it sits (Oak, Oct 2) */
   var ADSPOT = [[/quick.?change/i,"joint","Shoulder mount"],[/superchrome/i,"cap","Covering"],[/reinforced/i,"bicep","Frame"],[/popup|magi/i,"hand","Whole hand"],[/watch.?man/i,"wrist","Wrist"],[/wolvers/i,"under","Under the wrist"],[/kong|big.?knuck/i,"knuck","Knuckles"],[/arclight/i,"fore","Forearm to hand"],[/medical/i,"tips","Fingers"],[/palm bomb|high five/i,"palm","Palm"],[/holo.?palm/i,"palm2","Palm"]];
   function ADFIG(){ return WHO === "zolo"
-    ? {img:"img/zolo/arm1.webp", w:298, h:1152, alt:"Zolo’s right arm under its Concealment Sleeve", at:{joint:[84,6,"R"], cap:[52,13,"L"], bicep:[70,31,"R"], hand:[17,89,"L"], wrist:[20,76,"L"], under:[40,78,"R"], knuck:[26,86,"L"], fore:[38,60,"R"], tips:[40,96,"L"], palm:[40,84,"R"], palm2:[46,90,"R"]}, spare:[[60,44,"R"],[30,58,"L"],[40,70,"R"]]}
+    ? {img:"img/zolo/arm2.webp", w:310, h:1174, alt:"Zolo’s right arm under its Concealment Sleeve", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], knuck:[24,85,"L"], fore:[36,60,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}   /* cut from his Oct 13 art with the same frame as Iō's arm1, so the pins are Iō's */
     : {img:"img/io/arm1.webp", w:310, h:1174, alt:"Iō’s gold right cyberarm, shoulder to fingertips", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], knuck:[24,85,"L"], fore:[36,60,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}; }
   var adSel = "", adIn = false;
   function adOpts(zi, g, gi){
