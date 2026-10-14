@@ -6994,7 +6994,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     S = d; IO = d; saved = clone(d);
     if (HOSTED) readOnly = !(SHEET_API && EDIT_KEY); /* hosted copy: dose counters only with the edit key */
     if (HOSTED && SHEET_API){ var cj = sheetCache.load(); if (cj){ try { applySheet(cj); syncInfo = "copy from " + sheetCache.when(); } catch(e){ try { console.error("[Io sheet] saved copy unreadable:", e); } catch(e2){} } } }
-    if (HOSTED && SHEET_API && readOnly && !sheetCache.at) hostWait = true;   /* first visit: hold the page until we know whether it's public */
+    /* First visit used to hold visitors on "Connecting…" until Google answered (several seconds, ~15 s when it failed).
+       Oak, Oct 14: show the page right away from io.json; if the sheet then says the page is closed, the next render switches to the closed screen. */
     if (bootWho === "zolo"){ setWho("zolo"); try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} }   /* a link to a hidden Zolo tab lands on his Dossier */
     document.body.classList.add("boot");
     render();
