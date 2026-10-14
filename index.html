@@ -4258,7 +4258,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* Zolo's back (Oct 14): his back art fitted to Iō's back outline; Iō's back scans with the cyberarm in silver and his white mawashi */
   var RBOX_ZB = {"body": [1.5, 3.6, 98.5, 99.7], "torso": [23.4, 16.8, 73.6, 40.6], "legs": [9.8, 40.5, 88.6, 99.7], "armL": [1.5, 19.4, 23.6, 60.3], "armR": [72.5, 18.9, 98.5, 60.3], "head": [35.4, 3.6, 62.7, 16.8], "ears": [38.6, 10.9, 62.0, 12.8], "eyes": [43.7, 10.5, 55.7, 11.9]};
   var VIEW = "front"; try { VIEW = localStorage.getItem("io-view") || "front"; } catch(e){}
-  function FIG(){ if (WHO === "zolo" && VIEW === "back") return {img:"img/zolo/ware-back1.webp", skel:"img/zolo/ware-bskel1.webp", mus:"img/zolo/ware-bmus1.webp", nerve:"img/zolo/ware-bnerve1.webp", lens:"img/zolo/mb1/lens.png", m:"img/zolo/mb1/", rbox:RBOX_ZB, anch:ANCH_IOB, back:true, alt:"Zolo from behind: white hair tied back, scars across his back, arms and legs, in a white mawashi"};
+  function FIG(){ if (WHO === "zolo" && VIEW === "back") return {img:"img/zolo/ware-back1.webp", skel:"img/zolo/ware-bskel1.webp", mus:"img/zolo/ware-bmus1.webp", nerve:"img/zolo/ware-bnerve1.webp", nude:true, nu:"zb", lens:"img/zolo/mb1/lens.png", m:"img/zolo/mb1/", rbox:RBOX_ZB, anch:ANCH_IOB, back:true, alt:"Zolo from behind: white hair tied back, scars across his back, arms and legs, in a white mawashi"};
     if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back5.webp", skel:"img/io/ware-bskel3.webp", mus:"img/io/ware-bmus2.webp", nerve:"img/io/ware-bnerve1.webp", cloth:"img/io/ware-bcloth2.webp", nude:true, lens:"img/io/mb3/lens.png", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
     ? {img:"img/zolo/ware-body3.webp", skel:"img/zolo/ware-skel2.webp", mus:"img/zolo/ware-mus1.webp", nerve:"img/zolo/ware-nerve1.webp", nude:true, nu:"zf", lens:"img/zolo/m4/lens.png", m:"img/zolo/m4/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}   /* Oct 13: his art is fitted to Iō's outline, so Iō's muscle/nerve/bone layers sit on him; the scans show the cyberarm under his Concealment Sleeve in silver */
@@ -4453,7 +4453,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
      The password wraps K (PBKDF2 -> AES-GCM) and that wrapped copy is what the sheet stores, so a wrong password simply fails to open it.
      The admin's device keeps K itself (localStorage) after the recovery code is entered once; that is how the admin sets or changes the password. */
   var NUDE = false, NUOK = false, NUUI = "", NUMSG = "", nuWas = null, NUK = null, NUURL = null, NUBUSY = false;
-  var NU_BIN = {f:"img/io/wn-f.bin", b:"img/io/wn-b.bin", zf:"img/zolo/wn-zf.bin"}, NU_IT = 210000;   /* zf: Zolo's front (Oct 14), same key K as Iō's */
+  var NU_BIN = {f:"img/io/wn-f.bin", b:"img/io/wn-b.bin", zf:"img/zolo/wn-zf.bin", zb:"img/zolo/wn-zb.bin"}, NU_IT = 210000;   /* zf/zb: Zolo's front and back (Oct 14), same key K as Iō's */
   function nuObj(){ return WHO === "zolo" ? IO : S; }   /* the password lives in Iō's file for both of them */
   function nuSet(){ var o = nuObj(); return !!(o && o.nude && o.nude.wk); }
   function nuCan(){ return (HOSTED || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && (WHO === "io" || WHO === "zolo") && !!(window.crypto && crypto.subtle) && (isAdmin() || nuSet()); }
@@ -4468,10 +4468,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   /* fetch and open both pictures with K; rejects if K is wrong */
   function nuOpen(K){ if (NUURL) return Promise.resolve(NUURL);
     return crypto.subtle.importKey("raw", K, "AES-GCM", false, ["decrypt"]).then(function(key){
-      return Promise.all(["f", "b", "zf"].map(function(k){ var p = fetch(NU_BIN[k]).then(function(r){ if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }).then(function(buf){
+      return Promise.all(["f", "b", "zf", "zb"].map(function(k){ var p = fetch(NU_BIN[k]).then(function(r){ if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }).then(function(buf){
         var u = new Uint8Array(buf); return crypto.subtle.decrypt({name:"AES-GCM", iv:u.slice(0, 12)}, key, u.slice(12)); }).then(function(pt){ return URL.createObjectURL(new Blob([pt], {type:"image/webp"})); });
-        return k === "zf" ? p.catch(function(){ return ""; }) : p; }));   /* Iō's two pictures prove the key; Zolo's is optional */
-    }).then(function(urls){ NUK = K; NUURL = {f:urls[0], b:urls[1], zf:urls[2]}; NUOK = true; return NUURL; }); }
+        return k.charAt(0) === "z" ? p.catch(function(){ return ""; }) : p; }));   /* Iō's two pictures prove the key; Zolo's is optional */
+    }).then(function(urls){ NUK = K; NUURL = {f:urls[0], b:urls[1], zf:urls[2], zb:urls[3]}; NUOK = true; return NUURL; }); }
   function nuSrc(F){ return NUURL ? NUURL[F.nu || (F.back ? "b" : "f")] : ""; }
   function nuSave(){ var o = nuObj(); if (HOSTED) pushState("meta", {name:"nude", value:o.nude || {}}); else persist(o === S ? undefined : o); }
   function nuDone(msg, ui){ NUBUSY = false; NUMSG = msg || ""; NUUI = ui || ""; render(); var i = document.getElementById("nupw"); if (i) i.focus(); }
