@@ -4261,7 +4261,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function FIG(){ if (WHO === "zolo" && VIEW === "back") return {img:"img/zolo/ware-back1.webp", skel:"img/zolo/ware-bskel1.webp", mus:"img/zolo/ware-bmus1.webp", nerve:"img/zolo/ware-bnerve1.webp", lens:"img/zolo/mb1/lens.png", m:"img/zolo/mb1/", rbox:RBOX_ZB, anch:ANCH_IOB, back:true, alt:"Zolo from behind: white hair tied back, scars across his back, arms and legs, in a white mawashi"};
     if (WHO !== "zolo" && VIEW === "back") return {img:"img/io/ware-back5.webp", skel:"img/io/ware-bskel3.webp", mus:"img/io/ware-bmus2.webp", nerve:"img/io/ware-bnerve1.webp", cloth:"img/io/ware-bcloth2.webp", nude:true, lens:"img/io/mb3/lens.png", m:"img/io/mb3/", rbox:RBOX_IOB, anch:ANCH_IOB, back:true, alt:"Iō from behind: top knot, tattoo sleeve down his left arm, back and left leg, gold cyberarm on his right side, black mawashi"};
     return WHO === "zolo"
-    ? {img:"img/zolo/ware-body3.webp", skel:"img/zolo/ware-skel2.webp", mus:"img/zolo/ware-mus1.webp", nerve:"img/zolo/ware-nerve1.webp", lens:"img/zolo/m4/lens.png", m:"img/zolo/m4/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}   /* Oct 13: his art is fitted to Iō's outline, so Iō's muscle/nerve/bone layers sit on him; the scans show the cyberarm under his Concealment Sleeve in silver */
+    ? {img:"img/zolo/ware-body3.webp", skel:"img/zolo/ware-skel2.webp", mus:"img/zolo/ware-mus1.webp", nerve:"img/zolo/ware-nerve1.webp", nude:true, nu:"zf", lens:"img/zolo/m4/lens.png", m:"img/zolo/m4/", rbox:RBOX_Z, anch:ANCH_Z, alt:"Full-body art of Zolo: white hair in a top knot, grey beard, scarred and heavily muscled, in a white mawashi"}   /* Oct 13: his art is fitted to Iō's outline, so Iō's muscle/nerve/bone layers sit on him; the scans show the cyberarm under his Concealment Sleeve in silver */
     : {img:"img/io/ware-body8.webp", skel:"img/io/ware-skel9.webp", mus:"img/io/ware-mus6.webp", nerve:"img/io/ware-nerve1.webp", lens:"img/io/m5/lens.png", nano:"img/io/ware-nano.webp", cloth:"img/io/ware-cloth4.webp", nude:true, m:"img/io/m5/", rbox:RBOX_IO, anch:ANCH_IO, alt:"Full-body art of Iō: long black beard and top knot, gold cyberarm on his right side, tattoo sleeves down his left arm and leg; he opens in a white gi top and black trousers, and stands in a black mawashi once a ware system is picked"}; }
   var AROUND = {L:["optics:L","limbs:L"], R:["optics:R","limbs:R","internal","external","fashion","borg"]}, AROUND_SKIP = {adv:1, neural:1, optics:1, audio:1, limbs:1, gear:1};
   function aroundHTML(nav, stage, sel){
@@ -4453,9 +4453,10 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
      The password wraps K (PBKDF2 -> AES-GCM) and that wrapped copy is what the sheet stores, so a wrong password simply fails to open it.
      The admin's device keeps K itself (localStorage) after the recovery code is entered once; that is how the admin sets or changes the password. */
   var NUDE = false, NUOK = false, NUUI = "", NUMSG = "", nuWas = null, NUK = null, NUURL = null, NUBUSY = false;
-  var NU_BIN = {f:"img/io/wn-f.bin", b:"img/io/wn-b.bin"}, NU_IT = 210000;
-  function nuSet(){ return !!(S && S.nude && S.nude.wk); }
-  function nuCan(){ return (HOSTED || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && WHO === "io" && !!(window.crypto && crypto.subtle) && (isAdmin() || nuSet()); }
+  var NU_BIN = {f:"img/io/wn-f.bin", b:"img/io/wn-b.bin", zf:"img/zolo/wn-zf.bin"}, NU_IT = 210000;   /* zf: Zolo's front (Oct 14), same key K as Iō's */
+  function nuObj(){ return WHO === "zolo" ? IO : S; }   /* the password lives in Iō's file for both of them */
+  function nuSet(){ var o = nuObj(); return !!(o && o.nude && o.nude.wk); }
+  function nuCan(){ return (HOSTED || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && (WHO === "io" || WHO === "zolo") && !!(window.crypto && crypto.subtle) && (isAdmin() || nuSet()); }
   function nuB64(u8){ var t = ""; for (var i = 0; i < u8.length; i++) t += String.fromCharCode(u8[i]); return btoa(t).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
   function nuUn64(t){ t = String(t || "").trim().replace(/-/g, "+").replace(/_/g, "/"); var bin = atob(t), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
   function nuLocalK(){ try { var t = localStorage.getItem("io-nude-k"); return t ? nuUn64(t) : null; } catch(e){ return null; } }
@@ -4463,15 +4464,16 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     return crypto.subtle.deriveKey({name:"PBKDF2", salt:salt, iterations:NU_IT, hash:"SHA-256"}, base, {name:"AES-GCM", length:256}, false, ["encrypt", "decrypt"]); }); }
   function nuWrap(pw, K){ var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
     return nuKek(pw, salt).then(function(kek){ return crypto.subtle.encrypt({name:"AES-GCM", iv:iv}, kek, K); }).then(function(ct){ return {salt:nuB64(salt), iv:nuB64(iv), wk:nuB64(new Uint8Array(ct))}; }); }
-  function nuUnwrap(pw){ var n = S.nude; return nuKek(pw, nuUn64(n.salt)).then(function(kek){ return crypto.subtle.decrypt({name:"AES-GCM", iv:nuUn64(n.iv)}, kek, nuUn64(n.wk)); }).then(function(buf){ return new Uint8Array(buf); }); }
+  function nuUnwrap(pw){ var n = nuObj().nude; return nuKek(pw, nuUn64(n.salt)).then(function(kek){ return crypto.subtle.decrypt({name:"AES-GCM", iv:nuUn64(n.iv)}, kek, nuUn64(n.wk)); }).then(function(buf){ return new Uint8Array(buf); }); }
   /* fetch and open both pictures with K; rejects if K is wrong */
   function nuOpen(K){ if (NUURL) return Promise.resolve(NUURL);
     return crypto.subtle.importKey("raw", K, "AES-GCM", false, ["decrypt"]).then(function(key){
-      return Promise.all(["f", "b"].map(function(k){ return fetch(NU_BIN[k]).then(function(r){ if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }).then(function(buf){
-        var u = new Uint8Array(buf); return crypto.subtle.decrypt({name:"AES-GCM", iv:u.slice(0, 12)}, key, u.slice(12)); }).then(function(pt){ return URL.createObjectURL(new Blob([pt], {type:"image/webp"})); }); }));
-    }).then(function(urls){ NUK = K; NUURL = {f:urls[0], b:urls[1]}; NUOK = true; return NUURL; }); }
-  function nuSrc(F){ return NUURL ? NUURL[F.back ? "b" : "f"] : ""; }
-  function nuSave(){ if (HOSTED) pushState("meta", {name:"nude", value:S.nude || {}}); else persist(); }
+      return Promise.all(["f", "b", "zf"].map(function(k){ var p = fetch(NU_BIN[k]).then(function(r){ if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }).then(function(buf){
+        var u = new Uint8Array(buf); return crypto.subtle.decrypt({name:"AES-GCM", iv:u.slice(0, 12)}, key, u.slice(12)); }).then(function(pt){ return URL.createObjectURL(new Blob([pt], {type:"image/webp"})); });
+        return k === "zf" ? p.catch(function(){ return ""; }) : p; }));   /* Iō's two pictures prove the key; Zolo's is optional */
+    }).then(function(urls){ NUK = K; NUURL = {f:urls[0], b:urls[1], zf:urls[2]}; NUOK = true; return NUURL; }); }
+  function nuSrc(F){ return NUURL ? NUURL[F.nu || (F.back ? "b" : "f")] : ""; }
+  function nuSave(){ var o = nuObj(); if (HOSTED) pushState("meta", {name:"nude", value:o.nude || {}}); else persist(o === S ? undefined : o); }
   function nuDone(msg, ui){ NUBUSY = false; NUMSG = msg || ""; NUUI = ui || ""; render(); var i = document.getElementById("nupw"); if (i) i.focus(); }
   document.addEventListener("keydown", function(ev){ if (ev.target && ev.target.id === "nupw"){ if (ev.key === "Enter"){ var go = document.querySelector('.nupan [data-nu="try"], .nupan [data-nu="save"], .nupan [data-nu="code"]'); if (go) go.click(); } else if (ev.key === "Escape"){ var nx = document.querySelector('.nupan [data-nu="x"]'); if (nx) nx.click(); } } });
   function nuPanel(){
@@ -4520,7 +4522,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var nOn = !!(sel === "borg" && F.nano && !editing && !(NUDE && NUURL));   /* the nanomatrix art is drawn over the mawashi, so it stays off while Nude is on (Oak, Oct 5) */
     var now = Date.now(); if (wareBoot){ bootT0 = now; wareBoot = false; }
     if (NUDE && !(nuCan() && NUURL)) NUDE = false;
-    var nude = NUDE && !!F.nude && !editing && !!NUURL;
+    var nude = NUDE && !!F.nude && !editing && !!NUURL && !!nuSrc(F);
     var cloCan = !!(F.cloth && !editing && (!sel || sel === "gear")), clo = cloCan && !CLOFF && !nude;
     var boot = !editing && !reduce && now - bootT0 < 2200, bootEl = now - bootT0;   /* a re-render mid-scan (sheet sync, rules load) picks the scan up where it was */
     var clA = (cloWas === null || reduce || boot || cloWas === clo) ? '' : (clo ? ' cl-on' : ' cl-off'); cloWas = clo;
@@ -6924,9 +6926,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (nu === "try"){ if (!nuSet() || !npw) return; NUBUSY = true; render();
         nuUnwrap(npw).then(function(K2){ return nuOpen(K2); }).then(function(){ NUDE = true; nuDone(); }, function(){ nuDone("Wrong password", "ask"); }); return; }
       if (nu === "save"){ if (!isAdmin()) return; var K3 = NUK || nuLocalK(); if (!K3){ nuDone("", "code"); return; }
-        if (!npw){ S.nude = {}; nuDone("Password removed"); nuSave(); return; }
+        if (!npw){ nuObj().nude = {}; nuDone("Password removed"); nuSave(); return; }
         NUBUSY = true; render();
-        nuWrap(npw, K3).then(function(w){ S.nude = w; nuDone("Password saved"); nuSave(); }, function(){ nuDone("Couldn’t set the password in this browser", "set"); }); return; }
+        nuWrap(npw, K3).then(function(w){ nuObj().nude = w; nuDone("Password saved"); nuSave(); }, function(){ nuDone("Couldn’t set the password in this browser", "set"); }); return; }
       return; }
 
     if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel) bf.style.setProperty("--sk", "url(" + XLSRC(F2) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
