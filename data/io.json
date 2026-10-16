@@ -1297,7 +1297,7 @@
          "UPG"
         ],
         "ref": "infolink",
-        "setup": "Thought-to-text capability. Foundational Tuning: Neuralware is only 1 MHL.",
+        "setup": "Foundational Tuning: Neuralware is only 1 MHL.",
         "cap": 6,
         "children": [
          {
@@ -1499,7 +1499,7 @@
           "kind": "cyber",
           "tags": [],
           "ref": "otc",
-          "setup": "Allows user to control Agent with eye."
+          "setup": ""
          }
         ]
        }
@@ -1677,7 +1677,7 @@
            "RETRO"
           ],
           "ref": "bigknucks,kongknucks",
-          "setup": "3d6 EQ HM. Precise. Ignores SP8 or lower. Push on Crit."
+          "setup": ""
          },
          {
           "name": "Quick Change Mount",
@@ -1811,7 +1811,7 @@
          "BIOWARE"
         ],
         "ref": "flame",
-        "setup": "Functions as Flamethrower [ROF 2, 4d6 damage, 2 uses/24hr regeneration].",
+        "setup": "",
         "slots": 1
        },
        {
@@ -1886,7 +1886,7 @@
          "UPG"
         ],
         "ref": "fleshweave",
-        "setup": "User’s body and head are armored at SP8.",
+        "setup": "",
         "children": [
          {
           "kind": "enh",
@@ -2024,7 +2024,7 @@
            "ADV"
           ],
           "ref": "cornucopia",
-          "setup": "RTD +4, Doubled duration for pharmas and streetdrugs."
+          "setup": ""
          },
          {
           "name": "Healing Factor",
@@ -2216,7 +2216,7 @@
            "UPG"
           ],
           "ref": "jammer,jamup",
-          "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle as a Free Action. Power upgrade: DV15, 12m.",
+          "setup": "",
           "slots": 1
          }
         ]
@@ -6825,7 +6825,7 @@
          "kind": "cyber",
          "tags": [],
          "ref": "infolink",
-         "setup": "Thought-to-text capability.",
+         "setup": "",
          "cap": 6,
          "children": [
           {
@@ -7009,14 +7009,14 @@
            "kind": "cyber",
            "tags": [],
            "ref": "targeting",
-           "setup": "Aimed Shots have +1 to check."
+           "setup": ""
           },
           {
            "name": "Optical Tracking Controller",
            "kind": "cyber",
            "tags": [],
            "ref": "otc",
-           "setup": "Allows user to control Agent with eye."
+           "setup": ""
           }
          ]
         }
@@ -7160,7 +7160,7 @@
             "RETRO"
            ],
            "ref": "bigknucks,kongknucks",
-           "setup": "3d6 EQ HM. Precise. Ignores SP8 or lower. Push on Crit."
+           "setup": ""
           },
           {
            "name": "Quick Change Mount",
@@ -7294,7 +7294,7 @@
           "BIOWARE"
          ],
          "ref": "flame",
-         "setup": "Functions as Flamethrower [ROF 2, 4d6 damage, 2 uses/24hr regeneration].",
+         "setup": "",
          "slots": 1
         },
         {
@@ -7304,7 +7304,7 @@
           "FAB"
          ],
          "ref": "cyberspine",
-         "setup": "Immune to the effect and bonus damage of the Spinal Injury Critical Injury. +1 to Contortionist Skill Checks.",
+         "setup": "",
          "slots": 3
         },
         {
@@ -7314,7 +7314,7 @@
           "FAB"
          ],
          "ref": "cyberskull",
-         "setup": "Head is no longer considered a 2x weak point. Immune to Cracked Skull and Broken Jaw Crits.",
+         "setup": "",
          "slots": 3
         },
         {
@@ -7350,7 +7350,7 @@
           "UPG"
          ],
          "ref": "fleshweave",
-         "setup": "User’s body and head are armored at SP8. Regenerates to full in 10 minutes.",
+         "setup": "",
          "children": [
           {
            "kind": "enh",
@@ -7486,7 +7486,7 @@
             "ADV"
            ],
            "ref": "cornucopia",
-           "setup": "RTD +4, Doubled duration for pharmas and streetdrugs."
+           "setup": ""
           },
           {
            "name": "Healing Factor",
@@ -7674,7 +7674,7 @@
            "kind": "cyber",
            "tags": [],
            "ref": "jammer",
-           "setup": "6m/yd (3x3 sq) field centered on you. Wireless comms fail unless user spends Action + passes DV13 Electronics/Security Tech. Toggle on/off: Free Action. (Affects you too).",
+           "setup": "",
            "slots": 1
           }
          ]
