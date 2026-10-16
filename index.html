@@ -1482,6 +1482,15 @@ button.chip2:hover,button.chip2:focus-visible{background:rgba(255,255,255,.06)}
 .pp i{width:7px;height:7px;border:1px solid var(--frame);transform:rotate(45deg)}
 .pp i.on{background:var(--gold);border-color:var(--gold)}
 .pips b,.mrow b{font-family:var(--f-num);font-size:11px;color:var(--ink-2);font-weight:600}
+.chiprack em{font-style:normal;font:600 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.chipsw{margin-left:auto;background:none;border:1px solid rgba(111,90,58,.7);color:var(--ink-3);font:600 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;padding:3px 7px 2px;cursor:pointer;flex:none}
+.chipsw.on{color:#000;background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(181,143,82,.35)}
+.chipsw:not(.on):not(:disabled):hover{color:var(--gold);border-color:var(--gold)}
+.chipsw:disabled{opacity:.45;cursor:not-allowed}
+.chipsw.ro{cursor:default}
+.chipsw + .xcar{margin-left:8px}
+.nd.chipout > .nrow .wn{color:var(--ink-3);text-decoration:line-through;text-decoration-color:rgba(111,90,58,.8)}
+.nd.chipout > .nrow .kd{opacity:.35}
 .nrow.flash{animation:flash 1.6s ease-out}
 @keyframes flash{0%,30%{background:rgba(180,140,255,.28)}100%{background:transparent}}
 .bodyfig.genome img{filter:drop-shadow(0 0 2px rgba(180,140,255,.9)) drop-shadow(0 0 18px rgba(180,140,255,.55)) drop-shadow(0 0 30px rgba(0,0,0,.85))}
@@ -1941,16 +1950,6 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .hzscan.sweep::before{content:"";position:absolute;left:0;right:0;bottom:1px;height:60px;background:linear-gradient(180deg,transparent,rgba(181,143,82,.07));pointer-events:none}
 .hzscan.done{transition:opacity .6s;opacity:0}
 .hzscan.reset{transition:opacity .2s;opacity:0}
-.hzscan.hz2 .hzbar{transform:none;animation:none;background:linear-gradient(90deg,transparent,rgba(181,143,82,.85) 10%,#f6dfa4 50%,rgba(181,143,82,.85) 90%,transparent)}
-.hzscan.hz2 .hzl,.hzscan.hz2 .hzr{animation-delay:0s;bottom:auto;top:4px}
-/* wireframe pass */
-.hzwire{position:absolute;z-index:59;pointer-events:none}
-.hzwire i{position:absolute;box-sizing:border-box}
-.hzwire .wb,.hzwire .wp{border:1px solid rgba(181,143,82,.5);box-shadow:inset 0 0 18px rgba(181,143,82,.06)}
-.hzwire .wb::before,.hzwire .wp::before{content:"";position:absolute;inset:-2px;background:linear-gradient(var(--gold),var(--gold)) 0 0/9px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 9px,linear-gradient(var(--gold),var(--gold)) 100% 100%/9px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 9px;background-repeat:no-repeat}
-.hzwire .wp{border-style:dashed;border-color:rgba(181,143,82,.35)}
-.hzwire .wh{border-bottom:1px solid rgba(181,143,82,.45);background:rgba(181,143,82,.05)}
-.hzwire .wr{border-bottom:1px solid rgba(181,143,82,.13)}
 /* stat ping and row tear */
 .stat.hzping{position:relative}
 .stat.hzping::after{content:"";position:absolute;inset:-2px;border:2px solid #f6dfa4;pointer-events:none;animation:hzPing .6s ease-out both}
@@ -3334,6 +3333,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var h = effHum(), fl = armFlash ? ' armfl' : ''; armFlash = false;
     return head + '<div class="hum armd' + fl + '" style="grid-column:1/-1" title="Gold arm mounted: Max Humanity −' + ARM_HUM + ' (' + esc(S.humanity[1]) + ' with it off)"><span class="n cur">' + f("humanity.0",{num:1,label:"Humanity"}) + '</span><span class="of">out of</span><span class="n"><span class="dec">' + h[1] + '</span></span></div>';
   }
+  function saveChips(){
+    render(); status("Unsaved"); clearTimeout(saveTimer);
+    if (HOSTED){ saveTimer = setTimeout(function(){ pushState("meta", {name:"chips", value:{out:(S.chips && S.chips.out) || []}}); }, 900); return; }
+    saveTimer = setTimeout(persist, 900);
+  }
   function saveArm(){
     armFlash = armOn(); render(); status("Unsaved"); clearTimeout(saveTimer);
     if (HOSTED){ saveTimer = setTimeout(function(){ pushState("meta", {name:"arm", value:{on:armOn()}}); }, 900); return; }
@@ -4236,7 +4240,21 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     for (var i = 0; i < cap; i++) s += '<i class="' + (i < used ? 'on' : '') + '"></i>';
     return '<span class="pips" title="Option slots used' + (it.capnote ? ' · ' + esc(it.capnote) : '') + '"><span class="pp">' + s + '</span><b>' + used + '/' + cap + '</b></span>';
   }
-  function nodeHTML(it, p, depth){
+  /* Chipware (Oak, Oct 16): pick which chips are slotted. The socket's chipcap is the slot count (2 neck + 1 Cyberdrive in the wrist plugs);
+     saved as io.json chips {out:[names]}; hosted copy: meta "chips". Admin only; visitors see the state. */
+  function chipOut(n){ return !!(S && S.chips && (S.chips.out || []).indexOf(n) >= 0); }
+  function chipLoaded(par){ return (par.children || []).filter(function(c){ return c.kind === "chip" && !chipOut(c.name); }).length; }
+  function chipRack(it){
+    var n = chipLoaded(it), cap = +it.chipcap, s = "";
+    for (var i = 0; i < cap; i++) s += '<i class="' + (i < n ? 'on' : '') + '"></i>';
+    return '<span class="pips chiprack" title="Chips loaded' + (it.chipnote ? ' · ' + esc(it.chipnote) : '') + '"><em>Loaded</em><span class="pp">' + s + '</span><b>' + n + '/' + cap + '</b></span>';
+  }
+  function chipSw(c, par){
+    var on = !chipOut(c.name), full = !on && chipLoaded(par) >= +par.chipcap, lock = readOnly;
+    if (lock) return '<span class="chipsw ro' + (on ? ' on' : '') + '">' + (on ? 'Loaded' : 'Out') + '</span>';
+    return '<button type="button" class="chipsw' + (on ? ' on' : '') + '" data-chip="' + esc(c.name) + '" aria-pressed="' + on + '"' + (full ? ' disabled title="Every slot is full: pull a chip out first"' : ' title="' + (on ? 'Pull this chip out' : 'Slot this chip in') + '"') + '>' + (on ? 'Loaded' : 'Out') + '</button>';
+  }
+  function nodeHTML(it, p, depth, par){
     if (it.kind === "link"){
       return '<li class="nd k-link">' + (editing ? '<span class="flex"><span class="wn2">↪ ' + esc(it.label) + '</span>' + del(p) + '</span>' : '<button type="button" class="golink" data-go="' + esc(it.to) + '">↪ ' + esc(it.label) + '</button>') + '</li>';
     }
@@ -4259,12 +4277,12 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (it.links) extra += '<p class="feeds"><span>Runs through</span> ' + it.links.map(function(z){ var zz = CZ().filter(function(x){ return x.id === z; })[0]; return '<button type="button" class="golink sm" data-go="' + z + '">' + esc(zz ? zz.label : z) + '</button>'; }).join(' ') + '</p>';
       head = '<div class="nrow xrow" tabindex="0" role="button" aria-expanded="' + !!XOPEN[p] + '" data-x="' + esc(p) + '" data-xr="' + esc(it.ref || "") + '" data-xt="' + esc((it.tags || []).join(",")) + '"' + (it.id ? ' data-id="' + esc(it.id) + '"' : '') + '>' +
         '<div class="nh"><span class="kd" aria-hidden="true"></span><span class="wn">' + nm(it.name) + '</span>' + (it.count ? '<span class="cnt3">' + esc(it.count) + '</span>' : '') +
-        (it.tags || []).map(tagSpan).join("") + (it.cap ? pips(it) : '') + '<i class="xcar" aria-hidden="true"></i></div>' +
+        (it.tags || []).map(tagSpan).join("") + (it.cap ? pips(it) : '') + (it.chipcap ? chipRack(it) : '') + (it.kind === "chip" && par && par.chipcap ? chipSw(it, par) : '') + '<i class="xcar" aria-hidden="true"></i></div>' +
         (it.setup ? '<p class="ws">' + nm(it.setup) + '</p>' : '') + extra + '</div>' + (XOPEN[p] ? xpandHTML(it.ref, it.tags, true) : '');
     }
-    var sub = kids.length || editing && it.kind !== "chip" ? '<ul class="nc">' + kids.map(function(c, i){ return nodeHTML(c, p + ".children." + i, depth + 1); }).join("") +
+    var sub = kids.length || editing && it.kind !== "chip" ? '<ul class="nc">' + kids.map(function(c, i){ return nodeHTML(c, p + ".children." + i, depth + 1, it); }).join("") +
       (editing && it.kind !== "chip" ? '<li><button class="add" data-add="' + p + '.children">+ Add inside ' + esc(it.name) + '</button></li>' : '') + '</ul>' : '';
-    return '<li class="nd k-' + esc(it.kind || "cyber") + ' d' + depth + (!editing && XOPEN[p] ? ' xo' : '') + '">' + head + sub + '</li>';
+    return '<li class="nd k-' + esc(it.kind || "cyber") + ' d' + depth + (!editing && XOPEN[p] ? ' xo' : '') + (!editing && it.kind === "chip" && par && par.chipcap && chipOut(it.name) ? ' chipout' : '') + '">' + head + sub + '</li>';
   }
   /* inline rules drop-downs (Oak, Oct 1: no floating card on the Ware page) */
   var XOPEN = {};
@@ -4318,7 +4336,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var RLAYERS = RORDER.concat(["legR","legL"]);
   /* where each group sits around the figure, and where its wire lands (percent of the figure) */
   var LIMBSIDE = {"right cyberarm":["L","armR"], "left arm":["R","armL"], "right leg":["L","legR"], "left leg":["R","legL"]};
-  var ANCH_IO = {"head": [48.7, 5.4], "eyes": [47.9, 11.0], "ears": [58.6, 10.0], "armR": [14.1, 38.0], "armL": [87.3, 37.7], "legR": [33.7, 65.4], "legL": [69.8, 66.1], "torso": [51.1, 27.8], "legs": [52.3, 65.7], "bodyL": [10.9, 27.8], "bodyR": [91.4, 27.8]};
+  var ANCH_IO = {"head": [48.7, 5.4], "eyes": [48.8, 11.1], "brain": [48.8, 8.6], "ears": [58.6, 10.0], "armR": [14.1, 38.0], "armL": [87.3, 37.7], "legR": [33.7, 65.4], "legL": [69.8, 66.1], "torso": [51.1, 27.8], "legs": [52.3, 65.7], "bodyL": [10.9, 27.8], "bodyR": [91.4, 27.8]};
   /* Zolo's figure: his own art, region masks drawn on it, and the aligned metal skeleton for the x-ray layer */
   var RBOX_Z = {"body": [1.7, 2.7, 98.5, 99.5], "torso": [27.3, 16.7, 75.4, 39.8], "legs": [8.6, 39.7, 96.6, 99.5], "armL": [75.2, 18.9, 98.5, 59.5], "armR": [1.7, 18.8, 27.6, 59.2], "head": [32.1, 2.7, 69.0, 16.9], "ears": [37.4, 8.9, 59.8, 12.0], "eyes": [40.8, 10.6, 55.1, 11.5]};   /* m4: fitted to Iō's outline (Oct 13) */
   var ANCH_Z = ANCH_IO;   /* his body now shares Iō's outline (Oct 13) */
@@ -4326,7 +4344,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   function XLSRC(F){ return (XL === "muscle" && F.mus) ? F.mus : (XL === "nerve" && F.nerve) ? F.nerve : F.skel; }
   /* Iō's back: same page, turned around (his cyberarm is on the viewer's right from behind) */
   var RBOX_IOB = {"body": [1.3, 0.5, 98.5, 99.4], "torso": [2.2, 16.8, 73.2, 40.4], "legs": [9.8, 40.5, 88.4, 99.4], "armL": [1.3, 19.4, 23.4, 60.3], "armR": [72.5, 18.9, 98.5, 60.4], "head": [34.1, 0.5, 62.9, 16.7], "ears": [38.6, 10.9, 62.0, 12.9], "eyes": [43.7, 10.5, 55.5, 11.9]};
-  var ANCH_IOB = {"head": [49.6, 5.4], "eyes": [49.6, 11.2], "ears": [60.9, 11.8], "armR": [85.9, 37.6], "armL": [12.1, 37.9], "legR": [67.1, 65.9], "legL": [32.6, 65.7], "torso": [48.3, 28.3], "legs": [49.4, 65.8], "bodyL": [7.4, 28.3], "bodyR": [89.5, 28.3]};
+  var ANCH_IOB = {"head": [49.6, 5.4], "eyes": [49.6, 11.2], "brain": [49.8, 14.3], "ears": [60.9, 11.8], "armR": [85.9, 37.6], "armL": [12.1, 37.9], "legR": [67.1, 65.9], "legL": [32.6, 65.7], "torso": [48.3, 28.3], "legs": [49.4, 65.8], "bodyL": [7.4, 28.3], "bodyR": [89.5, 28.3]};
   /* Zolo's back (Oct 14): his back art fitted to Iō's back outline; Iō's back scans with the cyberarm in silver and his white mawashi */
   var RBOX_ZB = {"body": [1.5, 3.6, 98.5, 99.7], "torso": [23.4, 16.8, 73.6, 40.6], "legs": [9.8, 40.5, 88.6, 99.7], "armL": [1.5, 19.4, 23.6, 60.3], "armR": [72.5, 18.9, 98.5, 60.3], "head": [35.4, 3.6, 62.7, 16.8], "ears": [38.6, 10.9, 62.0, 12.8], "eyes": [43.7, 10.5, 55.7, 11.9]};
   var VIEW = "front"; try { VIEW = localStorage.getItem("io-view") || "front"; } catch(e){}
@@ -4352,7 +4370,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var want = (side === "L") !== !!FIG().back ? /^right/i : /^left/i, other = side === "L" ? /^(?!right|left)/i : null, h = "";
       z.groups.forEach(function(g, gi){ var t = String(g.title); if (!(want.test(t) || (other && other.test(t)))) return;
         h += /lens/i.test(t) ? lite(groupHTML(zi, g, gi, "")) : groupHTML(zi, g, gi, ""); });
-      return h ? '<div class="zchunk wanchor" data-an="eyes" data-dx="' + (side === "L" ? -2.7 : 2.7) + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 0) + h + '</div>' : "";
+      return h ? '<div class="zchunk wanchor" data-an="eyes" data-dx="' + (side === "L" ? -4.4 : 4.4) + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 0) + h + '</div>' : "";
     }
     function topBand(){
       var zi = idx.audio, z = Z[zi], gz = Z[idx.gear], gl = "";
@@ -4365,7 +4383,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     function botBand(){
       var zi = idx.neural, z = Z[zi]; if (!z) return "";
       var ai = idx.adv, az = Z[ai];
-      return '<div class="rbot"><div class="zchunk wanchor" data-wire="bot" data-an="' + (z.regions || ["head"])[0] + '" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 1) + z.groups.map(function(g, gi){ return groupHTML(zi, g, gi, ""); }).join("") + '</div>' +
+      return '<div class="rbot"><div class="zchunk wanchor" data-wire="bot" data-an="brain" data-hr="' + (z.regions || []).join(" ") + '">' + zh(z, 1) + z.groups.map(function(g, gi){ return groupHTML(zi, g, gi, ""); }).join("") + '</div>' +
         (az ? '<div class="zchunk" data-hr="' + (az.regions || []).join(" ") + '">' + zh(az, 1) + az.groups.map(function(g, gi){ return groupHTML(ai, g, gi, ""); }).join("") + '</div>' : '') + '</div>';
     }
     function col(side){
@@ -4409,8 +4427,15 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (getComputedStyle(svg).display === "none") return;
     var R0 = root.getBoundingClientRect(), F = fig.getBoundingClientRect(), out = "";
     svg.setAttribute("viewBox", "0 0 " + R0.width + " " + R0.height);
-    var lanes = {L:0, R:0}, fx = F.left - R0.left, fr = F.right - R0.left, ft = F.top - R0.top;
-    [].forEach.call(root.querySelectorAll(".wanchor"), function(el){
+    var fx = F.left - R0.left, fr = F.right - R0.left, ft = F.top - R0.top, els = [].slice.call(root.querySelectorAll(".wanchor"));
+    /* lanes beside the figure (Oct 16): one base per side, just clear of the nearest column; a wire takes the innermost lane whose
+       vertical run doesn't overlap one already there, so long runs (Neural, legs) don't stack on top of each other */
+    var base = {L:fx - 8, R:fr + 8}, used = {L:[], R:[]};
+    els.forEach(function(el){ if (el.dataset.wire) return; var E = el.getBoundingClientRect();
+      if (E.right < F.left + 5) base.L = Math.min(base.L, E.right - R0.left + 14); else if (E.left > F.right - 5) base.R = Math.max(base.R, E.left - R0.left - 14); });
+    function lane(side, y1, y2){ var lo = Math.min(y1, y2) - 6, hi = Math.max(y1, y2) + 6, u = used[side];
+      for (var k = 0; ; k++){ var q = u[k] || (u[k] = []); if (!q.some(function(v){ return lo < v[1] && hi > v[0]; })){ q.push([lo, hi]); return side === "L" ? base.L - k * 6 : base.R + k * 6; } } }
+    els.forEach(function(el){
       var a = FIG().anch[el.dataset.an]; if (!a) return;
       if (el.dataset.dx) a = [a[0] + (+el.dataset.dx), a[1]];
       if (el.dataset.wire){
@@ -4421,20 +4446,26 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
           d2 = 'M' + sx + ' ' + sy + (Math.abs(sx - wx) < 2 ? '' : ' V' + (sy + 8) + ' H' + wx) + ' V' + wy;
         } else {
           sy = W.top - R0.top - 2; if (sy < wy) return;
-          sx = fx - 8 - (lanes.L++) * 7; if (sx < W.left - R0.left + 8) return;
+          sx = lane("L", sy, wy); if (sx < W.left - R0.left + 8) return;
           d2 = 'M' + sx + ' ' + sy + ' V' + wy + ' H' + wx;
         }
         out += '<path data-for="' + el.dataset.an + '" d="' + d2 + '"/><circle cx="' + wx + '" cy="' + wy + '" r="2.6"/><rect x="' + (sx - 2) + '" y="' + (sy - 2) + '" width="4" height="4"/>';
         return;
       }
       var hb = el.querySelector(".zh, .hb"), B = (hb || el).getBoundingClientRect(), E = el.getBoundingClientRect();
-      var y = B.top + B.height / 2 - R0.top;
-      if (y < ft - 10 || y > F.bottom - R0.top) return;
-      var left = E.right < F.left + 5, x = (left ? E.right + 2 : E.left - 2) - R0.left;
+      var y = B.top + B.height / 2 - R0.top, side = E.right < F.left + 5 ? "L" : "R", left = side === "L", x = (left ? E.right + 2 : E.left - 2) - R0.left;
       var ax = fx + F.width * a[0] / 100, ay = ft + F.height * a[1] / 100;
+      if (y < ft - 10) return;
+      if (y > F.bottom - R0.top){
+        /* leg boxes start below his feet: up from the top of the box, along a lane beside the figure, into the leg (Oak, Oct 16) */
+        if (!/^leg[LR]$/.test(el.dataset.an)) return;
+        var ty = E.top - R0.top - 2, rl = lane(side, ty, ay), tx = left ? Math.min(E.right - R0.left - 16, rl) : Math.max(E.left - R0.left + 16, rl);
+        var dl = 'M' + tx + ' ' + ty + (Math.abs(tx - rl) < 1 ? '' : ' V' + (ty - 10) + ' H' + rl) + ' V' + ay + ' H' + ax;
+        out += '<path data-for="' + el.dataset.an + '" d="' + dl + '"/><circle cx="' + ax + '" cy="' + ay + '" r="2.6"/><rect x="' + (tx - 2) + '" y="' + (ty - 4) + '" width="4" height="4"/>';
+        return;
+      }
       /* circuit-trace routing: out to a lane beside the figure, along it, then straight in */
-      var k = lanes[left ? "L" : "R"]++, rail = left ? Math.min(fx - 8 - k * 7, x + 12) : Math.max(fr + 8 + k * 7, x - 12);
-      var d = Math.abs(ay - y) < 3 ? 'M' + x + ' ' + y + ' H' + ax : 'M' + x + ' ' + y + ' H' + rail + ' V' + ay + ' H' + ax;
+      var d = Math.abs(ay - y) < 3 ? 'M' + x + ' ' + y + ' H' + ax : 'M' + x + ' ' + y + ' H' + lane(side, y, ay) + ' V' + ay + ' H' + ax;
       out += '<path data-for="' + el.dataset.an + '" d="' + d + '"/><circle cx="' + ax + '" cy="' + ay + '" r="2.6"/><rect x="' + (left ? x : x - 4) + '" y="' + (y - 2) + '" width="4" height="4"/>';
     });
     svg.innerHTML = out;
@@ -4814,17 +4845,9 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var ln = document.createElement("div"); ln.className = "hzscan"; ln.setAttribute("aria-hidden", "true");
     ln.innerHTML = '<i class="hzbar"></i><i class="hzstar"></i><b class="hzl"></b><b class="hzr">SYNC <em>000</em>%</b>'; place(ln, -7);
     var lab = ln.querySelector(".hzl"), pct = ln.querySelector(".hzr em"), pctLab = ln.querySelector(".hzr");
-    /* wireframe of every box */
-    var wf = document.createElement("div"); wf.className = "hzwire"; wf.setAttribute("aria-hidden", "true"); wf.style.height = dist + "px";
-    var wh = "";
-    main.querySelectorAll(".box, .stat, .portrait .iopw, .idtab, .hb, .sk tr").forEach(function(e){
-      var q = e.getBoundingClientRect(); if (q.top - r.top > dist || q.height < 2) return;
-      var k = e.matches(".hb") ? "wh" : e.matches("tr") ? "wr" : e.matches(".iopw") ? "wp" : "wb";
-      wh += '<i class="' + k + '" style="left:' + (q.left - r.left).toFixed(1) + 'px;top:' + (q.top - r.top).toFixed(1) + 'px;width:' + q.width.toFixed(1) + 'px;height:' + q.height.toFixed(1) + 'px"></i>'; });
-    wf.innerHTML = wh; place(wf, 0);
     function clip(el, a, b){ var c = "inset(" + a + " -100vw " + b + " -100vw)"; el.style.clipPath = c; el.style.webkitClipPath = c; }
     function mainTo(y){ clip(main, "-60px", y < 0 ? "100%" : "calc(100% - " + y.toFixed(1) + "px)"); }
-    mainTo(-1); clip(wf, "0", "100%");
+    mainTo(-1);
     /* things the render pass touches as it crosses them */
     function ytop(e){ return e.getBoundingClientRect().top - r.top; }
     var heads = [].slice.call(main.querySelectorAll(".hb .sp, .idtab .h, .stat > b")).filter(function(e){ return !e.children.length && e.textContent.trim(); })
@@ -4834,32 +4857,19 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var rows = [].slice.call(main.querySelectorAll(".sk tr, .idtab .v, .hum")).map(function(e){ return {e:e, y:ytop(e) + 4, t:-1}; });
     var TXT1 = "UPLINK ▸ O'NEILL TWO // L5 → NIGHT CITY", TXT2 = "RENDER ▸ DR. KŌRU SINGH // IŌ";
     var E = function(p){ return p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2; };
-    /* Oct 16: the render line now chases the wireframe line a beat behind it (it used to wait for the wireframe to finish, so outlines sat too long) */
-    var ln2 = document.createElement("div"); ln2.className = "hzscan hz2 sweep"; ln2.setAttribute("aria-hidden", "true");
-    ln2.innerHTML = '<i class="hzbar"></i><b class="hzl"></b><b class="hzr">SYNC <em>000</em>%</b>'; place(ln2, -7); ln2.style.opacity = "0";
-    var lab2 = ln2.querySelector(".hzl"), pct2 = ln2.querySelector(".hzr em"); pctLab = ln2.querySelector(".hzr");
-    var T0 = performance.now(), D1 = 1150, P1 = 1250, R0 = D1 + 380, P2 = 1700, LAG = 30, wireY = 0;
+    /* Oct 16 (V228): one pass. Oak didn't like the wireframe pass ("two scan downs is ehhh"), so the star's line itself is the render line */
+    var T0 = performance.now(), D1 = 1150, P2 = 1700;
     function rnd(t){ return t.replace(/\d/g, function(){ return Math.floor(Math.random() * 10); }); }
     function frame(now){
-      if (!main.isConnected){ [ln, ln2, wf].forEach(function(e){ if (e) e.remove(); }); return; }
+      if (!main.isConnected){ ln.remove(); return; }
       var t = now - T0;
-      var tl = Math.max(0, Math.min(TXT1.length, Math.floor((t - 380) / 18)));
-      if (t < D1 + P1) lab.textContent = TXT1.slice(0, tl) + (Math.floor(t / 260) % 2 ? "\u2588" : "");
-      if (t >= D1 && !ln.classList.contains("done")){ /* wireframe line */
-        var p = Math.min(1, (t - D1) / P1); wireY = dist * E(p);
-        ln.style.transform = "translateY(" + wireY.toFixed(1) + "px)"; ln.classList.add("sweep");
-        pct.parentNode.firstChild.nodeValue = "MAP "; pct.textContent = ("00" + Math.round(p * 100)).slice(-3);
-        if (p >= 1){ wireY = dist + 1; ln.classList.add("done"); }
-      }
-      clip(wf, "0", "calc(100% - " + wireY.toFixed(1) + "px)");
-      if (t >= R0){ /* render line, never ahead of the wireframe */
-        ln2.style.opacity = "";
-        var pp = Math.min(1, (t - R0) / P2), y2 = Math.min(dist * E(pp), Math.max(0, wireY - LAG));
-        if (pp >= 1) y2 = dist;
-        ln2.style.transform = "translateY(" + y2.toFixed(1) + "px)"; mainTo(y2); clip(wf, y2.toFixed(1) + "px", "calc(100% - " + wireY.toFixed(1) + "px)");
-        var tl2 = Math.max(0, Math.min(TXT2.length, Math.floor((t - R0) / 18)));
-        lab2.textContent = TXT2.slice(0, tl2) + (Math.floor(t / 260) % 2 ? "\u2588" : "");
-        pct2.textContent = ("00" + Math.round(pp * 100)).slice(-3);
+      if (t < D1){ var tl = Math.max(0, Math.min(TXT1.length, Math.floor((t - 380) / 18))); lab.textContent = TXT1.slice(0, tl) + (Math.floor(t / 260) % 2 ? "\u2588" : ""); }
+      else {
+        var pp = Math.min(1, (t - D1) / P2), y2 = dist * E(pp);
+        ln.style.transform = "translateY(" + y2.toFixed(1) + "px)"; ln.classList.add("sweep"); mainTo(y2);
+        var tl2 = Math.max(0, Math.min(TXT2.length, Math.floor((t - D1) / 18)));
+        lab.textContent = TXT2.slice(0, tl2) + (Math.floor(t / 260) % 2 ? "\u2588" : "");
+        pct.textContent = ("00" + Math.round(pp * 100)).slice(-3);
         heads.forEach(function(o){ if (o.t < 0 && o.y <= y2) o.t = now; if (o.t >= 0 && o.t !== 0){ var n = Math.floor((now - o.t) / 22); if (n >= o.fin.length){ o.e.textContent = o.fin; o.e.style.minWidth = ""; o.e.style.minHeight = ""; o.t = 0; } else o.e.textContent = o.fin.slice(0, n + 1) + "▌"; } });
         stats.forEach(function(o){ if (o.t < 0 && o.y <= y2){ o.t = now; o.e.classList.add("hzping"); } if (o.t > 0){ var k = Math.min(1, (now - o.t) / 420);
           o.n.forEach(function(x){ var v = parseInt(x.fin, 10); x.d.textContent = isNaN(v) || k >= 1 ? x.fin : String(Math.round(v * k)); }); if (k >= 1) o.t = 0; } });
@@ -4874,7 +4884,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       heads.forEach(function(o){ o.e.textContent = o.fin; o.e.style.minWidth = ""; o.e.style.minHeight = ""; });
       if (pfig){ pfig.style.height = ""; pfig.style.flex = ""; } stats.forEach(function(o){ o.n.forEach(function(x){ x.d.textContent = x.fin; }); });
       nums.forEach(function(o){ o.e.textContent = o.fin; }); pctLab.innerHTML = "SYNC <em>100</em>%";
-      ln.classList.add("done"); ln2.classList.add("done"); wf.remove(); setTimeout(function(){ ln.remove(); ln2.remove(); }, 700);
+      ln.classList.add("done"); setTimeout(function(){ ln.remove(); }, 700);
       main.querySelectorAll(".hzping").forEach(function(e){ setTimeout(function(){ e.classList.remove("hzping"); }, 700); });
     }
     hzRaf = requestAnimationFrame(frame);
@@ -6920,6 +6930,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.meta && j.meta.lo && j.meta.lo.zpins && S.lo && !pinDrag) S.lo.zpins = j.meta.lo.zpins;
       if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
       if (j.meta && j.meta.arm && typeof j.meta.arm === "object") S.arm = {on:!!j.meta.arm.on};
+      if (j.meta && j.meta.chips && Array.isArray(j.meta.chips.out)) S.chips = {out:j.meta.chips.out.map(String)};
       if (j.meta && j.meta.lo && Array.isArray(j.meta.lo.hide) && S.lo) S.lo.hide = j.meta.lo.hide;
       if (j.meta && j.meta.nude && typeof j.meta.nude === "object"){ var nio = WHO === "zolo" ? IO : S; if (nio) nio.nude = j.meta.nude.wk ? {salt:String(j.meta.nude.salt), iv:String(j.meta.nude.iv), wk:String(j.meta.nude.wk)} : {}; }
       if (j.fanseen && typeof j.fanseen === "object") fnSeenApply(j.fanseen);
@@ -7114,6 +7125,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (b.id === "nanosw"){ nanoAct("toggle"); return; }
     if (b.dataset.nano){ nanoAct(b.dataset.nano); return; }
     if (b.dataset.critdel != null){ if (!critCan()) return; S.crits.splice(+b.dataset.critdel, 1); saveCrits(); return; }
+    if (b.dataset.chip != null){ if (readOnly || WHO !== "io") return; var cn = b.dataset.chip, co = ((S.chips && S.chips.out) || []).slice(), ci2 = co.indexOf(cn);
+      if (ci2 >= 0) co.splice(ci2, 1); else co.push(cn); S.chips = {out:co}; saveChips(); return; }
     if (b.dataset.arm != null){ if (readOnly || WHO !== "io") return; var aon = b.dataset.arm === "1"; if (aon === armOn()) return; S.arm = {on:aon}; saveArm(); return; }
     if (b.id === "nyzsw"){ if (readOnly) return; S.nyozi = {active:!nyoziOn()}; saveNyozi(); return; }
     if (b.id === "ttsw"){ if (readOnly) return; var t1 = ttState(); t1.active = !t1.active; S.tt = t1; saveTT(); return; }

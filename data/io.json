@@ -1301,7 +1301,7 @@
         "cap": 6,
         "children": [
          {
-          "name": "Chipware Socket x1",
+          "name": "Chipware Socket",
           "kind": "cyber",
           "tags": [
            "UPG",
@@ -1310,6 +1310,8 @@
           "ref": "socket",
           "setup": "A dual socket installed at the base of the neck.",
           "slots": 0,
+          "chipcap": 3,
+          "chipnote": "2 in the neck socket + 1 in the Interface Plugs’ Cyberdrive",
           "children": [
            {
             "name": "Control Chip",
@@ -9043,5 +9045,8 @@
     "img": ""
    }
   ]
+ },
+ "chips": {
+  "out": []
  }
 }
