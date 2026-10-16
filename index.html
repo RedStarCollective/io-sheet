@@ -1941,6 +1941,8 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .hzscan.sweep::before{content:"";position:absolute;left:0;right:0;bottom:1px;height:60px;background:linear-gradient(180deg,transparent,rgba(181,143,82,.07));pointer-events:none}
 .hzscan.done{transition:opacity .6s;opacity:0}
 .hzscan.reset{transition:opacity .2s;opacity:0}
+.hzscan.hz2 .hzbar{transform:none;animation:none;background:linear-gradient(90deg,transparent,rgba(181,143,82,.85) 10%,#f6dfa4 50%,rgba(181,143,82,.85) 90%,transparent)}
+.hzscan.hz2 .hzl,.hzscan.hz2 .hzr{animation-delay:0s;bottom:auto;top:4px}
 /* wireframe pass */
 .hzwire{position:absolute;z-index:59;pointer-events:none}
 .hzwire i{position:absolute;box-sizing:border-box}
@@ -4829,29 +4831,32 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var rows = [].slice.call(main.querySelectorAll(".sk tr, .idtab .v, .hum")).map(function(e){ return {e:e, y:ytop(e) + 4, t:-1}; });
     var TXT1 = "UPLINK ▸ O'NEILL TWO // L5 → NIGHT CITY", TXT2 = "RENDER ▸ DR. KŌRU SINGH // IŌ";
     var E = function(p){ return p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2; };
-    var T0 = performance.now(), D1 = 1150, P1 = 1100, GAP = 450, P2 = 2000, HOLD = 1100;
-    var p2s = D1 + P1 + GAP;
+    /* Oct 16: the render line now chases the wireframe line a beat behind it (it used to wait for the wireframe to finish, so outlines sat too long) */
+    var ln2 = document.createElement("div"); ln2.className = "hzscan hz2 sweep"; ln2.setAttribute("aria-hidden", "true");
+    ln2.innerHTML = '<i class="hzbar"></i><b class="hzl"></b><b class="hzr">SYNC <em>000</em>%</b>'; place(ln2, -7); ln2.style.opacity = "0";
+    var lab2 = ln2.querySelector(".hzl"), pct2 = ln2.querySelector(".hzr em"); pctLab = ln2.querySelector(".hzr");
+    var T0 = performance.now(), D1 = 1150, P1 = 1250, R0 = D1 + 380, P2 = 1700, LAG = 30, wireY = 0;
     function rnd(t){ return t.replace(/\d/g, function(){ return Math.floor(Math.random() * 10); }); }
     function frame(now){
-      if (!main.isConnected){ [ln, wf].forEach(function(e){ if (e) e.remove(); }); return; }
+      if (!main.isConnected){ [ln, ln2, wf].forEach(function(e){ if (e) e.remove(); }); return; }
       var t = now - T0;
-      if (t < p2s){
-        var tl = Math.max(0, Math.min(TXT1.length, Math.floor((t - 380) / 18)));
-        lab.textContent = TXT1.slice(0, tl) + (Math.floor(t / 260) % 2 ? "█" : "");
+      var tl = Math.max(0, Math.min(TXT1.length, Math.floor((t - 380) / 18)));
+      if (t < D1 + P1) lab.textContent = TXT1.slice(0, tl) + (Math.floor(t / 260) % 2 ? "\u2588" : "");
+      if (t >= D1 && !ln.classList.contains("done")){ /* wireframe line */
+        var p = Math.min(1, (t - D1) / P1); wireY = dist * E(p);
+        ln.style.transform = "translateY(" + wireY.toFixed(1) + "px)"; ln.classList.add("sweep");
+        pct.parentNode.firstChild.nodeValue = "MAP "; pct.textContent = ("00" + Math.round(p * 100)).slice(-3);
+        if (p >= 1){ wireY = dist + 1; ln.classList.add("done"); }
       }
-      if (t >= D1 && t < D1 + P1){ /* pass 1: wireframe */
-        var p = (t - D1) / P1, y = dist * E(p);
-        ln.style.transform = "translateY(" + y.toFixed(1) + "px)"; ln.classList.add("sweep"); clip(wf, "0", "calc(100% - " + y.toFixed(1) + "px)");
-        pct.textContent = ("00" + Math.round(p * 50)).slice(-3);
-      } else if (t >= D1 + P1 && t < p2s){ /* jump back to the top */
-        clip(wf, "0", "0"); ln.classList.add("reset"); pct.textContent = "050";
-      } else if (t >= p2s){ /* pass 2: render, with a hold on the face */
-        if (ln.classList.contains("reset")){ ln.classList.remove("reset"); }
-        var vt = t - p2s, pp = Math.min(1, vt / P2), y2 = dist * (pp < 1 ? (1 - Math.pow(1 - pp, 1.6)) : 1);
-        ln.style.transform = "translateY(" + y2.toFixed(1) + "px)"; mainTo(y2); clip(wf, y2.toFixed(1) + "px", "0");
-        var tl2 = Math.max(0, Math.min(TXT2.length, Math.floor((t - p2s) / 18)));
-        lab.textContent = TXT2.slice(0, tl2) + (Math.floor(t / 260) % 2 ? "█" : "");
-        pct.textContent = ("00" + Math.round(50 + pp * 50)).slice(-3);
+      clip(wf, "0", "calc(100% - " + wireY.toFixed(1) + "px)");
+      if (t >= R0){ /* render line, never ahead of the wireframe */
+        ln2.style.opacity = "";
+        var pp = Math.min(1, (t - R0) / P2), y2 = Math.min(dist * E(pp), Math.max(0, wireY - LAG));
+        if (pp >= 1) y2 = dist;
+        ln2.style.transform = "translateY(" + y2.toFixed(1) + "px)"; mainTo(y2); clip(wf, y2.toFixed(1) + "px", "calc(100% - " + wireY.toFixed(1) + "px)");
+        var tl2 = Math.max(0, Math.min(TXT2.length, Math.floor((t - R0) / 18)));
+        lab2.textContent = TXT2.slice(0, tl2) + (Math.floor(t / 260) % 2 ? "\u2588" : "");
+        pct2.textContent = ("00" + Math.round(pp * 100)).slice(-3);
         heads.forEach(function(o){ if (o.t < 0 && o.y <= y2) o.t = now; if (o.t >= 0 && o.t !== 0){ var n = Math.floor((now - o.t) / 22); if (n >= o.fin.length){ o.e.textContent = o.fin; o.e.style.minWidth = ""; o.t = 0; } else o.e.textContent = o.fin.slice(0, n + 1) + "▌"; } });
         stats.forEach(function(o){ if (o.t < 0 && o.y <= y2){ o.t = now; o.e.classList.add("hzping"); } if (o.t > 0){ var k = Math.min(1, (now - o.t) / 420);
           o.n.forEach(function(x){ var v = parseInt(x.fin, 10); x.d.textContent = isNaN(v) || k >= 1 ? x.fin : String(Math.round(v * k)); }); if (k >= 1) o.t = 0; } });
@@ -4865,7 +4870,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       main.style.clipPath = ""; main.style.webkitClipPath = "";
       heads.forEach(function(o){ o.e.textContent = o.fin; o.e.style.minWidth = ""; }); stats.forEach(function(o){ o.n.forEach(function(x){ x.d.textContent = x.fin; }); });
       nums.forEach(function(o){ o.e.textContent = o.fin; }); pctLab.innerHTML = "SYNC <em>100</em>%";
-      ln.classList.add("done"); wf.remove(); setTimeout(function(){ ln.remove(); }, 700);
+      ln.classList.add("done"); ln2.classList.add("done"); wf.remove(); setTimeout(function(){ ln.remove(); ln2.remove(); }, 700);
       main.querySelectorAll(".hzping").forEach(function(e){ setTimeout(function(){ e.classList.remove("hzping"); }, 700); });
     }
     hzRaf = requestAnimationFrame(frame);
