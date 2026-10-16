@@ -1310,8 +1310,7 @@
           "ref": "socket",
           "setup": "A dual socket installed at the base of the neck.",
           "slots": 0,
-          "chipcap": 3,
-          "chipnote": "2 in the neck socket + 1 in the Interface Plugs’ Cyberdrive",
+          "chipcap": 2,
           "children": [
            {
             "name": "Control Chip",
@@ -1334,7 +1333,8 @@
             "ref": "mindgames,mindpalace",
             "setup": ""
            }
-          ]
+          ],
+          "drive": 1
          },
          {
           "name": "Kenshō",
@@ -1364,7 +1364,7 @@
            "INFOLINKED"
           ],
           "ref": "plugs,plugdrive",
-          "setup": "Plugs in the wrist of the cyberarm. Has Cyberdrive Upgrade, allowing another chip slot.",
+          "setup": "Plugs in the wrist of the cyberarm, with the Cyberdrive Upgrade.",
           "slots": 0
          },
          {
@@ -1397,7 +1397,7 @@
           "slots": 1
          },
          {
-          "name": "Propiosync",
+          "name": "Propriosync",
           "kind": "bio",
           "tags": [
            "BIOWARE"
@@ -1432,7 +1432,7 @@
     "tone": "",
     "groups": [
      {
-      "title": "Right Cybereye",
+      "title": "Right Eye",
       "items": [
        {
         "name": "Cat Eyes",
@@ -1455,7 +1455,7 @@
       ]
      },
      {
-      "title": "Left Cybereye",
+      "title": "Left Eye",
       "items": [
        {
         "name": "Cat Eyes",
@@ -1847,18 +1847,65 @@
         "slots": 3,
         "children": [
          {
-          "name": "Faceplates",
+          "name": "Faceplate Mount",
           "kind": "cyber",
           "tags": [],
           "ref": "faceplate",
-          "setup": "Io, Zolo, Galileo, IP Man, Generic"
+          "setup": "",
+          "children": [
+           {
+            "name": "Iō",
+            "kind": "worn",
+            "tags": [],
+            "ref": "",
+            "setup": ""
+           },
+           {
+            "name": "Zolo",
+            "kind": "worn",
+            "tags": [],
+            "ref": "",
+            "setup": ""
+           },
+           {
+            "name": "Galileo",
+            "kind": "worn",
+            "tags": [],
+            "ref": "",
+            "setup": ""
+           },
+           {
+            "name": "IP Man",
+            "kind": "worn",
+            "tags": [],
+            "ref": "",
+            "setup": ""
+           },
+           {
+            "name": "Generic",
+            "kind": "worn",
+            "tags": [],
+            "ref": "",
+            "setup": ""
+           }
+          ]
          }
         ]
        },
        {
         "kind": "enh",
         "enh": "reservoir",
-        "note": "x3. Trauma: Speedheal · Combat: Red Lace · Voluntary: RapiDetox."
+        "note": "Trauma Response · Speedheal"
+       },
+       {
+        "kind": "enh",
+        "enh": "reservoir2",
+        "note": "Combat Response · Red Lace"
+       },
+       {
+        "kind": "enh",
+        "enh": "reservoir3",
+        "note": "Voluntary Response · RapiDetox"
        },
        {
         "kind": "enh",
@@ -1938,7 +1985,7 @@
         "setup": ""
        },
        {
-        "name": "Oral, Follicle, and Dermal Symbiotes",
+        "name": "Oral Symbiotes",
         "kind": "bio",
         "tags": [
          "BIOWARE"
@@ -1947,20 +1994,63 @@
         "setup": ""
        },
        {
-        "name": "Skinwatch + Wayfinder",
-        "kind": "cyber",
-        "tags": [],
-        "ref": "skinwatch,wayfinder",
-        "setup": "Installed in Cyberarm. +2 to Wilderness Survival."
+        "name": "Follicle Symbiotes",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "symb",
+        "setup": ""
        },
        {
-        "name": "Highrider Ritual Scarring & Tattoos",
+        "name": "Dermal Symbiotes",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "symb",
+        "setup": ""
+       },
+       {
+        "name": "Skinwatch",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "skinwatch",
+        "setup": "In the wrist of the cyberarm."
+       },
+       {
+        "name": "Wayfinder",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "wayfinder",
+        "setup": "In the wrist of the cyberarm."
+       },
+       {
+        "name": "Highrider Tattoos",
         "kind": "bio",
         "tags": [
          "BIOWARE"
         ],
         "ref": "livingink",
-        "setup": "3x Living Ink. Narratively made and inscribed by Dr. Curiosity Clavell."
+        "setup": "Living Ink, made and inscribed by Dr. Curiosity Clavell."
+       },
+       {
+        "name": "Highrider Tattoos",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "livingink",
+        "setup": "Living Ink, made and inscribed by Dr. Curiosity Clavell."
+       },
+       {
+        "name": "Ritual Scarring",
+        "kind": "bio",
+        "tags": [
+         "BIOWARE"
+        ],
+        "ref": "livingink",
+        "setup": "Living Ink, made and inscribed by Dr. Curiosity Clavell."
        }
       ]
      }
@@ -1983,7 +2073,6 @@
         "tags": [],
         "ref": "armstrong",
         "setup": "",
-        "count": "x3",
         "children": [
          {
           "name": "Armstrong Dermal Plating Upgrade",
@@ -1993,6 +2082,20 @@
           "setup": "While the nanomatrix is active, head and body are armored at SP13."
          }
         ]
+       },
+       {
+        "name": "“Armstrong” Myoskeletal Nanomatrix",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "armstrong",
+        "setup": ""
+       },
+       {
+        "name": "“Armstrong” Myoskeletal Nanomatrix",
+        "kind": "cyber",
+        "tags": [],
+        "ref": "armstrong",
+        "setup": ""
        }
       ]
      }
@@ -2047,13 +2150,29 @@
           "setup": ""
          },
          {
-          "name": "Physiological Enhancement x13",
+          "name": "Physiological Enhancement",
           "kind": "adv",
           "tags": [
            "ADV"
           ],
           "ref": "physenh",
-          "setup": "REF +6 · BODY +6 · MOVE +1."
+          "setup": "REF +6 · BODY +6 · MOVE +1.",
+          "count": "x13",
+          "installs": [
+           "REF +1",
+           "REF +1",
+           "REF +1",
+           "REF +1",
+           "REF +1",
+           "REF +1",
+           "BODY +1",
+           "BODY +1",
+           "BODY +1",
+           "BODY +1",
+           "BODY +1",
+           "BODY +1",
+           "MOVE +1"
+          ]
          },
          {
           "name": "Synaesthetic Social Cortex",
@@ -2143,17 +2262,43 @@
           "id": "hemo"
          },
          {
-          "name": "Advanced Reservoir System x3",
+          "name": "Advanced Reservoir System",
           "kind": "adv",
           "tags": [
            "ADV"
           ],
           "ref": "reservoir",
-          "setup": "",
+          "setup": "Trauma Response · Speedheal",
           "links": [
            "internal"
           ],
           "id": "reservoir"
+         },
+         {
+          "name": "Advanced Reservoir System",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "reservoir",
+          "setup": "Combat Response · Red Lace",
+          "links": [
+           "internal"
+          ],
+          "id": "reservoir2"
+         },
+         {
+          "name": "Advanced Reservoir System",
+          "kind": "adv",
+          "tags": [
+           "ADV"
+          ],
+          "ref": "reservoir",
+          "setup": "Voluntary Response · RapiDetox",
+          "links": [
+           "internal"
+          ],
+          "id": "reservoir3"
          },
          {
           "name": "Venom Gland",
@@ -2291,7 +2436,7 @@
         "kind": "worn",
         "tags": [],
         "ref": "holowear",
-        "setup": "Additional: Handwraps, Magna Defender, Ed Hardy.",
+        "setup": "",
         "children": [
          {
           "name": "Jean Suit",
@@ -2334,6 +2479,27 @@
           "tags": [],
           "ref": "",
           "setup": "Nice dresspants and sweater."
+         },
+         {
+          "name": "Handwraps",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": ""
+         },
+         {
+          "name": "Magna Defender",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": ""
+         },
+         {
+          "name": "Ed Hardy",
+          "kind": "worn",
+          "tags": [],
+          "ref": "",
+          "setup": ""
          }
         ]
        }
@@ -7322,7 +7488,17 @@
         {
          "kind": "enh",
          "enh": "reservoir",
-         "note": "x3. Trauma: Speedheal · Combat: Red Lace · Voluntary: RapiDetox."
+         "note": "Trauma Response · Speedheal"
+        },
+        {
+         "kind": "enh",
+         "enh": "reservoir2",
+         "note": "Combat Response · Red Lace"
+        },
+        {
+         "kind": "enh",
+         "enh": "reservoir3",
+         "note": "Voluntary Response · RapiDetox"
         },
         {
          "kind": "enh",
@@ -7402,13 +7578,31 @@
          "setup": ""
         },
         {
-         "name": "Oral, Follicle, and Dermal Symbiotes",
+         "name": "Oral Symbiotes",
          "kind": "bio",
          "tags": [
           "BIOWARE"
          ],
          "ref": "symb",
-         "setup": "+3 Personal Grooming."
+         "setup": ""
+        },
+        {
+         "name": "Follicle Symbiotes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "symb",
+         "setup": ""
+        },
+        {
+         "name": "Dermal Symbiotes",
+         "kind": "bio",
+         "tags": [
+          "BIOWARE"
+         ],
+         "ref": "symb",
+         "setup": ""
         },
         {
          "name": "Shift Tacts x2",
@@ -7445,7 +7639,6 @@
          "tags": [],
          "ref": "armstrong",
          "setup": "",
-         "count": "x3",
          "children": [
           {
            "name": "Armstrong Dermal Plating Upgrade",
@@ -7455,6 +7648,20 @@
            "setup": "While the nanomatrix is active, head and body are armored at SP13."
           }
          ]
+        },
+        {
+         "name": "“Armstrong” Myoskeletal Nanomatrix",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "armstrong",
+         "setup": ""
+        },
+        {
+         "name": "“Armstrong” Myoskeletal Nanomatrix",
+         "kind": "cyber",
+         "tags": [],
+         "ref": "armstrong",
+         "setup": ""
         }
        ]
       }
@@ -7509,13 +7716,29 @@
            "setup": ""
           },
           {
-           "name": "Physiological Enhancement x13",
+           "name": "Physiological Enhancement",
            "kind": "adv",
            "tags": [
             "ADV"
            ],
            "ref": "physenh",
-           "setup": "REF +6 · BODY +6 · MOVE +1."
+           "setup": "REF +6 · BODY +6 · MOVE +1.",
+           "count": "x13",
+           "installs": [
+            "REF +1",
+            "REF +1",
+            "REF +1",
+            "REF +1",
+            "REF +1",
+            "REF +1",
+            "BODY +1",
+            "BODY +1",
+            "BODY +1",
+            "BODY +1",
+            "BODY +1",
+            "BODY +1",
+            "MOVE +1"
+           ]
           },
           {
            "name": "Synaesthetic Social Cortex",
@@ -7603,17 +7826,43 @@
            "id": "hemo"
           },
           {
-           "name": "Advanced Reservoir System x3",
+           "name": "Advanced Reservoir System",
            "kind": "adv",
            "tags": [
             "ADV"
            ],
            "ref": "reservoir",
-           "setup": "",
+           "setup": "Trauma Response · Speedheal",
            "links": [
             "internal"
            ],
            "id": "reservoir"
+          },
+          {
+           "name": "Advanced Reservoir System",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "reservoir",
+           "setup": "Combat Response · Red Lace",
+           "links": [
+            "internal"
+           ],
+           "id": "reservoir2"
+          },
+          {
+           "name": "Advanced Reservoir System",
+           "kind": "adv",
+           "tags": [
+            "ADV"
+           ],
+           "ref": "reservoir",
+           "setup": "Voluntary Response · RapiDetox",
+           "links": [
+            "internal"
+           ],
+           "id": "reservoir3"
           },
           {
            "name": "Venom Gland",

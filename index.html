@@ -1488,6 +1488,9 @@ button.chip2:hover,button.chip2:focus-visible{background:rgba(255,255,255,.06)}
 .chipsw:not(.on):not(:disabled):hover{color:var(--gold);border-color:var(--gold)}
 .chipsw:disabled{opacity:.45;cursor:not-allowed}
 .chipsw.ro{cursor:default}
+.instl{margin:2px 0 10px;padding:0;list-style:none;counter-reset:inst;display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:4px 10px}
+.instl li{counter-increment:inst;font:600 12px/1.3 var(--f-num);color:var(--ink-2);padding:3px 0 3px 8px;border-left:2px solid rgba(180,140,255,.45)}
+.instl li::before{content:"#" counter(inst) " ";color:var(--ink-3);font-weight:500;margin-right:3px}
 .chipsw + .xcar{margin-left:8px}
 .nd.chipout > .nrow .wn{color:var(--ink-3);text-decoration:line-through;text-decoration-color:rgba(111,90,58,.8)}
 .nd.chipout > .nrow .kd{opacity:.35}
@@ -3495,7 +3498,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
      normal max if it's above it. Uses = installs (x3), back after 24 hours. The sheet keeps the base values;
      S.nano = {on, uses} is kept in sheet meta "nano"; current HP is written to the sheet. */
   function nanoMaxUses(){ var n = 0;
-    ((S.chrome && S.chrome.zones) || []).forEach(function(z){ (z.groups || []).forEach(function(g){ (g.items || []).forEach(function(it){ if (it.ref === "armstrong"){ var m = String(it.count || "").match(/\d+/); n = Math.min(3, m ? +m[0] : 1); } }); }); });
+    ((S.chrome && S.chrome.zones) || []).forEach(function(z){ (z.groups || []).forEach(function(g){ (g.items || []).forEach(function(it){ if (it.ref === "armstrong"){ var m = String(it.count || "").match(/\d+/); n = Math.min(3, n + (m ? +m[0] : 1)); } }); }); });
     return n || 3; }
   function nanoHas(){ return WHO === "io" || WHO === "zolo"; }
   function nanoLock(){ return WHO === "zolo" ? roIo : readOnly; }   /* Zolo's view is read-only for the rest of the page; the owner still runs his Nanomatrix */
@@ -4240,17 +4243,20 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     for (var i = 0; i < cap; i++) s += '<i class="' + (i < used ? 'on' : '') + '"></i>';
     return '<span class="pips" title="Option slots used' + (it.capnote ? ' · ' + esc(it.capnote) : '') + '"><span class="pp">' + s + '</span><b>' + used + '/' + cap + '</b></span>';
   }
-  /* Chipware (Oak, Oct 16): pick which chips are slotted. The socket's chipcap is the slot count (2 neck + 1 Cyberdrive in the wrist plugs);
-     saved as io.json chips {out:[names]}; hosted copy: meta "chips". Admin only; visitors see the state. */
+  /* Chipware (Oak, Oct 16): pick which chips are slotted. The neck socket holds `chipcap` (2); the next loaded chip (`drive`, 1) sits in
+     the Interface Plugs' Cyberdrive and is listed under the plugs instead ("whatever one is loaded third"). Order = the socket's list.
+     Saved as io.json chips {out:[names]}; hosted copy: meta "chips". Admin only; visitors see the state. */
   function chipOut(n){ return !!(S && S.chips && (S.chips.out || []).indexOf(n) >= 0); }
-  function chipLoaded(par){ return (par.children || []).filter(function(c){ return c.kind === "chip" && !chipOut(c.name); }).length; }
-  function chipRack(it){
-    var n = chipLoaded(it), cap = +it.chipcap, s = "";
-    for (var i = 0; i < cap; i++) s += '<i class="' + (i < n ? 'on' : '') + '"></i>';
-    return '<span class="pips chiprack" title="Chips loaded' + (it.chipnote ? ' · ' + esc(it.chipnote) : '') + '"><em>Loaded</em><span class="pp">' + s + '</span><b>' + n + '/' + cap + '</b></span>';
-  }
-  function chipSw(c, par){
-    var on = !chipOut(c.name), full = !on && chipLoaded(par) >= +par.chipcap, lock = readOnly;
+  function chipPlan(sock){ var cap = +sock.chipcap || 0, drv = +sock.drive || 0, inS = {}, inD = [], n = 0;
+    (sock.children || []).forEach(function(c, i){ if (c.kind !== "chip" || chipOut(c.name)) return; if (n < cap) inS[i] = 1; else if (n < cap + drv) inD.push(i); n++; });
+    return {cap:cap, drv:drv, inS:inS, inD:inD, n:n}; }
+  function chipLoaded(sock){ return chipPlan(sock).n; }
+  function rackHTML(lbl, n, cap, tip){ var s = ""; for (var i = 0; i < cap; i++) s += '<i class="' + (i < n ? 'on' : '') + '"></i>';
+    return '<span class="pips chiprack" title="' + esc(tip) + '"><em>' + lbl + '</em><span class="pp">' + s + '</span><b>' + n + '/' + cap + '</b></span>'; }
+  function chipRack(it){ var c = chipPlan(it); return rackHTML("Loaded", Math.min(c.n, c.cap), c.cap, "Chips in the neck socket" + (c.drv ? " · the next one loaded goes in the Interface Plugs’ Cyberdrive" : "")); }
+  function sockOf(par){ return par && (par.children || []).filter(function(c){ return c.chipcap; })[0]; }
+  function chipSw(c, sock){
+    var on = !chipOut(c.name), pl = chipPlan(sock), full = !on && pl.n >= pl.cap + pl.drv, lock = readOnly;
     if (lock) return '<span class="chipsw ro' + (on ? ' on' : '') + '">' + (on ? 'Loaded' : 'Out') + '</span>';
     return '<button type="button" class="chipsw' + (on ? ' on' : '') + '" data-chip="' + esc(c.name) + '" aria-pressed="' + on + '"' + (full ? ' disabled title="Every slot is full: pull a chip out first"' : ' title="' + (on ? 'Pull this chip out' : 'Slot this chip in') + '"') + '>' + (on ? 'Loaded' : 'Out') + '</button>';
   }
@@ -4266,6 +4272,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         '<button type="button" class="golink sm" data-go="adv" data-hl="' + esc(it.enh) + '">Open</button><i class="xcar" aria-hidden="true"></i></div>' + (it.note ? '<p class="ws">' + nm(it.note) + '</p>' : '') + '</div>' + (XOPEN[p] ? xpandHTML(ek, ["ADV"], true) : '') + '</li>';
     }
     var kids = it.children || [];
+    var dsock = !editing && /plugdrive/.test(it.ref || "") ? sockOf(par) : null;   /* the Interface Plugs list the chip in their Cyberdrive */
+    var cplan = !editing && it.chipcap ? chipPlan(it) : null;
     var head;
     if (editing){
       head = '<div class="nrow"><span class="flex">' + f(p + ".name", {label:"Name"}) + sel(p + ".kind", KINDS, "Kind") + del(p) + '</span>' +
@@ -4275,20 +4283,26 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var extra = "";
       if (it.feeds) extra += '<p class="feeds"><span>Fed by</span> ' + it.feeds.map(esc).join(' · ') + '</p>';
       if (it.links) extra += '<p class="feeds"><span>Runs through</span> ' + it.links.map(function(z){ var zz = CZ().filter(function(x){ return x.id === z; })[0]; return '<button type="button" class="golink sm" data-go="' + z + '">' + esc(zz ? zz.label : z) + '</button>'; }).join(' ') + '</p>';
-      head = '<div class="nrow xrow" tabindex="0" role="button" aria-expanded="' + !!XOPEN[p] + '" data-x="' + esc(p) + '" data-xr="' + esc(it.ref || "") + '" data-xt="' + esc((it.tags || []).join(",")) + '"' + (it.id ? ' data-id="' + esc(it.id) + '"' : '') + '>' +
+      var opens = !!(it.ref || it.installs);   /* outfits and faceplates have no rules card: nothing to open (Oct 16) */
+      head = (opens ? '<div class="nrow xrow" tabindex="0" role="button" aria-expanded="' + !!XOPEN[p] + '" data-x="' + esc(p) + '" data-xr="' + esc(it.ref || "") + '" data-xt="' + esc((it.tags || []).join(",")) + '"' : '<div class="nrow"') + (it.id ? ' data-id="' + esc(it.id) + '"' : '') + '>' +
         '<div class="nh"><span class="kd" aria-hidden="true"></span><span class="wn">' + nm(it.name) + '</span>' + (it.count ? '<span class="cnt3">' + esc(it.count) + '</span>' : '') +
-        (it.tags || []).map(tagSpan).join("") + (it.cap ? pips(it) : '') + (it.chipcap ? chipRack(it) : '') + (it.kind === "chip" && par && par.chipcap ? chipSw(it, par) : '') + '<i class="xcar" aria-hidden="true"></i></div>' +
-        (it.setup ? '<p class="ws">' + nm(it.setup) + '</p>' : '') + extra + '</div>' + (XOPEN[p] ? xpandHTML(it.ref, it.tags, true) : '');
+        (it.tags || []).map(tagSpan).join("") + (it.cap ? pips(it) : '') + (it.chipcap ? chipRack(it) : '') + (dsock ? rackHTML("Drive", chipPlan(dsock).inD.length, +dsock.drive, "Cyberdrive Upgrade: one chip slot in the plugs") : '') + (it.kind === "chip" && par && par.chipcap ? chipSw(it, par) : '') + (opens ? '<i class="xcar" aria-hidden="true"></i>' : '') + '</div>' +
+        (it.setup ? '<p class="ws">' + nm(it.setup) + '</p>' : '') + extra + '</div>' + (opens && XOPEN[p] ? xpandHTML(it.ref, it.tags, true, it) : '');
     }
-    var sub = kids.length || editing && it.kind !== "chip" ? '<ul class="nc">' + kids.map(function(c, i){ return nodeHTML(c, p + ".children." + i, depth + 1, it); }).join("") +
+    var dkids = "";
+    if (dsock && dsock.drive){ var sp = p.replace(/\.children\.\d+$/, "") + ".children." + (par.children || []).indexOf(dsock);
+      chipPlan(dsock).inD.forEach(function(ci){ dkids += nodeHTML(dsock.children[ci], sp + ".children." + ci, depth + 1, dsock); }); }
+    var sub = kids.length || dkids || editing && it.kind !== "chip" ? '<ul class="nc">' + kids.map(function(c, i){ return cplan && cplan.inD.indexOf(i) >= 0 ? "" : nodeHTML(c, p + ".children." + i, depth + 1, it); }).join("") + dkids +
       (editing && it.kind !== "chip" ? '<li><button class="add" data-add="' + p + '.children">+ Add inside ' + esc(it.name) + '</button></li>' : '') + '</ul>' : '';
     return '<li class="nd k-' + esc(it.kind || "cyber") + ' d' + depth + (!editing && XOPEN[p] ? ' xo' : '') + (!editing && it.kind === "chip" && par && par.chipcap && chipOut(it.name) ? ' chipout' : '') + '">' + head + sub + '</li>';
   }
   /* inline rules drop-downs (Oak, Oct 1: no floating card on the Ware page) */
   var XOPEN = {};
   function tagSpan(k){ var key = String(k).toUpperCase(); return TAGDEF[key] ? '<button type="button" class="chip2 tagb ' + (TAGC[key] || '') + '" data-tagx="' + key + '" aria-expanded="false">' + esc(k) + '</button>' : '<span class="chip2">' + esc(k) + '</span>'; }
-  function xpandHTML(refs, tags, on){
-    var keys = String(refs || "").split(",").filter(Boolean), body = keys.map(refHTML).join("");
+  function instHTML(it){ if (!it || !it.installs || !it.installs.length) return "";
+    return '<ol class="instl" aria-label="Each install">' + it.installs.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol>'; }
+  function xpandHTML(refs, tags, on, it){
+    var keys = String(refs || "").split(",").filter(Boolean), body = instHTML(it) + keys.map(refHTML).join("");
     return '<div class="xpand' + (on ? ' on' : '') + '"><div class="xpin">' + (body || '<p class="rsrc xnone">Source text isn’t in the reference library yet.</p>') + '</div></div>';
   }
   function xToggle(row){
@@ -4296,7 +4310,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (XOPEN[p]){ delete XOPEN[p]; row.setAttribute("aria-expanded", "false"); li.classList.remove("xo");
       if (ex){ ex.classList.remove("on"); setTimeout(function(){ if (ex.parentNode && !ex.classList.contains("on")) ex.remove(); drawWires(); }, reduce ? 0 : 260); } }
     else { XOPEN[p] = 1; row.setAttribute("aria-expanded", "true"); li.classList.add("xo");
-      if (!ex){ var t = document.createElement("div"); t.innerHTML = xpandHTML(row.dataset.xr, (row.dataset.xt || "").split(",").filter(Boolean), false); ex = t.firstChild; row.insertAdjacentElement("afterend", ex); }
+      if (!ex){ var t = document.createElement("div"); t.innerHTML = xpandHTML(row.dataset.xr, (row.dataset.xt || "").split(",").filter(Boolean), false, getP(row.dataset.x)); ex = t.firstChild; row.insertAdjacentElement("afterend", ex); }
       requestAnimationFrame(function(){ requestAnimationFrame(function(){ ex.classList.add("on"); }); });
       setTimeout(drawWires, reduce ? 0 : 280); }
   }
@@ -4473,7 +4487,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   var wr = 0; window.addEventListener("scroll", function(){ if (tab !== "ware" || wr) return; wr = requestAnimationFrame(function(){ wr = 0; if (document.querySelector(".ring")) drawWires(); }); }, {passive:true});
   var wt; window.addEventListener("resize", function(){ clearTimeout(wt); wt = setTimeout(function(){ if (tab === "ware") drawWires(); }, 100); });
   /* Right Cyberarm diagram: the arm cut large, each option pinned where it sits (Oak, Oct 2) */
-  var ADSPOT = [[/quick.?change/i,"joint","Shoulder mount"],[/superchrome/i,"cap","Covering"],[/reinforced/i,"bicep","Frame"],[/popup|magi/i,"hand","Whole hand"],[/watch.?man/i,"wrist","Wrist"],[/wolvers/i,"under","Under the wrist"],[/kong|big.?knuck/i,"knuck","Knuckles"],[/arclight/i,"fore","Forearm to hand"],[/medical/i,"tips","Fingers"],[/palm bomb|high five/i,"palm","Palm"],[/holo.?palm/i,"palm2","Palm"]];
+  var ADSPOT = [[/quick.?change/i,"joint","Shoulder mount"],[/superchrome/i,"cap","Covering"],[/reinforced/i,"bicep","Frame"],[/popup|magi/i,"hand","Whole hand"],[/watch.?man/i,"wrist","Wrist"],[/wolvers/i,"under","Under the wrist"],[/kong|big.?knuck/i,"knuck","Whole hand"],[/arclight/i,"fore","Forearm to hand"],[/medical/i,"tips","Fingers & palm"],[/palm bomb|high five/i,"palm","Palm"],[/holo.?palm/i,"palm2","Palm"]];
   function ADFIG(){ return WHO === "zolo"
     ? {img:"img/zolo/arm2.webp", w:310, h:1174, alt:"Zolo’s right arm under its Concealment Sleeve", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], knuck:[24,85,"L"], fore:[36,60,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}   /* cut from his Oct 13 art with the same frame as Iō's arm1, so the pins are Iō's */
     : {img:"img/io/arm1.webp", w:310, h:1174, alt:"Iō’s gold right cyberarm, shoulder to fingertips", at:{joint:[84,7,"R"], cap:[46,13,"L"], bicep:[72,31,"R"], hand:[15,88,"L"], wrist:[19,73,"L"], under:[40,76,"R"], knuck:[24,85,"L"], fore:[36,60,"R"], tips:[38,96,"L"], palm:[46,82,"R"], palm2:[54,88,"R"]}, spare:[[60,45,"R"],[26,56,"L"],[44,70,"R"]]}; }
