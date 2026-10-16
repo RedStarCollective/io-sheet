@@ -45,8 +45,8 @@
   "cost": "1,000eb (Very Expensive)",
   "install": "Clinic",
   "hl": "3 (1d6)",
-  "flavor": "",
-  "rules": "Training your security guards to look for concealed weapons is hard. What if they could spot them effortlessly? Enter the Millimeter Wave Scanner. Using the same technology as airport scanners, the user’s eye picks up contraband concealed under clothes. It has trouble penetrating certain materials, but you can always flag suspicious persons for further checks. Fortunately for edgerunners, the high price has prevented the Millimeter Wave Scanner from seeing widespread adoption in corporate security and law enforcement, though security staff in highly important areas may have one of these. Cybereye Option. Requires a Cybereye and takes 2 Option Slots. The user can see any items concealed under most thin materials such as a subject’s clothing without a check, up to 2m away. Color is not added—only gray contours. The scanner cannot penetrate even thin layers of metal, skin, or Realskinn™, preventing detection of cyberware that is concealed automatically and any contents therein as well as anything hidden in containers made of such materials.",
+  "flavor": "Training your security guards to look for concealed weapons is hard. What if they could spot them effortlessly? Enter the Millimeter Wave Scanner. Using the same technology as airport scanners, the user’s eye picks up contraband concealed under clothes. It has trouble penetrating certain materials, but you can always flag suspicious persons for further checks. Fortunately for edgerunners, the high price has prevented the Millimeter Wave Scanner from seeing widespread adoption in corporate security and law enforcement, though security staff in highly important areas may have one of these.",
+  "rules": "Cybereye Option. Requires a Cybereye and takes 2 Option Slots. The user can see any items concealed under most thin materials such as a subject’s clothing without a check, up to 2m away. Color is not added—only gray contours. The scanner cannot penetrate even thin layers of metal, skin, or Realskinn™, preventing detection of cyberware that is concealed automatically and any contents therein as well as anything hidden in containers made of such materials.",
   "type": "Cyberoptics"
  },
  "otc": {
@@ -1138,5 +1138,14 @@
   "flavor": "This weapon is very long, allowing it to threaten a wider area than a melee weapon normally can.",
   "rules": "Tech Upgrade (Feature). This weapon’s melee range is 4m instead of the usual 2m.",
   "type": "Weapon Feature"
+ },
+ "xraywave": {
+  "name": "X-Ray Wave Upgrade",
+  "src": "Aftermarket Modifications (RUSH)",
+  "cost": "500eb (Expensive)",
+  "install": "",
+  "hl": "",
+  "flavor": "Millimeter Wave Scanner (RUSH: Chromed Up). Taking from developing technology in high penetration weapons, the scanner gains similar wall-penetrating functionality or can detect patches of increased density in enhanced opponents.",
+  "rules": "Invented Upgrade. User can switch modes on the Millimeter Wave Scanner to one of two new modes:\n• X-Ray: Allows seeing through Thin Cover within 20m. Details are impossible to make out - only vague shapes and outlines.\n• Density Scan: Through a minute of examination, user can roll a DV17 Cybertech Check to determine whether one target within 20m has a Cyberskull, Reinforced Limb Cyberware or Bioware, and/or a Cyberspine.\nSwitching modes (including back to the default mode) takes an Action."
  }
 }

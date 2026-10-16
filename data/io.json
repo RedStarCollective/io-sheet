@@ -1518,12 +1518,12 @@
         "setup": "Chyron w/ Enhanced HUD.",
         "children": [
          {
-          "name": "Milimeter Wave Scanner",
+          "name": "Millimeter Wave Scanner",
           "kind": "cyber",
           "tags": [
            "UPG"
           ],
-          "ref": "mmwave",
+          "ref": "mmwave,xraywave",
           "setup": "With an Action, can switch modes to see through Thin Cover within 20m."
          }
         ]
@@ -6980,12 +6980,12 @@
          "setup": "Chyron w/ Enhanced HUD.",
          "children": [
           {
-           "name": "Milimeter Wave Scanner",
+           "name": "Millimeter Wave Scanner",
            "kind": "cyber",
            "tags": [
             "UPG"
            ],
-           "ref": "mmwave",
+           "ref": "mmwave,xraywave",
            "setup": "2m. Sees items concealed under thin materials other than metal, skin, or Realskinn. With an Action, can switch modes to see through Thin Cover within 20m."
           }
          ]
