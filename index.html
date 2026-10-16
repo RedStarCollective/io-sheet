@@ -1940,6 +1940,34 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .hzscan.sweep .hzbar{box-shadow:0 0 12px rgba(243,213,142,.75),0 0 34px rgba(181,143,82,.4),0 -26px 40px -8px rgba(181,143,82,.18)}
 .hzscan.sweep::before{content:"";position:absolute;left:0;right:0;bottom:1px;height:60px;background:linear-gradient(180deg,transparent,rgba(181,143,82,.07));pointer-events:none}
 .hzscan.done{transition:opacity .6s;opacity:0}
+.hzscan.reset{transition:opacity .2s;opacity:0}
+/* wireframe pass */
+.hzwire,.hzlock{position:absolute;z-index:59;pointer-events:none}
+.hzwire i{position:absolute;box-sizing:border-box}
+.hzwire .wb,.hzwire .wp{border:1px solid rgba(181,143,82,.5);box-shadow:inset 0 0 18px rgba(181,143,82,.06)}
+.hzwire .wb::before,.hzwire .wp::before{content:"";position:absolute;inset:-2px;background:linear-gradient(var(--gold),var(--gold)) 0 0/9px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 9px,linear-gradient(var(--gold),var(--gold)) 100% 100%/9px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 9px;background-repeat:no-repeat}
+.hzwire .wp{border-style:dashed;border-color:rgba(181,143,82,.35)}
+.hzwire .wh{border-bottom:1px solid rgba(181,143,82,.45);background:rgba(181,143,82,.05)}
+.hzwire .wr{border-bottom:1px solid rgba(181,143,82,.13)}
+/* face / arm lock */
+.hzlock .hzt{position:absolute;opacity:0;transform:scale(1.35);transition:opacity .18s,transform .32s cubic-bezier(.2,.9,.2,1.2)}
+.hzlock.on .hzf,.hzlock.arm .hza{opacity:1;transform:none}
+.hzlock.off .hzf{opacity:0;transition:opacity .5s .9s}
+.hzlock.arm .hza{animation:hzArmOut .5s 1.4s forwards}
+@keyframes hzArmOut{to{opacity:0}}
+.hzlock .hzt i{position:absolute;width:14px;height:14px;border:2px solid #f6dfa4;filter:drop-shadow(0 0 4px rgba(246,223,164,.8))}
+.hzlock .hzt i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}.hzlock .hzt i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.hzlock .hzt i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}.hzlock .hzt i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.hzlock .hzt b{position:absolute;left:0;top:calc(100% + 9px);white-space:nowrap;font:600 10px/1 var(--f-num);letter-spacing:.14em;color:#f6dfa4;background:rgba(6,4,3,.85);border:1px solid rgba(181,143,82,.6);padding:4px 7px 3px;text-shadow:0 0 8px rgba(181,143,82,.7)}
+.hzlock .hzt b:empty{display:none}
+.hzlock .hzt b::before{content:"";position:absolute;left:10px;bottom:100%;width:1px;height:9px;background:#f6dfa4}
+.hzlock .hza i{border-color:var(--gold)}
+/* stat ping and row tear */
+.stat.hzping{position:relative}
+.stat.hzping::after{content:"";position:absolute;inset:-2px;border:2px solid #f6dfa4;pointer-events:none;animation:hzPing .6s ease-out both}
+@keyframes hzPing{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.22,1.12)}}
+.hztear{animation:hzTear .3s steps(4,end)}
+@keyframes hzTear{0%{transform:translateX(-6px);text-shadow:-2px 0 rgba(255,40,70,.8),2px 0 rgba(70,220,255,.7)}35%{transform:translateX(4px);text-shadow:2px 0 rgba(255,40,70,.8),-2px 0 rgba(70,220,255,.7)}70%{transform:translateX(-2px);text-shadow:-1px 0 rgba(255,40,70,.5),1px 0 rgba(70,220,255,.4)}100%{transform:none;text-shadow:none}}
 @keyframes hzStar{0%{opacity:0;transform:scale(.2) rotate(0)}35%{opacity:1;transform:scale(1.25) rotate(45deg)}70%{opacity:.9;transform:scale(.9) rotate(45deg)}100%{opacity:0;transform:scale(.5) rotate(45deg)}}
 @keyframes hzDraw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes hzSplit{0%{opacity:0}20%{opacity:1}40%{opacity:.2}60%{opacity:.8}100%{opacity:0}}
@@ -4777,46 +4805,102 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (t === "advance") return [{sel:":scope > section, :scope > .box", kind:"box", step:90}];
     return [];
   }
-  /* Iō's Dossier load-in (Oak, Oct 16, v2: slower, more space): a star flares under the tabs and stretches into a gold
-     horizon line with an uplink readout; then the line sweeps down the screen like a scanner. The page is revealed above it,
-     and every number it crosses scrambles for a moment before it locks. About 2.8 s; off with reduced motion. */
+  /* Iō's Dossier load-in (Oak, Oct 16, v3). About 5 s; off with reduced motion.
+     1. A star flares under the tabs and stretches into a gold horizon line with an uplink readout.
+     2. Wireframe pass: the line sweeps down and draws only the gold outlines of every box.
+     3. Render pass: the line sweeps again; the real page appears behind it while the wireframe stays ahead of it.
+        As it passes: section headers type in, stat boxes ping and count up from 0, numbers scramble then lock,
+        rows tear sideways with a red/cyan split, and the line pauses on Iō's face to lock an ID tag (and tag the gold arm). */
   var hzRaf = 0;
+  var HZFACE = {fist:{f:[.33,.11,.60,.27], a:[.02,.24,.33,.50]}, stare:{f:[.50,.15,.80,.32], a:[.0,.62,.30,.98]}, standing:{f:[.35,.15,.63,.31], a:[.0,.44,.22,.82]}};
   function hzIn(){
     var main = app.querySelector("main.dossier"); if (!main) return;
-    cancelAnimationFrame(hzRaf); var old = document.querySelector(".hzscan"); if (old) old.remove();
-    var r = main.getBoundingClientRect(), vh = window.innerHeight || 800, dist = Math.max(240, Math.min(vh - r.top + 40, r.height + 10));
+    cancelAnimationFrame(hzRaf); document.querySelectorAll(".hzscan,.hzwire,.hzlock").forEach(function(e){ e.remove(); });
+    var r = main.getBoundingClientRect(), sx = window.scrollX, sy = window.scrollY, vh = window.innerHeight || 800;
+    var dist = Math.max(240, Math.min(vh - r.top + 40, r.height + 10));
+    function place(el, top){ el.style.left = (r.left + sx) + "px"; el.style.width = r.width + "px"; el.style.top = (r.top + sy + (top || 0)) + "px"; document.body.appendChild(el); }
+    /* scan line */
     var ln = document.createElement("div"); ln.className = "hzscan"; ln.setAttribute("aria-hidden", "true");
-    ln.style.left = (r.left + window.scrollX) + "px"; ln.style.width = r.width + "px"; ln.style.top = (r.top + window.scrollY - 7) + "px";
-    ln.innerHTML = '<i class="hzbar"></i><i class="hzstar"></i><b class="hzl"></b><b class="hzr">SYNC <em>000</em>%</b>';
-    document.body.appendChild(ln);
-    var lab = ln.querySelector(".hzl"), pct = ln.querySelector(".hzr em"), TXT = "UPLINK ▸ O'NEILL TWO // L5 → NIGHT CITY";
-    /* clip-path (not a mask) so things that spill outside the column box, like the portrait's edges and shadow, are revealed too and don't pop in at the end */
-    function mask(y){ var c = y < 0 ? "inset(0 0 100% 0)" : "inset(-60px -100vw calc(100% - " + Math.max(0, y).toFixed(1) + "px) -100vw)"; main.style.clipPath = c; main.style.webkitClipPath = c; }
-    function clear(){ main.style.clipPath = ""; main.style.webkitClipPath = ""; }
-    mask(-1);
-    /* number cells the scan line will scramble as it passes */
-    var nums = [].slice.call(main.querySelectorAll("td, .sv, .hum .n, .pair span, .v.rank")).filter(function(e){ return !e.children.length && /^\s*\d{1,3}\s*$/.test(e.textContent); })
-      .map(function(e){ return {e:e, y:e.getBoundingClientRect().top - r.top + 8, fin:e.textContent, t:-1}; }).filter(function(o){ return o.y < dist; });
-    var T0 = performance.now(), D1 = 1150, DS = 1500, E = function(p){ return p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2; };
+    ln.innerHTML = '<i class="hzbar"></i><i class="hzstar"></i><b class="hzl"></b><b class="hzr">SYNC <em>000</em>%</b>'; place(ln, -7);
+    var lab = ln.querySelector(".hzl"), pct = ln.querySelector(".hzr em"), pctLab = ln.querySelector(".hzr");
+    /* wireframe of every box */
+    var wf = document.createElement("div"); wf.className = "hzwire"; wf.setAttribute("aria-hidden", "true"); wf.style.height = dist + "px";
+    var wh = "";
+    main.querySelectorAll(".box, .stat, .portrait .iopw, .idtab, .hb, .sk tr").forEach(function(e){
+      var q = e.getBoundingClientRect(); if (q.top - r.top > dist || q.height < 2) return;
+      var k = e.matches(".hb") ? "wh" : e.matches("tr") ? "wr" : e.matches(".iopw") ? "wp" : "wb";
+      wh += '<i class="' + k + '" style="left:' + (q.left - r.left).toFixed(1) + 'px;top:' + (q.top - r.top).toFixed(1) + 'px;width:' + q.width.toFixed(1) + 'px;height:' + q.height.toFixed(1) + 'px"></i>'; });
+    wf.innerHTML = wh; place(wf, 0);
+    function clip(el, a, b){ var c = "inset(" + a + " -100vw " + b + " -100vw)"; el.style.clipPath = c; el.style.webkitClipPath = c; }
+    function mainTo(y){ clip(main, "-60px", y < 0 ? "100%" : "calc(100% - " + y.toFixed(1) + "px)"); }
+    mainTo(-1); clip(wf, "0", "100%");
+    /* things the render pass touches as it crosses them */
+    function ytop(e){ return e.getBoundingClientRect().top - r.top; }
+    var heads = [].slice.call(main.querySelectorAll(".hb .sp, .idtab .h, .stat > b")).filter(function(e){ return !e.children.length && e.textContent.trim(); })
+      .map(function(e){ var t = e.textContent; e.style.minWidth = e.getBoundingClientRect().width + "px"; e.textContent = ""; return {e:e, y:ytop(e) + 6, fin:t, t:-1}; });
+    var stats = [].slice.call(main.querySelectorAll(".stat")).map(function(e){ return {e:e, y:ytop(e) + 10, n:[].slice.call(e.querySelectorAll(".dec")).map(function(d){ return {d:d, fin:d.textContent}; }), t:-1}; });
+    var nums = [].slice.call(main.querySelectorAll(".dec")).filter(function(d){ return !d.closest(".stat") && /^\s*\d{1,4}\s*$/.test(d.textContent); }).map(function(d){ return {e:d, y:ytop(d) + 8, fin:d.textContent, t:-1}; });
+    var rows = [].slice.call(main.querySelectorAll(".sk tr, .idtab .v, .hum")).map(function(e){ return {e:e, y:ytop(e) + 4, t:-1}; });
+    /* face lock target */
+    var lock = null, fy = -1, ay = -1, faceDone = false;
+    function setupFace(){ faceDone = true; var img = main.querySelector(".portrait.iop img");
+    if (img && img.naturalWidth && HZFACE[IOPK]){
+      var q = img.getBoundingClientRect(), s = Math.max(q.width / img.naturalWidth, q.height / img.naturalHeight), ox = (q.width - img.naturalWidth * s) * .5, oy = (q.height - img.naturalHeight * s) * .18;
+      var box = function(f){ return [q.left - r.left + ox + f[0] * img.naturalWidth * s, q.top - r.top + oy + f[1] * img.naturalHeight * s, (f[2] - f[0]) * img.naturalWidth * s, (f[3] - f[1]) * img.naturalHeight * s]; };
+      var F = box(HZFACE[IOPK].f), A = box(HZFACE[IOPK].a);
+      if (F[1] > 0 && F[1] + F[3] < dist){ fy = F[1] + F[3] + 8;
+        lock = document.createElement("div"); lock.className = "hzlock"; lock.setAttribute("aria-hidden", "true"); lock.style.height = dist + "px";
+        var tgt = function(b, cls, txt){ return '<span class="hzt ' + cls + '" style="left:' + b[0].toFixed(1) + 'px;top:' + b[1].toFixed(1) + 'px;width:' + b[2].toFixed(1) + 'px;height:' + b[3].toFixed(1) + 'px"><i></i><i></i><i></i><i></i><b data-t="' + txt + '"></b></span>'; };
+        lock.innerHTML = tgt(F, "hzf", "SINGH, KŌRU · ID MATCH 99.7%") + (A[1] + A[3] < dist && A[2] > 20 ? tgt(A, "hza", "SUPERCHROME · ORBITAL Ti") : "");
+        if (A[1] + A[3] < dist && A[2] > 20) ay = Math.max(fy + 1, A[1] + A[3] * .7);
+        place(lock, 0); }
+    } }
+    var TXT1 = "UPLINK ▸ O'NEILL TWO // L5 → NIGHT CITY", TXT2 = "RENDER ▸ DR. KŌRU SINGH // IŌ";
+    var E = function(p){ return p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2; };
+    var T0 = performance.now(), D1 = 1150, P1 = 1100, GAP = 450, P2 = 2000, HOLD = 1100;
+    var p2s = D1 + P1 + GAP, paused = 0, pauseAt = -1, locked = false, last = T0;
+    function rnd(t){ return t.replace(/\d/g, function(){ return Math.floor(Math.random() * 10); }); }
     function frame(now){
+      if (!main.isConnected){ [ln, wf, lock].forEach(function(e){ if (e) e.remove(); }); return; }
       var t = now - T0;
-      if (!main.isConnected){ ln.remove(); return; }
-      var tl = Math.max(0, Math.min(TXT.length, Math.floor((t - 380) / 18)));
-      lab.textContent = TXT.slice(0, tl) + (t < D1 + DS && Math.floor(t / 260) % 2 ? "█" : "");
-      if (t >= D1){
-        var p = Math.min(1, (t - D1) / DS), y = dist * E(p);
-        ln.style.transform = "translateY(" + y.toFixed(1) + "px)"; ln.classList.add("sweep"); mask(y);
-        pct.textContent = ("00" + Math.round(p * 100)).slice(-3);
-        nums.forEach(function(o){
-          if (o.t < 0 && o.y <= y){ o.t = now; }
-          if (o.t >= 0){ var k = now - o.t; if (k < 260) o.e.textContent = o.fin.replace(/\d/g, function(){ return Math.floor(Math.random() * 10); }); else if (o.t > 0){ o.e.textContent = o.fin; o.t = 0; } }
-        });
-        if (p >= 1){ clear(); nums.forEach(function(o){ o.e.textContent = o.fin; }); ln.classList.add("done"); setTimeout(function(){ ln.remove(); }, 650); return; }
+      if (t < p2s){
+        var tl = Math.max(0, Math.min(TXT1.length, Math.floor((t - 380) / 18)));
+        lab.textContent = TXT1.slice(0, tl) + (Math.floor(t / 260) % 2 ? "█" : "");
       }
-      hzRaf = requestAnimationFrame(frame);
+      if (t >= D1 && t < D1 + P1){ /* pass 1: wireframe */
+        var p = (t - D1) / P1, y = dist * E(p);
+        ln.style.transform = "translateY(" + y.toFixed(1) + "px)"; ln.classList.add("sweep"); clip(wf, "0", "calc(100% - " + y.toFixed(1) + "px)");
+        pct.textContent = ("00" + Math.round(p * 50)).slice(-3);
+      } else if (t >= D1 + P1 && t < p2s){ /* jump back to the top */
+        clip(wf, "0", "0"); ln.classList.add("reset"); pct.textContent = "050";
+      } else if (t >= p2s){ /* pass 2: render, with a hold on the face */
+        if (ln.classList.contains("reset")){ ln.classList.remove("reset"); }
+        if (!faceDone) setupFace();
+        var vt = t - p2s - paused, pp = Math.min(1, vt / P2), y2 = dist * (pp < 1 ? (1 - Math.pow(1 - pp, 1.6)) : 1);
+        if (fy >= 0 && !locked && y2 >= fy){ if (pauseAt < 0){ pauseAt = now; lock.classList.add("on"); typeTags(".hzf"); } if (now - pauseAt < HOLD){ paused += now - last; vt = t - p2s - paused; y2 = fy; } else { locked = true; lock.classList.add("off"); } }
+        if (ay >= 0 && y2 >= ay && lock && !lock.classList.contains("arm")){ lock.classList.add("arm"); typeTags(".hza"); }
+        ln.style.transform = "translateY(" + y2.toFixed(1) + "px)"; mainTo(y2); clip(wf, y2.toFixed(1) + "px", "0");
+        var tl2 = Math.max(0, Math.min(TXT2.length, Math.floor((t - p2s) / 18)));
+        lab.textContent = TXT2.slice(0, tl2) + (Math.floor(t / 260) % 2 ? "█" : "");
+        pct.textContent = ("00" + Math.round(50 + pp * 50)).slice(-3);
+        heads.forEach(function(o){ if (o.t < 0 && o.y <= y2) o.t = now; if (o.t >= 0 && o.t !== 0){ var n = Math.floor((now - o.t) / 22); if (n >= o.fin.length){ o.e.textContent = o.fin; o.e.style.minWidth = ""; o.t = 0; } else o.e.textContent = o.fin.slice(0, n + 1) + "▌"; } });
+        stats.forEach(function(o){ if (o.t < 0 && o.y <= y2){ o.t = now; o.e.classList.add("hzping"); } if (o.t > 0){ var k = Math.min(1, (now - o.t) / 420);
+          o.n.forEach(function(x){ var v = parseInt(x.fin, 10); x.d.textContent = isNaN(v) || k >= 1 ? x.fin : String(Math.round(v * k)); }); if (k >= 1) o.t = 0; } });
+        nums.forEach(function(o){ if (o.t < 0 && o.y <= y2) o.t = now; if (o.t > 0){ if (now - o.t < 280) o.e.textContent = rnd(o.fin); else { o.e.textContent = o.fin; o.t = 0; } } });
+        rows.forEach(function(o){ if (o.t < 0 && o.y <= y2){ o.t = 0; o.e.classList.add("hztear"); setTimeout(function(){ o.e.classList.remove("hztear"); }, 320); } });
+        if (pp >= 1 && (locked || fy < 0)){ finish(); return; }
+      }
+      last = now; hzRaf = requestAnimationFrame(frame);
+    }
+    function typeTags(sel){ if (!lock) return; lock.querySelectorAll(sel + " b").forEach(function(b, i){ var txt = b.dataset.t, n = 0; var iv = setInterval(function(){ n++; b.textContent = txt.slice(0, n) + (n < txt.length ? "▌" : ""); if (n >= txt.length) clearInterval(iv); }, 22); pwT.push(iv); }); }
+    function finish(){
+      main.style.clipPath = ""; main.style.webkitClipPath = "";
+      heads.forEach(function(o){ o.e.textContent = o.fin; o.e.style.minWidth = ""; }); stats.forEach(function(o){ o.n.forEach(function(x){ x.d.textContent = x.fin; }); });
+      nums.forEach(function(o){ o.e.textContent = o.fin; }); pctLab.innerHTML = "SYNC <em>100</em>%";
+      ln.classList.add("done"); wf.remove(); setTimeout(function(){ ln.remove(); if (lock) lock.remove(); }, 700);
+      main.querySelectorAll(".hzping").forEach(function(e){ setTimeout(function(){ e.classList.remove("hzping"); }, 700); });
     }
     hzRaf = requestAnimationFrame(frame);
-    pwT.push(setTimeout(function(){ if (!main.isConnected) ln.remove(); }, 4000));
   }
   /* Zolo's Dossier keeps its original entrance (Oak, Oct 13): panels rise in one after another, no power-on */
   function dzIn(){
