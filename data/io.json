@@ -650,9 +650,9 @@
      {
       "name": "Qin Na [Aikido]",
       "mod": "",
-      "lvl": 3,
+      "lvl": 4,
       "stat": 8,
-      "base": 11,
+      "base": 12,
       "bold": false
      }
     ]
@@ -1277,8 +1277,8 @@
  "cash": 450,
  "rep": 7,
  "ip": [
-  190,
-  27880
+  70,
+  28820
  ],
  "commission": 3,
  "aliases": "Dr. Kōru Singh, Galileo, Beard-Kun,  JAQ, Reginald Sterling, Magna Defender, Martian Manhunter, IP MAN",
@@ -6432,9 +6432,9 @@
       {
        "name": "Aikido",
        "mod": "",
-       "lvl": 3,
+       "lvl": 4,
        "stat": 8,
-       "base": 11,
+       "base": 12,
        "bold": false,
        "icon": "Qin Na [Aikido]"
       }
@@ -6878,8 +6878,8 @@
   "commission": 3,
   "cash": 450,
   "ip": [
-   190,
-   27880
+   70,
+   28820
   ],
   "pharma": [
    {
