@@ -646,6 +646,14 @@
       "stat": 8,
       "base": 12,
       "bold": false
+     },
+     {
+      "name": "Aikido",
+      "mod": "",
+      "lvl": 3,
+      "stat": 8,
+      "base": 11,
+      "bold": false
      }
     ]
    },
@@ -5389,8 +5397,7 @@
     "to": 6,
     "kind": "x2",
     "cat": "fighting",
-    "skill": "",
-    "from": 0
+    "skill": "Aikido"
    },
    {
     "name": "MCT",
@@ -6421,6 +6428,15 @@
        "base": 12,
        "bold": false,
        "icon": "Sanshou [Muay Thai]"
+      },
+      {
+       "name": "Aikido",
+       "mod": "",
+       "lvl": 3,
+       "stat": 8,
+       "base": 11,
+       "bold": false,
+       "icon": "Aikido"
       }
      ]
     },
