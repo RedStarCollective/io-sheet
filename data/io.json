@@ -648,7 +648,7 @@
       "bold": false
      },
      {
-      "name": "Aikido",
+      "name": "Qin Na [Aikido]",
       "mod": "",
       "lvl": 3,
       "stat": 8,
@@ -5397,7 +5397,7 @@
     "to": 6,
     "kind": "x2",
     "cat": "fighting",
-    "skill": "Aikido"
+    "skill": "Qin Na [Aikido]"
    },
    {
     "name": "MCT",
@@ -6436,7 +6436,7 @@
        "stat": 8,
        "base": 11,
        "bold": false,
-       "icon": "Aikido"
+       "icon": "Qin Na [Aikido]"
       }
      ]
     },
