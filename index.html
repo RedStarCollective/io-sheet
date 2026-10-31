@@ -1735,6 +1735,35 @@ textarea.ed{display:block;margin-top:4px;resize:vertical;font-size:13.5px;line-h
 .rnote span{display:block;margin-top:3px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .pkey{margin:0;display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-2)}
 .pkey i{width:6px;height:6px;flex:none;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 6px rgba(181,143,82,.9)}
+.plbody .pdone i{background:var(--med);box-shadow:none}
+.prow.reached .an b span{color:var(--ink-3)}
+.pltools{display:inline-flex;gap:6px;margin-left:12px}
+.plbtn{font:inherit;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:rgba(17,13,12,.8);color:var(--gold);border:1px solid var(--frame);padding:4px 11px}
+.plbtn:hover{border-color:var(--gold);color:#fff}
+.plbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.plbtn.ghost{color:var(--ink-2)}
+.advplan.adjusting{border-color:var(--gold-dim)}
+.prow.adj{grid-template-columns:minmax(0,1fr) auto 24px;grid-template-areas:"n l d" "x f d"}
+.plx{grid-area:d;align-self:center;justify-self:end;width:22px;height:22px;padding:0;border:0;background:transparent;color:var(--red-hi);font:700 17px/1 var(--f-body);cursor:pointer}
+.plx:hover{color:#fff;background:var(--red-dim)}
+.pst{display:inline-flex;align-items:center;gap:4px}
+.pst button{width:22px;height:22px;padding:0;border:1px solid var(--line);background:var(--cell);color:var(--ink-2);font:700 15px/1 var(--f-body);cursor:pointer}
+.pst button:hover:not(:disabled){background:var(--red-dim);color:#fff}
+.pst button:disabled{opacity:.3;cursor:default}
+.pst b{min-width:20px;text-align:center;font-family:var(--f-num);font-weight:600;color:var(--gold)}
+.pper{display:flex;align-items:center;gap:10px;margin-top:14px}
+.pper .lab{margin:0}
+.pper .ed{width:4.2em}
+.padd{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:7px}
+.padd .lab{margin:0}
+.paddr,.paddo{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.paddr select{flex:1 1 150px;min-width:0;padding:4px 6px}
+.paddo .ed{padding:4px 6px}
+.paddo input:not(.num){flex:1 1 140px;min-width:0}
+.pto{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.pto .ed{width:3.4em;padding:4px 4px}
+.pmsg{margin:10px 0 0;font-size:13px;color:var(--gold)}
+@media (max-width:600px){ .pltools{margin-left:auto} .advplan .hb{flex-wrap:wrap} .advplan .hb .gnote{order:3;flex-basis:100%} }
 
 /* edit */
 .advedit .erow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.4fr) 128px 104px 56px 56px 64px 22px;gap:8px;align-items:end;padding:6px 12px 7px;border-top:1px solid var(--line)}
@@ -6197,20 +6226,68 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   }
 
   /* ---------- training plan ---------- */
+  /* Training plan, adjustable on the page (admin only). Adjusting works on a draft (PL.goals), so a sheet sync mid-edit can't wipe it.
+     Save: hosted copy -> sheet script meta "plan" {goals, perGig}; Claude copy -> io.json. Once saved, the site's plan replaces the goals
+     from the IP calculator tab (applySheet); "Use calculator" clears it. planCalc keeps the calculator's version for that. */
+  var PL = {on:false, goals:null, per:70, msg:"", sure:false}, planSite = false, planCalc = null, planCalcPer = null, plBusy = false;
+  function plGoals(){ return PL.on ? PL.goals : AD().plan; }
+  function plPer(){ return PL.on ? PL.per : (+AD().perGig || 70); }
+  var PL_STAT = /\((WILL|INT|REF|DEX|TECH|COOL|EMP|BODY)\)/;
+  function plInfo(key){
+    if (/^role:/.test(key)) return skIdx[key] ? {name:key.slice(5), skill:key, kind:"role", cat:"role"} : null;
+    var hit = null;
+    (S.skills || []).forEach(function(col){ col.forEach(function(sec){
+      var cat = SEC_CAT[normN(sec.title).split(" ")[0]] || "education", x2sub = false;
+      (sec.rows || []).forEach(function(r){
+        if (hit) return;
+        if (r.items){ r.items.forEach(function(it){ if (!hit && it.name === key) hit = {name:it.name, skill:it.name, kind:"skill", cat:"education"}; }); return; }
+        if (r.sub){ x2sub = /x2/i.test(r.name); return; }
+        if (PL_STAT.test(r.name)) x2sub = false;
+        if (r.name === key) hit = {name:String(r.name).replace(/\s*\((WILL|INT|REF|DEX|TECH|COOL|EMP|BODY)\)\s*/g, " ").trim(), skill:r.name, kind:x2sub || /x2/i.test(r.name) ? "x2" : "skill", cat:cat};
+      });
+    }); });
+    return hit;
+  }
+  function plOptions(){
+    var groups = {}, out = '<option value="">Choose a skill…</option>';
+    (S.roles || []).forEach(function(r){ if (r.role) (groups.role = groups.role || []).push(["role:" + r.role, r.role + " (" + (r.ability || "Role") + ")"]); });
+    (S.skills || []).forEach(function(col){ col.forEach(function(sec){
+      var cat = SEC_CAT[normN(sec.title).split(" ")[0]] || "education";
+      (sec.rows || []).forEach(function(r){
+        if (r.items){ r.items.forEach(function(it){ (groups.education = groups.education || []).push([it.name, it.name]); }); return; }
+        if (r.sub) return;
+        (groups[cat] = groups[cat] || []).push([r.name, String(r.name).replace(/\s*\((WILL|INT|REF|DEX|TECH|COOL|EMP|BODY)\)\s*/g, " ").replace(/\s*\[NYOZI\]/gi, "").trim()]);
+      });
+    }); });
+    ADV_CATS.forEach(function(c){ if (groups[c[0]]) out += '<optgroup label="' + esc(c[1]) + '">' + groups[c[0]].map(function(o){ return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + '</option>'; }).join("") + '</optgroup>'; });
+    return out + '<option value="__other">Not on the Dossier…</option>';
+  }
+  function plClean(g){
+    var o = {name:String(g.name || "").slice(0, 80), to:Math.max(0, Math.min(10, Math.round(+g.to || 0))), kind:{skill:1, x2:1, role:1}[g.kind] ? g.kind : "skill", cat:String(g.cat || "education"), skill:String(g.skill || "")};
+    if (!o.skill || !skIdx[o.skill]) o.from = Math.max(0, Math.min(10, Math.round(+g.from || 0)));
+    return o;
+  }
+  function plStart(){ buildSkIdx(); PL = {on:true, goals:clone(AD().plan), per:+AD().perGig || 70, msg:"", sure:false}; }
+  function plPaint(){ if (plBusy) return; var s = document.querySelector(".advplan"); if (!s || !s.isConnected) return; plBusy = true; try { s.outerHTML = advPlan(); } finally { plBusy = false; } }
+
   function planRows(){
-    return AD().plan.map(function(p, i){ var cur = curLvl(p), to = +p.to || 0; return {p:p, i:i, cur:cur, to:to, left:rawCost(p.kind, cur, to), next:cur < to ? stepCost(p.kind, cur + 1) : 0}; });
+    return plGoals().map(function(p, i){ var cur = curLvl(p), to = +p.to || 0; return {p:p, i:i, cur:cur, to:to, left:rawCost(p.kind, cur, to), next:cur < to ? stepCost(p.kind, cur + 1) : 0}; });
   }
   function advPlan(){
-    var A = advAvail(), per = +AD().perGig || 70, rows = planRows(), live = rows.filter(function(x){ return x.left > 0; }), done = rows.length - live.length;
+    var adj = PL.on, A = advAvail(), per = plPer(), rows = planRows(), live = rows.filter(function(x){ return x.left > 0; }), done = rows.length - live.length;
     var total = live.reduce(function(s, x){ return s + x.left; }, 0), cats = {};
-    live.forEach(function(x){ (cats[x.p.cat] = cats[x.p.cat] || []).push(x); });
+    (adj ? rows : live).forEach(function(x){ (cats[x.p.cat] = cats[x.p.cat] || []).push(x); });
     var order = Object.keys(cats).sort(function(a, b){ return catOrder(a) - catOrder(b); });
     var cols = order.map(function(c){
-      var list = cats[c].sort(function(a, b){ return a.next - b.next || a.left - b.left; }), sum = list.reduce(function(s, x){ return s + x.left; }, 0);
+      var list = cats[c].sort(adj ? function(a, b){ return a.i - b.i; } : function(a, b){ return a.next - b.next || a.left - b.left; }), sum = list.reduce(function(s, x){ return s + x.left; }, 0);
       return '<section class="pcat c-' + c + '"><h3><span>' + esc(catName(c)) + '</span><b>' + fmtN(sum) + '</b></h3>' + list.map(function(x){
-        var ok = x.next <= A, word = x.p.kind === "role" ? "Rank" : "LVL";
-        return '<div class="prow' + (ok ? ' ok' : '') + '">' + nameHTML(advName(x.p), "an", x.p.kind) + '<span class="dl">' + x.cur + '<i>→</i>' + x.to + '</span>' +
-          '<span class="pnx"><i></i>Next · ' + word + ' ' + (x.cur + 1) + ' · <b>' + fmtN(x.next) + '</b></span><span class="plf">' + fmtN(x.left) + ' to goal</span></div>'; }).join("") + '</section>';
+        var ok = x.left > 0 && x.next <= A, word = x.p.kind === "role" ? "Rank" : "LVL", lv;
+        if (adj) lv = '<span class="dl pst">' + x.cur + '<i>→</i><button type="button" data-plstep="-1" data-pli="' + x.i + '"' + (x.to <= x.cur + 1 ? ' disabled' : '') + ' aria-label="Lower the target">−</button><b>' + x.to + '</b><button type="button" data-plstep="1" data-pli="' + x.i + '"' + (x.to >= 10 ? ' disabled' : '') + ' aria-label="Raise the target">+</button></span>';
+        else lv = '<span class="dl">' + x.cur + '<i>→</i>' + x.to + '</span>';
+        var nx = x.left > 0 ? '<span class="pnx"><i></i>Next · ' + word + ' ' + (x.cur + 1) + ' · <b>' + fmtN(x.next) + '</b></span><span class="plf">' + fmtN(x.left) + ' to goal</span>'
+          : '<span class="pnx pdone"><i></i>Reached</span><span class="plf"></span>';
+        return '<div class="prow' + (ok ? ' ok' : '') + (adj ? ' adj' : '') + (x.left > 0 ? '' : ' reached') + '">' + nameHTML(advName(x.p), "an", x.p.kind) + lv + nx +
+          (adj ? '<button type="button" class="plx" data-pldel="' + x.i + '" aria-label="Remove this goal" title="Remove">×</button>' : '') + '</div>'; }).join("") + '</section>';
     }).join("");
     var ref = '<aside class="pref"><p class="lab">IP to reach each level</p><table class="iptab"><thead><tr><th></th>' + [1,2,3,4,5,6,7,8,9,10].map(function(l){ return '<th>' + l + '</th>'; }).join("") + '</tr></thead><tbody>' +
       ADV_KIND.map(function(k){ return '<tr><th>' + (k[0] === "skill" ? "Skill" : k[0] === "x2" ? "×2 skill" : "Role") + '</th>' + [1,2,3,4,5,6,7,8,9,10].map(function(l){ return '<td>' + stepCost(k[0], l) + '</td>'; }).join("") + '</tr>'; }).join("") +
@@ -6218,10 +6295,91 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     var nOk = live.filter(function(x){ return x.next <= A; }).length;
     var psum = '<div class="psum"><p class="lab">To finish the plan</p><b class="dbig">' + fmtN(total) + '<small>IP</small></b>' +
       '<span class="dsub">' + live.length + ' goal' + (live.length === 1 ? '' : 's') + ' · about ' + fmtN(Math.ceil(total / per)) + ' gigs at ' + per + ' IP a gig' + (done ? ' · ' + done + ' reached' : '') + '</span>' +
-      (live.length ? '<p class="pkey"><i></i>' + nOk + ' of them have their next level within your ' + fmtN(A) + ' IP</p>' : '') + '</div>';
-    return '<section class="box a-plan advplan"><div class="hb"><span class="sp">Training plan</span><span class="gnote">Goals from your IP calculator</span></div>' +
-      '<div class="plbody">' + psum + '<div class="pcols">' + (cols || '<p class="pnone">No goals yet. Add some in Edit mode.</p>') + '</div>' + ref + '</div></section>';
+      (live.length ? '<p class="pkey"><i></i>' + nOk + ' of them have their next level within your ' + fmtN(A) + ' IP</p>' : '') +
+      (adj ? '<label class="pper"><span class="lab">IP a gig</span><input class="ed num" type="number" min="1" max="999" inputmode="numeric" id="plper" value="' + per + '"></label>' +
+        '<div class="padd"><p class="lab">Add a goal</p><div class="paddr"><select class="ed" id="pladd" aria-label="Skill">' + plOptions() + '</select>' +
+        '<label class="pto"><span>to</span><input class="ed num" type="number" min="1" max="10" inputmode="numeric" id="plto" aria-label="Target level"></label>' +
+        '<button type="button" class="plbtn" data-pladd="1">Add</button></div>' +
+        '<div class="paddo" id="plother" hidden><input class="ed" id="plname" placeholder="Name" aria-label="Goal name">' +
+        '<select class="ed" id="plkind" aria-label="Kind">' + ADV_KIND.map(function(k){ return '<option value="' + k[0] + '">' + esc(k[1]) + '</option>'; }).join("") + '</select>' +
+        '<select class="ed" id="plcat" aria-label="Category">' + ADV_CATS.map(function(c){ return '<option value="' + c[0] + '">' + esc(c[1]) + '</option>'; }).join("") + '</select>' +
+        '<label class="pto"><span>from</span><input class="ed num" type="number" min="0" max="9" inputmode="numeric" id="plfrom" value="0" aria-label="Current level"></label></div></div>' : '') +
+      (PL.msg ? '<p class="pmsg">' + esc(PL.msg) + '</p>' : '') + '</div>';
+    var tools = '';
+    if (!readOnly && WHO === "io"){
+      tools = adj ? '<span class="pltools">' + (planSite ? '<button type="button" class="plbtn ghost" data-plreset="1">' + (PL.sure ? 'Sure? Click again' : 'Use calculator') + '</button>' : '') +
+        '<button type="button" class="plbtn ghost" data-plcancel="1">Cancel</button><button type="button" class="plbtn on" data-plsave="1">Save</button></span>'
+        : '<span class="pltools"><button type="button" class="plbtn" data-pladj="1">Adjust</button></span>';
+    }
+    var note = adj ? 'Step targets, remove or add goals' : planSite ? 'Your plan, set on the site' : 'Goals from your IP calculator';
+    return '<section class="box a-plan advplan' + (adj ? ' adjusting' : '') + '"><div class="hb"><span class="sp">Training plan</span><span class="gnote">' + note + '</span>' + tools + '</div>' +
+      '<div class="plbody">' + psum + '<div class="pcols">' + (cols || '<p class="pnone">No goals yet.' + (readOnly ? '' : ' Press Adjust to add some.') + '</p>') + '</div>' + ref + '</div></section>';
   }
+  function plSave(){
+    var goals = PL.goals.map(plClean).filter(function(g){ return g.name || g.skill; }), per = Math.max(1, Math.round(+PL.per || 70));
+    var old = {plan:AD().plan, per:AD().perGig};
+    if (!S.advance) S.advance = {perGig:70, log:[], plan:[]};
+    S.advance.plan = goals; S.advance.perGig = per;
+    PL.msg = "Saving…"; plPaint();
+    var p = HOSTED ? pushState("meta", {name:"plan", value:{goals:goals, perGig:per}}) : persist();
+    p.then(function(ok){
+      if (!ok){ S.advance.plan = old.plan; S.advance.perGig = old.per; PL.msg = "Couldn't save. Your changes are still here; try Save again."; plPaint(); return; }
+      if (HOSTED) planSite = true;
+      PL = {on:false, goals:null, per:70, msg:"", sure:false}; plPaint(); advRefresh(false);
+    });
+  }
+  function plReset(){
+    if (!PL.sure){ PL.sure = true; plPaint(); return; }
+    PL.msg = "Switching back…"; plPaint();
+    pushState("meta", {name:"plan", value:null}).then(function(ok){
+      if (!ok){ PL.sure = false; PL.msg = "Couldn't reach the sheet."; plPaint(); return; }
+      planSite = false; if (planCalc) S.advance.plan = clone(planCalc); if (planCalcPer != null) S.advance.perGig = planCalcPer;
+      PL = {on:false, goals:null, per:70, msg:"", sure:false}; plPaint(); advRefresh(false);
+    });
+  }
+  function plAdd(){
+    var sel = document.getElementById("pladd"), toEl = document.getElementById("plto"); if (!sel) return;
+    var v = sel.value, g;
+    if (!v){ PL.msg = "Pick a skill first."; plPaint(); return; }
+    if (v === "__other"){
+      var nm = (document.getElementById("plname").value || "").trim(); if (!nm){ PL.msg = "Give the goal a name."; plPaint(); return; }
+      g = {name:nm, skill:"", kind:document.getElementById("plkind").value, cat:document.getElementById("plcat").value, from:+document.getElementById("plfrom").value || 0};
+    } else g = plInfo(v);
+    if (!g){ PL.msg = "That skill isn't on the Dossier."; plPaint(); return; }
+    var cur = curLvl(g), to = Math.round(+toEl.value || cur + 1);
+    if (cur >= 10){ PL.msg = "That one is already at 10."; plPaint(); return; }
+    to = Math.max(cur + 1, Math.min(10, to)); g.to = to;
+    var ex = -1; PL.goals.forEach(function(p, i){ if (ex < 0 && ((g.skill && p.skill === g.skill) || (!g.skill && normN(p.name) === normN(g.name)))) ex = i; });
+    if (ex >= 0){ PL.goals[ex].to = to; PL.msg = "Already in the plan; target set to " + to + "."; }
+    else { PL.goals.push(g); PL.msg = ""; }
+    plPaint();
+  }
+  app.addEventListener("click", function(ev){
+    if (tab !== "advance" || editing || readOnly) return;
+    var b = ev.target.closest && ev.target.closest("button"); if (!b || !b.closest(".advplan")) return;
+    if (b.dataset.pladj){ plStart(); plPaint(); return; }
+    if (!PL.on) return;
+    if (b.dataset.plcancel){ PL = {on:false, goals:null, per:70, msg:"", sure:false}; plPaint(); return; }
+    if (b.dataset.plsave){ plSave(); return; }
+    if (b.dataset.plreset){ plReset(); return; }
+    if (b.dataset.pladd){ plAdd(); return; }
+    if (b.dataset.plstep){ var g = PL.goals[+b.dataset.pli]; if (!g) return; var cur = curLvl(g); g.to = Math.max(cur + 1, Math.min(10, (+g.to || 0) + (+b.dataset.plstep))); PL.msg = ""; PL.sure = false; plPaint(); return; }
+    if (b.dataset.pldel != null){ PL.goals.splice(+b.dataset.pldel, 1); PL.msg = ""; PL.sure = false; plPaint(); return; }
+  });
+  app.addEventListener("change", function(ev){
+    if (tab !== "advance" || !PL.on) return;
+    var t = ev.target; if (!t.closest || !t.closest(".advplan")) return;
+    ev.stopImmediatePropagation();   /* keep the page-wide "redraw on any select" handler off the plan's own controls */
+    if (t.id === "plper"){ PL.per = Math.max(1, Math.round(+t.value || 70)); plPaint(); return; }
+    if (t.id === "pladd"){
+      var o = document.getElementById("plother"), toEl = document.getElementById("plto"); if (o) o.hidden = t.value !== "__other";
+      var g = t.value && t.value !== "__other" ? plInfo(t.value) : null, cur = g ? curLvl(g) : 0;
+      if (toEl){ toEl.min = cur + 1; toEl.placeholder = cur + 1; if (!toEl.value || +toEl.value <= cur) toEl.value = Math.min(10, cur + 1); }
+    }
+  });
+  app.addEventListener("keydown", function(ev){
+    if (tab === "advance" && PL.on && ev.key === "Enter" && ev.target && /^(plto|plname|plfrom)$/.test(ev.target.id)){ ev.preventDefault(); plAdd(); }
+  });
 
   /* ---------- edit mode ---------- */
   function advEdit(){
@@ -6956,7 +7114,11 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       var st = sheetOf(j, SHEET_TABS.stats), si = sheetOf(j, SHEET_TABS.imp), sc = sheetOf(j, SHEET_TABS.calc);
       if (st){ var gs0 = Grid(st); syncStats(gs0); syncGear(gs0); }
       if (si) syncLog(Grid(si));
+      if (S.advance){ if (planCalc) S.advance.plan = clone(planCalc); if (planCalcPer == null) planCalcPer = S.advance.perGig; S.advance.perGig = planCalcPer; }
       if (sc) syncPlan(Grid(sc));
+      if (S.advance) planCalc = clone(S.advance.plan || []);
+      if (j.meta && j.meta.plan && Array.isArray(j.meta.plan.goals) && S.advance){ buildSkIdx(); S.advance.plan = j.meta.plan.goals.slice(0, 200).map(plClean); if (+j.meta.plan.perGig > 0) S.advance.perGig = +j.meta.plan.perGig; planSite = true; }
+      else planSite = false;
       var scf = sheetOf(j, SHEET_TABS.casefile); if (scf) syncCaseFile(scf);
       if (j.nyozi && typeof j.nyozi === "object") S.nyozi = {active:!!j.nyozi.active};
       if (j.meta && j.meta.nano && typeof j.meta.nano === "object") S.nano = {on:!!j.meta.nano.on, uses:+j.meta.nano.uses || 0};
