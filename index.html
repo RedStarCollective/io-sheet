@@ -7302,7 +7302,8 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         if (lk){ NUBUSY = true; render(); nuOpen(lk).then(function(){ NUDE = true; nuDone(); }, function(){ try { localStorage.removeItem("io-nude-k"); } catch(e){} nuDone("", "code"); }); return; }
         NUUI = isAdmin() ? "code" : "ask"; render(); var fi = document.getElementById("nupw"); if (fi) fi.focus(); return; }
       if (nu === "set"){ if (!isAdmin()) return; NUMSG = ""; NUUI = NUUI ? "" : (NUK || nuLocalK() ? "set" : "code"); render(); var si = document.getElementById("nupw"); if (si) si.focus(); return; }
-      if (nu === "code"){ if (!isAdmin() || !npw.trim()) return; var K; try { K = nuUn64(npw); } catch(e){ K = null; }
+      if (nu === "code"){ if (!isAdmin() || !npw.trim()) return; var K, ctok = npw.match(/[A-Za-z0-9_-]{43}/);   /* accepts the whole recovery file pasted in, not just the code line */
+        try { K = nuUn64(ctok ? ctok[0] : npw); } catch(e){ K = null; }
         if (!K || K.length !== 32){ nuDone("That isn’t the recovery code", "code"); return; }
         NUBUSY = true; render();
         nuOpen(K).then(function(){ try { localStorage.setItem("io-nude-k", nuB64(K)); } catch(e){} nuDone("Recovery code accepted on this device", "set"); }, function(){ nuDone("That isn’t the recovery code", "code"); }); return; }
