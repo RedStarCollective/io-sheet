@@ -3291,6 +3291,29 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
     font:500 7.5px/1 var(--f-fluff);letter-spacing:.3em;color:var(--ink-3);opacity:.4;pointer-events:none}
 }
 </style>
+<style id="v77-modal">
+/* ===== 2077 grammar, part 5: rules card as a popup (Nov 5). Hover cards stay light; a clicked (pinned) card dims and tints the page,
+   with a grid and corner ticks, like the game's codex popups. Remove this block + the v7veil / v7pin lines in the card code to undo. ===== */
+#v7veil{position:fixed;inset:0;z-index:59;pointer-events:none;opacity:0;transition:opacity .22s ease;
+  background:
+    linear-gradient(var(--frame),var(--frame)) 18px 18px/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) 18px 18px/1px 22px no-repeat,
+    linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) 18px/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) 18px/1px 22px no-repeat,
+    linear-gradient(var(--frame),var(--frame)) 18px calc(100% - 18px)/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) 18px calc(100% - 18px)/1px 22px no-repeat,
+    linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) calc(100% - 18px)/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) calc(100% - 18px)/1px 22px no-repeat,
+    repeating-linear-gradient(0deg,rgba(209,28,40,.07) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(209,28,40,.07) 0 1px,transparent 1px 40px),
+    radial-gradient(ellipse at center,rgba(40,4,8,.62),rgba(10,2,3,.86))}
+body.zolo #v7veil{background-color:transparent}
+body.v7pin #v7veil{opacity:1}
+.card{background:
+  linear-gradient(var(--gold),var(--gold)) 0 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 0 0/1px 12px no-repeat,
+  linear-gradient(var(--gold),var(--gold)) 0 100%/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 0 100%/1px 12px no-repeat,
+  linear-gradient(var(--gold),var(--gold)) 100% 100%/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 100% 100%/1px 12px no-repeat,
+  rgba(12,9,8,.97)}
+.card.pinned{box-shadow:0 18px 50px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.6),0 0 30px color-mix(in srgb,var(--red-hi) 18%,transparent)}
+.card::after{content:"REF_LIB // CODEX ENTRY · IMAGE TYPE: ARM LINUX KERNEL IMAGE · 6520-A44";display:block;margin-top:10px;padding-top:6px;border-top:1px solid var(--line);
+  font:500 7.5px/1.2 var(--f-fluff,var(--f-body));letter-spacing:.16em;color:var(--ink-3);opacity:.6}
+@media (prefers-reduced-motion:no-preference){ .card.pinned{animation:v7pop .2s cubic-bezier(.2,.7,.2,1)} @keyframes v7pop{from{opacity:.4;transform:translateY(4px)}} }
+</style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
@@ -4305,6 +4328,7 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
   var card = document.createElement("div");
   card.className = "card"; card.id = "rcard"; card.setAttribute("role", "tooltip"); card.hidden = true;
   document.body.appendChild(card);
+  var v7veil = document.createElement("div"); v7veil.id = "v7veil"; v7veil.setAttribute("aria-hidden", "true"); document.body.appendChild(v7veil);
   var cardFor = null, pinned = false, showT = 0, hideT = 0;
   /* plain line breaks start a new paragraph; "\n• " lines become a list under the paragraph before them */
   function para(s){ return String(s).split(/\n(?!•)/).map(function(ch){ return ch.split(/\n•\s*/).map(function(p, i){ return i ? '<li>' + nm(p) + '</li>' : '<p>' + nm(p) + '</p>'; }).join("").replace(/(<li>.*<\/li>)/, '<ul>$1</ul>'); }).join(""); }
@@ -4338,11 +4362,12 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
     cardFor = el; pinned = !!pin || pinned && cardFor === el;
     card.classList.toggle("pinned", pinned);
     card.hidden = false; placeCard(el);
+    document.body.classList.toggle("v7pin", pinned);   /* 2077 look, part 5: world tints behind a pinned card */
     [].forEach.call(document.querySelectorAll(".has-card.lit"), function(n){ n.classList.remove("lit"); }); el.classList.add("lit");
   }
   function hideCard(force){
     if (pinned && !force) return;
-    pinned = false; card.hidden = true; card.classList.remove("pinned");
+    pinned = false; card.hidden = true; card.classList.remove("pinned"); document.body.classList.remove("v7pin");
     if (cardFor) cardFor.classList.remove("lit"); cardFor = null;
   }
   function trig(t){ return t && t.closest ? t.closest("[data-tip],[data-ref],[data-skill]") : null; }
