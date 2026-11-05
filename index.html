@@ -3314,6 +3314,18 @@ body.v7pin #v7veil{opacity:1}
   font:500 7.5px/1.2 var(--f-fluff,var(--f-body));letter-spacing:.16em;color:var(--ink-3);opacity:.6}
 @media (prefers-reduced-motion:no-preference){ .card.pinned{animation:v7pop .2s cubic-bezier(.2,.7,.2,1)} @keyframes v7pop{from{opacity:.4;transform:translateY(4px)}} }
 </style>
+<style id="v77-icons">
+/* ===== 2077 grammar, part 6: icons (Nov 5). Game attribute hexes behind the stats; status icons on injuries/addictions.
+   Remove this block + v7stat()/v7crit() to undo. ===== */
+.stat{position:relative;overflow:hidden}
+.stat .v7si{position:absolute;left:50%;top:calc(50% + 10px);width:54px;height:54px;transform:translate(-50%,-50%);pointer-events:none;
+  background:var(--gold);opacity:.24;-webkit-mask:var(--si) center/contain no-repeat;mask:var(--si) center/contain no-repeat;transition:opacity .2s}
+.stat:hover .v7si{opacity:.4}
+.stat .sv,.stat .pair{position:relative;z-index:1}
+.crn{display:flex;align-items:center;gap:7px}
+.v7ci{flex:none;width:18px;height:18px;background:var(--red-hi);-webkit-mask:var(--si) center/contain no-repeat;mask:var(--si) center/contain no-repeat;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--red-hi) 60%,transparent))}
+.crit.k-add .v7ci{background:var(--k-adv)}
+</style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
@@ -3498,6 +3510,9 @@ body.v7pin #v7veil{opacity:1}
     saveTimer = setTimeout(persist, 900);
   }
 
+  /* 2077 look, part 6 (Nov 5): the game's attribute hexes, faint behind each stat number (img/v7/<stat>.png, white masks tinted by CSS) */
+  var V7SI = {INT:"int", REF:"ref", DEX:"dex", TECH:"tech", COOL:"cool", WILL:"will", LUCK:"luck", MOVE:"move", BODY:"body", EMP:"emp"};
+  function v7stat(h, i){ var k = V7SI[String(S.stats[i] && S.stats[i].k).toUpperCase()]; return k && !editing ? h.replace('</b>', '</b><i class="v7si" aria-hidden="true" style="--si:url(img/v7/' + k + '.png)"></i>') : h; }
   function statsRail(){
     return '<div class="stats a-st" aria-label="Stats">' + S.stats.map(function(s,i){
       var nz = !editing && s.k === "EMP" && nyoziOn() && s.max != null;
@@ -3506,7 +3521,7 @@ body.v7pin #v7veil{opacity:1}
         ? '<div class="pair"><span' + (nz ? ' title="Nyozi: skills use EMP before Humanity loss"' : '') + '>' + (nz ? '<span class="dec">' + esc(s.max) + '</span>' : f("stats."+i+".v",{num:1,label:s.k})) + '</span><span class="of">out of</span><span>' + f("stats."+i+".max",{num:1,label:s.k+" max"}) + '</span></div>'
         : '<span class="sv">' + f("stats."+i+".v",{num:1,label:s.k}) + '</span>';
       return '<div class="stat' + (nz ? ' nyzon' : '') + '"><b>' + esc(s.k) + '</b>' + inner + '</div>';
-    }).join("") + '</div>';
+    }).map(v7stat).join("") + '</div>';
   }
 
   var SUB_RE = /^Local Expert|^Science \(|^Martial Arts \[|^Play Instrument/;
@@ -3773,6 +3788,12 @@ body.v7pin #v7veil{opacity:1}
     var c = CRIT_CAT.filter(function(x){ return low.indexOf(x[0].toLowerCase()) === 0; })[0];
     return c ? {kind:/head/i.test(c[1]) && !/body/i.test(c[1]) ? "head" : "body", name:t, tag:c[1], fx:c[2], qf:c[3], tr:c[4], ds:c[5]} : {kind:"", name:t};
   }
+  /* 2077 look, part 6: a status-effect icon in front of each injury / addiction (game buff icons, img/v7/c-*.png) */
+  function v7crit(c){
+    var n = String(c.name || "").toLowerCase(), k = c.kind === "add" ? "addict" : /eye/.test(n) ? "blind" : /burn/.test(n) ? "burn" : /lung|breath|throat|jaw/.test(n) ? "breath" :
+      /spin|neck/.test(n) ? "spine" : /heart|organ|internal/.test(n) ? "heart" : /broken|arm|leg|hand|foot|limb/.test(n) ? "limb" : /concuss|brain|skull|head|ear/.test(n) || c.kind === "head" ? "head" : /knock|down|fall/.test(n) ? "down" : "wound";
+    return '<i class="v7ci" aria-hidden="true" style="--si:url(img/v7/c-' + k + '.png)"></i>';
+  }
   function critCan(){ return WHO === "io" && !editing && isAdmin(); }
   function critPicker(){
     var have = {}; (S.crits || []).forEach(function(c){ have[String(c).toLowerCase()] = 1; });
@@ -3897,7 +3918,7 @@ body.v7pin #v7veil{opacity:1}
     var ci = editing ? [] : (S.crits || []).map(critInfo), dsp = ci.reduce(function(a, c){ return a + (c.ds ? 1 : 0); }, 0);
     hp += (dsp ? '<div class="wnote dsp">Base Death Save Penalty +' + dsp + ' from injuries</div>' : '') + '</div>';
     var can = critCan();
-    var row = function(c, i){ return '<div class="crit cr2' + (c.kind ? ' k-' + c.kind : '') + '"><div class="crn"><b>' + esc(c.name) + '</b>' + (c.tag ? '<span class="crk">' + esc(c.tag) + '</span>' : '') +
+    var row = function(c, i){ return '<div class="crit cr2' + (c.kind ? ' k-' + c.kind : '') + '"><div class="crn">' + v7crit(c) + '<b>' + esc(c.name) + '</b>' + (c.tag ? '<span class="crk">' + esc(c.tag) + '</span>' : '') +
         (can ? '<button type="button" class="crx" data-critdel="' + i + '" aria-label="Remove ' + esc(c.name) + '" title="Remove">×</button>' : '') + '</div>' +
         (c.fx ? '<div class="crfx">' + esc(c.fx) + '</div>' : '') +
         (c.qf ? '<div class="crq"><span>Quick Fix</span> ' + esc(c.qf) + ' <span>Treatment</span> ' + esc(c.tr) + '</div>' : c.src ? '<div class="crq"><span>' + esc(c.src) + '</span></div>' : '') + '</div>'; };
