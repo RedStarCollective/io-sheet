@@ -2,7 +2,7 @@
 <title>Iō Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@500;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E%E6%AD%A6&display=swap">
 <style>
 :root{
@@ -3268,6 +3268,29 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
 .zckey span::before{content:"";width:9px;height:3px;background:var(--zk);transform:skewX(-30deg)}
 .ring .zcap,.ring .zckey{display:none}.ring .zitem{padding-bottom:5px}
 </style>
+<style id="v77-fluff">
+/* ===== 2077 grammar, part 4: fluff codes, edge rulers (Nov 5). Remove this block + v7strip() to undo. ===== */
+:root{--f-fluff:"Orbitron","Oxanium",var(--f-body)}
+.v7strip{display:flex;align-items:center;gap:10px;margin:-10px 0 12px;font:500 8.5px/1 var(--f-fluff);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);opacity:.7;white-space:nowrap;overflow:hidden}
+.v7strip b{font-weight:700;color:color-mix(in srgb,var(--red-hi) 80%,var(--ink-3));margin-right:10px}
+.v7strip i{flex:1;height:1px;min-width:20px;background:linear-gradient(90deg,var(--frame),transparent 30%,transparent 70%,var(--frame));position:relative}
+.v7strip i::before,.v7strip i::after{content:"";position:absolute;top:-3px;width:1px;height:7px;background:var(--frame)}
+.v7strip i::before{left:0}.v7strip i::after{right:0}
+.v7strip span:last-child{overflow:hidden;text-overflow:ellipsis}
+@media (max-width:760px){ .v7strip span:last-child{display:none} }
+/* tiny serials under the Dossier boxes, set in the gap below each one */
+.dossier{counter-reset:v7bx}
+.dossier .box{position:relative;counter-increment:v7bx}
+.dossier .box::after{content:"NODE_" counter(v7bx,decimal-leading-zero) " · 6520-A44";position:absolute;right:2px;top:calc(100% + 2px);font:500 7px/1 var(--f-fluff);letter-spacing:.18em;color:var(--ink-3);opacity:.45;pointer-events:none;white-space:nowrap}
+/* edge rulers: tick marks down both sides of the window on wide screens */
+@media (min-width:1640px){
+  body::before{content:"";position:fixed;top:0;bottom:0;left:10px;width:12px;z-index:0;pointer-events:none;opacity:.5;
+    background:repeating-linear-gradient(180deg,var(--frame) 0 1px,transparent 1px 8px) left/5px 100% no-repeat,
+               repeating-linear-gradient(180deg,var(--frame) 0 1px,transparent 1px 64px) left/12px 100% no-repeat}
+  .wrap::before{content:"SYS.RULER // 0E0E17 · NC-2045 · O2 // RSC";position:fixed;left:24px;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;
+    font:500 7.5px/1 var(--f-fluff);letter-spacing:.3em;color:var(--ink-3);opacity:.4;pointer-events:none}
+}
+</style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
@@ -3385,7 +3408,15 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
     '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>' +
       /* sheet sync / save status: sits in the open space under the header, right side of the tab row */
-      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? sheetWord('Sheet ' + syncInfo) : '')) + '</span>') + '</div>';
+      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? sheetWord('Sheet ' + syncInfo) : '')) + '</span>') + '</div>' + v7strip();
+  }
+  /* 2077 look, part 4 (Nov 5): exposed "backend" fluff under the tab row, as in the CDPR art bible. Pure decoration; aria-hidden. */
+  var V7FX = {dossier:["SUBJECT_FILE","MODEL LINE 12.12AA"], ware:["RIPPER_STORE_55201","CERTIFIED TO ACCESS OR DISABLE THIS ITEM"], casefile:["CASE_ARCHIVE_0043","IMAGE TYPE: ARM LINUX KERNEL IMAGE"],
+    rep:["STREET_CRED_INDEX","TRN_TLCAS_800095"], fans:["FAN_REGISTRY_N7","BROADCAST NODE · O'NEILL TWO"], posse:["CREW_MANIFEST","LINK STATUS: SECURE"], vehicles:["MOTOR_POOL_VTOL","CHUI NYOTA · RSZ CURIOSITY"],
+    hq:["HOUSING_LEASE","PEOPLE'S CENTER"], advance:["TRAINING_MATRIX","IP LEDGER // SKILL TREE"]};
+  function v7strip(){
+    var fx = V7FX[tab] || ["SYS", ""], who = WHO === "zolo" ? "ZL" : "IO", sin = String(S && S.sin || "").replace(/[^0-9A-Z]/gi, "").slice(-6) || "000000";
+    return '<div class="v7strip" aria-hidden="true"><span><b>' + who + '//' + fx[0] + '</b>TASK_MANAGER_00115 · ID ' + esc(sin) + '</span><i></i><span>' + esc(fx[1]) + ' · PROTOCOL 6520-A44</span></div>';
   }
 
   /* Zolo: his Rocker side stays in the background */
