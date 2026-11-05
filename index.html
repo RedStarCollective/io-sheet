@@ -3252,6 +3252,22 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
 :focus-visible{outline-color:var(--act)}
 .rtag.ltag:hover b{color:var(--act)}
 </style>
+<style id="v77-cap">
+/* ===== 2077 grammar, part 3: Ware capacity strips (Nov 5). Remove this block plus zcap()/zcapKey() in chrome() to undo. ===== */
+.zitem{position:relative;padding-bottom:12px}
+.zcap{position:absolute;left:10px;right:10px;bottom:4px;display:flex;gap:2px;height:3px;pointer-events:none}
+.zcap > i{flex:1;max-width:14px;background:var(--zk,var(--k-cyber));opacity:.75;transform:skewX(-30deg)}
+.zcap.slots{right:72px}
+.zcap.slots > i{max-width:none}
+.zcap em{position:absolute;left:calc(100% + 6px);bottom:-3px;white-space:nowrap;font:600 9px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:var(--ink-3)}
+.zitem.on .zcap > i,.zitem:hover .zcap > i{opacity:1;box-shadow:0 0 4px var(--zk)}
+.zc-cyber{--zk:var(--k-cyber)}.zc-bio{--zk:var(--k-bio)}.zc-adv{--zk:var(--k-adv)}.zc-worn{--zk:var(--k-worn)}.zc-chip{--zk:var(--k-chip)}
+.zcap > i.zc-free{background:transparent;box-shadow:inset 0 0 0 1px var(--frame)!important;opacity:.8}
+.zckey{display:flex;flex-wrap:wrap;gap:4px 10px;padding:6px 2px 0;font:600 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.zckey span{display:inline-flex;align-items:center;gap:5px}
+.zckey span::before{content:"";width:9px;height:3px;background:var(--zk);transform:skewX(-30deg)}
+.ring .zcap,.ring .zckey{display:none}.ring .zitem{padding-bottom:5px}
+</style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
@@ -4341,6 +4357,20 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
   function walk(items, fn){ (items || []).forEach(function(it){ if (isNode(it)){ fn(it); walk(it.children, fn); } }); }
   function zoneNodes(z){ var out = []; z.groups.forEach(function(g){ walk(g.items, function(it){ out.push(it); }); }); return out; }
   function zoneCount(z){ return zoneNodes(z).length; }
+  /* 2077 look, part 3 (Nov 5): ripperdoc-style capacity strip under each Ware system. One cell per installed piece, coloured by kind;
+     where the pieces carry option-slot counts (Internal) the strip is the system's slot capacity instead (7 + 1 from Physiological Tailoring). */
+  var ZCAP = {internal:8, external:8, fashion:8};
+  function zcap(z){
+    var n = zoneNodes(z), used = 0, cells = [];
+    n.forEach(function(it){ if (+it.slots) used += +it.slots; });
+    if (used && ZCAP[z.id]){
+      n.forEach(function(it){ for (var i = 0; i < (+it.slots || 0); i++) cells.push(it.kind || "cyber"); });
+      while (cells.length < ZCAP[z.id]) cells.push("free");
+      return '<i class="zcap slots" aria-hidden="true">' + cells.map(function(k){ return '<i class="zc-' + k + '"></i>'; }).join("") + '<em>' + used + '/' + ZCAP[z.id] + ' slots</em></i>';
+    }
+    return '<i class="zcap" aria-hidden="true">' + n.map(function(it){ return '<i class="zc-' + (it.kind || "cyber") + '"></i>'; }).join("") + '</i>';
+  }
+  function zcapKey(){ return '<div class="zckey" aria-hidden="true"><span class="zc-cyber">Cyber</span><span class="zc-bio">Bio</span><span class="zc-adv">Adv</span><span class="zc-worn">Worn</span><span class="zc-chip">Chip</span></div>'; }
   function findAdv(id){ var r = null; CZ().forEach(function(z){ walk([].concat.apply([], z.groups.map(function(g){ return g.items; })), function(it){ if (it.id === id) r = it; }); }); return r; }
   function tagChip(k){
     var key = String(k).toUpperCase();
@@ -4731,7 +4761,7 @@ body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
     var Z = CZ(), sel = zoneSel;
     var nav = '<nav class="znav" aria-label="Body systems">' +
       '<div class="zbtns"><button class="zall' + (sel === "all" ? ' on' : '') + '" data-zone="all">Show all</button><button class="zall' + (!sel ? ' on' : '') + '" data-zone="">Hide all</button></div>' +
-      Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b></button>'; }).join("") + '</nav>';
+      Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b>' + zcap(z) + '</button>'; }).join("") + zcapKey() + '</nav>';
     var sz = zoneById(sel), on = sz ? (sz.regions || []) : [];
     if (sel === "limbs") on = limbSel ? [limbSel] : LIMBS.slice();
     var layers = F.nomask ? "" : RLAYERS.map(function(r){
