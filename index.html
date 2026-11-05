@@ -3211,7 +3211,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
    From the CDPR UI manual: one colour at different strengths. Idle = frame ~30%, hover = full frame + 10% fill,
    active = full frame + 40% fill, solid colour only as the click flash. Uses --red-hi / --gold, so Zolo's palette follows.
    Delete this whole <style> block to go back to the solid fills. */
-:root{--lad:var(--red-hi);--lad-g:var(--gold)}
+body{--lad:var(--red-hi);--lad-g:var(--gold)}
 .tab{border:1px solid transparent;transition:background .12s,border-color .12s,color .12s,text-shadow .12s}
 .tab:hover:not([aria-current="page"]){background:color-mix(in srgb,var(--lad) 10%,transparent);border-color:color-mix(in srgb,var(--lad) 55%,transparent);color:var(--ink)}
 .tab[aria-current="page"],body.zolo .tab[aria-current]{background:color-mix(in srgb,var(--lad) 34%,rgba(8,6,5,.6));border-color:var(--lad);color:#fff}
@@ -3227,7 +3227,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 .seg button:hover:not(.on),.fnkind button:hover:not(.on),.vmodes button:hover:not([aria-checked="true"]){background:color-mix(in srgb,var(--lad) 10%,transparent);color:var(--ink)}
 /* the gold switches (Clothed/Bare, Front/Back, Iō/Zolo, ARM, chips): gold at 40% with a full gold frame, light text */
 .ttseg button[aria-pressed="true"],.whosw button[aria-pressed="true"],body.zolo .whosw button[aria-pressed="true"],.armsw button[aria-pressed="true"],.chipsw.on,.prstate.on{
-  color:#fff6e6;background:color-mix(in srgb,var(--lad-g) 38%,transparent);box-shadow:inset 0 0 0 1px var(--lad-g),0 0 10px color-mix(in srgb,var(--lad-g) 22%,transparent);text-shadow:0 0 6px color-mix(in srgb,var(--lad-g) 60%,transparent)}
+  color:#fff6e6;background:color-mix(in srgb,var(--lad-g) 38%,var(--void));box-shadow:inset 0 0 0 1px var(--lad-g),0 0 10px color-mix(in srgb,var(--lad-g) 22%,transparent);text-shadow:0 0 6px color-mix(in srgb,var(--lad-g) 60%,transparent)}
 body.zolo .ttseg button[aria-pressed="true"],body.zolo .whosw button[aria-pressed="true"]{color:#fff}
 .ttseg button:hover:not([aria-pressed="true"]),.whosw button:hover:not([aria-pressed="true"]){background:color-mix(in srgb,var(--lad-g) 10%,transparent)}
 /* click flash: the only moment the colour goes solid */
