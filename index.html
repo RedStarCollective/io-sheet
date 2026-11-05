@@ -2,7 +2,7 @@
 <title>Iō Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%9C%9F%E7%81%AB%E6%B0%B4%E9%A3%8E%E6%AD%A6&display=swap">
 <style>
 :root{
@@ -3206,134 +3206,6 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
   transparent calc(var(--lr) * 3.3 - 1px),rgba(240,207,142,.85) calc(var(--lr) * 3.3),rgba(240,207,142,.18) calc(var(--lr) * 3.3 + 2px),transparent calc(var(--lr) * 3.3 + 9px))}
 
 </style>
-<style id="v77-ladder">
-/* ===== 2077 grammar, part 1: state ladder (Nov 5) =====
-   From the CDPR UI manual: one colour at different strengths. Idle = frame ~30%, hover = full frame + 10% fill,
-   active = full frame + 40% fill, solid colour only as the click flash. Uses --red-hi / --gold, so Zolo's palette follows.
-   Delete this whole <style> block to go back to the solid fills. */
-body{--lad:var(--red-hi);--lad-g:var(--gold)}
-.tab{border:1px solid transparent;transition:background .12s,border-color .12s,color .12s,text-shadow .12s}
-.tab:hover:not([aria-current="page"]){background:color-mix(in srgb,var(--lad) 10%,transparent);border-color:color-mix(in srgb,var(--lad) 55%,transparent);color:var(--ink)}
-.tab[aria-current="page"],body.zolo .tab[aria-current]{background:color-mix(in srgb,var(--lad) 34%,rgba(8,6,5,.6));border-color:var(--lad);color:#fff}
-.btn{border-color:color-mix(in srgb,var(--lad-g) 30%,transparent);transition:background .12s,border-color .12s,color .12s}
-.btn:hover{border-color:var(--lad-g);background:color-mix(in srgb,var(--lad-g) 10%,transparent)}
-.btn.primary,.btn.hostsw.off{background:color-mix(in srgb,var(--lad) 40%,transparent);border-color:var(--lad);color:#fff}
-.zall{border-color:color-mix(in srgb,var(--lad) 30%,transparent)}
-.zall:hover:not(.on){border-color:var(--lad);background:color-mix(in srgb,var(--lad) 10%,rgba(17,13,12,.74))}
-.zall.on{background:color-mix(in srgb,var(--lad) 40%,rgba(17,13,12,.74));border-color:var(--lad)}
-.zitem:hover{background:color-mix(in srgb,var(--lad) 10%,rgba(17,13,12,.74))}
-.zitem.on,body.zolo .zitem.on{background:color-mix(in srgb,var(--lad) 30%,rgba(17,13,12,.74));border-color:color-mix(in srgb,var(--lad) 70%,transparent);border-left-color:var(--lad)}
-.seg button.on,.fnkind button.on,.plbtn.on,.vmodes button[aria-checked="true"]{background:color-mix(in srgb,var(--lad) 40%,transparent);box-shadow:inset 0 0 0 1px var(--lad);color:#fff}
-.seg button:hover:not(.on),.fnkind button:hover:not(.on),.vmodes button:hover:not([aria-checked="true"]){background:color-mix(in srgb,var(--lad) 10%,transparent);color:var(--ink)}
-/* the gold switches (Clothed/Bare, Front/Back, Iō/Zolo, ARM, chips): gold at 40% with a full gold frame, light text */
-.ttseg button[aria-pressed="true"],.whosw button[aria-pressed="true"],body.zolo .whosw button[aria-pressed="true"],.armsw button[aria-pressed="true"],.chipsw.on,.prstate.on{
-  color:#fff6e6;background:color-mix(in srgb,var(--lad-g) 38%,var(--void));box-shadow:inset 0 0 0 1px var(--lad-g),0 0 10px color-mix(in srgb,var(--lad-g) 22%,transparent);text-shadow:0 0 6px color-mix(in srgb,var(--lad-g) 60%,transparent)}
-body.zolo .ttseg button[aria-pressed="true"],body.zolo .whosw button[aria-pressed="true"]{color:#fff}
-.ttseg button:hover:not([aria-pressed="true"]),.whosw button:hover:not([aria-pressed="true"]){background:color-mix(in srgb,var(--lad-g) 10%,transparent)}
-/* click flash: the only moment the colour goes solid */
-@media (prefers-reduced-motion:no-preference){
-  .tab:active,.btn:active,.zall:active,.zitem:active,.seg button:active,.fnkind button:active,.plbtn:active,.vmodes button:active{animation:v7flash .26s ease-out}
-  .ttseg button:active,.whosw button:active,.armsw button:active,.chipsw:active{animation:v7flashg .26s ease-out}
-  @keyframes v7flash{0%{background:color-mix(in srgb,var(--lad) 75%,transparent);box-shadow:0 0 14px color-mix(in srgb,var(--lad) 70%,transparent)}}
-  @keyframes v7flashg{0%{background:color-mix(in srgb,var(--lad-g) 75%,transparent);box-shadow:0 0 14px color-mix(in srgb,var(--lad-g) 70%,transparent)}}
-}
-</style>
-<style id="v77-act">
-/* ===== 2077 grammar, part 2: one cool "you can act on this" colour (Nov 5) =====
-   The game keeps red for structure and content and uses cyan only for navigation and things you can click.
-   Iō: cyan against his gold and red. Zolo (whose frame colours are already cool): his vermilion seal colour. */
-:root{--act:#5ef6ff;--act-dim:rgba(94,246,255,.55)}
-body.zolo{--act:#ff7a5c;--act-dim:rgba(255,122,92,.55)}
-.tab:hover:not([aria-current="page"]){color:var(--act)}
-.tab[aria-current="page"],body.zolo .tab[aria-current]{color:var(--act);box-shadow:inset 0 -2px 0 var(--act);text-shadow:0 0 8px var(--act-dim)}
-.btn:hover,.golink:hover,.plbtn:hover{color:var(--act)}
-.zitem:hover span,.zitem.on span{color:var(--act)}
-.has-card:hover,.has-card.lit{color:var(--act)}
-:focus-visible{outline-color:var(--act)}
-.rtag.ltag:hover b{color:var(--act)}
-</style>
-<style id="v77-cap">
-/* ===== 2077 grammar, part 3: Ware capacity strips (Nov 5). Remove this block plus zcap()/zcapKey() in chrome() to undo. ===== */
-.zitem{position:relative;padding-bottom:12px}
-.zcap{position:absolute;left:10px;right:10px;bottom:4px;display:flex;gap:2px;height:3px;pointer-events:none}
-.zcap > i{flex:1;max-width:14px;background:var(--zk,var(--k-cyber));opacity:.75;transform:skewX(-30deg)}
-.zcap.slots{right:72px}
-.zcap.slots > i{max-width:none}
-.zcap em{position:absolute;left:calc(100% + 6px);bottom:-3px;white-space:nowrap;font:600 9px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:var(--ink-3)}
-.zitem.on .zcap > i,.zitem:hover .zcap > i{opacity:1;box-shadow:0 0 4px var(--zk)}
-.zc-cyber{--zk:var(--k-cyber)}.zc-bio{--zk:var(--k-bio)}.zc-adv{--zk:var(--k-adv)}.zc-worn{--zk:var(--k-worn)}.zc-chip{--zk:var(--k-chip)}
-.zcap > i.zc-free{background:transparent;box-shadow:inset 0 0 0 1px var(--frame)!important;opacity:.8}
-.zckey{display:flex;flex-wrap:wrap;gap:4px 10px;padding:6px 2px 0;font:600 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
-.zckey span{display:inline-flex;align-items:center;gap:5px}
-.zckey span::before{content:"";width:9px;height:3px;background:var(--zk);transform:skewX(-30deg)}
-.ring .zcap,.ring .zckey{display:none}.ring .zitem{padding-bottom:5px}
-</style>
-<style id="v77-fluff">
-/* ===== 2077 grammar, part 4: fluff codes, edge rulers (Nov 5). Remove this block + v7strip() to undo. ===== */
-:root{--f-fluff:"Orbitron","Oxanium",var(--f-body)}
-.v7strip{display:flex;align-items:center;gap:10px;margin:-10px 0 12px;font:500 8.5px/1 var(--f-fluff);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);opacity:.7;white-space:nowrap;overflow:hidden}
-.v7strip b{font-weight:700;color:color-mix(in srgb,var(--red-hi) 80%,var(--ink-3));margin-right:10px}
-.v7strip i{flex:1;height:1px;min-width:20px;background:linear-gradient(90deg,var(--frame),transparent 30%,transparent 70%,var(--frame));position:relative}
-.v7strip i::before,.v7strip i::after{content:"";position:absolute;top:-3px;width:1px;height:7px;background:var(--frame)}
-.v7strip i::before{left:0}.v7strip i::after{right:0}
-.v7strip span:last-child{overflow:hidden;text-overflow:ellipsis}
-@media (max-width:760px){ .v7strip span:last-child{display:none} }
-/* tiny serials under the Dossier boxes, set in the gap below each one */
-.dossier{counter-reset:v7bx}
-.dossier .box{position:relative;counter-increment:v7bx}
-.dossier .box::after{content:"NODE_" counter(v7bx,decimal-leading-zero) " · 6520-A44";position:absolute;right:2px;top:calc(100% + 2px);font:500 7px/1 var(--f-fluff);letter-spacing:.18em;color:var(--ink-3);opacity:.45;pointer-events:none;white-space:nowrap}
-/* edge rulers: tick marks down both sides of the window on wide screens */
-@media (min-width:1640px){
-  body::before{content:"";position:fixed;top:0;bottom:0;left:10px;width:12px;z-index:0;pointer-events:none;opacity:.5;
-    background:repeating-linear-gradient(180deg,var(--frame) 0 1px,transparent 1px 8px) left/5px 100% no-repeat,
-               repeating-linear-gradient(180deg,var(--frame) 0 1px,transparent 1px 64px) left/12px 100% no-repeat}
-  .wrap::before{content:"SYS.RULER // 0E0E17 · NC-2045 · O2 // RSC";position:fixed;left:24px;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;
-    font:500 7.5px/1 var(--f-fluff);letter-spacing:.3em;color:var(--ink-3);opacity:.4;pointer-events:none}
-}
-</style>
-<style id="v77-modal">
-/* ===== 2077 grammar, part 5: rules card as a popup (Nov 5). Hover cards stay light; a clicked (pinned) card dims and tints the page,
-   with a grid and corner ticks, like the game's codex popups. Remove this block + the v7veil / v7pin lines in the card code to undo. ===== */
-#v7veil{position:fixed;inset:0;z-index:59;pointer-events:none;opacity:0;transition:opacity .22s ease;
-  background:
-    linear-gradient(var(--frame),var(--frame)) 18px 18px/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) 18px 18px/1px 22px no-repeat,
-    linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) 18px/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) 18px/1px 22px no-repeat,
-    linear-gradient(var(--frame),var(--frame)) 18px calc(100% - 18px)/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) 18px calc(100% - 18px)/1px 22px no-repeat,
-    linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) calc(100% - 18px)/22px 1px no-repeat,linear-gradient(var(--frame),var(--frame)) calc(100% - 18px) calc(100% - 18px)/1px 22px no-repeat,
-    repeating-linear-gradient(0deg,rgba(209,28,40,.07) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(209,28,40,.07) 0 1px,transparent 1px 40px),
-    radial-gradient(ellipse at center,rgba(40,4,8,.62),rgba(10,2,3,.86))}
-body.zolo #v7veil{background-color:transparent}
-body.v7pin #v7veil{opacity:1}
-.card{background:
-  linear-gradient(var(--gold),var(--gold)) 0 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 0 0/1px 12px no-repeat,
-  linear-gradient(var(--gold),var(--gold)) 0 100%/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 0 100%/1px 12px no-repeat,
-  linear-gradient(var(--gold),var(--gold)) 100% 100%/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) 100% 100%/1px 12px no-repeat,
-  rgba(12,9,8,.97)}
-.card.pinned{box-shadow:0 18px 50px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.6),0 0 30px color-mix(in srgb,var(--red-hi) 18%,transparent)}
-.card::after{content:"REF_LIB // CODEX ENTRY · IMAGE TYPE: ARM LINUX KERNEL IMAGE · 6520-A44";display:block;margin-top:10px;padding-top:6px;border-top:1px solid var(--line);
-  font:500 7.5px/1.2 var(--f-fluff,var(--f-body));letter-spacing:.16em;color:var(--ink-3);opacity:.6}
-@media (prefers-reduced-motion:no-preference){ .card.pinned{animation:v7pop .2s cubic-bezier(.2,.7,.2,1)} @keyframes v7pop{from{opacity:.4;transform:translateY(4px)}} }
-</style>
-<style id="v77-icons">
-/* ===== 2077 grammar, part 6: icons (Nov 5). Game attribute hexes behind the stats; status icons on injuries/addictions.
-   Remove this block + v7stat()/v7crit() to undo. ===== */
-.stat{position:relative;overflow:hidden}
-.stat .v7si{position:absolute;left:50%;top:calc(50% + 10px);width:54px;height:54px;transform:translate(-50%,-50%);pointer-events:none;
-  background:var(--gold);opacity:.24;-webkit-mask:var(--si) center/contain no-repeat;mask:var(--si) center/contain no-repeat;transition:opacity .2s}
-.stat:hover .v7si{opacity:.4}
-.stat .sv,.stat .pair{position:relative;z-index:1}
-.crn{display:flex;align-items:center;gap:7px}
-.v7ci{flex:none;width:18px;height:18px;background:var(--red-hi);-webkit-mask:var(--si) center/contain no-repeat;mask:var(--si) center/contain no-repeat;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--red-hi) 60%,transparent))}
-.crit.k-add .v7ci{background:var(--k-adv)}
-</style>
-<style id="v77-snd">
-/* ===== 2077 grammar, part 7: sound switch (Nov 5) ===== */
-.v7snd{display:inline-grid;place-items:center;width:34px;height:31px;background:rgba(0,0,0,.35);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);color:var(--ink-3);cursor:pointer;padding:0}
-.v7snd svg{width:16px;height:16px}
-.v7snd .w{display:none}.v7snd.on .w{display:inline}.v7snd.on .x{display:none}
-.v7snd:hover{border-color:var(--gold);color:var(--act,var(--gold))}
-.v7snd.on{color:var(--gold);border-color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,transparent)}
-</style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
@@ -3428,33 +3300,6 @@ body.v7pin #v7veil{opacity:1}
   var MOON = '<svg class="moonmark" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="mmg" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#f2eee4"/><stop offset=".7" stop-color="#cfc9bb"/><stop offset="1" stop-color="#9c978c"/></radialGradient></defs><circle cx="32" cy="32" r="27" fill="url(#mmg)"/><circle cx="43" cy="24" r="23" fill="#0b0c0e"/><circle cx="16" cy="38" r="2.4" fill="#6cc6e6"/></svg>';
   var SUNICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></g></svg>';
   var MOONICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.8 8.8 0 0 1 9.4 3.5a.6.6 0 0 0-.8-.7A9.8 9.8 0 1 0 21.2 15.4a.6.6 0 0 0-.7-.8z"/></svg>';
-  /* 2077 look, part 7 (Nov 5): optional interface sounds from the game (snd/*.mp3). Off by default; the speaker button in the header
-     turns them on for this browser (localStorage "io-snd"). Remove v7snd*, sndSwitch() and <style id=v77-snd> to undo. */
-  var V7SND = {}, v7on = false, v7last = 0, v7hov = null;
-  try { v7on = localStorage.getItem("io-snd") === "1"; } catch (e) {}
-  var V7VOL = {hover:.22, click:.35, nav:.35, tab:.4, open:.4, close:.35};
-  function v7snd(k){
-    if (!v7on) return;
-    var now = Date.now(); if (k === "hover" && now - v7last < 70) return; v7last = now;
-    try { if (!V7SND[k]) V7SND[k] = new Audio("snd/" + k + ".mp3"); var a = V7SND[k].cloneNode(); a.volume = V7VOL[k] || .3; a.play().catch(function(){}); } catch (e) {}
-  }
-  var SNDICO = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10L5 10H2z" fill="currentColor"/><path class="w" d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path class="x" d="M11 6l4 4M15 6l-4 4" stroke="currentColor" stroke-width="1.3"/></svg>';
-  function sndSwitch(){ return '<button type="button" class="v7snd' + (v7on ? ' on' : '') + '" aria-pressed="' + v7on + '" title="Interface sounds: ' + (v7on ? 'on' : 'off') + '" aria-label="Interface sounds">' + SNDICO + '</button>'; }
-  var V7HOV = ".tab:not([disabled]),.zitem,.zall,.btn,.ttseg button,.whosw button,.seg button,.fnkind button,.vmodes button,.plbtn,.golink,.has-card,.chipsw,.armsw button";
-  document.addEventListener("pointerover", function(ev){
-    if (ev.pointerType !== "mouse" || !v7on || !ev.target.closest) return;
-    var el = ev.target.closest(V7HOV); if (el && el !== v7hov) v7snd("hover"); v7hov = el;
-  });
-  document.addEventListener("click", function(ev){
-    if (!ev.target.closest) return;
-    var sw = ev.target.closest(".v7snd");
-    if (sw){ v7on = !v7on; try { localStorage.setItem("io-snd", v7on ? "1" : "0"); } catch (e) {}
-      sw.classList.toggle("on", v7on); sw.setAttribute("aria-pressed", v7on); sw.title = "Interface sounds: " + (v7on ? "on" : "off"); v7snd("click"); return; }
-    if (!v7on) return;
-    if (ev.target.closest(".tab:not([disabled])")) v7snd("tab");
-    else if (ev.target.closest(".zitem,.zall,.rtag,#bodyfig")) v7snd("nav");
-    else if (ev.target.closest("button") && !ev.target.closest("[data-ref],[data-tip],.rclose")) v7snd("click");   /* the rules card plays its own open/close */
-  }, true);
   function whoSwitch(){ if (!((IO && IO.zolo) || (S && S.zolo))) return '';
     return '<span class="whosw" role="group" aria-label="Persona"><button type="button" data-who="io" aria-pressed="' + (WHO === "io") + '">' + SUNICO + 'Iō</button><button type="button" data-who="zolo" aria-pressed="' + (WHO === "zolo") + '">' + MOONICO + 'Zolo</button></span>'; }
 
@@ -3472,21 +3317,13 @@ body.v7pin #v7veil{opacity:1}
         '<div class="m"><b>Cash</b><span class="gold">' + f("cash",{num:1,label:"Cash"}) + '<span class="u">eb</span></span></div>' +
         (S.sin || editing ? '<div class="code">' + (editing ? '<span class="sin-sub">SIN</span>' + f("sin",{label:"SIN"}) :
           '<div class="sin-row"><span class="sin-tag">SIN</span><div>' + barcode(S.sin || "") + '<div class="sin-num">' + esc(S.sin || "") + '</div></div></div>') + '</div>' : '<div class="code"></div>') +
-        '<div class="actions">' + viewersChip() + hostSwitch() + sndSwitch() + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
+        '<div class="actions">' + viewersChip() + hostSwitch() + whoSwitch() + (WHO === "zolo" || readOnly || editing || HOSTED ? '' : '<button class="btn" id="edit">Edit</button>') + '</div>' +
       '</div>' +
     '</div></header>' +
     '<div class="tabrow"><nav class="tabs" aria-label="Sheet sections">' + (WHO === "zolo" ? ZTABS : TABS).map(function(t){ var id = t.toLowerCase().replace(/\s+/g, ""), live = (WHO === "zolo" ? ZREADY : READY).indexOf(id) >= 0;
       return '<button class="tab" data-tab="' + id + '"' + (id === tab ? ' aria-current="page"' : '') + (live ? '' : ' disabled') + '>' + t + (live ? '' : '<span class="soon">soon</span>') + '</button>'; }).join("") + '</nav>' +
       /* sheet sync / save status: sits in the open space under the header, right side of the tab row */
-      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? sheetWord('Sheet ' + syncInfo) : '')) + '</span>') + '</div>' + v7strip();
-  }
-  /* 2077 look, part 4 (Nov 5): exposed "backend" fluff under the tab row, as in the CDPR art bible. Pure decoration; aria-hidden. */
-  var V7FX = {dossier:["SUBJECT_FILE","MODEL LINE 12.12AA"], ware:["RIPPER_STORE_55201","CERTIFIED TO ACCESS OR DISABLE THIS ITEM"], casefile:["CASE_ARCHIVE_0043","IMAGE TYPE: ARM LINUX KERNEL IMAGE"],
-    rep:["STREET_CRED_INDEX","TRN_TLCAS_800095"], fans:["FAN_REGISTRY_N7","BROADCAST NODE · O'NEILL TWO"], posse:["CREW_MANIFEST","LINK STATUS: SECURE"], vehicles:["MOTOR_POOL_VTOL","CHUI NYOTA · RSZ CURIOSITY"],
-    hq:["HOUSING_LEASE","PEOPLE'S CENTER"], advance:["TRAINING_MATRIX","IP LEDGER // SKILL TREE"]};
-  function v7strip(){
-    var fx = V7FX[tab] || ["SYS", ""], who = WHO === "zolo" ? "ZL" : "IO", sin = String(S && S.sin || "").replace(/[^0-9A-Z]/gi, "").slice(-6) || "000000";
-    return '<div class="v7strip" aria-hidden="true"><span><b>' + who + '//' + fx[0] + '</b>TASK_MANAGER_00115 · ID ' + esc(sin) + '</span><i></i><span>' + esc(fx[1]) + ' · PROTOCOL 6520-A44</span></div>';
+      (WHO === "zolo" ? '' : '<span class="save-state" id="ss">' + (readOnly ? 'View only' + (syncInfo ? ' · ' + esc(syncInfo) : '') : (HOSTED && syncInfo ? sheetWord('Sheet ' + syncInfo) : '')) + '</span>') + '</div>';
   }
 
   /* Zolo: his Rocker side stays in the background */
@@ -3545,9 +3382,6 @@ body.v7pin #v7veil{opacity:1}
     saveTimer = setTimeout(persist, 900);
   }
 
-  /* 2077 look, part 6 (Nov 5): the game's attribute hexes, faint behind each stat number (img/v7/<stat>.png, white masks tinted by CSS) */
-  var V7SI = {INT:"int", REF:"ref", DEX:"dex", TECH:"tech", COOL:"cool", WILL:"will", LUCK:"luck", MOVE:"move", BODY:"body", EMP:"emp"};
-  function v7stat(h, i){ var k = V7SI[String(S.stats[i] && S.stats[i].k).toUpperCase()]; return k && !editing ? h.replace('</b>', '</b><i class="v7si" aria-hidden="true" style="--si:url(img/v7/' + k + '.png)"></i>') : h; }
   function statsRail(){
     return '<div class="stats a-st" aria-label="Stats">' + S.stats.map(function(s,i){
       var nz = !editing && s.k === "EMP" && nyoziOn() && s.max != null;
@@ -3556,7 +3390,7 @@ body.v7pin #v7veil{opacity:1}
         ? '<div class="pair"><span' + (nz ? ' title="Nyozi: skills use EMP before Humanity loss"' : '') + '>' + (nz ? '<span class="dec">' + esc(s.max) + '</span>' : f("stats."+i+".v",{num:1,label:s.k})) + '</span><span class="of">out of</span><span>' + f("stats."+i+".max",{num:1,label:s.k+" max"}) + '</span></div>'
         : '<span class="sv">' + f("stats."+i+".v",{num:1,label:s.k}) + '</span>';
       return '<div class="stat' + (nz ? ' nyzon' : '') + '"><b>' + esc(s.k) + '</b>' + inner + '</div>';
-    }).map(v7stat).join("") + '</div>';
+    }).join("") + '</div>';
   }
 
   var SUB_RE = /^Local Expert|^Science \(|^Martial Arts \[|^Play Instrument/;
@@ -3823,12 +3657,6 @@ body.v7pin #v7veil{opacity:1}
     var c = CRIT_CAT.filter(function(x){ return low.indexOf(x[0].toLowerCase()) === 0; })[0];
     return c ? {kind:/head/i.test(c[1]) && !/body/i.test(c[1]) ? "head" : "body", name:t, tag:c[1], fx:c[2], qf:c[3], tr:c[4], ds:c[5]} : {kind:"", name:t};
   }
-  /* 2077 look, part 6: a status-effect icon in front of each injury / addiction (game buff icons, img/v7/c-*.png) */
-  function v7crit(c){
-    var n = String(c.name || "").toLowerCase(), k = c.kind === "add" ? "addict" : /eye/.test(n) ? "blind" : /burn/.test(n) ? "burn" : /lung|breath|throat|jaw/.test(n) ? "breath" :
-      /spin|neck/.test(n) ? "spine" : /heart|organ|internal/.test(n) ? "heart" : /broken|arm|leg|hand|foot|limb/.test(n) ? "limb" : /concuss|brain|skull|head|ear/.test(n) || c.kind === "head" ? "head" : /knock|down|fall/.test(n) ? "down" : "wound";
-    return '<i class="v7ci" aria-hidden="true" style="--si:url(img/v7/c-' + k + '.png)"></i>';
-  }
   function critCan(){ return WHO === "io" && !editing && isAdmin(); }
   function critPicker(){
     var have = {}; (S.crits || []).forEach(function(c){ have[String(c).toLowerCase()] = 1; });
@@ -3953,7 +3781,7 @@ body.v7pin #v7veil{opacity:1}
     var ci = editing ? [] : (S.crits || []).map(critInfo), dsp = ci.reduce(function(a, c){ return a + (c.ds ? 1 : 0); }, 0);
     hp += (dsp ? '<div class="wnote dsp">Base Death Save Penalty +' + dsp + ' from injuries</div>' : '') + '</div>';
     var can = critCan();
-    var row = function(c, i){ return '<div class="crit cr2' + (c.kind ? ' k-' + c.kind : '') + '"><div class="crn">' + v7crit(c) + '<b>' + esc(c.name) + '</b>' + (c.tag ? '<span class="crk">' + esc(c.tag) + '</span>' : '') +
+    var row = function(c, i){ return '<div class="crit cr2' + (c.kind ? ' k-' + c.kind : '') + '"><div class="crn"><b>' + esc(c.name) + '</b>' + (c.tag ? '<span class="crk">' + esc(c.tag) + '</span>' : '') +
         (can ? '<button type="button" class="crx" data-critdel="' + i + '" aria-label="Remove ' + esc(c.name) + '" title="Remove">×</button>' : '') + '</div>' +
         (c.fx ? '<div class="crfx">' + esc(c.fx) + '</div>' : '') +
         (c.qf ? '<div class="crq"><span>Quick Fix</span> ' + esc(c.qf) + ' <span>Treatment</span> ' + esc(c.tr) + '</div>' : c.src ? '<div class="crq"><span>' + esc(c.src) + '</span></div>' : '') + '</div>'; };
@@ -4384,7 +4212,6 @@ body.v7pin #v7veil{opacity:1}
   var card = document.createElement("div");
   card.className = "card"; card.id = "rcard"; card.setAttribute("role", "tooltip"); card.hidden = true;
   document.body.appendChild(card);
-  var v7veil = document.createElement("div"); v7veil.id = "v7veil"; v7veil.setAttribute("aria-hidden", "true"); document.body.appendChild(v7veil);
   var cardFor = null, pinned = false, showT = 0, hideT = 0;
   /* plain line breaks start a new paragraph; "\n• " lines become a list under the paragraph before them */
   function para(s){ return String(s).split(/\n(?!•)/).map(function(ch){ return ch.split(/\n•\s*/).map(function(p, i){ return i ? '<li>' + nm(p) + '</li>' : '<p>' + nm(p) + '</p>'; }).join("").replace(/(<li>.*<\/li>)/, '<ul>$1</ul>'); }).join(""); }
@@ -4418,14 +4245,11 @@ body.v7pin #v7veil{opacity:1}
     cardFor = el; pinned = !!pin || pinned && cardFor === el;
     card.classList.toggle("pinned", pinned);
     card.hidden = false; placeCard(el);
-    if (pinned && !document.body.classList.contains("v7pin")) v7snd("open");
-    document.body.classList.toggle("v7pin", pinned);   /* 2077 look, part 5: world tints behind a pinned card */
     [].forEach.call(document.querySelectorAll(".has-card.lit"), function(n){ n.classList.remove("lit"); }); el.classList.add("lit");
   }
   function hideCard(force){
     if (pinned && !force) return;
-    if (pinned) v7snd("close");
-    pinned = false; card.hidden = true; card.classList.remove("pinned"); document.body.classList.remove("v7pin");
+    pinned = false; card.hidden = true; card.classList.remove("pinned");
     if (cardFor) cardFor.classList.remove("lit"); cardFor = null;
   }
   function trig(t){ return t && t.closest ? t.closest("[data-tip],[data-ref],[data-skill]") : null; }
@@ -4471,20 +4295,6 @@ body.v7pin #v7veil{opacity:1}
   function walk(items, fn){ (items || []).forEach(function(it){ if (isNode(it)){ fn(it); walk(it.children, fn); } }); }
   function zoneNodes(z){ var out = []; z.groups.forEach(function(g){ walk(g.items, function(it){ out.push(it); }); }); return out; }
   function zoneCount(z){ return zoneNodes(z).length; }
-  /* 2077 look, part 3 (Nov 5): ripperdoc-style capacity strip under each Ware system. One cell per installed piece, coloured by kind;
-     where the pieces carry option-slot counts (Internal) the strip is the system's slot capacity instead (7 + 1 from Physiological Tailoring). */
-  var ZCAP = {internal:8, external:8, fashion:8};
-  function zcap(z){
-    var n = zoneNodes(z), used = 0, cells = [];
-    n.forEach(function(it){ if (+it.slots) used += +it.slots; });
-    if (used && ZCAP[z.id]){
-      n.forEach(function(it){ for (var i = 0; i < (+it.slots || 0); i++) cells.push(it.kind || "cyber"); });
-      while (cells.length < ZCAP[z.id]) cells.push("free");
-      return '<i class="zcap slots" aria-hidden="true">' + cells.map(function(k){ return '<i class="zc-' + k + '"></i>'; }).join("") + '<em>' + used + '/' + ZCAP[z.id] + ' slots</em></i>';
-    }
-    return '<i class="zcap" aria-hidden="true">' + n.map(function(it){ return '<i class="zc-' + (it.kind || "cyber") + '"></i>'; }).join("") + '</i>';
-  }
-  function zcapKey(){ return '<div class="zckey" aria-hidden="true"><span class="zc-cyber">Cyber</span><span class="zc-bio">Bio</span><span class="zc-adv">Adv</span><span class="zc-worn">Worn</span><span class="zc-chip">Chip</span></div>'; }
   function findAdv(id){ var r = null; CZ().forEach(function(z){ walk([].concat.apply([], z.groups.map(function(g){ return g.items; })), function(it){ if (it.id === id) r = it; }); }); return r; }
   function tagChip(k){
     var key = String(k).toUpperCase();
@@ -4875,7 +4685,7 @@ body.v7pin #v7veil{opacity:1}
     var Z = CZ(), sel = zoneSel;
     var nav = '<nav class="znav" aria-label="Body systems">' +
       '<div class="zbtns"><button class="zall' + (sel === "all" ? ' on' : '') + '" data-zone="all">Show all</button><button class="zall' + (!sel ? ' on' : '') + '" data-zone="">Hide all</button></div>' +
-      Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b>' + zcap(z) + '</button>'; }).join("") + zcapKey() + '</nav>';
+      Z.map(function(z){ return '<button class="zitem z-' + z.id + (sel === z.id ? ' on' : '') + '" data-zone="' + z.id + '"><span>' + esc(z.label) + '</span><b>' + zoneCount(z) + '</b></button>'; }).join("") + '</nav>';
     var sz = zoneById(sel), on = sz ? (sz.regions || []) : [];
     if (sel === "limbs") on = limbSel ? [limbSel] : LIMBS.slice();
     var layers = F.nomask ? "" : RLAYERS.map(function(r){
