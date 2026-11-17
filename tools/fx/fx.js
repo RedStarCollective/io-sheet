@@ -11,7 +11,7 @@
   /* ================= F3: settings ================= */
   var DEF = {
     "light.ease":.14,
-    "ret.on":1, "ret.t":170, "ret.glow":1, "ret.pad":1.2,
+    "lens.on":1, "ret.on":1, "ret.t":170, "ret.glow":1, "ret.pad":1.2,
     "circ.on":1, "circ.rest":.12, "circ.lit":.5, "circ.band":.55, "circ.r":230, "circ.s":560, "circ.t":.5, "circ.idle":7,
     "wipe.on":1, "wipe.t":.95, "wipe.jit":1, "wipe.glow":1,
     "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
@@ -23,6 +23,7 @@
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
+    {g:"Ware hover scanner (see underneath)", on:"lens.on", k:[]},
     {g:"Ware reticle", on:"ret.on", k:[["ret.t","Snap time (ms)",60,420,10],["ret.glow","Glow",0,2.5,.05],["ret.pad","Padding (%)",0,4,.1]]},
     {g:"Arm circuits", on:"circ.on", k:[["circ.rest","Resting traces",0,.4,.01],["circ.lit","Lit traces",0,1,.01],["circ.band","Weapon glow",0,1,.01],["circ.s","Trace size (px)",360,900,10],["circ.r","Light radius (px)",80,520,10],["circ.t","Pulse time (s)",.2,1.5,.05],["circ.idle","Idle pulses / min",0,20,1]]},
     {g:"Ware scan-wipe", on:"wipe.on", k:[["wipe.t","Duration (s)",.4,2.2,.05],["wipe.jit","Slice jitter",0,3,.1],["wipe.glow","Glow",0,2.5,.05]]},
@@ -50,7 +51,7 @@
   function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
   function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
   function changed(k){
-    if (/^ret\./.test(k)) wareAfter();
+    if (/^(ret|lens)\./.test(k)){ if (k === "lens.on" && CTX.rerender) CTX.rerender(); else wareAfter(); }
     if (/^circ\./.test(k)) armAfter();
     if (/^pan\./.test(k)) lightScan();
     if (/^grade\./.test(k)) gradeSync();
@@ -108,7 +109,7 @@
 
   /* ================= F1: key light =================
      One light for the whole page. It follows the pointer (eased); on touch screens it rests upper-left of the screen
-     and jumps to the last touch. Elements marked data-lit get --lx / --ly (px, in their own box) while it moves. */
+     and jumps to the last touch. Elements marked data-lit get --klx / --kly (px, in their own box) while it moves. */
   var L = FX.light = {x:W.innerWidth * .3, y:W.innerHeight * .25, tx:W.innerWidth * .3, ty:W.innerHeight * .25, els:[], on:false, reach:400};
   function lightFrame(){
     var e = P("light.ease"), dx = L.tx - L.x, dy = L.ty - L.y;
@@ -117,8 +118,8 @@
     for (var i = 0; i < L.els.length; i++){ var el = L.els[i]; if (!el.isConnected) continue;
       var r = el.getBoundingClientRect(), ox = Math.max(r.left - L.x, 0, L.x - r.right), oy = Math.max(r.top - L.y, 0, L.y - r.bottom);
       if (el._far === undefined) el._far = el.getAttribute("data-lit") === "far";
-      if (!el._far && (ox > reach || oy > reach || ox * ox + oy * oy > reach * reach)){ if (el._lt){ el._lt = 0; el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); } continue; }
-      el._lt = 1; el.style.setProperty("--lx", (L.x - r.left).toFixed(1) + "px"); el.style.setProperty("--ly", (L.y - r.top).toFixed(1) + "px"); }
+      if (!el._far && (ox > reach || oy > reach || ox * ox + oy * oy > reach * reach)){ if (el._lt){ el._lt = 0; el.style.removeProperty("--klx"); el.style.removeProperty("--kly"); } continue; }
+      el._lt = 1; el.style.setProperty("--klx", (L.x - r.left).toFixed(1) + "px"); el.style.setProperty("--kly", (L.y - r.top).toFixed(1) + "px"); }
     if (Math.abs(dx) + Math.abs(dy) < .4){ tick.remove(lightFrame); L.on = false; }
   }
   function lightKick(){ if (!L.els.length) return; if (reduce){ L.x = L.tx; L.y = L.ty; } if (!L.on){ L.on = true; tick.add(lightFrame); } }
@@ -225,6 +226,8 @@
   function wareAfter(){
     if (RET.mo){ RET.mo.disconnect(); RET.mo = null; }
     var fig = D.getElementById("bodyfig"); RET.fig = null; RET.hov = []; RET.lock = [];
+    /* the hover scanner (the app's lens that shows muscle, nerves and bone under the pointer) can be switched off here */
+    if (fig && !P("lens.on")){ var ln = D.getElementById("lens"); if (ln) ln.remove(); fig.classList.remove("lensing"); }
     [].forEach.call(D.querySelectorAll(".wret"), function(n){ n.remove(); });
     if (!fig || CTX.tab !== "ware" || CTX.editing || !P("ret.on") || !CTX.fig){ RET.selWas = fig ? fig.dataset.sel || "" : null; return; }
     RET.fig = fig;

@@ -37,7 +37,7 @@ s = once(s,
   '  function fxAfter(){\n'
   '    if (!window.IOFX || !IOFX.rendered) return;\n'
   '    var F = tab === "ware" ? FIG() : null, base = WHO === "zolo" && IO ? IO : S;\n'
-  '    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave}); } catch(e){}\n'
+  '    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave, rerender:render}); } catch(e){}\n'
   '  }\n'
   '  function fxSave(v){\n'
   '    var base = WHO === "zolo" && IO ? IO : S; base.fx = v;\n'

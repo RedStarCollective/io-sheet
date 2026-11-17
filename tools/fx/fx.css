@@ -64,7 +64,7 @@ body.zolo .wret{--ret:#e3eaee}
 .armbox .circ{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;--cm:url(img/fx/circuit-arm.webp)}
 .armbox .circ::before,.armbox .circ::after,.armbox .circ i{content:"";position:absolute;inset:0;-webkit-mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat;mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat}
 .armbox .circ::before{background:#c9a362;opacity:var(--circ-rest,.12)}
-.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--lx,-999px) var(--ly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
+.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--klx,-999px) var(--kly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
 /* the hovered weapon's own stretch of circuit takes its colour once the pulse lands */
 .armbox .circ i{background:linear-gradient(180deg,transparent calc(var(--by,0px) - 10px),var(--bc,#e2b86c) var(--by,0px),var(--bc,#e2b86c) calc(var(--by,0px) + var(--bh,0px)),transparent calc(var(--by,0px) + var(--bh,0px) + 10px));opacity:0;transition:opacity .22s}
 .armbox .circ.band i{opacity:var(--circ-band,.55);transition-delay:calc(var(--circ-t,.5s) * .75)}
@@ -96,14 +96,15 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
 
 /* =========================== Phase 2: the film look =========================== */
 /* the key light's position on an element; not inherited, so moving it never restyles the element's contents */
-@property --lx{syntax:'<length>';inherits:false;initial-value:-999px}
-@property --ly{syntax:'<length>';inherits:false;initial-value:-999px}
-.armbox .circ,.armbox .circ::before,.armbox .circ::after,.armbox .circ i{--lx:inherit;--ly:inherit}
+/* (named --klx / --kly: the app's Ware lens already uses --lx / --ly and needs them to inherit) */
+@property --klx{syntax:'<length>';inherits:false;initial-value:-999px}
+@property --kly{syntax:'<length>';inherits:false;initial-value:-999px}
+.armbox .circ,.armbox .circ::before,.armbox .circ::after,.armbox .circ i{--klx:inherit;--kly:inherit}
 
 /* ---- G2: key-light panels. The frame brightens toward the light and a faint pool of it lies inside the box ---- */
 .box{--fc:var(--frame);--rimc:#f6dca0;
-  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--lx) var(--ly),color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 100%),var(--fc)) 0%,color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 30%),var(--fc)) 45%,var(--fc) 100%) 1;
-  background-image:radial-gradient(circle var(--pan-poolr,360px) at var(--lx) var(--ly),rgba(236,196,120,var(--pan-pool,.07)),rgba(236,196,120,0) 100%)}
+  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 100%),var(--fc)) 0%,color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 30%),var(--fc)) 45%,var(--fc) 100%) 1;
+  background-image:radial-gradient(circle var(--pan-poolr,360px) at var(--klx) var(--kly),rgba(236,196,120,var(--pan-pool,.07)),rgba(236,196,120,0) 100%)}
 body.zolo .box{--rimc:#f4f8fa}
 .box.glite{border-image:none;background-image:none}
 .advplan.adjusting{--fc:var(--gold-dim)}
@@ -159,17 +160,17 @@ html.fx-swap::view-transition-group(io-fig){animation-duration:calc(var(--swap-t
 .fxmotes{position:absolute;inset:-6% -30% 0 -30%;width:160%;height:106%;z-index:3;pointer-events:none}
 
 /* ---- G8: Highrider ID header (Iō). Holo SIN, a slowly turning mark, engraved plates, a frame that takes the light ---- */
-.top{background-image:radial-gradient(circle var(--pan-rimr,260px) at var(--lx) var(--ly),color-mix(in srgb,var(--rimc2,#f6dca0) calc(var(--pan-rim,.9) * 100%),transparent),transparent 100%)}
+.top{background-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),color-mix(in srgb,var(--rimc2,#f6dca0) calc(var(--pan-rim,.9) * 100%),transparent),transparent 100%)}
 body.zolo{--rimc2:#f4f8fa}
 body.fx-nopan .top{background-image:none}
 body.fx-id:not(.zolo) .top .m{background:linear-gradient(180deg,rgba(255,232,180,.04),rgba(0,0,0,.14));box-shadow:inset 0 1px 0 rgba(255,232,180,.055),inset 0 -1px 0 rgba(0,0,0,.5)}
 body.fx-id:not(.zolo) .top .m > span{text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,236,196,.16),0 0 calc(16px * var(--gr-bloom,0)) color-mix(in srgb,currentColor calc(var(--gr-bloom,0) * 120%),transparent)}
 body:not(.fx-grade){--gr-bloom:0!important}
-.code .sin-row,.code .sin-row > div,.code .sin-row > div::after,.code .sin-row > div::before{--lx:inherit;--ly:inherit}
+.code .sin-row,.code .sin-row > div,.code .sin-row > div::after,.code .sin-row > div::before{--klx:inherit;--kly:inherit}
 body.fx-id:not(.zolo) .sin-row > div::after{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:color;opacity:var(--id-holo,.45);
-  background:linear-gradient(112deg,#d9b46a 0%,#ffa066 14%,#ff6f8f 28%,#c58bff 42%,#ffc66a 56%,#fff0c8 66%,#ff9a6e 80%,#d9b46a 100%) 0 0/300% 100%;background-position:calc(40% + var(--lx) * .22) 0}
+  background:linear-gradient(112deg,#d9b46a 0%,#ffa066 14%,#ff6f8f 28%,#c58bff 42%,#ffc66a 56%,#fff0c8 66%,#ff9a6e 80%,#d9b46a 100%) 0 0/300% 100%;background-position:calc(40% + var(--klx) * .22) 0}
 body.fx-id:not(.zolo) .sin-row > div::before{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:overlay;opacity:calc(var(--id-holo,.45) * .9);
-  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 60%) 0 0/260% 100%;background-position:calc(30% + var(--lx) * -.3) 0}
+  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 60%) 0 0/260% 100%;background-position:calc(30% + var(--klx) * -.3) 0}
 @media (prefers-reduced-motion:no-preference){
   body.fx-id:not(.zolo) .top .id .star{animation:fxTurn var(--id-spin,90s) linear infinite}
   @keyframes fxTurn{to{transform:rotate(360deg)}}
