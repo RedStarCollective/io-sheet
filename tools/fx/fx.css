@@ -1,0 +1,177 @@
+/* ================= IO FX layer (Nov 16) =================
+   F1 key light · F2 WebGL stage · F3 tuning panel · W1 scanner reticle · D1 Arm circuits · W2 scan-wipe.
+   Everything here is driven by the IOFX script (id="io-fx"); with it gone the sheet looks as before. */
+
+/* ---- F3: tuning panel (admin only) ---- */
+.fxbtn{position:fixed;left:12px;bottom:12px;z-index:70;font:700 11px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:rgba(8,6,5,.92);border:1px solid var(--frame);padding:7px 10px 6px;cursor:pointer}
+.fxbtn:hover,.fxbtn[aria-expanded="true"]{border-color:var(--gold);color:var(--ink)}
+.fxpanel{position:fixed;left:12px;bottom:46px;z-index:70;width:310px;max-width:calc(100vw - 24px);max-height:min(72vh,600px);overflow:auto;background:rgba(10,8,7,.97);border:1px solid var(--frame);box-shadow:0 14px 44px rgba(0,0,0,.65);padding:10px 12px 12px;font-family:var(--f-body);font-size:13px;line-height:1.25;color:var(--ink-2)}
+.fxpanel[hidden]{display:none}
+.fxpanel h4{margin:0 0 2px;font:700 12px/1.2 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.fxpanel .fxsub{margin:0 0 8px;font-size:11.5px;color:var(--ink-3)}
+.fxg{border-top:1px solid var(--line);padding:8px 0 4px}
+.fxg > label.fxh{display:flex;align-items:center;gap:8px;font:700 11px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;cursor:pointer}
+.fxg > label.fxh input{accent-color:#b58f52;margin:0}
+.fxg > .fxh.plain{cursor:default}
+.fxr{display:grid;grid-template-columns:1fr 104px 42px;gap:8px;align-items:center;margin:3px 0}
+.fxr span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fxr input[type=range]{width:100%;accent-color:#b58f52;margin:0}
+.fxr output{font-family:var(--f-num);font-size:11.5px;color:var(--ink);text-align:right}
+.fxg.off .fxr{opacity:.35;pointer-events:none}
+.fxbar{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line);padding-top:9px;margin-top:4px}
+.fxbar button{font:700 10.5px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);background:var(--cell);border:1px solid var(--line);padding:6px 8px 5px;cursor:pointer}
+.fxbar button:hover{color:var(--ink);border-color:var(--gold-dim)}
+.fxbar button.pri{color:#fff;background:var(--red);border-color:var(--red)}
+.fxnote{margin:8px 0 0;font-size:11.5px;color:var(--ink-3);min-height:1.25em}
+
+/* ---- W1: scanner reticle and brackets (Ware) ---- */
+.wret{position:absolute;z-index:3;pointer-events:none;box-sizing:border-box;left:0;top:0;width:10%;height:10%;opacity:0;--ret:#f0cf8e;--rl:15px;--rw:2px;
+  transition:left var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),top var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),width var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),height var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),opacity .14s}
+body.zolo .wret{--ret:#e3eaee}
+.wret.on{opacity:1}
+.wret.jump{transition:opacity .14s}
+.wret i{position:absolute;box-sizing:border-box;width:var(--rl);height:var(--rl);border:0 solid var(--ret);filter:drop-shadow(0 0 1px rgba(0,0,0,.95)) drop-shadow(0 0 2px rgba(0,0,0,.7)) drop-shadow(0 0 calc(4px * var(--ret-glow,1)) var(--ret))}
+.wret .c1{left:0;top:0;border-width:var(--rw) 0 0 var(--rw)}
+.wret .c2{right:0;top:0;border-width:var(--rw) var(--rw) 0 0}
+.wret .c3{left:0;bottom:0;border-width:0 0 var(--rw) var(--rw)}
+.wret .c4{right:0;bottom:0;border-width:0 var(--rw) var(--rw) 0}
+/* centre ticks on each edge */
+.wret u{position:absolute;background:var(--ret);opacity:.6;box-shadow:0 0 2px rgba(0,0,0,.9)}
+.wret .t1,.wret .t2{left:50%;width:1px;height:5px;margin-left:-.5px}.wret .t1{top:-2px}.wret .t2{bottom:-2px}
+.wret .t3,.wret .t4{top:50%;height:1px;width:5px;margin-top:-.5px}.wret .t3{left:-2px}.wret .t4{right:-2px}
+/* the pass of light through the part */
+.wret b{position:absolute;left:3px;right:3px;top:0;height:1px;opacity:0;background:linear-gradient(90deg,transparent,var(--ret) 22%,#fff8e6 50%,var(--ret) 78%,transparent);box-shadow:0 0 calc(8px * var(--ret-glow,1)) var(--ret)}
+/* locked on the selected part: steadier, a little heavier, with a soft inner wash */
+.wret.lock{--rl:18px;--rw:2px;z-index:2}
+.wret.lock u{opacity:.8}
+.wret.lock::before{content:"";position:absolute;inset:0;border:1px solid var(--ret);opacity:.14}
+.wret.lock::after{content:"";position:absolute;inset:0;border:1px solid var(--ret);opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .wret.snap i{animation:wretSnap .26s cubic-bezier(.2,1.5,.4,1) both}
+  .wret.snap .c1{--sx:-9px;--sy:-9px}.wret.snap .c2{--sx:9px;--sy:-9px}.wret.snap .c3{--sx:-9px;--sy:9px}.wret.snap .c4{--sx:9px;--sy:9px}
+  @keyframes wretSnap{from{transform:translate(var(--sx),var(--sy));opacity:0}}
+  .wret.scan b{animation:wretLn .62s cubic-bezier(.3,.1,.5,1) both}
+  @keyframes wretLn{0%{top:0;opacity:0}12%{opacity:.95}80%{opacity:.75}100%{top:100%;opacity:0}}
+  .wret.lock.pulse{animation:wretLock .5s cubic-bezier(.2,.9,.3,1) both}
+  @keyframes wretLock{0%{transform:scale(1.12);filter:brightness(2.2)}45%{transform:scale(.985);filter:brightness(1.5)}100%{transform:none;filter:none}}
+  .wret.lock.pulse::after{animation:wretRing .7s ease-out both}
+  @keyframes wretRing{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(1.14)}}
+}
+
+/* ---- D1: circuit-traced Arm box (Dossier) ---- */
+.box.armbox{position:relative}
+.armbox > .hb,.armbox > .tbl-wrap,.armbox > .add{position:relative;z-index:1}
+.armbox .circ{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;--cm:url(img/fx/circuit-arm.webp)}
+.armbox .circ::before,.armbox .circ::after,.armbox .circ i{content:"";position:absolute;inset:0;-webkit-mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat;mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat}
+.armbox .circ::before{background:#c9a362;opacity:var(--circ-rest,.12)}
+.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--lx,-999px) var(--ly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
+/* the hovered weapon's own stretch of circuit takes its colour once the pulse lands */
+.armbox .circ i{background:linear-gradient(180deg,transparent calc(var(--by,0px) - 10px),var(--bc,#e2b86c) var(--by,0px),var(--bc,#e2b86c) calc(var(--by,0px) + var(--bh,0px)),transparent calc(var(--by,0px) + var(--bh,0px) + 10px));opacity:0;transition:opacity .22s}
+.armbox .circ.band i{opacity:var(--circ-band,.55);transition-delay:calc(var(--circ-t,.5s) * .75)}
+body.zolo .armbox .circ::before{background:#aeb8c0}
+.armbox .t td{text-shadow:0 1px 2px rgba(0,0,0,.85)}
+.armbox .t td.n{text-shadow:0 0 3px #0b0807,0 0 7px #0b0807,0 0 12px rgba(11,8,7,.8),0 1px 2px rgba(0,0,0,.9)}
+.circbus{position:absolute;left:0;top:0;z-index:2;pointer-events:none;overflow:visible}
+.circbus path{fill:none}
+.circbus .b{stroke:rgba(201,163,98,.2);stroke-width:1;transition:stroke .25s,opacity .25s}
+.circbus .p{stroke:var(--c,#e2b86c);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:.16 1.4;stroke-dashoffset:.16;opacity:0;filter:drop-shadow(0 0 3px var(--c,#e2b86c))}
+.circbus circle{fill:var(--c,#e2b86c);opacity:0;transition:opacity .2s;filter:drop-shadow(0 0 4px var(--c,#e2b86c))}
+.circbus .port{fill:#c9a362;opacity:.5;filter:none}
+.circbus g.hot .b{stroke:var(--c,#e2b86c);opacity:.6;transition-delay:calc(var(--circ-t,.5s) * .8)}
+.circbus g.hot circle{opacity:1;transition-delay:calc(var(--circ-t,.5s) * .85)}
+@media (prefers-reduced-motion:no-preference){
+  .circbus g.go .p{animation:circGo var(--circ-t,.5s) cubic-bezier(.35,.1,.3,1) both}
+  .circbus g.idle .p{animation:circIdle 1.7s linear both}
+  @keyframes circGo{0%{stroke-dashoffset:.16;opacity:1}88%{opacity:1}100%{stroke-dashoffset:-1;opacity:0}}
+  @keyframes circIdle{0%{stroke-dashoffset:.16;opacity:.42}85%{opacity:.42}100%{stroke-dashoffset:-1;opacity:0}}
+}
+@media (prefers-reduced-motion:reduce){.circbus g.hot .b,.circbus g.hot circle{transition-delay:0s}}
+
+/* ---- W2: scan-wipe between Ware layers (WebGL; the CSS wipe stays as the fallback) ---- */
+.bodyfig.glwipe{animation-play-state:paused}
+.bodyfig.glwipe .clline{visibility:hidden}
+.bodyfig.glwipe.glrun .cloth,.bodyfig.glwipe.glrun #bodyimg{visibility:hidden}
+.glw{position:absolute;left:-7%;top:0;width:114%;height:100%;z-index:4;pointer-events:none;filter:drop-shadow(0 0 30px rgba(0,0,0,.85))}
+.glw.xl{left:0;width:100%;z-index:2;filter:none}
+
+/* =========================== Phase 2: the film look =========================== */
+/* the key light's position on an element; not inherited, so moving it never restyles the element's contents */
+@property --lx{syntax:'<length>';inherits:false;initial-value:-999px}
+@property --ly{syntax:'<length>';inherits:false;initial-value:-999px}
+.armbox .circ,.armbox .circ::before,.armbox .circ::after,.armbox .circ i{--lx:inherit;--ly:inherit}
+
+/* ---- G2: key-light panels. The frame brightens toward the light and a faint pool of it lies inside the box ---- */
+.box{--fc:var(--frame);--rimc:#f6dca0;
+  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--lx) var(--ly),color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 100%),var(--fc)) 0%,color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 30%),var(--fc)) 45%,var(--fc) 100%) 1;
+  background-image:radial-gradient(circle var(--pan-poolr,360px) at var(--lx) var(--ly),rgba(236,196,120,var(--pan-pool,.07)),rgba(236,196,120,0) 100%)}
+body.zolo .box{--rimc:#f4f8fa}
+.box.glite{border-image:none;background-image:none}
+.advplan.adjusting{--fc:var(--gold-dim)}
+.pw-box:not(.pw-go){border-image:none!important}
+body.fx-nopan .box{border-image:none;background-image:none}
+
+/* ---- G4: film grade ---- */
+.fxgrade{position:fixed;inset:0;z-index:55;pointer-events:none;overflow:hidden;contain:strict}
+.fxgrade .vig{position:absolute;inset:0;background:radial-gradient(ellipse 78% 72% at 50% 46%,rgba(0,0,0,0) 52%,rgba(0,0,0,calc(var(--gr-vig,.42) * .55)) 82%,rgba(0,0,0,var(--gr-vig,.42)) 100%)}
+.fxgrade .grain{position:absolute;inset:-160px;background:var(--grain-img) 0 0/160px 160px;opacity:var(--gr-grain,.05);will-change:transform}
+body:not(.fx-grade) .fxgrade{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .fxgrade .grain{animation:fxGrain .64s steps(1) infinite}
+  @keyframes fxGrain{0%{transform:translate(0,0)}12.5%{transform:translate(-37px,53px)}25%{transform:translate(61px,-29px)}37.5%{transform:translate(-83px,-71px)}50%{transform:translate(23px,97px)}62.5%{transform:translate(-119px,13px)}75%{transform:translate(89px,67px)}87.5%{transform:translate(-11px,-103px)}}
+}
+/* a gentle bloom on the big bright numbers, in their own colour */
+body.fx-grade :is(.top .m > span,.stat .sv,.hum .n,.hp .n,.pair > span,.rowkv .val,.dialnum,.ryear .yr,.lr.tot b){text-shadow:0 0 calc(16px * var(--gr-bloom,.35)) color-mix(in srgb,currentColor calc(var(--gr-bloom,.35) * 120%),transparent),0 0 calc(3px * var(--gr-bloom,.35)) color-mix(in srgb,currentColor calc(var(--gr-bloom,.35) * 60%),transparent)}
+/* an anamorphic streak where a tab lights up */
+.fxstreak{position:absolute;z-index:54;pointer-events:none;height:26px;margin-top:-13px;width:min(72vw,900px);margin-left:calc(min(72vw,900px) / -2);opacity:0;
+  background:radial-gradient(ellipse 50% 5% at 50% 50%,rgba(255,244,214,.95),rgba(255,226,160,.55) 30%,rgba(255,200,120,0) 100%),radial-gradient(ellipse 16% 50% at 50% 50%,rgba(255,222,160,.5),rgba(255,222,160,0) 100%)}
+@media (prefers-reduced-motion:no-preference){
+  .fxstreak.go{animation:fxStreak .62s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes fxStreak{0%{opacity:0;transform:scaleX(.12)}18%{opacity:var(--gr-streak,1)}100%{opacity:0;transform:scaleX(1.15)}}
+}
+
+/* ---- G1: living orbit backdrop (WebGL). The 2D sky stays underneath as the fallback, and for Zolo's forest ---- */
+#skygl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+body.zolo #skygl,body:not(.fxsky) #skygl{display:none}
+body.fxsky:not(.zolo) #sky{visibility:hidden}
+
+/* ---- G5: focus-pull tab change (View Transitions) ---- */
+html.fx-swap header.top{view-transition-name:io-top}
+html.fx-swap .tabrow{view-transition-name:io-tabs}
+html.fx-swap.fx-carry :is(#bodyfig,.portrait.iop .iopw,.fig.lead){view-transition-name:io-fig}
+::view-transition-old(io-top),::view-transition-old(io-tabs){display:none}
+::view-transition-new(io-top),::view-transition-new(io-tabs){animation:none}
+html.fx-swap::view-transition-old(root){animation:fxOut calc(var(--swap-t,.34s) * .45) cubic-bezier(.4,0,1,1) both}
+html.fx-swap::view-transition-new(root){animation:fxIn var(--swap-t,.34s) cubic-bezier(.2,.7,.2,1) both}
+html.fx-swap::view-transition-group(io-fig){animation-duration:calc(var(--swap-t,.34s) * 1.25);animation-timing-function:cubic-bezier(.3,.1,.2,1)}
+@keyframes fxOut{to{filter:blur(var(--swap-b,7px));opacity:0;transform:scale(1.012)}}
+@keyframes fxIn{from{filter:blur(calc(var(--swap-b,7px) * 1.3));opacity:0;transform:scale(.988)}}
+
+/* ---- G7: ambient life (Iō). One small event at a time, seconds apart ---- */
+.fxglint{position:absolute;z-index:6;pointer-events:none;height:2px;overflow:hidden}
+.fxglint::before{content:"";position:absolute;top:0;bottom:0;width:110px;left:-110px;background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,236,190,.9) 55%,#fff 76%,rgba(255,236,190,0));animation:fxGlint .95s cubic-bezier(.4,.1,.3,1) both}
+.fxglint.rev::before{animation-name:fxGlintR;animation-delay:.16s}
+@keyframes fxGlint{from{left:-110px}to{left:100%}}
+@keyframes fxGlintR{from{left:100%}to{left:-110px}}
+.sin-row > div{position:relative}
+.fxbcscan{position:absolute;left:0;top:-2px;height:38px;width:230px;max-width:100%;overflow:hidden;pointer-events:none}
+.fxbcscan::before{content:"";position:absolute;top:0;bottom:0;left:-40px;width:40px;background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,240,205,.75) 50%,rgba(255,236,190,0));mix-blend-mode:screen;animation:fxBc 1.25s cubic-bezier(.45,.05,.5,1) both}
+@keyframes fxBc{from{left:-40px}to{left:100%}}
+.fxmotes{position:absolute;inset:-6% -30% 0 -30%;width:160%;height:106%;z-index:3;pointer-events:none}
+
+/* ---- G8: Highrider ID header (Iō). Holo SIN, a slowly turning mark, engraved plates, a frame that takes the light ---- */
+.top{background-image:radial-gradient(circle var(--pan-rimr,260px) at var(--lx) var(--ly),color-mix(in srgb,var(--rimc2,#f6dca0) calc(var(--pan-rim,.9) * 100%),transparent),transparent 100%)}
+body.zolo{--rimc2:#f4f8fa}
+body.fx-nopan .top{background-image:none}
+body.fx-id:not(.zolo) .top .m{background:linear-gradient(180deg,rgba(255,232,180,.04),rgba(0,0,0,.14));box-shadow:inset 0 1px 0 rgba(255,232,180,.055),inset 0 -1px 0 rgba(0,0,0,.5)}
+body.fx-id:not(.zolo) .top .m > span{text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,236,196,.16),0 0 calc(16px * var(--gr-bloom,0)) color-mix(in srgb,currentColor calc(var(--gr-bloom,0) * 120%),transparent)}
+body:not(.fx-grade){--gr-bloom:0!important}
+.code .sin-row,.code .sin-row > div,.code .sin-row > div::after,.code .sin-row > div::before{--lx:inherit;--ly:inherit}
+body.fx-id:not(.zolo) .sin-row > div::after{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:color;opacity:var(--id-holo,.45);
+  background:linear-gradient(112deg,#d9b46a 0%,#ffa066 14%,#ff6f8f 28%,#c58bff 42%,#ffc66a 56%,#fff0c8 66%,#ff9a6e 80%,#d9b46a 100%) 0 0/300% 100%;background-position:calc(40% + var(--lx) * .22) 0}
+body.fx-id:not(.zolo) .sin-row > div::before{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:overlay;opacity:calc(var(--id-holo,.45) * .9);
+  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 60%) 0 0/260% 100%;background-position:calc(30% + var(--lx) * -.3) 0}
+@media (prefers-reduced-motion:no-preference){
+  body.fx-id:not(.zolo) .top .id .star{animation:fxTurn var(--id-spin,90s) linear infinite}
+  @keyframes fxTurn{to{transform:rotate(360deg)}}
+}
+@media (max-width:760px){.fxgrade .vig{opacity:.55}}
