@@ -17,11 +17,12 @@
     "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
     "grade.on":1, "grade.vig":.42, "grade.grain":.05, "grade.bloom":.35, "grade.streak":1,
     "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
-    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
+    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":1,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
     "id.on":1, "id.holo":.45, "id.spin":90,
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
-    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1
+    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "ink.on":1, "inst.on":1, "inst.op":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -32,7 +33,7 @@
     {g:"Key-light panels", on:"pan.on", k:[["pan.rim","Frame highlight",0,1,.05],["pan.rimr","Highlight reach (px)",80,600,10],["pan.pool","Light pool",0,.2,.005],["pan.poolr","Pool reach (px)",120,800,10]]},
     {g:"Film grade", on:"grade.on", k:[["grade.vig","Vignette",0,.9,.01],["grade.grain","Grain",0,.2,.005],["grade.bloom","Bloom",0,1,.05],["grade.streak","Tab streak",0,1,.05]]},
     {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
-    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
+    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5],["swap.carry","Carry Iō into Posse (0/1)",0,1,1]]},
     {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
     {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]},
     {g:"Tab entrances", on:"mom.on", k:[["mom.speed","Speed",.5,2,.05]]},
@@ -44,7 +45,19 @@
     {g:"Living portrait (Dossier)", on:"live.on", k:[["live.par","Depth parallax",0,3,.05],["live.rel","Relight",0,2,.05],["live.spec","Gold arm reflection",0,2.5,.05]]},
     {g:"Rep portraits in depth", on:"r2.on", k:[["r2.par","Depth parallax",0,3,.05]]},
     {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
-    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]}
+    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]},
+    {g:"Panel depth (lean)", on:"tilt.on", k:[["tilt.deg","Lean (degrees)",0,4,.1]]},
+    {g:"Iō / Zolo switch transition", on:"rekey.on", k:[["rekey.t","Duration (s)",.3,2,.05]]},
+    {g:"Scroll reveals", on:"scroll.on", k:[]},
+    {g:"Engraved stat plates", on:"plate.on", k:[]},
+    {g:"Brush-stroke seals", on:"ink.on", k:[]},
+    {g:"HP / Humanity instruments", on:"inst.on", k:[["inst.op","Line strength",0,1.5,.05]]},
+    {g:"Weapon alcoves", on:"weap.on", k:[]},
+    {g:"Dossier sign-off", on:"sync.on", k:[]},
+    {g:"Ware callouts", on:"call.on", k:[]},
+    {g:"Live nerves", on:"nerve.on", k:[]},
+    {g:"Implant glints", on:"glt.on", k:[]},
+    {g:"Vehicle schematic button", on:"sch.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -57,7 +70,7 @@
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
-    s.setProperty("--foil", String(P("foil.str")));
+    s.setProperty("--foil", String(P("foil.str"))); s.setProperty("--inst", String(P("inst.op")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
@@ -73,6 +86,7 @@
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
     if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
+    if (/^(tilt|rekey|scroll|plate|ink|inst|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
@@ -576,8 +590,10 @@
     if (!reduce && P("swap.on") && D.startViewTransition && !CTX.editing){
       root.classList.add("fx-swap");
       /* carrying the Iō figure between tabs is off by default: it fights each tab's own entrance (Ware boot scan, Dossier load-in, Posse reveal) */
-      root.classList.toggle("fx-carry", !!P("swap.carry") && (to === "ware" || to === "posse") && !!D.querySelector("#bodyfig, .portrait.iop .iopw, .fig.lead"));
-      try { vt = D.startViewTransition(function(){ fn(); }); } catch(e){ vt = null; }
+      var carry = !!P("swap.carry") && to === "posse" && CTX.who !== "zolo" && !!D.querySelector("#bodyfig, .portrait.iop .iopw");
+      root.classList.toggle("fx-carry", carry);
+      /* the lead figure skips its own rise when Iō is carried in, so the two don't fight */
+      try { vt = D.startViewTransition(function(){ fn(); if (carry){ var ld = D.querySelector(".lineup .fig.lead"); if (ld) ld.style.animation = "none"; } }); } catch(e){ vt = null; }
     }
     if (vt){ var done = function(){ root.classList.remove("fx-swap", "fx-carry"); }; vt.finished.then(done, done); vt.ready.then(streak, streak); }
     else { root.classList.remove("fx-swap", "fx-carry"); fn(); streak(); }
@@ -808,7 +824,7 @@
       else if (CTX.tab === "advance") momAdv();
     }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
-    spineAfter(); posseAfter(enter); vehAfter(enter);
+    spineAfter(); posseAfter(enter); vehAfter(enter); restAfter(enter);
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
   }
 
@@ -992,7 +1008,7 @@
     var aw = FOIL.aw, g = FOIL.g; if (!aw || !aw.isConnected || !g || g.lost || !aw.closest(".fnspot.on")){ foilStop(); return; }
     var cs = FOIL.card.style, px = parseFloat(cs.getPropertyValue("--px")) || 0, py = parseFloat(cs.getPropertyValue("--py")) || 0;
     FOIL.tilt[0] += (px - FOIL.tilt[0]) * .2; FOIL.tilt[1] += (py - FOIL.tilt[1]) * .2;
-    var r = aw.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    var r = FOIL.cv.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), ch = Math.round(Math.max(40, aw.clientHeight * 1.12) * dpr), cw = Math.round(ch * FOIL.asp);
     if (cw < 4 || ch < 4) return;
     if (FOIL.cv.width !== cw || FOIL.cv.height !== ch){ FOIL.cv.width = cw; FOIL.cv.height = ch; }
     g.f("uTilt", FOIL.tilt[0] * 2.2, FOIL.tilt[1] * 2.2); g.f("uT", t / 1000); g.draw();
@@ -1006,6 +1022,8 @@
     loadImg(src).then(function(im){
       if (!aw.isConnected || FOIL.src !== src) return;
       var cv = D.createElement("canvas"); cv.className = "fxfoil"; cv.setAttribute("aria-hidden", "true");
+      FOIL.asp = im.naturalWidth / Math.max(1, im.naturalHeight); cv.style.aspectRatio = im.naturalWidth + "/" + im.naturalHeight;
+      cv.height = Math.round(aw.clientHeight * 1.12); cv.width = Math.round(cv.height * FOIL.asp);
       var g = GL.make(cv, FOILF); if (!g) return;
       g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, true, 128));
       aw.appendChild(cv); FOIL.cv = cv; FOIL.g = g; FOIL.aw = aw; FOIL.card = aw.closest(".fcard.big"); FOIL.tilt = [0, 0]; tick.add(foilFrame);
@@ -1077,6 +1095,172 @@
 
   function heroAfter(){ liveAfter(); r2After(); foilWatch();
     var fs = D.getElementById("fnspot"); foilMO.disconnect(); if (fs) foilMO.observe(fs, {attributes:true, childList:true, subtree:true, attributeFilter:["class", "hidden"]}); }
+
+  /* ================= The rest of the approved list ================= */
+  function px2(v){ return (+v).toFixed(2); }
+  function fxLater(fn, ms){ setTimeout(fn, ms); }
+
+  /* G3: panel depth */
+  var TILT = {el:null};
+  D.addEventListener("pointermove", function(ev){
+    if (ev.pointerType === "touch" || reduce || !P("tilt.on") || CTX.editing) return;
+    var b = ev.target.closest && ev.target.closest(".box:not(.rside):not(.glite):not(.pcard):not(.lo-con)");
+    if (b && !b.closest(".dossier, .adv, main.rep, .advance, .cf, main.posse")) b = null;
+    if (TILT.el && TILT.el !== b){ var o = TILT.el; o.classList.add("fxtilt-out"); o.style.setProperty("--ttx", "0deg"); o.style.setProperty("--tty", "0deg"); o.style.setProperty("--tsh", 0); setTimeout(function(){ if (TILT.el !== o) o.classList.remove("fxtilt", "fxtilt-out"); }, 500); }
+    TILT.el = b; if (!b) return;
+    var r = b.getBoundingClientRect(), k = P("tilt.deg") * Math.min(1, 380 / Math.max(r.height, r.width * .6)), nx = (ev.clientX - r.left) / r.width - .5, ny = (ev.clientY - r.top) / r.height - .5;
+    b.classList.remove("fxtilt-out"); b.classList.add("fxtilt");
+    b.style.setProperty("--ttx", px2(nx * k * 2) + "deg"); b.style.setProperty("--tty", px2(-ny * k * 2) + "deg"); b.style.setProperty("--tsh", px2(2 + ny * 4));
+  }, {passive:true});
+
+  /* G6: persona re-key */
+  FX.rekey = function(fn, btn){
+    var vt = null;
+    if (!reduce && P("rekey.on") && D.startViewTransition && !CTX.editing){
+      var r = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : {left:W.innerWidth / 2, top:60, width:0, height:0};
+      root.style.setProperty("--rkx", (r.left + r.width / 2) + "px"); root.style.setProperty("--rky", (r.top + r.height / 2) + "px"); root.style.setProperty("--rk-t", Math.max(.3, P("rekey.t")) + "s");
+      root.classList.add("fx-rekey");
+      try { vt = D.startViewTransition(function(){ fn();
+        var ring = D.createElement("i"); ring.className = "fxrk-ring"; ring.setAttribute("aria-hidden", "true");
+        ring.style.setProperty("--rkc", D.body.classList.contains("zolo") ? "#e3eaee" : "#f0cf8e"); D.body.appendChild(ring); setTimeout(function(){ ring.remove(); }, 1600);
+      }); } catch(e){ vt = null; }
+    }
+    function after(){ root.classList.remove("fx-rekey");
+      if (reduce) return;
+      [].forEach.call(D.querySelectorAll("header.top .id h1, header.top .id small, header.top .id .chip"), function(el, i){ var t = lastText(el) || (el.firstElementChild && lastText(el.firstElementChild)); if (t) scramble(t, 520, 60 + i * 120); }); }
+    if (vt){ vt.finished.then(after, after); } else { root.classList.remove("fx-rekey"); fn(); after(); }
+  };
+
+  /* D4: brush seals ink in on the Dossier's arrival */
+  function inkAfter(enter){
+    D.body.classList.toggle("fx-ink", !!P("ink.on"));
+    if (!enter || !momOn() || CTX.tab !== "dossier" || !P("ink.on")) return;
+    var els = D.querySelectorAll(".dossier .elc"); [].forEach.call(els, function(e, i){ e.style.setProperty("--ii", i + 10); e.classList.add("fxink"); });
+    momLater(function(){ [].forEach.call(els, function(e){ e.classList.remove("fxink"); }); }, 1100 + els.length * 110 + 1400);
+  }
+
+  /* D5: HP and Humanity instruments */
+  function ekgPath(w, h){ var d = "M0 " + h * .6, x = 0, beat = w / 4; while (x < w * 2){ d += " L" + (x + beat * .35) + " " + h * .6 + " L" + (x + beat * .42) + " " + h * .5 + " L" + (x + beat * .47) + " " + h * .68 + " L" + (x + beat * .52) + " " + h * .12 + " L" + (x + beat * .58) + " " + h * .9 + " L" + (x + beat * .64) + " " + h * .56 + " L" + (x + beat * .78) + " " + h * .6 + " Q" + (x + beat * .86) + " " + h * .46 + " " + (x + beat * .93) + " " + h * .6 + " L" + (x + beat) + " " + h * .6; x += beat; } return d; }
+  function humPath(w, h, tight){ var d = "", n = tight ? 10 : 4, amp = tight ? .14 : .26, steps = 160; for (var i = 0; i <= steps; i++){ var x = i / steps * w * 2, y = h * (.55 + amp * Math.sin(i / steps * Math.PI * 2 * n * 2) * (.7 + .3 * Math.sin(i / steps * 13))); d += (i ? " L" : "M") + x.toFixed(1) + " " + y.toFixed(1); } return d; }
+  function instAfter(){
+    D.body.classList.toggle("fx-inst", !!P("inst.on"));
+    [].forEach.call(D.querySelectorAll(".fxinst"), function(n){ n.remove(); });
+    if (!P("inst.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
+    [[".dossier .hp", "fxekg", ekgPath], [".dossier .hum", "fxhum", humPath]].forEach(function(q){
+      var el = D.querySelector(q[0]); if (!el) return; var r = el.getBoundingClientRect(), w = Math.max(100, r.width), h = Math.max(24, r.height);
+      var d = q[1] === "fxhum" ? humPath(w, h, el.classList.contains("armd")) : ekgPath(w, h);
+      var s = D.createElement("span"); s.className = "fxinst " + q[1]; s.setAttribute("aria-hidden", "true");
+      s.innerHTML = '<svg viewBox="0 0 ' + (w * 2) + ' ' + h + '" preserveAspectRatio="none"><path d="' + d + '"/></svg>'; el.insertBefore(s, el.firstChild);
+    });
+  }
+
+  /* D6 is CSS only. D3 plates take the key light. */
+  function platesAfter(){ D.body.classList.toggle("fx-plates", !!P("plate.on")); D.body.classList.toggle("fx-weap", !!P("weap.on"));
+    if (P("plate.on")) [].forEach.call(D.querySelectorAll(".dossier .stat"), function(s){ s.setAttribute("data-lit", ""); }); }
+
+  /* D7: when the Dossier load-in's scan lines leave, it signs off */
+  var SYNC = {armed:false};
+  new MutationObserver(function(ms){
+    if (!SYNC.armed) return;
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].removedNodes.length; j++){ var n = ms[i].removedNodes[j];
+      if (n.nodeType === 1 && n.classList.contains("hzscan") && !D.querySelector(".hzscan")){ SYNC.armed = false; syncDone(); return; } }
+  }).observe(D.documentElement, {childList:true, subtree:true});
+  function syncDone(){
+    if (reduce || !P("sync.on") || CTX.tab !== "dossier" || CTX.who === "zolo") return;
+    var tr = D.querySelector(".tabrow"); if (!tr) return; var r = tr.getBoundingClientRect();
+    var s = D.createElement("i"); s.className = "fxsync"; s.setAttribute("aria-hidden", "true"); s.innerHTML = "<b>SYNC COMPLETE</b>";
+    s.style.left = (r.left + W.scrollX) + "px"; s.style.width = r.width + "px"; s.style.top = (r.bottom + W.scrollY + 2) + "px"; D.body.appendChild(s); setTimeout(function(){ s.remove(); }, 1800);
+    [].forEach.call(D.querySelectorAll("header.top .m > span"), function(sp, i){ var t = lastText(sp.querySelector(".dec") || sp); if (t) scramble(t, 380, 180 + i * 90); });
+    var gold = D.querySelector(".iopw .iogold"); if (gold){ gold.classList.remove("fxsheen"); void gold.offsetWidth; gold.classList.add("fxsheen"); setTimeout(function(){ gold.classList.remove("fxsheen"); }, 1300); }
+  }
+
+  /* W3: film callouts beside the Ware figure */
+  function callAfter(){
+    [].forEach.call(D.querySelectorAll(".fxcall"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"), panel = D.getElementById("zpanel"), F = CTX.fig;
+    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")) return;
+    var regs = String(fig.dataset.sel || "").split(/\s+/).filter(Boolean); if (!regs.length) return;
+    var rows = [].slice.call(panel.querySelectorAll(".ctree > li.d0 > .nrow")).slice(0, 9); if (!rows.length) return;
+    var stage = fig.closest(".stage"), sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect();
+    var a = F.anch[regs[0] === "legs" ? "legs" : regs[0]] || F.anch.torso; if (!a) return;
+    var ax = fr.left - sr.left + fr.width * a[0] / 100, ay = fr.top - sr.top + fr.height * a[1] / 100;
+    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(10, ay - rows.length * 15), wrap = D.createElement("div"); wrap.className = "fxcall"; wrap.setAttribute("aria-hidden", "true");
+    var paths = "", labels = "";
+    rows.forEach(function(rw, i){
+      var nm = (rw.querySelector(".wn") || {}).textContent || "", tg = rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 30;
+      var mx = (x1 + ax) / 2, d = "M" + x1 + " " + (y + 9) + " L" + (mx - 10) + " " + (y + 9) + " L" + mx + " " + ay + " L" + (ax - 4) + " " + ay, len = Math.abs(mx - x1) + Math.hypot(10, ay - y) + Math.abs(ax - mx) + 20;
+      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"/>';
+      labels += '<span class="fxcl" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(nm) + '">' + esc(nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
+    });
+    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + '<circle cx="' + ax + '" cy="' + ay + '" r="3"/></svg>' + labels;
+    stage.appendChild(wrap);
+    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var rw = rows[+l.dataset.ci]; if (rw){ rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); rw.click(); } });
+  }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* W4: pulses run up the nerves on the Nerves layer */
+  function nerveAfter(){
+    [].forEach.call(D.querySelectorAll(".xr > .fxnv"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"); if (!fig || !P("nerve.on") || CTX.editing) return;
+    if (!/nerve/i.test(fig.style.getPropertyValue("--sk"))) return;
+    [].forEach.call(fig.querySelectorAll(".xr"), function(x){ var i = D.createElement("i"); i.className = "fxnv"; i.setAttribute("aria-hidden", "true"); x.appendChild(i); });
+  }
+  var nerveXl = FX.xl; FX.xl = function(fig, o, n, apply){ nerveXl(fig, o, n, function(){ apply(); setTimeout(nerveAfter, 0); }); };
+
+  /* W6: hovering a fabricated or upgraded implant makes it glint on the body */
+  D.addEventListener("mouseover", function(ev){
+    if (CTX.tab !== "ware" || reduce || !P("glt.on")) return;
+    var row = ev.target.closest && ev.target.closest(".nrow"); if (!row || row === RET.gl) return; RET.gl = row;
+    if (!row.querySelector(".t-fab, .t-upg")) return;
+    var fig = D.getElementById("bodyfig"), F = CTX.fig; if (!fig || !F || !F.anch) return;
+    var hr = row.closest("[data-hr]"), regs = String(hr ? hr.dataset.hr : fig.dataset.sel || "").split(/\s+/).filter(Boolean);
+    var an = row.closest("[data-an]"), keys = an && F.anch[an.dataset.an] ? [an.dataset.an] : regs; if (!keys.length) return;
+    keys.slice(0, 2).forEach(function(k, i){ var a = F.anch[k === "legs" ? "legs" : k]; if (!a) return;
+      var g = D.createElement("i"); g.className = "fxglt"; g.setAttribute("aria-hidden", "true"); g.style.left = a[0] + "%"; g.style.top = a[1] + "%"; g.style.animationDelay = i * 90 + "ms"; fig.appendChild(g); setTimeout(function(){ g.remove(); }, 1100); });
+  });
+
+  /* V2: schematic mode */
+  var SCHF = [
+    "precision mediump float;varying vec2 vUv;uniform sampler2D uImg;uniform vec2 uPx;uniform float uT;",
+    "float L(vec2 p){vec4 c=texture2D(uImg,p);return dot(c.rgb,vec3(.3,.59,.11))*c.a+c.a*.6;}",
+    "void main(){",
+    "  float tl=L(vUv+vec2(-uPx.x,-uPx.y)),t=L(vUv+vec2(0.,-uPx.y)),tr=L(vUv+vec2(uPx.x,-uPx.y)),l=L(vUv+vec2(-uPx.x,0.)),r=L(vUv+vec2(uPx.x,0.)),bl=L(vUv+vec2(-uPx.x,uPx.y)),b=L(vUv+vec2(0.,uPx.y)),br=L(vUv+vec2(uPx.x,uPx.y));",
+    "  float gx=-tl-2.*l-bl+tr+2.*r+br,gy=-tl-2.*t-tr+bl+2.*b+br,e=sqrt(gx*gx+gy*gy);",
+    "  float a=texture2D(uImg,vUv).a;",
+    "  float line=smoothstep(.12,.55,e);",
+    "  float fill=a*.06;",
+    "  float scan=.85+.15*sin(vUv.y*900.+uT*2.);",
+    "  float sweep=exp(-pow((vUv.x-fract(uT*.12)*1.4+.2)*7.,2.))*a*.35;",
+    "  vec3 col=vec3(.94,.78,.48)*(line*scan+fill)+vec3(1.,.95,.85)*sweep;",
+    "  float al=clamp(line*.95+fill+sweep,0.,1.);",
+    "  gl_FragColor=vec4(col*al,al);",
+    "}"].join("\n");
+  var SCH = {on:false, list:[]};
+  try { SCH.on = localStorage.getItem("io-fx-sch") === "1"; } catch(e){}
+  function schStop(){ tick.remove(schFrame); SCH.list.forEach(function(o){ o.g.kill(); o.cv.remove(); o.fig.classList.remove("fxsch-on"); }); SCH.list = []; }
+  function schFrame(t){ SCH.list.forEach(function(o){ if (!o.fig.isConnected || o.g.lost) return; var r = o.fig.getBoundingClientRect(); if (r.width < 4) return;
+    var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr); if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+    o.g.f("uPx", 1.2 / cw, 1.2 / ch); o.g.f("uT", t / 1000); o.g.draw(); if (!o.fig.classList.contains("fxsch-on")) o.fig.classList.add("fxsch-on"); }); }
+  function schAfter(){
+    schStop(); var st = D.querySelector(".vstage"); [].forEach.call(D.querySelectorAll(".fxschbtn, .fxtb"), function(n){ n.remove(); });
+    if (!st || CTX.tab !== "vehicles" || CTX.editing || !P("sch.on") || !GL.test()){ if (st) st.classList.remove("fxsch-st"); return; }
+    var foot = st.querySelector(".vfoot"); if (foot){ var b = D.createElement("button"); b.type = "button"; b.className = "fxschbtn"; b.textContent = "Schematic"; b.setAttribute("aria-pressed", String(SCH.on)); foot.appendChild(b);
+      b.addEventListener("click", function(){ SCH.on = !SCH.on; try { localStorage.setItem("io-fx-sch", SCH.on ? "1" : "0"); } catch(e){} schAfter(); }); }
+    st.classList.toggle("fxsch-st", SCH.on); if (!SCH.on) return;
+    var title = (st.querySelector(".vtitle h2") || {}).textContent || "", kind = (st.querySelector(".vtitle .lab") || {}).textContent || "", mods = D.querySelectorAll("main.garage .vm").length;
+    var tb = D.createElement("div"); tb.className = "fxtb"; tb.setAttribute("aria-hidden", "true"); tb.innerHTML = "<b>" + esc(title) + "</b>" + esc(kind) + " · schematic<br>" + mods + " modifications · rev 2048"; st.appendChild(tb);
+    [].forEach.call(st.querySelectorAll(".vfig"), function(fg){ var img = fg.querySelector("img.vcut"); if (!img) return;
+      loadImg(img.getAttribute("src")).then(function(im){ if (!fg.isConnected || !SCH.on) return;
+        var cv = D.createElement("canvas"); cv.className = "fxsch"; cv.setAttribute("aria-hidden", "true"); var g = GL.make(cv, SCHF); if (!g) return;
+        g.tex(0, "uImg", im); var cs = getComputedStyle(fg); if (cs.position === "static") fg.style.position = "relative"; fg.appendChild(cv);
+        SCH.list.push({fig:fg, cv:cv, g:g}); tick.add(schFrame); }, function(){}); });
+  }
+
+  function restAfter(enter){
+    D.body.classList.toggle("fx-scroll", !!P("scroll.on"));
+    platesAfter(); inkAfter(enter); instAfter(); callAfter(); nerveAfter(); schAfter();
+    if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
+  }
 
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
