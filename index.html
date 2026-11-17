@@ -3274,7 +3274,7 @@ body.zolo .wret{--ret:#e3eaee}
 .armbox .circ{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;--cm:url(img/fx/circuit-arm.webp)}
 .armbox .circ::before,.armbox .circ::after,.armbox .circ i{content:"";position:absolute;inset:0;-webkit-mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat;mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat}
 .armbox .circ::before{background:#c9a362;opacity:var(--circ-rest,.12)}
-.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--lx,-999px) var(--ly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
+.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--klx,-999px) var(--kly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
 /* the hovered weapon's own stretch of circuit takes its colour once the pulse lands */
 .armbox .circ i{background:linear-gradient(180deg,transparent calc(var(--by,0px) - 10px),var(--bc,#e2b86c) var(--by,0px),var(--bc,#e2b86c) calc(var(--by,0px) + var(--bh,0px)),transparent calc(var(--by,0px) + var(--bh,0px) + 10px));opacity:0;transition:opacity .22s}
 .armbox .circ.band i{opacity:var(--circ-band,.55);transition-delay:calc(var(--circ-t,.5s) * .75)}
@@ -3303,6 +3303,89 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
 .bodyfig.glwipe.glrun .cloth,.bodyfig.glwipe.glrun #bodyimg{visibility:hidden}
 .glw{position:absolute;left:-7%;top:0;width:114%;height:100%;z-index:4;pointer-events:none;filter:drop-shadow(0 0 30px rgba(0,0,0,.85))}
 .glw.xl{left:0;width:100%;z-index:2;filter:none}
+
+/* =========================== Phase 2: the film look =========================== */
+/* the key light's position on an element; not inherited, so moving it never restyles the element's contents */
+/* (named --klx / --kly: the app's Ware lens already uses --lx / --ly and needs them to inherit) */
+@property --klx{syntax:'<length>';inherits:false;initial-value:-999px}
+@property --kly{syntax:'<length>';inherits:false;initial-value:-999px}
+.armbox .circ,.armbox .circ::before,.armbox .circ::after,.armbox .circ i{--klx:inherit;--kly:inherit}
+
+/* ---- G2: key-light panels. The frame brightens toward the light and a faint pool of it lies inside the box ---- */
+.box{--fc:var(--frame);--rimc:#f6dca0;
+  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 100%),var(--fc)) 0%,color-mix(in srgb,var(--rimc) calc(var(--pan-rim,.9) * 30%),var(--fc)) 45%,var(--fc) 100%) 1;
+  background-image:radial-gradient(circle var(--pan-poolr,360px) at var(--klx) var(--kly),rgba(236,196,120,var(--pan-pool,.07)),rgba(236,196,120,0) 100%)}
+body.zolo .box{--rimc:#f4f8fa}
+.box.glite{border-image:none;background-image:none}
+.advplan.adjusting{--fc:var(--gold-dim)}
+.pw-box:not(.pw-go){border-image:none!important}
+body.fx-nopan .box{border-image:none;background-image:none}
+
+/* ---- G4: film grade ---- */
+.fxgrade{position:fixed;inset:0;z-index:55;pointer-events:none;overflow:hidden;contain:strict}
+.fxgrade .vig{position:absolute;inset:0;background:radial-gradient(ellipse 78% 72% at 50% 46%,rgba(0,0,0,0) 52%,rgba(0,0,0,calc(var(--gr-vig,.42) * .55)) 82%,rgba(0,0,0,var(--gr-vig,.42)) 100%)}
+.fxgrade .grain{position:absolute;inset:-160px;background:var(--grain-img) 0 0/160px 160px;opacity:var(--gr-grain,.05);will-change:transform}
+body:not(.fx-grade) .fxgrade{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .fxgrade .grain{animation:fxGrain .64s steps(1) infinite}
+  @keyframes fxGrain{0%{transform:translate(0,0)}12.5%{transform:translate(-37px,53px)}25%{transform:translate(61px,-29px)}37.5%{transform:translate(-83px,-71px)}50%{transform:translate(23px,97px)}62.5%{transform:translate(-119px,13px)}75%{transform:translate(89px,67px)}87.5%{transform:translate(-11px,-103px)}}
+}
+/* a gentle bloom on the big bright numbers, in their own colour */
+body.fx-grade :is(.top .m > span,.stat .sv,.hum .n,.hp .n,.pair > span,.rowkv .val,.dialnum,.ryear .yr,.lr.tot b){text-shadow:0 0 calc(16px * var(--gr-bloom,.35)) color-mix(in srgb,currentColor calc(var(--gr-bloom,.35) * 120%),transparent),0 0 calc(3px * var(--gr-bloom,.35)) color-mix(in srgb,currentColor calc(var(--gr-bloom,.35) * 60%),transparent)}
+/* an anamorphic streak where a tab lights up */
+.fxstreak{position:absolute;z-index:54;pointer-events:none;height:26px;margin-top:-13px;width:min(72vw,900px);margin-left:calc(min(72vw,900px) / -2);opacity:0;
+  background:radial-gradient(ellipse 50% 5% at 50% 50%,rgba(255,244,214,.95),rgba(255,226,160,.55) 30%,rgba(255,200,120,0) 100%),radial-gradient(ellipse 16% 50% at 50% 50%,rgba(255,222,160,.5),rgba(255,222,160,0) 100%)}
+@media (prefers-reduced-motion:no-preference){
+  .fxstreak.go{animation:fxStreak .62s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes fxStreak{0%{opacity:0;transform:scaleX(.12)}18%{opacity:var(--gr-streak,1)}100%{opacity:0;transform:scaleX(1.15)}}
+}
+
+/* ---- G1: living orbit backdrop (WebGL). The 2D sky stays underneath as the fallback, and for Zolo's forest ---- */
+#skygl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+body.zolo #skygl,body:not(.fxsky) #skygl{display:none}
+body.fxsky:not(.zolo) #sky{visibility:hidden}
+
+/* ---- G5: focus-pull tab change (View Transitions) ---- */
+html.fx-swap header.top{view-transition-name:io-top}
+html.fx-swap .tabrow{view-transition-name:io-tabs}
+html.fx-swap.fx-carry :is(#bodyfig,.portrait.iop .iopw,.fig.lead){view-transition-name:io-fig}
+::view-transition-old(io-top),::view-transition-old(io-tabs){display:none}
+::view-transition-new(io-top),::view-transition-new(io-tabs){animation:none}
+html.fx-swap::view-transition-old(root){animation:fxOut calc(var(--swap-t,.34s) * .45) cubic-bezier(.4,0,1,1) both}
+html.fx-swap::view-transition-new(root){animation:fxIn var(--swap-t,.34s) cubic-bezier(.2,.7,.2,1) both}
+html.fx-swap::view-transition-group(io-fig){animation-duration:calc(var(--swap-t,.34s) * 1.25);animation-timing-function:cubic-bezier(.3,.1,.2,1)}
+@keyframes fxOut{to{filter:blur(var(--swap-b,7px));opacity:0;transform:scale(1.012)}}
+@keyframes fxIn{from{filter:blur(calc(var(--swap-b,7px) * 1.3));opacity:0;transform:scale(.988)}}
+
+/* ---- G7: ambient life (Iō). One small event at a time, seconds apart ---- */
+.fxglint{position:absolute;z-index:6;pointer-events:none;height:2px;overflow:hidden}
+.fxglint::before{content:"";position:absolute;top:0;bottom:0;width:110px;left:-110px;background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,236,190,.9) 55%,#fff 76%,rgba(255,236,190,0));animation:fxGlint .95s cubic-bezier(.4,.1,.3,1) both}
+.fxglint.rev::before{animation-name:fxGlintR;animation-delay:.16s}
+@keyframes fxGlint{from{left:-110px}to{left:100%}}
+@keyframes fxGlintR{from{left:100%}to{left:-110px}}
+.sin-row > div{position:relative}
+.fxbcscan{position:absolute;left:0;top:-2px;height:38px;width:230px;max-width:100%;overflow:hidden;pointer-events:none}
+.fxbcscan::before{content:"";position:absolute;top:0;bottom:0;left:-40px;width:40px;background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,240,205,.75) 50%,rgba(255,236,190,0));mix-blend-mode:screen;animation:fxBc 1.25s cubic-bezier(.45,.05,.5,1) both}
+@keyframes fxBc{from{left:-40px}to{left:100%}}
+.fxmotes{position:absolute;inset:-6% -30% 0 -30%;width:160%;height:106%;z-index:3;pointer-events:none}
+
+/* ---- G8: Highrider ID header (Iō). Holo SIN, a slowly turning mark, engraved plates, a frame that takes the light ---- */
+.top{background-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),color-mix(in srgb,var(--rimc2,#f6dca0) calc(var(--pan-rim,.9) * 100%),transparent),transparent 100%)}
+body.zolo{--rimc2:#f4f8fa}
+body.fx-nopan .top{background-image:none}
+body.fx-id:not(.zolo) .top .m{background:linear-gradient(180deg,rgba(255,232,180,.04),rgba(0,0,0,.14));box-shadow:inset 0 1px 0 rgba(255,232,180,.055),inset 0 -1px 0 rgba(0,0,0,.5)}
+body.fx-id:not(.zolo) .top .m > span{text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,236,196,.16),0 0 calc(16px * var(--gr-bloom,0)) color-mix(in srgb,currentColor calc(var(--gr-bloom,0) * 120%),transparent)}
+body:not(.fx-grade){--gr-bloom:0!important}
+.code .sin-row,.code .sin-row > div,.code .sin-row > div::after,.code .sin-row > div::before{--klx:inherit;--kly:inherit}
+body.fx-id:not(.zolo) .sin-row > div::after{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:color;opacity:var(--id-holo,.45);
+  background:linear-gradient(112deg,#d9b46a 0%,#ffa066 14%,#ff6f8f 28%,#c58bff 42%,#ffc66a 56%,#fff0c8 66%,#ff9a6e 80%,#d9b46a 100%) 0 0/300% 100%;background-position:calc(40% + var(--klx) * .22) 0}
+body.fx-id:not(.zolo) .sin-row > div::before{content:"";position:absolute;left:0;top:0;width:230px;max-width:100%;height:34px;pointer-events:none;mix-blend-mode:overlay;opacity:calc(var(--id-holo,.45) * .9);
+  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 60%) 0 0/260% 100%;background-position:calc(30% + var(--klx) * -.3) 0}
+@media (prefers-reduced-motion:no-preference){
+  body.fx-id:not(.zolo) .top .id .star{animation:fxTurn var(--id-spin,90s) linear infinite}
+  @keyframes fxTurn{to{transform:rotate(360deg)}}
+}
+@media (max-width:760px){.fxgrade .vig{opacity:.55}}
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -3322,15 +3405,28 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
   /* ================= F3: settings ================= */
   var DEF = {
     "light.ease":.14,
-    "ret.on":1, "ret.t":170, "ret.glow":1, "ret.pad":1.2,
+    "lens.on":1, "ret.on":1, "ret.t":170, "ret.glow":1, "ret.pad":1.2,
     "circ.on":1, "circ.rest":.12, "circ.lit":.5, "circ.band":.55, "circ.r":230, "circ.s":560, "circ.t":.5, "circ.idle":7,
-    "wipe.on":1, "wipe.t":.95, "wipe.jit":1, "wipe.glow":1
+    "wipe.on":1, "wipe.t":.95, "wipe.jit":1, "wipe.glow":1,
+    "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
+    "grade.on":1, "grade.vig":.42, "grade.grain":.05, "grade.bloom":.35, "grade.streak":1,
+    "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
+    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
+    "amb.on":1, "amb.gap":9, "amb.motes":1,
+    "id.on":1, "id.holo":.45, "id.spin":90
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
+    {g:"Ware hover scanner (see underneath)", on:"lens.on", k:[]},
     {g:"Ware reticle", on:"ret.on", k:[["ret.t","Snap time (ms)",60,420,10],["ret.glow","Glow",0,2.5,.05],["ret.pad","Padding (%)",0,4,.1]]},
     {g:"Arm circuits", on:"circ.on", k:[["circ.rest","Resting traces",0,.4,.01],["circ.lit","Lit traces",0,1,.01],["circ.band","Weapon glow",0,1,.01],["circ.s","Trace size (px)",360,900,10],["circ.r","Light radius (px)",80,520,10],["circ.t","Pulse time (s)",.2,1.5,.05],["circ.idle","Idle pulses / min",0,20,1]]},
-    {g:"Ware scan-wipe", on:"wipe.on", k:[["wipe.t","Duration (s)",.4,2.2,.05],["wipe.jit","Slice jitter",0,3,.1],["wipe.glow","Glow",0,2.5,.05]]}
+    {g:"Ware scan-wipe", on:"wipe.on", k:[["wipe.t","Duration (s)",.4,2.2,.05],["wipe.jit","Slice jitter",0,3,.1],["wipe.glow","Glow",0,2.5,.05]]},
+    {g:"Key-light panels", on:"pan.on", k:[["pan.rim","Frame highlight",0,1,.05],["pan.rimr","Highlight reach (px)",80,600,10],["pan.pool","Light pool",0,.2,.005],["pan.poolr","Pool reach (px)",120,800,10]]},
+    {g:"Film grade", on:"grade.on", k:[["grade.vig","Vignette",0,.9,.01],["grade.grain","Grain",0,.2,.005],["grade.bloom","Bloom",0,1,.05],["grade.streak","Tab streak",0,1,.05]]},
+    {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
+    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
+    {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
+    {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -3340,13 +3436,22 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
     var s = root.style;
     s.setProperty("--ret-t", P("ret.t") + "ms"); s.setProperty("--ret-glow", String(P("ret.glow")));
     s.setProperty("--circ-rest", String(P("circ.rest"))); s.setProperty("--circ-lit", String(P("circ.lit")));
+    s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
+    s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
+    s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
+    if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
   }
   function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
   function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
   function changed(k){
-    if (/^ret\./.test(k)) wareAfter();
+    if (/^(ret|lens)\./.test(k)){ if (k === "lens.on" && CTX.rerender) CTX.rerender(); else wareAfter(); }
     if (/^circ\./.test(k)) armAfter();
+    if (/^pan\./.test(k)) lightScan();
+    if (/^grade\./.test(k)) gradeSync();
+    if (/^sky\./.test(k)) skySync();
+    if (/^amb\./.test(k)) ambAfter();
+    if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
   /* panel */
@@ -3398,18 +3503,25 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
 
   /* ================= F1: key light =================
      One light for the whole page. It follows the pointer (eased); on touch screens it rests upper-left of the screen
-     and jumps to the last touch. Elements marked data-lit get --lx / --ly (px, in their own box) while it moves. */
-  var L = FX.light = {x:W.innerWidth * .3, y:W.innerHeight * .25, tx:W.innerWidth * .3, ty:W.innerHeight * .25, els:[], on:false};
+     and jumps to the last touch. Elements marked data-lit get --klx / --kly (px, in their own box) while it moves. */
+  var L = FX.light = {x:W.innerWidth * .3, y:W.innerHeight * .25, tx:W.innerWidth * .3, ty:W.innerHeight * .25, els:[], on:false, reach:400};
   function lightFrame(){
     var e = P("light.ease"), dx = L.tx - L.x, dy = L.ty - L.y;
     L.x += dx * e; L.y += dy * e;
+    var reach = L.reach;
     for (var i = 0; i < L.els.length; i++){ var el = L.els[i]; if (!el.isConnected) continue;
-      var r = el.getBoundingClientRect(); if (r.bottom < -300 || r.top > W.innerHeight + 300) continue;
-      el.style.setProperty("--lx", (L.x - r.left).toFixed(1) + "px"); el.style.setProperty("--ly", (L.y - r.top).toFixed(1) + "px"); }
+      var r = el.getBoundingClientRect(), ox = Math.max(r.left - L.x, 0, L.x - r.right), oy = Math.max(r.top - L.y, 0, L.y - r.bottom);
+      if (el._far === undefined) el._far = el.getAttribute("data-lit") === "far";
+      if (!el._far && (ox > reach || oy > reach || ox * ox + oy * oy > reach * reach)){ if (el._lt){ el._lt = 0; el.style.removeProperty("--klx"); el.style.removeProperty("--kly"); } continue; }
+      el._lt = 1; el.style.setProperty("--klx", (L.x - r.left).toFixed(1) + "px"); el.style.setProperty("--kly", (L.y - r.top).toFixed(1) + "px"); }
     if (Math.abs(dx) + Math.abs(dy) < .4){ tick.remove(lightFrame); L.on = false; }
   }
   function lightKick(){ if (!L.els.length) return; if (reduce){ L.x = L.tx; L.y = L.ty; } if (!L.on){ L.on = true; tick.add(lightFrame); } }
-  function lightScan(){ L.els = [].slice.call(D.querySelectorAll("[data-lit]")); L.x += .5; lightKick(); }
+  function lightScan(){
+    L.els = [].slice.call(D.querySelectorAll(P("pan.on") ? "[data-lit], .box:not(.glite)" : "[data-lit]"));
+    L.reach = Math.max(P("circ.r"), P("pan.on") ? Math.max(P("pan.rimr"), P("pan.poolr")) : 0) + 20;
+    L.x += .5; lightKick();
+  }
   D.addEventListener("pointermove", function(ev){ if (ev.pointerType === "touch") return; L.tx = ev.clientX; L.ty = ev.clientY; lightKick(); }, {passive:true});
   D.addEventListener("pointerdown", function(ev){ if (ev.pointerType !== "touch") return; L.tx = ev.clientX; L.ty = ev.clientY; lightKick(); }, {passive:true});
   W.addEventListener("scroll", function(){ L.x += .5; lightKick(); }, {passive:true});
@@ -3508,6 +3620,8 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
   function wareAfter(){
     if (RET.mo){ RET.mo.disconnect(); RET.mo = null; }
     var fig = D.getElementById("bodyfig"); RET.fig = null; RET.hov = []; RET.lock = [];
+    /* the hover scanner (the app's lens that shows muscle, nerves and bone under the pointer) can be switched off here */
+    if (fig && !P("lens.on")){ var ln = D.getElementById("lens"); if (ln) ln.remove(); fig.classList.remove("lensing"); }
     [].forEach.call(D.querySelectorAll(".wret"), function(n){ n.remove(); });
     if (!fig || CTX.tab !== "ware" || CTX.editing || !P("ret.on") || !CTX.fig){ RET.selWas = fig ? fig.dataset.sel || "" : null; return; }
     RET.fig = fig;
@@ -3602,7 +3716,7 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
     "  float trail=sw*exp(-abs(d)*13.);",
     "  float scan=.5+.5*sin(vUv.y*uRows*3.14159);",
     "  float ew=(uEx.y-uEx.x)*.2;",
-    "  float ends=smoothstep(uEx.x,uEx.x+ew,vUv.x)*smoothstep(uEx.y,uEx.y-ew,vUv.x);",
+    "  float ends=smoothstep(uEx.x,uEx.x+ew,vUv.x)*(1.-smoothstep(uEx.y-ew,uEx.y,vUv.x));",
     "  vec3 hot=mix(uCol,vec3(1.,.97,.88),.65);",
     "  float e=(halo*.5+trail*.3*scan)*sil*uGlow;",
     "  float l=core*ends*(.3+.7*sil)*min(uGlow,1.5);",
@@ -3681,12 +3795,239 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
     } catch(e){ apply(); }
   };
 
+  /* ================= G4: film grade ================= */
+  var GRADE = {el:null, streak:null};
+  function grainImg(){
+    var c = D.createElement("canvas"); c.width = c.height = 160; var x = c.getContext("2d"), im = x.createImageData(160, 160), d = im.data, s = 987654321;
+    for (var i = 0; i < d.length; i += 4){ s = (s * 16807) % 2147483647; var r = s / 2147483647; s = (s * 16807) % 2147483647; var a = s / 2147483647;
+      var v = r < .5 ? 0 : 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = Math.round(a * a * 255); }
+    x.putImageData(im, 0, 0); return c.toDataURL("image/png");
+  }
+  function gradeSync(){
+    if (!D.body) return;
+    var on = !!P("grade.on"); D.body.classList.toggle("fx-grade", on);
+    if (on && !GRADE.el){ var g = D.createElement("div"); g.className = "fxgrade"; g.setAttribute("aria-hidden", "true"); g.innerHTML = '<i class="grain"></i><i class="vig"></i>';
+      try { root.style.setProperty("--grain-img", "url(" + grainImg() + ")"); } catch(e){}
+      D.body.appendChild(g); GRADE.el = g; }
+  }
+  /* the lens streak sits on the lit tab, in page coordinates so it scrolls with it */
+  function streak(){
+    if (reduce || !P("grade.on") || !P("grade.streak")) return;
+    var t = D.querySelector('.tab[aria-current="page"]'); if (!t) return; var r = t.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight) return;
+    if (!GRADE.streak){ GRADE.streak = D.createElement("i"); GRADE.streak.className = "fxstreak"; GRADE.streak.setAttribute("aria-hidden", "true"); D.body.appendChild(GRADE.streak); }
+    var s = GRADE.streak; s.style.left = (r.left + r.width / 2 + W.scrollX) + "px"; s.style.top = (r.bottom - 1 + W.scrollY) + "px"; restart(s, "go");
+  }
+
+  /* ================= G1: living orbit backdrop =================
+     Iō only. One fragment shader: nebula, three depths of drifting stars, the planet's limb lit by a sun off-screen to the left
+     (crescent, atmosphere, city lights on the night side), the orbital ring with its station, and now and then a far ship.
+     Drawn at 1x, 30 fps (60 while the view is moving). The old 2D sky stays underneath: it is the fallback when WebGL is
+     missing or lost, and it still draws Zolo's forest. */
+  var SKYF = [
+    "precision highp float;",
+    "uniform vec2 uRes;uniform float uS,uT,uScr;uniform vec2 uPar;uniform vec3 uSta;uniform vec4 uShip;uniform vec4 uK;",
+    "float h21(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}",
+    "vec2 h22(vec2 p){vec3 q=fract(vec3(p.xyx)*vec3(.1031,.1030,.0973));q+=dot(q,q.yzx+33.33);return fract((q.xx+q.yz)*q.zy);}",
+    "float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x),mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x),f.y);}",
+    "float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+vec2(17.3,9.1);a*=.5;}return s;}",
+    "vec3 stars(vec2 p,float cell,float size,float dens,float seed){",
+    "  vec2 g=p/cell,id=floor(g),f=fract(g);",
+    "  if(h21(id+seed)>dens)return vec3(0.);",
+    "  vec2 o=.16+.68*h22(id+seed*1.7),q=(f-o)*cell;",
+    "  float m=h21(id+seed+5.3),s=size*(.5+.95*m*m),b=1.-smoothstep(0.,s,length(q));b*=b;",
+    "  float tw=.6+.4*sin(uT*(.45+1.3*h21(id+9.1))+m*40.);",
+    "  vec3 col=mix(vec3(.91,.93,.97),vec3(.97,.86,.67),step(.8,h21(id+seed+2.2)));",
+    "  float fl=0.;if(m>.9&&size>1.6){vec2 a=abs(q);fl=(exp(-a.y*2.4)*exp(-a.x*.3)+exp(-a.x*2.4)*exp(-a.y*.3))*.45;}",
+    "  return col*(b*(.3+.7*m)+fl)*tw;",
+    "}",
+    "void main(){",
+    "  vec2 p=vec2(gl_FragCoord.x,uRes.y*uS-gl_FragCoord.y)/uS;",
+    "  float W=uRes.x,H=uRes.y,M=max(W,H);",
+    "  vec3 col=vec3(.031,.024,.020);",
+    /* nebula: the three drifting clouds of the old sky, broken up by slow noise */
+    "  vec2 nv=(p+uPar*.15)/M;",
+    "  float n1=fbm(nv*2.3+vec2(uT*.0035,0.)),n2=fbm(nv*5.+vec2(0.,-uT*.0025)+n1*1.4);",
+    "  float wisp=.3+1.7*n2*smoothstep(.2,.7,n1);",
+    "  float k=uT;",
+    "  vec2 c1=vec2(W*(.16+.03*sin(k*.021)),H*(.14+.03*cos(k*.017)))/M,c2=vec2(W*(.62+.04*cos(k*.013)),H*(.42+.04*sin(k*.019)))/M,c3=vec2(W*(.88+.02*sin(k*.011)),H*(.08+.02*sin(k*.023)))/M;",
+    "  float g1=1.-smoothstep(0.,.55,length(nv-c1)),g2=1.-smoothstep(0.,.45,length(nv-c2)),g3=1.-smoothstep(0.,.35,length(nv-c3));",
+    "  col+=(vec3(.47,.078,.11)*pow(g1,1.4)*.15+vec3(.275,.118,.235)*pow(g2,1.4)*.11+vec3(.71,.56,.32)*pow(g3,1.4)*.06)*wisp*uK.y;",
+    /* stars, far to near */
+    "  vec3 st=stars(p+vec2(uT*4.,0.)+uPar*.25,26.,1.2,.36,11.)*.62",
+    "         +stars(p+vec2(uT*8.,0.)+uPar*.55,58.,1.6,.44,23.)*.85",
+    "         +stars(p+vec2(uT*14.,0.)+uPar,150.,2.3,.5,37.);",
+    /* the planet */
+    "  float R=M*1.05;vec2 c=vec2(W*.78,H+R*.80-uScr)+uPar*.35;",
+    "  vec2 q=p-c;float dist=length(q),d=dist-R;vec2 n=q/dist;",
+    "  float sd=dot(n,normalize(vec2(-.95,-.31)));",
+    "  float lit=smoothstep(-.06,.72,sd);",
+    "  vec3 aCol=mix(vec3(.62,.13,.12),vec3(.97,.76,.44),lit);",
+    "  float out_=step(0.,d);",
+    "  float atm=exp(-max(d,0.)/(R*.0085)),haze=exp(-max(d,0.)/(R*.05));",
+    "  col+=st*out_*uK.x;",
+    "  col+=aCol*(atm*.42+haze*.13)*(.2+.8*lit)*out_*uK.z;",
+    "  if(d<0.){",
+    "    float arc=sqrt(max(-d,0.)*2.*R),along=atan(q.x,-q.y)*R;",
+    "    vec3 surf=vec3(.036,.026,.023);",
+    "    float rim=exp(d/(R*.0045)),cres=exp(d/(R*.045))*lit;",
+    "    float tex=fbm(vec2(along/260.+uT*.0015,arc/90.));",
+    "    surf+=aCol*rim*.36*(.25+.75*lit)*uK.z+vec3(.58,.37,.22)*cres*.3*(.4+1.2*tex)*uK.z;",
+    "    vec2 cg=vec2(along,arc)/11.,ci=floor(cg),cf=fract(cg)-.5;",
+    "    float town=smoothstep(.42,.64,fbm(ci*.06+3.))*step(.72,h21(ci+71.));",
+    "    float night=(1.-smoothstep(.0,.5,lit))*smoothstep(40.,160.,arc)*(1.-smoothstep(500.,1700.,arc));",
+    "    surf+=vec3(1.,.74,.4)*town*night*(1.-smoothstep(0.,.32,length(cf)))*.55*(.65+.35*sin(uT*.9+h21(ci)*40.))*uK.w;",
+    "    col=surf;",
+    "  }",
+    /* the orbital ring and its station */
+    "  vec2 e=p-vec2(c.x,c.y-R*.72);float ca=cos(.12),sa=sin(.12);e=vec2(ca*e.x-sa*e.y,sa*e.x+ca*e.y);",
+    "  vec2 ab=vec2(R*1.15,R*.16),en=e/ab;float er=length(en),gr=length(en/ab)/max(er,.0001);",
+    "  float rd=abs(er-1.)/gr;",
+    "  col+=vec3(.42,.33,.19)*(1.-smoothstep(0.,1.1,rd))*.22*step(e.y,0.)*(1.-smoothstep(.86,1.,abs(en.x)));",
+    "  vec2 sv=p-uSta.xy;col+=vec3(.93,.85,.7)*(exp(-dot(sv,sv)/2.6)+exp(-abs(sv.y)*1.6)*exp(-abs(sv.x)*.2)*.35)*uSta.z;",
+    /* a far ship: a point of light with a short tail */
+    "  vec2 hv=p-uShip.xy;vec2 hd=vec2(cos(uShip.w),sin(uShip.w));float al=dot(hv,hd),ac=dot(hv,vec2(-hd.y,hd.x));",
+    "  col+=vec3(1.,.93,.82)*(exp(-dot(hv,hv)/1.8)+exp(-abs(ac)*1.8)*exp(min(al,0.)*.11)*step(al,0.)*.5)*uShip.z*out_;",
+    "  col+=(h21(gl_FragCoord.xy+fract(uT)*61.)-.5)/255.;",
+    "  gl_FragColor=vec4(col,1.);",
+    "}"
+  ].join("\n");
+  var SKY = {cv:null, g:null, on:false, t0:0, last:0, px:0, py:0, tx:0, ty:0, scr:0, ship:null, nextShip:0, odd:false, W:0, H:0, S:1};
+  FX.skyOn = function(){ return SKY.on && !D.body.classList.contains("zolo"); };
+  function skySize(){
+    var cv = SKY.cv; if (!cv) return; SKY.W = W.innerWidth; SKY.H = W.innerHeight; SKY.S = Math.min(W.devicePixelRatio || 1, coarse ? 1 : 1.25, Math.max(.3, P("sky.res")));
+    cv.width = Math.max(2, Math.round(SKY.W * SKY.S)); cv.height = Math.max(2, Math.round(SKY.H * SKY.S));
+  }
+  function skyDraw(t){
+    var g = SKY.g, k = (t - SKY.t0) / 1000, Wd = SKY.W, Ht = SKY.H, M = Math.max(Wd, Ht), R = M * 1.05, par = P("sky.par");
+    g.f("uRes", Wd, Ht); g.f("uS", SKY.S); g.f("uT", k); g.f("uPar", -SKY.px * par, -SKY.py * par); g.f("uScr", SKY.scr);
+    g.gl.uniform4f(g.u("uK"), P("sky.stars"), P("sky.neb"), P("sky.atmo"), P("sky.city"));
+    /* station: along the ring's upper arc, as the old sky had it */
+    var cx = Wd * .78 - SKY.px * par * .35, cy = Ht + R * .80 - SKY.scr - SKY.py * par * .35, ang = Math.PI * 1.04 + ((k * .004) % 1) * Math.PI * .92;
+    var ex = Math.cos(ang) * R * 1.15, ey = Math.sin(ang) * R * .16, ca = Math.cos(-.12), sa = Math.sin(-.12);
+    g.f("uSta", cx + ca * ex - sa * ey, cy - R * .72 + sa * ex + ca * ey, reduce ? 0 : .75);
+    var sh = SKY.ship, a = 0, sx = -99, sy = -99, sw = 0;
+    if (!reduce){
+      if (!sh && k > SKY.nextShip) sh = SKY.ship = {t:k, dur:22 + Math.random() * 12, x0:Wd * (1.05), y0:Ht * (.08 + Math.random() * .3), x1:-Wd * .05, y1:Ht * (.04 + Math.random() * .28)};
+      if (sh){ var u = (k - sh.t) / sh.dur; if (u >= 1){ SKY.ship = null; SKY.nextShip = k + 45 + Math.random() * 60; } else { sx = sh.x0 + (sh.x1 - sh.x0) * u; sy = sh.y0 + (sh.y1 - sh.y0) * u; sw = Math.atan2(sh.y1 - sh.y0, sh.x1 - sh.x0); a = .5 * Math.min(1, u * 8, (1 - u) * 8); } }
+    }
+    g.gl.uniform4f(g.u("uShip"), sx, sy, a, sw);
+    g.draw();
+  }
+  function skyFrame(t){
+    if (!SKY.on || SKY.g.lost){ skyStop(SKY.g && SKY.g.lost); return; }
+    if (D.body.classList.contains("zolo")) return;
+    var dx = SKY.tx - SKY.px, dy = SKY.ty - SKY.py, ds = (Math.min(90, W.scrollY * .035)) - SKY.scr, moving = Math.abs(dx) + Math.abs(dy) > .002 || Math.abs(ds) > .05;
+    SKY.px += dx * .06; SKY.py += dy * .06; SKY.scr += ds * .12;
+    SKY.odd = !SKY.odd; if (!moving && SKY.odd) return;
+    skyDraw(t);
+  }
+  function skyStop(lost){
+    tick.remove(skyFrame); SKY.on = false; D.body.classList.remove("fxsky");
+    if (SKY.cv){ SKY.cv.remove(); SKY.cv = null; } if (SKY.g){ SKY.g.kill(); SKY.g = null; }
+    if (lost) SKY.dead = true;
+  }
+  function skySync(){
+    if (!D.body) return;
+    var want = !!P("sky.on") && !SKY.dead && GL.test();
+    if (!want){ if (SKY.on) skyStop(false); return; }
+    if (SKY.on){ if (Math.abs(SKY.S - Math.min(W.devicePixelRatio || 1, coarse ? 1 : 1.25, Math.max(.3, P("sky.res")))) > .01) skySize(); if (reduce) skyDraw(SKY.t0); return; }
+    var sky = D.getElementById("sky"); if (!sky) return;
+    var cv = D.createElement("canvas"); cv.id = "skygl"; cv.setAttribute("aria-hidden", "true");
+    var gl0 = cv.getContext("webgl", {alpha:false, antialias:false, depth:false, stencil:false, powerPreference:"low-power"});
+    var hp = gl0 && gl0.getShaderPrecisionFormat(gl0.FRAGMENT_SHADER, gl0.HIGH_FLOAT);
+    if (!gl0 || !hp || !hp.precision){ SKY.dead = true; return; }
+    SKY.cv = cv; skySize(); var g = GL.make(cv, SKYF); if (!g){ SKY.cv = null; SKY.dead = true; return; }
+    g.gl.disable(g.gl.BLEND);
+    SKY.g = g; SKY.on = true; SKY.t0 = performance.now() - 40000; SKY.nextShip = 40 + 12 + Math.random() * 20;
+    sky.parentNode.insertBefore(cv, sky); D.body.classList.add("fxsky");
+    skyDraw(performance.now());
+    if (!reduce) tick.add(skyFrame);
+  }
+  D.addEventListener("pointermove", function(ev){ if (ev.pointerType === "touch") return; SKY.tx = ev.clientX / Math.max(1, W.innerWidth) * 2 - 1; SKY.ty = ev.clientY / Math.max(1, W.innerHeight) * 2 - 1; }, {passive:true});
+  W.addEventListener("resize", function(){ if (SKY.on){ skySize(); skyDraw(reduce ? SKY.t0 : performance.now()); } });
+
+  /* ================= G5: focus-pull tab change =================
+     The app hands us the function that changes the tab. With View Transitions the old page racks out of focus and the new one
+     pulls in; the header and the tab row stay sharp. Without them (or with reduced motion) the change is the plain cut. */
+  FX.swap = function(fn, to){
+    var vt = null;
+    if (!reduce && P("swap.on") && D.startViewTransition && !CTX.editing){
+      root.classList.add("fx-swap");
+      /* carrying the Iō figure between tabs is off by default: it fights each tab's own entrance (Ware boot scan, Dossier load-in, Posse reveal) */
+      root.classList.toggle("fx-carry", !!P("swap.carry") && (to === "ware" || to === "posse") && !!D.querySelector("#bodyfig, .portrait.iop .iopw, .fig.lead"));
+      try { vt = D.startViewTransition(function(){ fn(); }); } catch(e){ vt = null; }
+    }
+    if (vt){ var done = function(){ root.classList.remove("fx-swap", "fx-carry"); }; vt.finished.then(done, done); vt.ready.then(streak, streak); }
+    else { root.classList.remove("fx-swap", "fx-carry"); fn(); streak(); }
+  };
+
+  /* ================= G7: ambient life =================
+     Iō's pages only (Zolo has his blade glint). One event every few seconds, never two at once: a glint along a panel's
+     edges, or a pass of light over the SIN barcode. Dust motes drift in the light in front of the Dossier portrait. */
+  var AMB = {timer:0, busy:false, motes:null};
+  function ambOk(){ return !reduce && !!P("amb.on") && !D.hidden && CTX.who !== "zolo" && !CTX.editing; }
+  function ambGlint(){
+    var boxes = [].filter.call(D.querySelectorAll(".box:not(.glite)"), function(b){ var r = b.getBoundingClientRect(); return r.width > 140 && r.height > 60 && r.top > 40 && r.bottom < W.innerHeight - 10 && r.left >= 0 && r.right <= W.innerWidth; });
+    if (!boxes.length) return false;
+    var r = boxes[Math.floor(Math.random() * boxes.length)].getBoundingClientRect();
+    [0, 1].forEach(function(k){ var g = D.createElement("i"); g.className = "fxglint" + (k ? " rev" : ""); g.setAttribute("aria-hidden", "true");
+      g.style.left = (r.left + W.scrollX) + "px"; g.style.width = r.width + "px"; g.style.top = ((k ? r.bottom - 2 : r.top) + W.scrollY) + "px";
+      D.body.appendChild(g); setTimeout(function(){ g.remove(); }, 1400); });
+    return true;
+  }
+  function ambBarcode(){
+    var h = D.querySelector(".sin-row > div"); if (!h) return false; var r = h.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight || !r.width) return false;
+    var s = D.createElement("i"); s.className = "fxbcscan"; s.setAttribute("aria-hidden", "true"); h.appendChild(s); setTimeout(function(){ s.remove(); }, 1500); return true;
+  }
+  function ambLoop(){
+    clearTimeout(AMB.timer);
+    AMB.timer = setTimeout(function(){
+      if (ambOk()){ var pick = Math.random(); if (!(pick < .3 ? ambBarcode() : ambGlint())) ambGlint(); }
+      ambLoop();
+    }, Math.max(3, P("amb.gap")) * 1000 * (.7 + Math.random() * .6));
+  }
+  function motesFrame(t){
+    var m = AMB.motes; if (!m || !m.cv.isConnected){ tick.remove(motesFrame); AMB.motes = null; return; }
+    if (t - m.last < 33) return; var dt = Math.min(.1, (t - m.last) / 1000); m.last = t;
+    var r = m.cv.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight) return;
+    var x = m.x, w = m.cv.width, h = m.cv.height, sx = w / r.width, lx = (L.x - r.left) * sx, ly = (L.y - r.top) * sx, rad = 300 * sx, a0 = P("amb.motes");
+    x.clearRect(0, 0, w, h);
+    for (var i = 0; i < m.p.length; i++){ var p = m.p[i];
+      p.y -= p.v * dt; p.x += Math.sin(t / 1000 * p.f + p.ph) * p.s * dt; if (p.y < -.03){ p.y = 1.03; p.x = Math.random(); }
+      var px = p.x * w, py = p.y * h, dx = px - lx, dy = py - ly, near = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / rad);
+      var tw = .6 + .4 * Math.sin(t / 1000 * p.f * 2.3 + p.ph * 3), a = (p.a * .28 + near * near * .75) * tw * a0, edge = Math.min(1, p.y * 6, (1 - p.y) * 6); a *= Math.max(0, edge);
+      if (a < .01) continue;
+      x.globalAlpha = Math.min(1, a); x.fillStyle = "#f6dfb0"; x.beginPath(); x.arc(px, py, p.r * sx, 0, 6.2832); x.fill(); }
+    x.globalAlpha = 1;
+  }
+  function ambAfter(){
+    [].forEach.call(D.querySelectorAll(".fxmotes"), function(n){ n.remove(); }); AMB.motes = null; tick.remove(motesFrame);
+    clearTimeout(AMB.timer); if (reduce || !P("amb.on") || CTX.who === "zolo" || CTX.editing) return;
+    ambLoop();
+    var fig = CTX.tab === "dossier" && P("amb.motes") > 0 ? D.querySelector(".portrait.iop") : null;
+    if (fig && W.innerWidth > 880 && getComputedStyle(fig).position !== "static"){
+      var cv = D.createElement("canvas"); cv.className = "fxmotes"; cv.setAttribute("aria-hidden", "true"); cv.width = 480; cv.height = 620; fig.appendChild(cv);
+      var ps = []; for (var i = 0; i < 26; i++) ps.push({x:Math.random(), y:Math.random(), v:.008 + Math.random() * .016, s:.004 + Math.random() * .012, f:.25 + Math.random() * .6, ph:Math.random() * 6.28, a:.25 + Math.random() * .75, r:.5 + Math.random() * 1.1});
+      AMB.motes = {cv:cv, x:cv.getContext("2d"), p:ps, last:0}; tick.add(motesFrame);
+    }
+  }
+
+  /* ================= G8: Highrider ID header ================= */
+  function idAfter(){
+    if (!D.body) return;
+    D.body.classList.toggle("fx-id", !!P("id.on"));
+    root.style.setProperty("--id-holo", String(P("id.holo"))); root.style.setProperty("--id-spin", Math.max(8, P("id.spin")) + "s");
+    var code = D.querySelector(".top .code"); if (code && P("id.on")) code.setAttribute("data-lit", "far");
+    var top = D.querySelector("header.top"); if (top) top.setAttribute("data-lit", "");
+  }
+
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
-    cssVars(); panelSync();
-    wareAfter(); armAfter(); lightScan(); clothWipe();
+    cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter();
+    if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();
 })();
@@ -7783,7 +8124,7 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
       return;
     }
     if (b.dataset.tab && b.dataset.tab === "ware" && tab === "ware"){ wareReset(); render(); return; }
-    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; pwTab = true; if (tab === "rep") repEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.tab){ if (b.dataset.tab !== tab){ tab = b.dataset.tab; pwTab = true; if (tab === "rep") repEnter = true; if (tab === "posse"){ posseSel = ""; pTab = "profile"; } if (tab === "vehicles"){ gSel = ""; gZone = ""; } if (tab === "advance"){ advSel = {cat:"", grp:"", i:-1}; advFirst = true; } if (tab === "ware") wareReset(); if (FA.on && tab !== "fans"){ if (FA.orig){ S.fans.list = FA.orig; if (FA.gorig && S.fans.groups) S.fans.groups = FA.gorig; } FA.on = false; FA.orig = null; } if (tab === "fans"){ fnEnter = true; FN = {gm:"", q:"", open:-1}; } if (tab === "contacts") CX = {sel:-1, open:-1, edit:"", rm:"", snap:"", enter:true}; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} var fxGo = function(){ render(); window.scrollTo(0,0); decode(); }; if (window.IOFX && IOFX.swap) IOFX.swap(fxGo, tab); else fxGo(); } return; }
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
@@ -8050,7 +8391,7 @@ body.zolo .armbox .circ::before{background:#aeb8c0}
     ctx.globalAlpha = 1;
   }
   var last = 0;
-  function loop(t){ if (t - last > 33){ draw(t); last = t; } requestAnimationFrame(loop); }
+  function loop(t){ if (t - last > 33 && !(window.IOFX && IOFX.skyOn && IOFX.skyOn())){ draw(t); last = t; } requestAnimationFrame(loop); }
   build();
   nextShoot = 6000;
   if (still) draw(0); else requestAnimationFrame(loop);
