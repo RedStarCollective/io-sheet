@@ -19,7 +19,8 @@
     "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
     "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
-    "id.on":1, "id.holo":.45, "id.spin":90
+    "id.on":1, "id.holo":.45, "id.spin":90,
+    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -32,7 +33,13 @@
     {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
     {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
     {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
-    {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]}
+    {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]},
+    {g:"Tab entrances", on:"mom.on", k:[["mom.speed","Speed",.5,2,.05]]},
+    {g:"Case File redactions", on:"red.on", k:[]},
+    {g:"Rep timeline spine", on:"spine.on", k:[]},
+    {g:"Posse key light", on:"pose.on", k:[["pose.lit","Light strength",0,1.5,.05],["pose.dof","Blur behind (px)",0,5,.1]]},
+    {g:"Vehicle engines and lights", on:"veh.on", k:[["veh.thr","Thruster glow",0,1.5,.05],["veh.strip","Light strip",0,1.5,.05]]},
+    {g:"Treemap glass", on:"glass.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -44,6 +51,7 @@
     s.setProperty("--circ-rest", String(P("circ.rest"))); s.setProperty("--circ-lit", String(P("circ.lit")));
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
+    s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
@@ -57,6 +65,7 @@
     if (/^grade\./.test(k)) gradeSync();
     if (/^sky\./.test(k)) skySync();
     if (/^amb\./.test(k)) ambAfter();
+    if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
@@ -627,12 +636,181 @@
     var top = D.querySelector("header.top"); if (top) top.setAttribute("data-lit", "");
   }
 
+  /* ================= Phase 3: tab moments =================
+     Each tab's entrance runs once when you arrive (not on re-renders such as a sheet sync), on top of the tab's own
+     entrance. A click or key press during an entrance finishes it at once. The always-on details (Rep spine, Posse light,
+     engines, redactions, glass tiles) are separate switches. */
+  var MOM = {key:"", clean:[], timer:0};
+  function momOn(){ return !reduce && !!P("mom.on") && !CTX.editing; }
+  function momLater(fn, ms){ var t = setTimeout(fn, ms * (root.style.getPropertyValue("--mk") ? +root.style.getPropertyValue("--mk") : 1)); MOM.clean.push(function(){ clearTimeout(t); fn(); }); }
+  function momFinish(){ var c = MOM.clean; MOM.clean = []; c.forEach(function(f){ try { f(); } catch(e){} }); }
+  D.addEventListener("pointerdown", function(ev){ if (MOM.clean.length && !(ev.target.closest && ev.target.closest(".fxpanel,.fxbtn"))) momFinish(); }, true);
+  D.addEventListener("keydown", function(){ if (MOM.clean.length) momFinish(); }, true);
+  var GLY = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789/#";
+  function scramble(node, dur, delay){
+    var fin = node.nodeValue; if (!fin || !fin.trim()) return;
+    var t0 = 0, done = false;
+    function end(){ if (done) return; done = true; tick.remove(f); node.nodeValue = fin; }
+    function f(t){ if (!t0) t0 = t + delay; var k = (t - t0) / dur; if (k < 0){ node.nodeValue = fin.replace(/\S/g, " "); return; }
+      if (k >= 1){ end(); return; } var n = Math.floor(fin.length * k), s = fin.slice(0, n);
+      for (var i = n; i < fin.length; i++) s += fin[i] === " " ? " " : GLY[Math.floor(Math.random() * GLY.length)]; node.nodeValue = s; }
+    tick.add(f); MOM.clean.push(end);
+  }
+  function lastText(el){ for (var n = el.lastChild; n; n = n.previousSibling) if (n.nodeType === 3 && n.nodeValue.trim()) return n; return null; }
+
+  /* C1 */
+  function momCase(){
+    var cf = D.querySelector(".cf"); if (!cf) return;
+    var img = cf.querySelector(".cfhd img"); if (img){ img.classList.add("fxscan"); momLater(function(){ img.classList.remove("fxscan"); }, 1300); }
+    [].forEach.call(cf.querySelectorAll(".cfs h3"), function(h, i){ var t = lastText(h); if (t && h.getBoundingClientRect().top < W.innerHeight) scramble(t, 420, 260 + i * 140); });
+    var n = 0; [].forEach.call(cf.querySelectorAll("dd"), function(dd){ if (dd.getBoundingClientRect().top < W.innerHeight + 40) dd.style.setProperty("--fd", n++); else dd.style.setProperty("--fd", -20); });
+    cf.classList.add("fxseal"); momLater(function(){ cf.classList.remove("fxseal"); }, 420 + n * 55 + 600);
+  }
+  function redact(){
+    if (!P("red.on")) return;
+    var cf = D.querySelector(".cf"); if (!cf) return;
+    var w = D.createTreeWalker(cf, NodeFilter.SHOW_TEXT, null), hits = [], nd;
+    while ((nd = w.nextNode())) if (/\?{2,}/.test(nd.nodeValue) && !(nd.parentNode.closest && nd.parentNode.closest(".fxredact,input,textarea"))) hits.push(nd);
+    hits.forEach(function(t){
+      var v = t.nodeValue, m = /(\S*\s*)?\?{2,}/.exec(v); if (!m) return;
+      var a = v.slice(0, m.index), b = v.slice(m.index, m.index + m[0].length), c = v.slice(m.index + m[0].length);
+      var sp = D.createElement("span"); sp.className = "fxredact"; sp.tabIndex = 0; sp.textContent = b; sp.title = "Not on file";
+      var fr = D.createDocumentFragment(); if (a) fr.appendChild(D.createTextNode(a)); fr.appendChild(sp); if (c) fr.appendChild(D.createTextNode(c)); t.parentNode.replaceChild(fr, t);
+    });
+  }
+
+  /* R1 */
+  function momRep(){
+    var film = D.querySelector(".film");
+    if (film){ [].forEach.call(film.querySelectorAll(".frame"), function(f, i){ f.style.setProperty("--fi", i); }); film.classList.add("fxreel"); momLater(function(){ film.classList.remove("fxreel"); }, 450 + film.children.length * 190 + 1200); }
+    var sig = D.querySelector(".rsig");
+    if (sig){ var j = 0; [].forEach.call(sig.querySelectorAll("i.on"), function(b){ b.style.setProperty("--j", j++); }); sig.classList.add("fxr"); momLater(function(){ sig.classList.remove("fxr"); }, 380 + j * 95 + 500); }
+  }
+  /* R3 */
+  var SPINE = {el:null, line:null, dots:[], raf:0};
+  function spineUpdate(){
+    SPINE.raf = 0; var tl = SPINE.line; if (!tl || !tl.isConnected) return;
+    var r = tl.getBoundingClientRect(), mark = W.innerHeight * .55, h = Math.max(0, Math.min(r.height - 14, mark - r.top - 14));
+    SPINE.el.style.height = h + "px";
+    for (var i = 0; i < SPINE.dots.length; i++){ var d = SPINE.dots[i], on = d.getBoundingClientRect().top < mark;
+      if (on && !d._lit){ d._lit = 1; d.classList.add("fxlit"); if (!reduce && SPINE.ready){ restart(d, "fxflare"); } } else if (!on && d._lit){ d._lit = 0; d.classList.remove("fxlit"); } }
+    SPINE.ready = true;
+  }
+  function spineAfter(){
+    if (SPINE.el) SPINE.el.remove(); SPINE.el = null; SPINE.line = null; SPINE.dots = []; SPINE.ready = false;
+    var tl = CTX.tab === "rep" && P("spine.on") && !CTX.editing ? D.querySelector(".tline") : null; if (!tl) return;
+    var s = D.createElement("i"); s.className = "fxspine"; s.setAttribute("aria-hidden", "true"); tl.appendChild(s);
+    SPINE.el = s; SPINE.line = tl; SPINE.dots = [].slice.call(tl.querySelectorAll(".rdot")); spineUpdate();
+  }
+  W.addEventListener("scroll", function(){ if (SPINE.el && !SPINE.raf) SPINE.raf = requestAnimationFrame(spineUpdate); }, {passive:true});
+
+  /* N1 */
+  function momFans(){
+    var g = D.querySelector(".fngrid.deal"); if (!g) return;
+    var gr = g.getBoundingClientRect(), ox = gr.left + gr.width / 2, oy = Math.max(gr.top - 70, 90), n = 0;
+    [].forEach.call(g.querySelectorAll(".fcard"), function(c){ var r = c.getBoundingClientRect(); if (r.top > W.innerHeight + 40 || n > 24) return;
+      c.style.setProperty("--fdx", (ox - (r.left + r.width / 2)).toFixed(0) + "px"); c.style.setProperty("--fdy", (oy - (r.top + r.height / 2)).toFixed(0) + "px");
+      c.style.setProperty("--fr", ((Math.random() - .5) * 26).toFixed(1) + "deg"); c.style.setProperty("--fn", n++); c.classList.add("fxd"); });
+    g.classList.remove("deal"); g.classList.add("fxdeal");
+    momLater(function(){ g.classList.remove("fxdeal"); [].forEach.call(g.querySelectorAll(".fcard.fxd"), function(c){ c.classList.remove("fxd"); }); }, 200 + n * 62 + 760);
+  }
+
+  /* P1 / P2 */
+  var POS = {figs:[], sweep:null, eyeT:0};
+  function posseFrame(){
+    if (!POS.figs.length || !POS.figs[0].isConnected){ tick.remove(posseFrame); POS.figs = []; return; }
+    var lx = L.x, ly = L.y, sw = POS.sweep;
+    if (sw){ var k = (performance.now() - sw.t0) / sw.dur; if (k >= 1) POS.sweep = null; else { var e = ease(Math.max(0, k)); lx = sw.x0 + (sw.x1 - sw.x0) * e; ly = sw.y; } }
+    for (var i = 0; i < POS.figs.length; i++){ var f = POS.figs[i], r = f.getBoundingClientRect(), lit = f._lit, sh = f._sh;
+      lit.style.setProperty("--px", (lx - r.left).toFixed(0) + "px"); lit.style.setProperty("--py", (ly - r.top).toFixed(0) + "px");
+      var dx = (r.left + r.width / 2) - lx; sh.style.setProperty("--sx", Math.max(-40, Math.min(40, dx * .06)).toFixed(1) + "px"); sh.style.setProperty("--sw", (1 + Math.min(.5, Math.abs(dx) / 1400)).toFixed(2)); }
+    if (!POS.sweep && !L.on && !POS.kick) tick.remove(posseFrame);
+    POS.kick = false;
+  }
+  function posseKick(){ if (POS.figs.length){ POS.kick = true; tick.add(posseFrame); } }
+  D.addEventListener("pointermove", function(){ if (POS.figs.length) posseKick(); }, {passive:true});
+  W.addEventListener("scroll", function(){ if (POS.figs.length) posseKick(); }, {passive:true});
+  function eyeLoop(){
+    clearTimeout(POS.eyeT); if (reduce || !POS.figs.length) return;
+    POS.eyeT = setTimeout(function(){ var w = D.querySelector(".lineup:not(.mini) .fig.wolf"); if (w && !D.hidden){ [].forEach.call(w.querySelectorAll(".fxeye"), function(e, i){ setTimeout(function(){ restart(e, "go"); }, i * 90); }); } eyeLoop(); }, 5500 + Math.random() * 6000);
+  }
+  function posseAfter(enter){
+    POS.figs = []; tick.remove(posseFrame); clearTimeout(POS.eyeT);
+    if (CTX.tab !== "posse" || CTX.editing || !P("pose.on")) return;
+    [].forEach.call(D.querySelectorAll(".lineup:not(.mini) .fig"), function(f){
+      var img = f.querySelector("img"); if (!img) return;
+      var lit = D.createElement("i"); lit.className = "fxlit"; lit.setAttribute("aria-hidden", "true"); lit.style.setProperty("--am", 'url("' + img.getAttribute("src") + '")');
+      var sh = D.createElement("i"); sh.className = "fxsh"; sh.setAttribute("aria-hidden", "true");
+      f.appendChild(lit); f.insertBefore(sh, f.firstChild); f._lit = lit; f._sh = sh; POS.figs.push(f);
+      if (f.classList.contains("wolf")) [[42, 18.6], [32.2, 19.2]].forEach(function(p){ var e = D.createElement("i"); e.className = "fxeye"; e.setAttribute("aria-hidden", "true"); e.style.left = p[0] + "%"; e.style.top = p[1] + "%"; f.appendChild(e); });
+    });
+    if (!POS.figs.length) return;
+    var lu = D.querySelector(".lineup:not(.mini)").getBoundingClientRect();
+    if (enter && momOn()){ POS.sweep = {t0:performance.now() + 120 * (+root.style.getPropertyValue("--mk") || 1), dur:1500 * (+root.style.getPropertyValue("--mk") || 1), x0:lu.left - 200, x1:Math.min(L.x, lu.right) || lu.left + lu.width / 2, y:lu.top + lu.height * .25};
+      MOM.clean.push(function(){ POS.sweep = null; posseKick(); }); }
+    posseKick(); eyeLoop();
+  }
+
+  /* V1 */
+  var THR = [[96.7, 39.5], [97.2, 46.3], [97.3, 52.4], [96.4, 64.6]];
+  function vehAfter(enter){
+    [].forEach.call(D.querySelectorAll(".fxveh"), function(n){ n.remove(); });
+    if (CTX.tab !== "vehicles" || CTX.editing || !P("veh.on")) return;
+    var big = D.querySelector('.hv[data-gv="curiosity"] .hvfloat'), small = D.querySelector('.hv[data-gv="chui"] .hvfloat');
+    var go = enter && momOn();
+    if (big && /cut-zep/.test((big.querySelector("img") || {}).src || "")){
+      var t = D.createElement("span"); t.className = "fxveh fxthr on" + (go ? " ign" : ""); t.setAttribute("aria-hidden", "true");
+      t.innerHTML = THR.map(function(p, i){ return '<i style="left:' + p[0] + '%;top:' + p[1] + '%;--ti:' + i + '"></i>'; }).join(""); big.appendChild(t);
+      if (go) momLater(function(){ t.classList.remove("ign"); }, 2100 + THR.length * 230);
+    }
+    if (small && /chui-sky/.test((small.querySelector("img") || {}).src || "")){
+      var s = D.createElement("i"); s.className = "fxveh fxstrip"; s.setAttribute("aria-hidden", "true"); small.appendChild(s);
+      if (go){ s.classList.add("go", "first"); momLater(function(){ s.classList.remove("go", "first"); }, 2500); }
+      var hv = small.closest(".hv"); if (hv && !reduce) hv.addEventListener("mouseenter", function(){ if (!s.classList.contains("first")) restart(s, "go"); });
+    }
+  }
+
+  /* A2 */
+  function rollNum(el, dur, delay){
+    var fin = el.textContent; if (!/\d/.test(fin)) return;
+    var digits = fin.replace(/\D/g, "").length, k = 0, h = "";
+    for (var i = 0; i < fin.length; i++){ var ch = fin[i];
+      if (/\d/.test(ch)){ var to = +ch, place = digits - 1 - k, spins = 1 + Math.min(place, 3), col = "";
+        for (var s = 0; s <= spins; s++) for (var d = 0; d < 10; d++) col += "<i>" + d + "</i>";
+        col += "<i>" + to + "</i>";
+        var total = (spins + 1) * 10, from = Math.floor(Math.random() * 10);
+        h += '<span class="fxdg"><span style="--from:' + from + ';--to:' + total + ';--dur:' + (dur * (1 - place * .12)).toFixed(2) + 's;--dl:' + (delay + place * 60) + 'ms">' + col + '</span></span>'; k++; }
+      else h += ch === " " ? " " : '<span>' + (ch === "<" ? "&lt;" : ch === "&" ? "&amp;" : ch) + '</span>'; }
+    el.classList.remove("dec"); queueMicrotask(function(){ el.classList.add("dec"); });   /* hidden from the app's number scramble, which runs right after render, then styled as before */
+    el.setAttribute("aria-label", fin); el.innerHTML = '<span class="fxroll" aria-hidden="true">' + h + '</span>';
+    var back = function(){ if (el.isConnected && el.querySelector(".fxroll")){ el.textContent = fin; el.removeAttribute("aria-label"); } };
+    MOM.clean.push(back); setTimeout(back, (dur + .2) * 1000 * (+root.style.getPropertyValue("--mk") || 1) + delay + digits * 60);
+  }
+  function momAdv(){
+    var bal = D.querySelector(".a-bal"); if (!bal) return;
+    [].forEach.call(bal.querySelectorAll(".lr b .dec, .lr b.dec"), function(el, i){ var tot = el.closest(".tot"); rollNum(el, tot ? 1.35 : .9, tot ? 500 : 250 + i * 120); });
+  }
+
+  function moments(){
+    var key = (CTX.who || "") + "|" + (CTX.tab || ""), enter = key !== MOM.key; MOM.key = key;
+    if (enter) momFinish();
+    if (enter && momOn()){
+      if (CTX.tab === "casefile") momCase();
+      else if (CTX.tab === "rep") momRep();
+      else if (CTX.tab === "fans") momFans();
+      else if (CTX.tab === "advance") momAdv();
+    }
+    if (CTX.tab === "casefile" && !CTX.editing) redact();
+    spineAfter(); posseAfter(enter); vehAfter(enter);
+    D.body.classList.toggle("fx-glass", !!P("glass.on"));
+  }
+
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments();
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();
