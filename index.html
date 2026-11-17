@@ -3207,8 +3207,490 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
 
 </style>
 
+<style id="io-fx-css">
+/* ================= IO FX layer (Nov 16) =================
+   F1 key light · F2 WebGL stage · F3 tuning panel · W1 scanner reticle · D1 Arm circuits · W2 scan-wipe.
+   Everything here is driven by the IOFX script (id="io-fx"); with it gone the sheet looks as before. */
+
+/* ---- F3: tuning panel (admin only) ---- */
+.fxbtn{position:fixed;left:12px;bottom:12px;z-index:70;font:700 11px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:rgba(8,6,5,.92);border:1px solid var(--frame);padding:7px 10px 6px;cursor:pointer}
+.fxbtn:hover,.fxbtn[aria-expanded="true"]{border-color:var(--gold);color:var(--ink)}
+.fxpanel{position:fixed;left:12px;bottom:46px;z-index:70;width:310px;max-width:calc(100vw - 24px);max-height:min(72vh,600px);overflow:auto;background:rgba(10,8,7,.97);border:1px solid var(--frame);box-shadow:0 14px 44px rgba(0,0,0,.65);padding:10px 12px 12px;font-family:var(--f-body);font-size:13px;line-height:1.25;color:var(--ink-2)}
+.fxpanel[hidden]{display:none}
+.fxpanel h4{margin:0 0 2px;font:700 12px/1.2 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.fxpanel .fxsub{margin:0 0 8px;font-size:11.5px;color:var(--ink-3)}
+.fxg{border-top:1px solid var(--line);padding:8px 0 4px}
+.fxg > label.fxh{display:flex;align-items:center;gap:8px;font:700 11px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;cursor:pointer}
+.fxg > label.fxh input{accent-color:#b58f52;margin:0}
+.fxg > .fxh.plain{cursor:default}
+.fxr{display:grid;grid-template-columns:1fr 104px 42px;gap:8px;align-items:center;margin:3px 0}
+.fxr span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fxr input[type=range]{width:100%;accent-color:#b58f52;margin:0}
+.fxr output{font-family:var(--f-num);font-size:11.5px;color:var(--ink);text-align:right}
+.fxg.off .fxr{opacity:.35;pointer-events:none}
+.fxbar{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line);padding-top:9px;margin-top:4px}
+.fxbar button{font:700 10.5px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);background:var(--cell);border:1px solid var(--line);padding:6px 8px 5px;cursor:pointer}
+.fxbar button:hover{color:var(--ink);border-color:var(--gold-dim)}
+.fxbar button.pri{color:#fff;background:var(--red);border-color:var(--red)}
+.fxnote{margin:8px 0 0;font-size:11.5px;color:var(--ink-3);min-height:1.25em}
+
+/* ---- W1: scanner reticle and brackets (Ware) ---- */
+.wret{position:absolute;z-index:3;pointer-events:none;box-sizing:border-box;left:0;top:0;width:10%;height:10%;opacity:0;--ret:#f0cf8e;--rl:15px;--rw:2px;
+  transition:left var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),top var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),width var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),height var(--ret-t,170ms) cubic-bezier(.2,.85,.25,1),opacity .14s}
+body.zolo .wret{--ret:#e3eaee}
+.wret.on{opacity:1}
+.wret.jump{transition:opacity .14s}
+.wret i{position:absolute;box-sizing:border-box;width:var(--rl);height:var(--rl);border:0 solid var(--ret);filter:drop-shadow(0 0 1px rgba(0,0,0,.95)) drop-shadow(0 0 2px rgba(0,0,0,.7)) drop-shadow(0 0 calc(4px * var(--ret-glow,1)) var(--ret))}
+.wret .c1{left:0;top:0;border-width:var(--rw) 0 0 var(--rw)}
+.wret .c2{right:0;top:0;border-width:var(--rw) var(--rw) 0 0}
+.wret .c3{left:0;bottom:0;border-width:0 0 var(--rw) var(--rw)}
+.wret .c4{right:0;bottom:0;border-width:0 var(--rw) var(--rw) 0}
+/* centre ticks on each edge */
+.wret u{position:absolute;background:var(--ret);opacity:.6;box-shadow:0 0 2px rgba(0,0,0,.9)}
+.wret .t1,.wret .t2{left:50%;width:1px;height:5px;margin-left:-.5px}.wret .t1{top:-2px}.wret .t2{bottom:-2px}
+.wret .t3,.wret .t4{top:50%;height:1px;width:5px;margin-top:-.5px}.wret .t3{left:-2px}.wret .t4{right:-2px}
+/* the pass of light through the part */
+.wret b{position:absolute;left:3px;right:3px;top:0;height:1px;opacity:0;background:linear-gradient(90deg,transparent,var(--ret) 22%,#fff8e6 50%,var(--ret) 78%,transparent);box-shadow:0 0 calc(8px * var(--ret-glow,1)) var(--ret)}
+/* locked on the selected part: steadier, a little heavier, with a soft inner wash */
+.wret.lock{--rl:18px;--rw:2px;z-index:2}
+.wret.lock u{opacity:.8}
+.wret.lock::before{content:"";position:absolute;inset:0;border:1px solid var(--ret);opacity:.14}
+.wret.lock::after{content:"";position:absolute;inset:0;border:1px solid var(--ret);opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .wret.snap i{animation:wretSnap .26s cubic-bezier(.2,1.5,.4,1) both}
+  .wret.snap .c1{--sx:-9px;--sy:-9px}.wret.snap .c2{--sx:9px;--sy:-9px}.wret.snap .c3{--sx:-9px;--sy:9px}.wret.snap .c4{--sx:9px;--sy:9px}
+  @keyframes wretSnap{from{transform:translate(var(--sx),var(--sy));opacity:0}}
+  .wret.scan b{animation:wretLn .62s cubic-bezier(.3,.1,.5,1) both}
+  @keyframes wretLn{0%{top:0;opacity:0}12%{opacity:.95}80%{opacity:.75}100%{top:100%;opacity:0}}
+  .wret.lock.pulse{animation:wretLock .5s cubic-bezier(.2,.9,.3,1) both}
+  @keyframes wretLock{0%{transform:scale(1.12);filter:brightness(2.2)}45%{transform:scale(.985);filter:brightness(1.5)}100%{transform:none;filter:none}}
+  .wret.lock.pulse::after{animation:wretRing .7s ease-out both}
+  @keyframes wretRing{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(1.14)}}
+}
+
+/* ---- D1: circuit-traced Arm box (Dossier) ---- */
+.box.armbox{position:relative}
+.armbox > .hb,.armbox > .tbl-wrap,.armbox > .add{position:relative;z-index:1}
+.armbox .circ{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;--cm:url(img/fx/circuit-arm.webp)}
+.armbox .circ::before,.armbox .circ::after,.armbox .circ i{content:"";position:absolute;inset:0;-webkit-mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat;mask:var(--cm) right bottom/var(--circ-s,560px) auto no-repeat}
+.armbox .circ::before{background:#c9a362;opacity:var(--circ-rest,.12)}
+.armbox .circ::after{background:radial-gradient(circle var(--circ-r,230px) at var(--lx,-999px) var(--ly,-999px),rgba(255,228,165,var(--circ-lit,.5)),rgba(226,184,108,calc(var(--circ-lit,.5) * .3)) 55%,transparent 100%)}
+/* the hovered weapon's own stretch of circuit takes its colour once the pulse lands */
+.armbox .circ i{background:linear-gradient(180deg,transparent calc(var(--by,0px) - 10px),var(--bc,#e2b86c) var(--by,0px),var(--bc,#e2b86c) calc(var(--by,0px) + var(--bh,0px)),transparent calc(var(--by,0px) + var(--bh,0px) + 10px));opacity:0;transition:opacity .22s}
+.armbox .circ.band i{opacity:var(--circ-band,.55);transition-delay:calc(var(--circ-t,.5s) * .75)}
+body.zolo .armbox .circ::before{background:#aeb8c0}
+.armbox .t td{text-shadow:0 1px 2px rgba(0,0,0,.85)}
+.armbox .t td.n{text-shadow:0 0 3px #0b0807,0 0 7px #0b0807,0 0 12px rgba(11,8,7,.8),0 1px 2px rgba(0,0,0,.9)}
+.circbus{position:absolute;left:0;top:0;z-index:2;pointer-events:none;overflow:visible}
+.circbus path{fill:none}
+.circbus .b{stroke:rgba(201,163,98,.2);stroke-width:1;transition:stroke .25s,opacity .25s}
+.circbus .p{stroke:var(--c,#e2b86c);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:.16 1.4;stroke-dashoffset:.16;opacity:0;filter:drop-shadow(0 0 3px var(--c,#e2b86c))}
+.circbus circle{fill:var(--c,#e2b86c);opacity:0;transition:opacity .2s;filter:drop-shadow(0 0 4px var(--c,#e2b86c))}
+.circbus .port{fill:#c9a362;opacity:.5;filter:none}
+.circbus g.hot .b{stroke:var(--c,#e2b86c);opacity:.6;transition-delay:calc(var(--circ-t,.5s) * .8)}
+.circbus g.hot circle{opacity:1;transition-delay:calc(var(--circ-t,.5s) * .85)}
+@media (prefers-reduced-motion:no-preference){
+  .circbus g.go .p{animation:circGo var(--circ-t,.5s) cubic-bezier(.35,.1,.3,1) both}
+  .circbus g.idle .p{animation:circIdle 1.7s linear both}
+  @keyframes circGo{0%{stroke-dashoffset:.16;opacity:1}88%{opacity:1}100%{stroke-dashoffset:-1;opacity:0}}
+  @keyframes circIdle{0%{stroke-dashoffset:.16;opacity:.42}85%{opacity:.42}100%{stroke-dashoffset:-1;opacity:0}}
+}
+@media (prefers-reduced-motion:reduce){.circbus g.hot .b,.circbus g.hot circle{transition-delay:0s}}
+
+/* ---- W2: scan-wipe between Ware layers (WebGL; the CSS wipe stays as the fallback) ---- */
+.bodyfig.glwipe{animation-play-state:paused}
+.bodyfig.glwipe .clline{visibility:hidden}
+.bodyfig.glwipe.glrun .cloth,.bodyfig.glwipe.glrun #bodyimg{visibility:hidden}
+.glw{position:absolute;left:-7%;top:0;width:114%;height:100%;z-index:4;pointer-events:none;filter:drop-shadow(0 0 30px rgba(0,0,0,.85))}
+.glw.xl{left:0;width:100%;z-index:2;filter:none}
+</style>
+
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="wrap" id="app"><div class="err">Loading Iō…</div></div>
+
+<script id="io-fx">
+/* IO FX layer (Nov 16): F1 key light, F2 WebGL stage, F3 tuning panel, W1 reticle, D1 Arm circuits, W2 scan-wipe.
+   Loaded before the app script. The app calls IOFX.rendered(ctx) at the end of render() and IOFX.xl(...) on a scan-depth change.
+   Nothing here is needed for the sheet to work: every hook is optional and every effect has a plain fallback. */
+(function(){
+  "use strict";
+  var W = window, D = document, root = D.documentElement;
+  var reduce = !!(W.matchMedia && W.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var coarse = !!(W.matchMedia && W.matchMedia("(hover: none)").matches);
+  var FX = W.IOFX = {v:1}, CTX = {};
+
+  /* ================= F3: settings ================= */
+  var DEF = {
+    "light.ease":.14,
+    "ret.on":1, "ret.t":170, "ret.glow":1, "ret.pad":1.2,
+    "circ.on":1, "circ.rest":.12, "circ.lit":.5, "circ.band":.55, "circ.r":230, "circ.s":560, "circ.t":.5, "circ.idle":7,
+    "wipe.on":1, "wipe.t":.95, "wipe.jit":1, "wipe.glow":1
+  };
+  var SPEC = [
+    {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
+    {g:"Ware reticle", on:"ret.on", k:[["ret.t","Snap time (ms)",60,420,10],["ret.glow","Glow",0,2.5,.05],["ret.pad","Padding (%)",0,4,.1]]},
+    {g:"Arm circuits", on:"circ.on", k:[["circ.rest","Resting traces",0,.4,.01],["circ.lit","Lit traces",0,1,.01],["circ.band","Weapon glow",0,1,.01],["circ.s","Trace size (px)",360,900,10],["circ.r","Light radius (px)",80,520,10],["circ.t","Pulse time (s)",.2,1.5,.05],["circ.idle","Idle pulses / min",0,20,1]]},
+    {g:"Ware scan-wipe", on:"wipe.on", k:[["wipe.t","Duration (s)",.4,2.2,.05],["wipe.jit","Slice jitter",0,3,.1],["wipe.glow","Glow",0,2.5,.05]]}
+  ];
+  var shared = {}, local = {};
+  try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
+  function P(k){ var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
+  FX.P = P;
+  function cssVars(){
+    var s = root.style;
+    s.setProperty("--ret-t", P("ret.t") + "ms"); s.setProperty("--ret-glow", String(P("ret.glow")));
+    s.setProperty("--circ-rest", String(P("circ.rest"))); s.setProperty("--circ-lit", String(P("circ.lit")));
+    s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
+  }
+  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
+  function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
+  function changed(k){
+    if (/^ret\./.test(k)) wareAfter();
+    if (/^circ\./.test(k)) armAfter();
+  }
+
+  /* panel */
+  var panel = null, btn = null;
+  function fmt(v, step){ return step >= 1 ? String(Math.round(v)) : (+v).toFixed(step < .1 ? 2 : 1).replace(/^0\./, "."); }
+  function buildPanel(){
+    btn = D.createElement("button"); btn.type = "button"; btn.className = "fxbtn"; btn.textContent = "FX"; btn.title = "Effect settings (only you see this)"; btn.setAttribute("aria-expanded", "false");
+    panel = D.createElement("div"); panel.className = "fxpanel"; panel.hidden = true; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Effect settings");
+    D.body.appendChild(btn); D.body.appendChild(panel);
+    btn.addEventListener("click", function(){ panel.hidden = !panel.hidden; btn.setAttribute("aria-expanded", String(!panel.hidden)); if (!panel.hidden) fillPanel(); });
+    panel.addEventListener("input", function(ev){
+      var t = ev.target, k = t.getAttribute("data-k"); if (!k) return;
+      if (t.type === "checkbox"){ setLocal(k, t.checked ? 1 : 0); t.closest(".fxg").classList.toggle("off", !t.checked); }
+      else { var v = +t.value; setLocal(k, v); var o = t.parentNode.querySelector("output"); if (o) o.textContent = fmt(v, +t.step); }
+      note("Changed on this device only until you save.");
+    });
+    panel.addEventListener("click", function(ev){
+      var a = ev.target.getAttribute && ev.target.getAttribute("data-fxa"); if (!a) return;
+      if (a === "reset"){ local = {}; try { localStorage.removeItem("io-fx"); } catch(e){} cssVars(); fillPanel(); for (var k in DEF) if (/\.on$/.test(k)) changed(k); note("Back to the saved settings."); }
+      if (a === "copy"){ var txt = JSON.stringify(values()); (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function(){ note("Copied."); }, function(){ note(txt); }); }
+      if (a === "save" && CTX.save){ var v = values(); shared = v; local = {}; try { localStorage.removeItem("io-fx"); } catch(e){} note("Saving…");
+        Promise.resolve(CTX.save(v)).then(function(ok){ note(ok === false ? "Couldn't save. Your changes are still on this device." : "Saved for everyone."); }, function(){ note("Couldn't save."); }); }
+    });
+  }
+  function note(t){ var n = panel && panel.querySelector(".fxnote"); if (n) n.textContent = t; }
+  function fillPanel(){
+    var h = '<h4>Effect settings</h4><p class="fxsub">Only you see this panel. WebGL: ' + (GL.test() ? "on" : "not available, using the plain versions") + '.</p>';
+    SPEC.forEach(function(g){
+      var on = !g.on || !!P(g.on);
+      h += '<div class="fxg' + (on ? '' : ' off') + '">' + (g.on ? '<label class="fxh"><input type="checkbox" data-k="' + g.on + '"' + (on ? ' checked' : '') + '>' + g.g + '</label>' : '<div class="fxh plain" style="font:700 11px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">' + g.g + '</div>');
+      g.k.forEach(function(r){ var v = P(r[0]); h += '<label class="fxr"><span>' + r[1] + '</span><input type="range" data-k="' + r[0] + '" min="' + r[2] + '" max="' + r[3] + '" step="' + r[4] + '" value="' + v + '"><output>' + fmt(v, r[4]) + '</output></label>'; });
+      h += '</div>';
+    });
+    h += '<div class="fxbar"><button type="button" data-fxa="reset">Reset</button><button type="button" data-fxa="copy">Copy</button>' + (CTX.save ? '<button type="button" class="pri" data-fxa="save">Save for everyone</button>' : '') + '</div><p class="fxnote"></p>';
+    panel.innerHTML = h;
+  }
+  function panelSync(){
+    var show = !!CTX.admin;
+    if (show && !btn) buildPanel();
+    if (btn){ btn.hidden = !show; if (!show){ panel.hidden = true; btn.setAttribute("aria-expanded", "false"); } }
+  }
+
+  /* ================= shared ticker ================= */
+  var tick = FX.tick = {fns:[], raf:0,
+    add:function(fn){ if (tick.fns.indexOf(fn) < 0) tick.fns.push(fn); if (!tick.raf) tick.raf = requestAnimationFrame(tick.run); },
+    remove:function(fn){ var i = tick.fns.indexOf(fn); if (i >= 0) tick.fns.splice(i, 1); },
+    run:function(t){ tick.raf = 0; if (!D.hidden) tick.fns.slice().forEach(function(fn){ try { fn(t); } catch(e){ tick.remove(fn); } }); if (tick.fns.length) tick.raf = requestAnimationFrame(tick.run); }
+  };
+
+  /* ================= F1: key light =================
+     One light for the whole page. It follows the pointer (eased); on touch screens it rests upper-left of the screen
+     and jumps to the last touch. Elements marked data-lit get --lx / --ly (px, in their own box) while it moves. */
+  var L = FX.light = {x:W.innerWidth * .3, y:W.innerHeight * .25, tx:W.innerWidth * .3, ty:W.innerHeight * .25, els:[], on:false};
+  function lightFrame(){
+    var e = P("light.ease"), dx = L.tx - L.x, dy = L.ty - L.y;
+    L.x += dx * e; L.y += dy * e;
+    for (var i = 0; i < L.els.length; i++){ var el = L.els[i]; if (!el.isConnected) continue;
+      var r = el.getBoundingClientRect(); if (r.bottom < -300 || r.top > W.innerHeight + 300) continue;
+      el.style.setProperty("--lx", (L.x - r.left).toFixed(1) + "px"); el.style.setProperty("--ly", (L.y - r.top).toFixed(1) + "px"); }
+    if (Math.abs(dx) + Math.abs(dy) < .4){ tick.remove(lightFrame); L.on = false; }
+  }
+  function lightKick(){ if (!L.els.length) return; if (reduce){ L.x = L.tx; L.y = L.ty; } if (!L.on){ L.on = true; tick.add(lightFrame); } }
+  function lightScan(){ L.els = [].slice.call(D.querySelectorAll("[data-lit]")); L.x += .5; lightKick(); }
+  D.addEventListener("pointermove", function(ev){ if (ev.pointerType === "touch") return; L.tx = ev.clientX; L.ty = ev.clientY; lightKick(); }, {passive:true});
+  D.addEventListener("pointerdown", function(ev){ if (ev.pointerType !== "touch") return; L.tx = ev.clientX; L.ty = ev.clientY; lightKick(); }, {passive:true});
+  W.addEventListener("scroll", function(){ L.x += .5; lightKick(); }, {passive:true});
+  W.addEventListener("resize", function(){ if (coarse){ L.tx = W.innerWidth * .3; L.ty = W.innerHeight * .25; } L.x += .5; lightKick(); });
+
+  /* ================= F2: WebGL stage =================
+     GL.make(canvas, fragmentSource) gives a full-quad program with uniform and texture helpers. Each effect owns a small
+     canvas and lets go of its context when it finishes. GL.test() says whether WebGL is there at all. */
+  var GL = FX.gl = {ok:null};
+  GL.test = function(){
+    if (GL.ok !== null) return GL.ok;
+    try { var c = D.createElement("canvas"), g = c.getContext("webgl", {alpha:true, premultipliedAlpha:true}) || c.getContext("experimental-webgl");
+      GL.ok = !!g; if (g){ var x = g.getExtension("WEBGL_lose_context"); if (x) x.loseContext(); } } catch(e){ GL.ok = false; }
+    return GL.ok;
+  };
+  GL.dpr = function(){ return Math.min(W.devicePixelRatio || 1, coarse ? 1.25 : 1.75); };
+  var VERT = "attribute vec2 p;varying vec2 vUv;void main(){vUv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}";
+  GL.make = function(canvas, frag){
+    var gl = canvas.getContext("webgl", {alpha:true, premultipliedAlpha:true, antialias:false, depth:false, stencil:false, powerPreference:"low-power"}); if (!gl) return null;
+    function sh(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)){ var m = gl.getShaderInfoLog(s); gl.deleteShader(s); throw new Error(m); } return s; }
+    var pr = gl.createProgram();
+    try { gl.attachShader(pr, sh(gl.VERTEX_SHADER, VERT)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, frag)); } catch(e){ if (W.console) console.warn("IOFX shader:", e.message); return null; }
+    gl.linkProgram(pr); if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
+    gl.useProgram(pr);
+    var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    var ul = {}, texs = [], dead = false;
+    var o = {gl:gl, lost:false,
+      u:function(n){ return n in ul ? ul[n] : (ul[n] = gl.getUniformLocation(pr, n)); },
+      f:function(n, a, b, c){ var l = o.u(n); if (!l) return; if (c != null) gl.uniform3f(l, a, b, c); else if (b != null) gl.uniform2f(l, a, b); else gl.uniform1f(l, a); },
+      tex:function(unit, name, src){ var t = gl.createTexture(); texs.push(t); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src); var l = o.u(name); if (l) gl.uniform1i(l, unit); },
+      draw:function(){ gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); },
+      kill:function(){ if (dead) return; dead = true; try { texs.forEach(function(t){ gl.deleteTexture(t); }); gl.deleteBuffer(buf); gl.deleteProgram(pr); var x = gl.getExtension("WEBGL_lose_context"); if (x) x.loseContext(); } catch(e){} }
+    };
+    canvas.addEventListener("webglcontextlost", function(ev){ ev.preventDefault(); o.lost = true; });
+    return o;
+  };
+  function loadImg(src){ return new Promise(function(res, rej){ var im = new Image(); im.decoding = "async"; im.onload = function(){ res(im); }; im.onerror = rej; im.src = src; }); }
+  function within(ms, p){ return Promise.race([p, new Promise(function(_, rej){ setTimeout(function(){ rej(new Error("slow")); }, ms); })]); }
+
+  /* ================= W1: scanner reticle and brackets ================= */
+  var RET = {fig:null, mo:null, hov:[], lock:[], selWas:null, boxes:{}};
+  function retEl(lock){ var s = D.createElement("span"); s.className = "wret" + (lock ? " lock" : ""); s.setAttribute("aria-hidden", "true");
+    s.innerHTML = '<i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><u class="t1"></u><u class="t2"></u><u class="t3"></u><u class="t4"></u><b></b>'; return s; }
+  /* a part's box, in % of the figure: from the app's table, or measured once from the part's mask (the single legs have no entry) */
+  function regBox(r){
+    var F = CTX.fig || {}, k = (F.m || "") + r;
+    if (F.rbox && F.rbox[r]) return F.rbox[r];
+    if (RET.boxes[k]) return RET.boxes[k];
+    if (RET.boxes[k] === undefined && F.m){ RET.boxes[k] = null;
+      loadImg(F.m + r + ".png").then(function(im){ var w = 120, h = Math.max(1, Math.round(120 * im.height / im.width)), c = D.createElement("canvas"); c.width = w; c.height = h;
+        var x = c.getContext("2d"); x.drawImage(im, 0, 0, w, h); var d = x.getImageData(0, 0, w, h).data, x0 = w, y0 = h, x1 = -1, y1 = -1;
+        for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) if (d[(j * w + i) * 4 + 3] > 40){ if (i < x0) x0 = i; if (i > x1) x1 = i; if (j < y0) y0 = j; if (j > y1) y1 = j; }
+        if (x1 >= 0){ RET.boxes[k] = [x0 / w * 100, y0 / h * 100, (x1 + 1) / w * 100, (y1 + 1) / h * 100]; retSync(); retLock(false); } }, function(){});
+    }
+    return null;
+  }
+  function place(el, r){
+    var b = regBox(r); if (!b){ el.classList.remove("on"); el._r = ""; return false; }
+    var pad = P("ret.pad"), x0 = b[0] - pad, y0 = b[1] - pad * .6, x1 = b[2] + pad, y1 = b[3] + pad * .6;
+    if (y1 - y0 < 3.4){ var cy = (y0 + y1) / 2; y0 = cy - 1.7; y1 = cy + 1.7; }
+    if (x1 - x0 < 9){ var cx = (x0 + x1) / 2; x0 = cx - 4.5; x1 = cx + 4.5; }
+    x0 = Math.max(x0, -2); y0 = Math.max(y0, -.6); x1 = Math.min(x1, 102); y1 = Math.min(y1, 100.6);
+    el.style.left = x0.toFixed(2) + "%"; el.style.top = y0.toFixed(2) + "%"; el.style.width = (x1 - x0).toFixed(2) + "%"; el.style.height = (y1 - y0).toFixed(2) + "%";
+    return true;
+  }
+  function restart(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+  function regsOf(v){ return String(v || "").split(/\s+/).filter(Boolean); }
+  function retSync(){
+    var fig = RET.fig; if (!fig || !fig.isConnected) return;
+    var want = regsOf(fig.dataset.hov), locked = regsOf(fig.dataset.sel);
+    want = want.filter(function(r){ return locked.indexOf(r) < 0; }).slice(0, RET.hov.length);
+    if (fig.classList.contains("boot")) want = [];
+    RET.hov.forEach(function(el, i){
+      var r = want[i];
+      if (!r){ el.classList.remove("on"); el._r = ""; return; }
+      if (el._r === r) return;
+      var fresh = !el._r; if (fresh) el.classList.add("jump");
+      if (!place(el, r)) return;
+      if (fresh){ void el.offsetWidth; el.classList.remove("jump"); restart(el, "snap"); }
+      el._r = r; el.classList.add("on"); restart(el, "scan");
+    });
+  }
+  function retLock(pulse){
+    var fig = RET.fig; if (!fig || !fig.isConnected) return;
+    var regs = regsOf(fig.dataset.sel).slice(0, RET.lock.length);
+    if (regs.indexOf("body") >= 0 && regs.length > 1) regs = regs.filter(function(r){ return r !== "body"; });
+    RET.lock.forEach(function(el, i){ var r = regs[i]; el.classList.add("jump");
+      if (r && place(el, r)){ el.classList.add("on"); if (pulse){ restart(el, "pulse"); restart(el, "scan"); } } else el.classList.remove("on"); });
+  }
+  function wareAfter(){
+    if (RET.mo){ RET.mo.disconnect(); RET.mo = null; }
+    var fig = D.getElementById("bodyfig"); RET.fig = null; RET.hov = []; RET.lock = [];
+    [].forEach.call(D.querySelectorAll(".wret"), function(n){ n.remove(); });
+    if (!fig || CTX.tab !== "ware" || CTX.editing || !P("ret.on") || !CTX.fig){ RET.selWas = fig ? fig.dataset.sel || "" : null; return; }
+    RET.fig = fig;
+    for (var i = 0; i < 4; i++){ var a = retEl(false), b = retEl(true); RET.hov.push(a); RET.lock.push(b); fig.appendChild(b); fig.appendChild(a); }
+    var sel = fig.dataset.sel || "", key = (CTX.who || "") + "|" + (CTX.fig.m || "") + "|" + sel;
+    retLock(!reduce && RET.selWas !== null && RET.selWas !== key && !!sel && !fig.classList.contains("boot"));
+    RET.selWas = key;
+    retSync();
+    RET.mo = new MutationObserver(retSync); RET.mo.observe(fig, {attributes:true, attributeFilter:["data-hov"]});
+  }
+
+  /* ================= D1: circuit-traced Arm box ================= */
+  var ARM = {box:null, svg:null, groups:[], timer:0, ro:null};
+  function rowColor(tr){ var n = tr.querySelector('[class^="tone-"] .tn, [class*=" tone-"] .tn, .tn'); var c = n ? getComputedStyle(n).color : ""; return c && !/rgba?\(0, 0, 0/.test(c) ? c : "#e2b86c"; }
+  function armBuild(){
+    var box = ARM.box; if (!box || !box.isConnected) return;
+    if (ARM.svg) ARM.svg.remove();
+    var hb = box.querySelector(".hb"), rows = [].slice.call(box.querySelectorAll(".t tbody > tr:not(.ind)")); if (!hb || !rows.length) return;
+    var br = box.getBoundingClientRect(), ox = br.left + box.clientLeft, oy = br.top + box.clientTop, Wd = box.clientWidth, Ht = box.clientHeight;
+    var sx = Wd - 4.5, top = hb.getBoundingClientRect().bottom - oy + 3;
+    var h = '<svg class="circbus" width="' + Wd + '" height="' + Ht + '" viewBox="0 0 ' + Wd + ' ' + Ht + '" aria-hidden="true"><circle class="port" cx="' + sx + '" cy="' + top.toFixed(1) + '" r="1.8"/>';
+    ARM.groups = [];
+    rows.forEach(function(tr, i){
+      var r = tr.getBoundingClientRect(), y = Math.round(r.bottom - oy) - .5, td = tr.querySelector("td.name"), x = 5.5;
+      var d = "M" + sx + " " + top.toFixed(1) + "V" + y + "H" + x;
+      h += '<g data-i="' + i + '" style="--c:' + rowColor(tr) + '"><path class="b" d="' + d + '"/><path class="p" pathLength="1" d="' + d + '"/><circle cx="' + x + '" cy="' + y + '" r="2"/></g>';
+      tr.setAttribute("data-circ", i);
+    });
+    var t = D.createElement("div"); t.innerHTML = h + '</svg>'; ARM.svg = t.firstChild; box.appendChild(ARM.svg);
+    ARM.groups = [].slice.call(ARM.svg.querySelectorAll("g"));
+  }
+  function armHover(tr, on){
+    if (!ARM.svg) return; var i = tr.getAttribute("data-circ"); if (i == null) return; var g = ARM.groups[+i]; if (!g) return;
+    var c = ARM.box && ARM.box.querySelector(".circ");
+    if (on){ g.classList.remove("idle"); g.classList.add("hot"); restart(g, "go");
+      if (c){ var br = ARM.box.getBoundingClientRect(), r = tr.getBoundingClientRect(), last = tr; while (last.nextElementSibling && last.nextElementSibling.classList.contains("ind")) last = last.nextElementSibling;
+        var bot = last.getBoundingClientRect().bottom; c.style.setProperty("--by", (r.top - br.top - ARM.box.clientTop).toFixed(1) + "px"); c.style.setProperty("--bh", (bot - r.top).toFixed(1) + "px"); c.style.setProperty("--bc", g.style.getPropertyValue("--c") || "#e2b86c"); restart(c, "band"); } }
+    else { g.classList.remove("hot", "go"); if (c) c.classList.remove("band"); }
+  }
+  function armRow(t){ var tr = t && t.closest && t.closest(".armbox .t tbody > tr"); if (!tr) return null;
+    if (tr.classList.contains("ind")){ var p = tr.previousElementSibling; while (p && p.classList.contains("ind")) p = p.previousElementSibling; tr = p; }
+    return tr; }
+  D.addEventListener("mouseover", function(ev){ var tr = armRow(ev.target); if (tr && tr !== ARM.hot){ if (ARM.hot) armHover(ARM.hot, false); ARM.hot = tr; armHover(tr, true); } else if (!tr && ARM.hot && !(ev.target.closest && ev.target.closest(".armbox .t"))){ armHover(ARM.hot, false); ARM.hot = null; } });
+  D.addEventListener("focusin", function(ev){ var tr = armRow(ev.target); if (tr){ if (ARM.hot && ARM.hot !== tr) armHover(ARM.hot, false); ARM.hot = tr; armHover(tr, true); } });
+  function armIdle(){
+    clearTimeout(ARM.timer); var per = P("circ.idle"); if (reduce || !per || !ARM.box) return;
+    ARM.timer = setTimeout(function(){
+      var box = ARM.box;
+      if (box && box.isConnected && !D.hidden && ARM.groups.length && !ARM.hot){ var r = box.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < W.innerHeight){ var g = ARM.groups[Math.floor(Math.random() * ARM.groups.length)]; if (!g.classList.contains("hot")) restart(g, "idle"); } }
+      armIdle();
+    }, (60000 / per) * (.6 + Math.random() * .8));
+  }
+  function armAfter(){
+    clearTimeout(ARM.timer); if (ARM.ro){ ARM.ro.disconnect(); ARM.ro = null; }
+    [].forEach.call(D.querySelectorAll(".armbox .circ, .armbox .circbus"), function(n){ n.remove(); });
+    ARM.box = null; ARM.svg = null; ARM.groups = []; ARM.hot = null;
+    var box = D.querySelector(".box.armbox"); if (!box || CTX.editing || !P("circ.on")) return;
+    ARM.box = box;
+    var c = D.createElement("i"); c.className = "circ"; c.setAttribute("aria-hidden", "true"); c.appendChild(D.createElement("i")); box.insertBefore(c, box.firstChild);
+    armBuild();
+    if (W.ResizeObserver){ var first = true, t = 0; ARM.ro = new ResizeObserver(function(){ if (first){ first = false; return; } clearTimeout(t); t = setTimeout(armBuild, 60); }); ARM.ro.observe(box); }
+    armIdle();
+  }
+
+  /* ================= W2: scan-wipe between layers ================= */
+  var FRAG = [
+    "precision mediump float;",
+    "varying vec2 vUv;",
+    "uniform sampler2D uA,uB,uM;",
+    "uniform float uP,uDir,uMode,uTime,uJit,uGlow,uPad,uRows;",
+    "uniform vec2 uEx;",
+    "uniform vec3 uCol;",
+    "float hash(float n){return fract(sin(n)*43758.5453123);}",
+    "vec4 samp(sampler2D t,vec2 uv){float k=step(0.,uv.x)*step(uv.x,1.)*step(0.,uv.y)*step(uv.y,1.);return texture2D(t,clamp(uv,0.,1.))*k;}",
+    "void main(){",
+    "  float d=(vUv.y-uP)*uDir;",                       /* >0 ahead of the line (old picture), <0 behind it (new picture) */
+    "  float near=exp(-abs(d)*34.);",
+    "  float row=floor(vUv.y*uRows);",
+    "  float j=(hash(row*1.73+floor(uTime*30.)*7.1)-.5)*.026*uJit*near;",
+    "  j+=(hash(floor(vUv.y*uRows*.2)+floor(uTime*12.)*3.3)-.5)*.01*uJit*exp(-abs(d)*12.)*step(d,0.);",
+    "  vec2 uv=vec2((vUv.x-uPad)/(1.-2.*uPad)+j,vUv.y);",
+    "  vec4 oldc;vec4 newc;float sil;",
+    "  if(uMode<.5){oldc=samp(uA,uv);newc=samp(uB,uv);sil=max(oldc.a,newc.a);}",
+    "  else{vec4 m=samp(uM,uv);vec4 body=samp(uB,uv);vec4 sk=samp(uA,uv);",
+    "    vec4 dark=vec4(vec3(.0235,.0392,.0549)*.62,.62);",
+    "    vec4 c0=dark+body*(1.-dark.a);c0=sk+c0*(1.-sk.a);oldc=c0*m.a;newc=vec4(0.);sil=m.a;}",
+    "  float sw=step(d,0.);",
+    "  vec4 c=mix(oldc,newc,sw);",
+    "  float core=exp(-abs(d)*1100.);",
+    "  float halo=exp(-abs(d)*70.);",
+    "  float trail=sw*exp(-abs(d)*13.);",
+    "  float scan=.5+.5*sin(vUv.y*uRows*3.14159);",
+    "  float ew=(uEx.y-uEx.x)*.2;",
+    "  float ends=smoothstep(uEx.x,uEx.x+ew,vUv.x)*smoothstep(uEx.y,uEx.y-ew,vUv.x);",
+    "  vec3 hot=mix(uCol,vec3(1.,.97,.88),.65);",
+    "  float e=(halo*.5+trail*.3*scan)*sil*uGlow;",
+    "  float l=core*ends*(.3+.7*sil)*min(uGlow,1.5);",
+    "  vec3 rgb=c.rgb*(1.+trail*.5*uGlow)+uCol*e+hot*l;",
+    "  float a=clamp(max(c.a,max(l,e*.6)),0.,1.);",
+    "  gl_FragColor=vec4(min(rgb,vec3(1.)),a);",
+    "}"
+  ].join("\n");
+  function ease(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function urlOf(v){ var m = /url\((['"]?)(.*?)\1\)/.exec(v || ""); return m ? m[2] : ""; }
+  var WIPE = {busy:null};
+  /* run one wipe on a figure. o: {fig, a, b, mask, mode, dir, xl, done} ; returns a promise<bool> (false = let the plain version run) */
+  function wipeRun(o){
+    var fig = o.fig, r = fig.getBoundingClientRect(); if (r.width < 20 || r.height < 20) return Promise.resolve(false);
+    var srcs = [o.a, o.b].concat(o.mask ? [o.mask] : []);
+    return within(450, Promise.all(srcs.map(function(s){ return typeof s === "string" ? loadImg(s) : Promise.resolve(s); }))).then(function(ims){
+      if (!fig.isConnected) return false;
+      var cv = D.createElement("canvas"); cv.className = "glw" + (o.xl ? " xl" : ""); cv.setAttribute("aria-hidden", "true");
+      var dpr = GL.dpr(), pad = o.xl ? 0 : .07 / 1.14;
+      cv.width = Math.round(r.width * (o.xl ? 1 : 1.14) * dpr); cv.height = Math.round(r.height * dpr);
+      var g = GL.make(cv, FRAG); if (!g) return false;
+      g.tex(0, "uA", ims[0]); g.tex(1, "uB", ims[1]); if (ims[2]) g.tex(2, "uM", ims[2]); else { var l = g.u("uM"); if (l) g.gl.uniform1i(l, 1); }
+      var zo = D.body.classList.contains("zolo");
+      g.f("uMode", o.mode); g.f("uDir", o.dir); g.f("uPad", pad); g.f("uRows", Math.round(r.height / 3)); g.f("uJit", P("wipe.jit")); g.f("uGlow", P("wipe.glow"));
+      if (zo) g.f("uCol", .80, .90, .96); else g.f("uCol", .94, .76, .44);
+      var y0 = o.box ? o.box[1] : 0, y1 = o.box ? o.box[3] : 1, span = y1 - y0;
+      g.f("uEx", o.box ? o.box[0] : 0, o.box ? o.box[2] : 1);
+      var from = o.dir > 0 ? y0 - .06 * span - .01 : y1 + .06 * span + .01, to = o.dir > 0 ? y1 + .06 * span + .01 : y0 - .06 * span - .01;
+      var dur = Math.max(.2, P("wipe.t")) * 1000 * (o.box ? Math.max(.5, Math.min(1, span + .25)) : 1), t0 = 0, first = true;
+      return new Promise(function(res){
+        function end(ok){ tick.remove(frame); WIPE.busy = null; if (o.done) o.done(ok); requestAnimationFrame(function(){ cv.remove(); g.kill(); }); res(ok); }
+        function frame(t){
+          if (!fig.isConnected || g.lost){ end(false); return; }
+          if (!t0) t0 = t; var k = Math.min(1, (t - t0) / dur);
+          g.f("uP", from + (to - from) * ease(k)); g.f("uTime", (t - t0) / 1000); g.draw();
+          if (first){ first = false; fig.appendChild(cv); if (o.start) o.start(); }
+          if (k >= 1) end(true);
+        }
+        WIPE.busy = {end:end}; tick.add(frame);
+      });
+    }, function(){ return false; });
+  }
+  /* Clothed <-> Bare <-> Nude: the app renders the figure with .cl-on / .cl-off and a CSS wipe. With WebGL we hold that wipe at
+     its first frame, run ours over it, then leave the figure in the wipe's end state. Anything goes wrong: the CSS wipe plays. */
+  function clothWipe(){
+    var fig = D.getElementById("bodyfig"); if (!fig || reduce || !P("wipe.on") || CTX.tab !== "ware") return;
+    var on = fig.classList.contains("cl-on"), off = fig.classList.contains("cl-off"); if (!on && !off) return;
+    if (fig._glw || !GL.test()) return; fig._glw = 1;
+    var cloth = fig.querySelector(".cloth"), img = D.getElementById("bodyimg"); if (!cloth || !img) return;
+    var top = urlOf(cloth.style.getPropertyValue("--ci")), base = img.currentSrc || img.src; if (!top || !base) return;
+    fig.classList.add("glwipe");
+    /* cl-off: the line runs down, the cloth layer (old) goes, the base shows. cl-on: the line runs up, the cloth layer (new) arrives. */
+    wipeRun({fig:fig, a:on ? base : top, b:on ? top : base, mode:0, dir:on ? -1 : 1,
+      start:function(){ fig.classList.add("glrun"); },
+      done:function(ok){
+        if (!fig.isConnected) return;
+        if (ok){ var ln = fig.querySelector(".clline"); if (ln) ln.remove(); if (off){ var c = fig.querySelector(".cloth"); if (c) c.remove(); } fig.classList.remove("cl-on", "cl-off"); }
+        fig.classList.remove("glwipe", "glrun");
+      }
+    }).then(function(ok){ if (!ok && fig.isConnected) fig.classList.remove("glwipe", "glrun"); });
+  }
+  /* Muscle / Nerves / Bone: the app swaps one CSS variable. We draw the old layer over the new one inside the selected parts and wipe it away. */
+  FX.xl = function(fig, oldUrl, newUrl, apply){
+    try {
+      var regs = regsOf(fig && fig.dataset.sel), F = CTX.fig || {};
+      if (!fig || reduce || !P("wipe.on") || !GL.test() || !regs.length || !F.m || oldUrl === newUrl || fig.classList.contains("boot") || fig.classList.contains("nanoon") || WIPE.busy){ apply(); return; }
+      var img = D.getElementById("bodyimg"), have = regs.filter(function(r){ return fig.querySelector(".xr-" + r); }); if (!have.length || !img){ apply(); return; }
+      var applied = false, go = function(){ if (!applied){ applied = true; apply(); } };
+      within(450, Promise.all(have.map(function(r){ return loadImg(F.m + r + ".png"); }))).then(function(ms){
+        var w = 360, h = Math.round(360 * img.naturalHeight / Math.max(1, img.naturalWidth)), c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
+        ms.forEach(function(m){ x.drawImage(m, 0, 0, w, h); });
+        var bx = [100, 100, 0, 0]; have.forEach(function(r){ var b = regBox(r); if (b){ bx[0] = Math.min(bx[0], b[0]); bx[1] = Math.min(bx[1], b[1]); bx[2] = Math.max(bx[2], b[2]); bx[3] = Math.max(bx[3], b[3]); } });
+        var box = bx[2] > bx[0] ? [Math.max(0, bx[0] / 100 - .1), bx[1] / 100, Math.min(1, bx[2] / 100 + .1), bx[3] / 100] : null;
+        return wipeRun({fig:fig, a:oldUrl, b:img.currentSrc || img.src, mask:c, mode:1, dir:1, xl:true, box:box, start:go});
+      }).then(go, go);
+    } catch(e){ apply(); }
+  };
+
+  /* ================= the app's hook ================= */
+  FX.rendered = function(ctx){
+    CTX = ctx || {};
+    if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
+    cssVars(); panelSync();
+    wareAfter(); armAfter(); lightScan(); clothWipe();
+  };
+  cssVars();
+})();
+</script>
 
 <script id="io-app">
 (function(){
@@ -3864,7 +4346,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         var nm2 = editing ? f(p+".name",{fmt:1}) + del(p) : tn ? wRef(r.name, '<span class="tone-' + tn + '">' + toneName({name:r.name, tone:tn, tags:tagList(r.name)}) + '</span>') : wRef(r.name, '<span>' + tagName(r.name) + '</span>');
         return '<tr class="' + (tn ? 'row-' + tn : '') + '"><td class="name"><span class="flex">' + nm2 + '</span></td><td class="n dmg">' + (!editing && /^martial arts\b/i.test(String(r.name).trim()) ? (nanoOn() ? nzv(maDice(effBody()), "Nanomatrix: BODY " + effBody()) : '<span title="BODY ' + statV("BODY") + '">' + maDice(statV("BODY")) + '</span>') : f(p+".dmg")) + '</td><td class="n">' + f(p+".rof",{num:1,dash:1}) + '</td></tr>'; }).join("") +
       '</tbody></table></div>' + add("weapons","Add weapon") + '</section>';
-    var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box"><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
+    var cyber = (!editing && WHO === "zolo" && !(S.cyberweapons || []).length) ? '' : '<section class="box armbox" data-lit><div class="hb"><span class="sp">The Arm</span><span class="c">DMG</span><span class="c">Ammo</span><span class="c">ROF</span></div><div class="tbl-wrap"><table class="t"><tbody>' +
       S.cyberweapons.map(function(r0,i){ var p="cyberweapons."+i, r = editing || r0.ind ? r0 : Object.assign({}, r0, {tone:r0.load ? palmTone() || wTone(r0) : wTone(r0)});
         /* a weapon followed by indented rows (Magi Palm canisters, Medical Hand loads) folds them under a drop-down */
         var kids = 0; if (!r.ind) for (var k = i + 1; k < S.cyberweapons.length && S.cyberweapons[k].ind; k++) kids++;
@@ -6895,6 +7377,17 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
     if (WHO === "zolo" && tab === "dossier" && !zGlintT) zGlint();
     paintViewers(); beatOnRender();
     window.scrollTo(0, y);
+    fxAfter();
+  }
+  /* FX layer (id="io-fx"): reticle, Arm circuits, scan-wipe, key light and the admin tuning panel. Optional: the page works without it. */
+  function fxAfter(){
+    if (!window.IOFX || !IOFX.rendered) return;
+    var F = tab === "ware" ? FIG() : null, base = WHO === "zolo" && IO ? IO : S;
+    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave}); } catch(e){}
+  }
+  function fxSave(v){
+    var base = WHO === "zolo" && IO ? IO : S; base.fx = v;
+    return HOSTED ? pushState("meta", {name:"fx", value:v}) : persist(base);
   }
 
   /* ---------- Google Sheet sync (hosted copy only) ----------
@@ -7145,6 +7638,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
       if (j.meta && j.meta.lo && j.meta.lo.zpins && S.lo && !pinDrag) S.lo.zpins = j.meta.lo.zpins;
       if (j.meta && j.meta.lo && typeof j.meta.lo.palm === "string" && S.lo) S.lo.palm = j.meta.lo.palm;
       if (j.meta && j.meta.arm && typeof j.meta.arm === "object") S.arm = {on:!!j.meta.arm.on};
+      if (j.meta && j.meta.fx && typeof j.meta.fx === "object") S.fx = j.meta.fx;
       if (j.meta && j.meta.chips && Array.isArray(j.meta.chips.out)) S.chips = {out:j.meta.chips.out.map(String)};
       if (j.meta && j.meta.lo && Array.isArray(j.meta.lo.hide) && S.lo) S.lo.hide = j.meta.lo.hide;
       if (j.meta && j.meta.nude && typeof j.meta.nude === "object"){ var nio = WHO === "zolo" ? IO : S; if (nio) nio.nude = j.meta.nude.wk ? {salt:String(j.meta.nude.salt), iv:String(j.meta.nude.iv), wk:String(j.meta.nude.wk)} : {}; }
@@ -7317,7 +7811,7 @@ body.zolo .whosw button[aria-pressed="true"]{color:#0b0c0e;background:var(--gold
         nuWrap(npw, K3).then(function(w){ nuObj().nude = w; nuDone("Password saved"); nuSave(); }, function(){ nuDone("Couldn’t set the password in this browser", "set"); }); return; }
       return; }
 
-    if (b.dataset.xl){ XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel) bf.style.setProperty("--sk", "url(" + XLSRC(F2) + ")"); document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
+    if (b.dataset.xl){ var xlOld = XLSRC(FIG()); XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel){ var xlNew = XLSRC(F2), xlSet = function(){ bf.style.setProperty("--sk", "url(" + xlNew + ")"); }; if (window.IOFX && IOFX.xl) IOFX.xl(bf, xlOld, xlNew, xlSet); else xlSet(); } document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } var zci = document.querySelector(".lo-con .config img"); if (zci) zci.src = "img/zolo/full-" + zk + ".webp"; document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
     if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; pwTab = true; repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
