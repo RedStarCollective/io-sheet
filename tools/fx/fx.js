@@ -20,7 +20,8 @@
     "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
     "id.on":1, "id.holo":.45, "id.spin":90,
-    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1
+    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
+    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -39,7 +40,11 @@
     {g:"Rep timeline spine", on:"spine.on", k:[]},
     {g:"Posse key light", on:"pose.on", k:[["pose.lit","Light strength",0,1.5,.05],["pose.dof","Blur behind (px)",0,5,.1]]},
     {g:"Vehicle engines and lights", on:"veh.on", k:[["veh.thr","Thruster glow",0,1.5,.05],["veh.strip","Light strip",0,1.5,.05]]},
-    {g:"Treemap glass", on:"glass.on", k:[]}
+    {g:"Treemap glass", on:"glass.on", k:[]},
+    {g:"Living portrait (Dossier)", on:"live.on", k:[["live.par","Depth parallax",0,3,.05],["live.rel","Relight",0,2,.05],["live.spec","Gold arm reflection",0,2.5,.05]]},
+    {g:"Rep portraits in depth", on:"r2.on", k:[["r2.par","Depth parallax",0,3,.05]]},
+    {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
+    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -52,6 +57,7 @@
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
+    s.setProperty("--foil", String(P("foil.str")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
@@ -66,6 +72,7 @@
     if (/^sky\./.test(k)) skySync();
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
+    if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
@@ -805,12 +812,278 @@
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
   }
 
+  /* ================= Phase 4: hero pieces =================
+     All four use flat art and a depth map worked out in the browser: for cut-out art the silhouette is inflated into a
+     rounded volume (distance from the edge), with a little of the picture's own light on top; for framed art (Rep
+     portraits) depth comes from where the light falls and from the framing. A real depth map can replace either later. */
+  function depthOf(img, cut, w){
+    w = w || 160; var iw0 = img.naturalWidth || img.width, ih0 = img.naturalHeight || img.height, h = Math.max(2, Math.round(w * ih0 / Math.max(1, iw0)));
+    var c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d", {willReadFrequently:true}); x.drawImage(img, 0, 0, w, h);
+    var px = x.getImageData(0, 0, w, h).data, n = w * h, a = new Float32Array(n), lum = new Float32Array(n), d = new Float32Array(n), i, j, k;
+    for (i = 0; i < n; i++){ a[i] = px[i * 4 + 3] / 255; lum[i] = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255; }
+    function blur(src, r){ var t = new Float32Array(n), o = new Float32Array(n), y, xx, s, cnt;
+      for (y = 0; y < h; y++){ s = 0; cnt = 0; for (xx = -r; xx < w + r; xx++){ if (xx + r < w){ s += src[y * w + xx + r]; cnt++; } if (xx - r - 1 >= 0){ s -= src[y * w + xx - r - 1]; cnt--; } if (xx >= 0 && xx < w) t[y * w + xx] = s / Math.max(1, cnt); } }
+      for (xx = 0; xx < w; xx++){ s = 0; cnt = 0; for (y = -r; y < h + r; y++){ if (y + r < h){ s += t[(y + r) * w + xx]; cnt++; } if (y - r - 1 >= 0){ s -= t[(y - r - 1) * w + xx]; cnt--; } if (y >= 0 && y < h) o[y * w + xx] = s / Math.max(1, cnt); } }
+      return o; }
+    if (cut){
+      /* chamfer distance from the silhouette's edge */
+      var INF = 1e9; for (i = 0; i < n; i++) d[i] = a[i] > .5 ? INF : 0;
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; if (!d[k]) continue; var m = d[k];
+        if (i > 0) m = Math.min(m, d[k - 1] + 1); if (j > 0){ m = Math.min(m, d[k - w] + 1); if (i > 0) m = Math.min(m, d[k - w - 1] + 1.414); if (i < w - 1) m = Math.min(m, d[k - w + 1] + 1.414); } d[k] = m; }
+      for (j = h - 1; j >= 0; j--) for (i = w - 1; i >= 0; i--){ k = j * w + i; if (!d[k]) continue; var m2 = d[k];
+        if (i < w - 1) m2 = Math.min(m2, d[k + 1] + 1); if (j < h - 1){ m2 = Math.min(m2, d[k + w] + 1); if (i < w - 1) m2 = Math.min(m2, d[k + w + 1] + 1.414); if (i > 0) m2 = Math.min(m2, d[k + w - 1] + 1.414); } d[k] = m2; }
+      var mx = 0; for (i = 0; i < n; i++) if (d[i] < INF && d[i] > mx) mx = d[i];
+      var lb = blur(lum, Math.max(1, Math.round(w / 60)));
+      for (i = 0; i < n; i++){ var t2 = Math.min(1, d[i] / Math.max(1, mx * .95)); d[i] = a[i] > .02 ? Math.sqrt(t2 * (2 - t2)) * .72 + lb[i] * .28 : 0; }
+      d = blur(d, Math.max(1, Math.round(w / 80)));
+    } else {
+      var lb2 = blur(lum, Math.max(2, Math.round(w / 14))), lo = 1, hi = 0;
+      for (i = 0; i < n; i++){ if (lb2[i] < lo) lo = lb2[i]; if (lb2[i] > hi) hi = lb2[i]; }
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; var dx = (i / w - .5) / .55, dy = (j / h - .38) / .62, rad = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy));
+        d[k] = .5 * ((lb2[k] - lo) / Math.max(.01, hi - lo)) + .5 * rad * rad * (3 - 2 * rad); }
+      d = blur(d, Math.max(1, Math.round(w / 40)));
+    }
+    var out = D.createElement("canvas"); out.width = w; out.height = h; var ox = out.getContext("2d"), od = ox.createImageData(w, h);
+    for (i = 0; i < n; i++){ var v = Math.round(Math.max(0, Math.min(1, d[i])) * 255); od.data[i * 4] = od.data[i * 4 + 1] = od.data[i * 4 + 2] = v; od.data[i * 4 + 3] = 255; }
+    ox.putImageData(od, 0, 0); return out;
+  }
+  FX.depthOf = depthOf;
+  var STARS_GLSL = "float h21(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}" +
+    "float starf(vec2 p){vec2 g=floor(p),f=fract(p)-.5;float r=h21(g);return r>.9?smoothstep(.12,0.,length(f-(vec2(h21(g+1.3),h21(g+2.1))-.5)*.6))*(r-.9)*10.:0.;}";
+
+  /* ---- D2: the living portrait ---- */
+  var LIVEF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep,uGold;uniform vec2 uPtr,uLight;uniform float uT,uPar,uRel,uSpec,uHasGold,uAsp;",
+    STARS_GLSL,
+    "void main(){",
+    "  vec2 uv=vUv;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=vUv-(d-.45)*uPtr*uPar;d=texture2D(uDep,uv).r;}",
+    "  vec4 c=texture2D(uImg,uv);if(c.a<.003){gl_FragColor=vec4(0.);return;}",
+    "  vec2 e=vec2(1./160.,1./160.*uAsp);",
+    "  float dx=texture2D(uDep,uv+vec2(e.x,0.)).r-texture2D(uDep,uv-vec2(e.x,0.)).r;",
+    "  float dy=texture2D(uDep,uv+vec2(0.,e.y)).r-texture2D(uDep,uv-vec2(0.,e.y)).r;",
+    "  vec3 n=normalize(vec3(-dx*5.,dy*5.,1.));",
+    "  vec3 L=normalize(vec3((uLight-uv)*vec2(1.,-1.),.55));",
+    "  float dif=dot(n,L);",
+    "  vec3 rgb=c.rgb/max(c.a,.001);",
+    "  rgb*=1.+uRel*(dif-.42)*.6;",
+    "  float rim=pow(1.-n.z,1.6)*max(dot(normalize(n.xy+1e-4),L.xy),0.);",
+    "  rgb+=vec3(1.,.82,.55)*rim*uRel*.5;",
+    "  float g=uHasGold>.5?texture2D(uGold,uv).a:0.;",
+    "  if(g>.01){",
+    "    vec3 R=reflect(vec3(0.,0.,-1.),n);vec2 ru=R.xy*3.+uPtr*.6+vec2(uT*.01,0.);",
+    "    vec3 env=vec3(.06,.04,.03)+vec3(.95,.62,.3)*smoothstep(-.4,-.9,R.y)*.55+vec3(1.,.93,.8)*(starf(ru*9.)+starf(ru*17.+7.)*.7);",
+    "    float sp=pow(max(dot(reflect(-L,n),vec3(0.,0.,1.)),0.),22.);",
+    "    rgb+=g*uSpec*(env*vec3(1.,.8,.5)*.55+vec3(1.,.9,.7)*sp*.9);",
+    "  }",
+    "  gl_FragColor=vec4(clamp(rgb,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var LIVE = {cv:null, g:null, wrap:null, ptr:[0,0], tp:[0,0], vis:false, key:""};
+  function liveStop(){ tick.remove(liveFrame); if (LIVE.g) LIVE.g.kill(); if (LIVE.cv) LIVE.cv.remove(); if (LIVE.wrap) LIVE.wrap.classList.remove("fxlive-on"); LIVE.cv = LIVE.g = LIVE.wrap = null; LIVE.key = ""; }
+  function liveFrame(t){
+    var w = LIVE.wrap, g = LIVE.g; if (!w || !w.isConnected || !g || g.lost){ liveStop(); return; }
+    var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight) return;
+    var cx = r.left + r.width / 2, cy = r.top + r.height * .35;
+    LIVE.tp = [Math.max(-1, Math.min(1, (L.x - cx) / (W.innerWidth * .5))), Math.max(-1, Math.min(1, (L.y - cy) / (W.innerHeight * .5)))];
+    LIVE.ptr[0] += (LIVE.tp[0] - LIVE.ptr[0]) * .08; LIVE.ptr[1] += (LIVE.tp[1] - LIVE.ptr[1]) * .08;
+    var dpr = GL.dpr(), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    if (LIVE.cv.width !== cw || LIVE.cv.height !== ch){ LIVE.cv.width = cw; LIVE.cv.height = ch; }
+    g.f("uPtr", LIVE.ptr[0], -LIVE.ptr[1]); g.f("uLight", (L.x - r.left) / r.width, (L.y - r.top) / r.height); g.f("uT", t / 1000);
+    g.f("uPar", P("live.par") * .03); g.f("uRel", P("live.rel")); g.f("uSpec", P("live.spec"));
+    g.draw();
+    if (!w.classList.contains("fxlive-on")) w.classList.add("fxlive-on");
+  }
+  function liveAfter(){
+    var w = CTX.tab === "dossier" && CTX.who !== "zolo" && !CTX.editing ? D.querySelector(".portrait.iop .iopw") : null;
+    var img = w && w.querySelector("picture img"), want = !!(w && img && P("live.on") && GL.test() && !reduce && W.innerWidth > 880);
+    var key = want ? img.getAttribute("src") : "";
+    if (!want){ liveStop(); return; }
+    if (LIVE.wrap === w && LIVE.key === key) return;
+    liveStop(); LIVE.key = key;
+    var gsrc = (w.querySelector(".iogold") || {style:{getPropertyValue:function(){ return ""; }}}).style.getPropertyValue("--gm"); gsrc = urlOf(gsrc);
+    Promise.all([loadImg(key), gsrc ? loadImg(gsrc).catch(function(){ return null; }) : Promise.resolve(null)]).then(function(ims){
+      if (!w.isConnected || LIVE.key !== key) return;
+      var cv = D.createElement("canvas"); cv.className = "fxlive"; cv.setAttribute("aria-hidden", "true");
+      var g = GL.make(cv, LIVEF); if (!g) return;
+      var dep = depthOf(ims[0], true, 160);
+      g.tex(0, "uImg", ims[0]); g.tex(1, "uDep", dep); if (ims[1]) g.tex(2, "uGold", ims[1]); else { var l = g.u("uGold"); if (l) g.gl.uniform1i(l, 1); }
+      g.f("uHasGold", ims[1] ? 1 : 0); g.f("uAsp", ims[0].naturalWidth / ims[0].naturalHeight);
+      var pic = w.querySelector("picture"); pic.parentNode.insertBefore(cv, pic.nextSibling);
+      LIVE.cv = cv; LIVE.g = g; LIVE.wrap = w; LIVE.ptr = [0, 0]; tick.add(liveFrame);
+    }, function(){});
+  }
+
+  /* ---- R2: Rep portraits move in depth ---- */
+  var R2F = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uPtr,uS,uO;uniform float uZ,uPar;",
+    "void main(){",
+    "  vec2 base=(vUv-.5)/uZ+.5;vec2 uv=base*uS+uO;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=(base-(d-.5)*uPtr*uPar)*uS+uO;d=texture2D(uDep,uv).r;}",
+    "  vec3 c=texture2D(uImg,clamp(uv,0.,1.)).rgb;",
+    "  float v=smoothstep(1.15,.35,length((vUv-.5)*vec2(1.,1.2)));",
+    "  gl_FragColor=vec4(c*(.82+.18*v),1.);",
+    "}"].join("\n");
+  var R2 = {list:[], raf:false};
+  function r2Stop(){ tick.remove(r2Frame); R2.list.forEach(function(o){ if (o.g) o.g.kill(); if (o.cv) o.cv.remove(); if (o.fr) o.fr.classList.remove("fxr2-on"); }); R2.list = []; }
+  function r2Frame(t){
+    var any = false;
+    R2.list.forEach(function(o){
+      if (!o.fr.isConnected || o.g.lost){ return; } any = true;
+      var r = o.fr.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight || r.width < 4) return;
+      var act = o.fr.matches(":hover") || (o.fr.classList.contains("now") && !o.fr.parentNode.matches(":hover"));
+      var tx = act ? Math.max(-1, Math.min(1, (L.x - (r.left + r.width / 2)) / (r.width * .8))) : 0, ty = act ? Math.max(-1, Math.min(1, (L.y - (r.top + r.height / 2)) / (r.height * .8))) : 0;
+      var drift = act ? .35 * Math.sin(t / 1000 * .35 + o.ph) : 0;
+      o.p[0] += (tx + drift - o.p[0]) * .06; o.p[1] += (ty - o.p[1]) * .06; o.z += ((act ? 1.06 : 1.0) - o.z) * .04;
+      var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+      if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+      /* object-fit: cover with the frame's object-position */
+      var iw = o.im.naturalWidth, ih = o.im.naturalHeight, s = Math.max(r.width / iw, r.height / ih), vw = r.width / (iw * s), vh = r.height / (ih * s);
+      g2(o, "uS", vw, vh); g2(o, "uO", (1 - vw) * o.pos[0], (1 - vh) * o.pos[1]);
+      o.g.f("uPtr", -o.p[0], -o.p[1]); o.g.f("uZ", o.z); o.g.f("uPar", P("r2.par") * .035); o.g.draw();
+      if (!o.fr.classList.contains("fxr2-on")) o.fr.classList.add("fxr2-on");
+    });
+    if (!any) r2Stop();
+  }
+  function g2(o, n, a, b){ o.g.f(n, a, b); }
+  function r2After(){
+    r2Stop();
+    if (CTX.tab !== "rep" || CTX.editing || !P("r2.on") || !GL.test() || reduce) return;
+    [].forEach.call(D.querySelectorAll(".film .frame"), function(fr, i){
+      var img = fr.querySelector("img"); if (!img) return;
+      var op = (img.style.objectPosition || "50% 50%").split(/\s+/).map(function(v){ return parseFloat(v) / 100; });
+      loadImg(img.getAttribute("src")).then(function(im){
+        if (!fr.isConnected) return;
+        var cv = D.createElement("canvas"); cv.className = "fxr2"; cv.setAttribute("aria-hidden", "true");
+        var g = GL.make(cv, R2F); if (!g) return; g.gl.disable(g.gl.BLEND);
+        g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, false, 128));
+        fr.insertBefore(cv, img.nextSibling);
+        R2.list.push({fr:fr, cv:cv, g:g, im:im, pos:[isNaN(op[0]) ? .5 : op[0], isNaN(op[1]) ? .5 : op[1]], p:[0, 0], z:1, ph:i * 1.7});
+        tick.add(r2Frame);
+      }, function(){});
+    });
+  }
+
+  /* ---- N2: true foil on the opened fan card ---- */
+  var FOILF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uTilt;uniform float uT;",
+    STARS_GLSL,
+    "vec3 pal(float t){t=fract(t);vec3 a=vec3(.85,.62,.28),b=vec3(1.,.45,.55),c=vec3(.62,.38,1.),d=vec3(1.,.78,.42);",
+    "  return t<.25?mix(a,b,t*4.):t<.5?mix(b,c,(t-.25)*4.):t<.75?mix(c,d,(t-.5)*4.):mix(d,a,(t-.75)*4.);}",
+    "void main(){",
+    "  vec4 c=texture2D(uImg,vUv);if(c.a<.01){gl_FragColor=vec4(0.);return;}",
+    "  float dp=texture2D(uDep,vUv).r;",
+    "  vec2 e=vec2(1./128.,0.);float dx=texture2D(uDep,vUv+e.xy).r-texture2D(uDep,vUv-e.xy).r,dy=texture2D(uDep,vUv+e.yx).r-texture2D(uDep,vUv-e.yx).r;",
+    "  vec3 n=normalize(vec3(-dx*3.,-dy*3.,1.));",
+    "  float lum=dot(c.rgb/max(c.a,.001),vec3(.3,.59,.11));",
+    "  float film=dot(n.xy,uTilt)*1.6+(vUv.x*.9+vUv.y*.6)+dot(uTilt,vec2(.9,.6))*1.2+lum*.35;",
+    "  vec3 col=pal(film);",
+    "  float band=.35+.65*pow(.5+.5*sin(film*6.283*1.5),2.);",
+    "  float mid=smoothstep(.12,.45,lum)*(1.-smoothstep(.85,1.,lum));",
+    "  vec2 sg=vUv*vec2(70.,98.);float sp=starf(sg+floor(uTilt*8.))*step(.3,lum);",
+    "  vec3 o=mix(vec3(.5),col,band*mid)+vec3(.5)*sp;",
+    "  gl_FragColor=vec4(clamp(o,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var FOIL = {cv:null, g:null, aw:null, card:null, src:"", tilt:[0,0]};
+  function foilStop(){ tick.remove(foilFrame); if (FOIL.g) FOIL.g.kill(); if (FOIL.cv) FOIL.cv.remove(); if (FOIL.aw) FOIL.aw.classList.remove("fxfoil-on"); FOIL.cv = FOIL.g = FOIL.aw = FOIL.card = null; FOIL.src = ""; }
+  function foilFrame(t){
+    var aw = FOIL.aw, g = FOIL.g; if (!aw || !aw.isConnected || !g || g.lost || !aw.closest(".fnspot.on")){ foilStop(); return; }
+    var cs = FOIL.card.style, px = parseFloat(cs.getPropertyValue("--px")) || 0, py = parseFloat(cs.getPropertyValue("--py")) || 0;
+    FOIL.tilt[0] += (px - FOIL.tilt[0]) * .2; FOIL.tilt[1] += (py - FOIL.tilt[1]) * .2;
+    var r = aw.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    if (cw < 4 || ch < 4) return;
+    if (FOIL.cv.width !== cw || FOIL.cv.height !== ch){ FOIL.cv.width = cw; FOIL.cv.height = ch; }
+    g.f("uTilt", FOIL.tilt[0] * 2.2, FOIL.tilt[1] * 2.2); g.f("uT", t / 1000); g.draw();
+    if (!aw.classList.contains("fxfoil-on")) aw.classList.add("fxfoil-on");
+  }
+  function foilWatch(){
+    var aw = P("foil.on") && !reduce && GL.test() ? D.querySelector(".fnspot.on .fcard.big .fc-aw") : null, img = aw && aw.querySelector("img.fc-art:not(.fc-holo)");
+    if (!aw || !img){ if (FOIL.aw) foilStop(); return; }
+    var src = img.getAttribute("src"); if (FOIL.aw === aw && FOIL.src === src) return;
+    foilStop(); FOIL.src = src;
+    loadImg(src).then(function(im){
+      if (!aw.isConnected || FOIL.src !== src) return;
+      var cv = D.createElement("canvas"); cv.className = "fxfoil"; cv.setAttribute("aria-hidden", "true");
+      var g = GL.make(cv, FOILF); if (!g) return;
+      g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, true, 128));
+      aw.appendChild(cv); FOIL.cv = cv; FOIL.g = g; FOIL.aw = aw; FOIL.card = aw.closest(".fcard.big"); FOIL.tilt = [0, 0]; tick.add(foilFrame);
+    }, function(){});
+  }
+  var foilMO = new MutationObserver(function(){ clearTimeout(foilMO.t); foilMO.t = setTimeout(foilWatch, 60); });
+
+  /* ---- W5: the Ware figure turns in depth ---- */
+  var TURNF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform float uA,uPad,uDZ,uGlow;uniform vec3 uCol;",
+    "void main(){",
+    "  float ca=cos(uA),sa=sin(uA);",
+    "  float xo=(vUv.x-.5)*(1.+2.*uPad);",                       /* output x, in units of the figure's width, centred */
+    "  float xs=xo/max(ca,.08),dz=0.;",
+    "  for(int i=0;i<4;i++){vec2 su=vec2(xs+.5,vUv.y);dz=texture2D(uDep,su).r*step(0.,su.x)*step(su.x,1.)*uDZ;xs=(xo-dz*sa)/max(ca,.08);}",
+    "  vec2 su=vec2(xs+.5,vUv.y);",
+    "  if(su.x<0.||su.x>1.){gl_FragColor=vec4(0.);return;}",
+    "  vec4 c=texture2D(uImg,su);",
+    "  float e=.02;float gx=(texture2D(uDep,su+vec2(e,0.)).r-texture2D(uDep,su-vec2(e,0.)).r)/(2.*e)*uDZ;",
+    "  float facing=clamp((ca+gx*sa)/sqrt(1.+gx*gx),0.,1.);",                  /* how square the surface sits to the viewer as it turns */
+    "  vec3 rgb=c.rgb*(.45+.55*facing);",
+    "  float rim=pow(1.-facing,4.)*abs(sa)*smoothstep(.02,.3,c.a);",
+    "  rgb+=uCol*rim*uGlow*.35*c.a;",
+    "  gl_FragColor=vec4(rgb,c.a);",
+    "}"].join("\n");
+  function turnSnap(fig){
+    var img = fig.querySelector("#bodyimg"); if (!img || !img.naturalWidth) return null;
+    var w = Math.min(520, img.naturalWidth), h = Math.round(w * img.naturalHeight / img.naturalWidth), c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
+    var clo = fig.querySelector(".cloth"), cs = clo && getComputedStyle(clo);
+    if (!(clo && fig.classList.contains("clothed"))) x.drawImage(img, 0, 0, w, h);
+    return {c:c, cloth:clo && fig.classList.contains("clothed") ? urlOf(clo.style.getPropertyValue("--ci")) : "", w:w, h:h, img:img};
+  }
+  function turnTex(fig){
+    var s = turnSnap(fig); if (!s) return Promise.reject();
+    if (!s.cloth) return Promise.resolve(s.c);
+    return loadImg(s.cloth).then(function(ci){ s.c.getContext("2d").drawImage(ci, 0, 0, s.w, s.h); return s.c; });
+  }
+  FX.turn = function(fig, doRender, dir){
+    try {
+      if (!fig || reduce || !P("turn.on") || !GL.test() || fig.classList.contains("boot")) return false;
+      var R = fig.getBoundingClientRect(); if (R.width < 20) return false;
+      var pad = .3, cv = D.createElement("canvas"); cv.className = "fxturn"; cv.setAttribute("aria-hidden", "true");
+      var dpr = GL.dpr(); cv.width = Math.round(R.width * (1 + 2 * pad) * dpr); cv.height = Math.round(R.height * dpr);
+      cv.style.left = (R.left + W.scrollX - R.width * pad) + "px"; cv.style.top = (R.top + W.scrollY) + "px"; cv.style.width = (R.width * (1 + 2 * pad)) + "px"; cv.style.height = R.height + "px";
+      var g = GL.make(cv, TURNF); if (!g) return false;
+      var zo = D.body.classList.contains("zolo"), T = Math.max(.15, P("turn.t")) * 1000, sgn = dir === "back" ? 1 : -1;
+      g.f("uPad", pad); g.f("uDZ", P("turn.depth") * .22); g.f("uGlow", 1.2); if (zo) g.f("uCol", .82, .9, .96); else g.f("uCol", 1., .8, .48);
+      var done = false;
+      function finish(){ if (done) return; done = true; tick.remove(fr); cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); }
+      function run(from, to, dur, ease0, then){ var t0 = 0; fr = function(t){ if (g.lost){ finish(); return; } if (!t0) t0 = t; var k = Math.min(1, (t - t0) / dur), e = ease0(k); g.f("uA", from + (to - from) * e); g.draw(); if (k >= 1){ tick.remove(fr); then(); } }; tick.add(fr); }
+      var fr = null;
+      return turnTex(fig).then(function(tex){
+        var dep = depthOf(tex, true, 96); g.tex(0, "uImg", tex); g.tex(1, "uDep", dep);
+        g.f("uA", 0); g.draw(); D.body.appendChild(cv); fig.classList.add("fxturning");
+        run(0, sgn * 1.45, T * .45, function(k){ return k * k * (3 - 2 * k) * k; }, function(){
+          doRender();
+          var nf = D.getElementById("bodyfig"); if (!nf){ finish(); return; }
+          nf.classList.add("fxturning");
+          var ni = nf.querySelector("#bodyimg"), ready = ni && !ni.complete ? new Promise(function(res){ ni.addEventListener("load", res, {once:true}); ni.addEventListener("error", res, {once:true}); }) : Promise.resolve();
+          within(900, ready.then(function(){ return turnTex(nf); })).then(function(t2){
+            g.tex(0, "uImg", t2); g.tex(1, "uDep", depthOf(t2, true, 96));
+            run(-sgn * 1.45, 0, T * .55, function(k){ var u = 1 - k; return 1 - u * u * u; }, finish);
+          }, finish);
+        });
+      }, function(){ cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); doRender(); }) && true;
+    } catch(e){ return false; }
+  };
+
+  function heroAfter(){ liveAfter(); r2After(); foilWatch();
+    var fs = D.getElementById("fnspot"); foilMO.disconnect(); if (fs) foilMO.observe(fs, {attributes:true, childList:true, subtree:true, attributeFilter:["class", "hidden"]}); }
+
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();

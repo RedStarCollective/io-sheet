@@ -80,5 +80,11 @@ s = once(s,
   '  function loop(t){ if (t - last > 33 && !(window.IOFX && IOFX.skyOn && IOFX.skyOn())){ draw(t); last = t; } requestAnimationFrame(loop); }',
   'IOFX.skyOn && IOFX.skyOn()')
 
+# 7. Ware front/back: the FX layer turns the figure in depth; without it (or if it declines), the app's own CSS turn
+s = once(s,
+  'var bf0 = document.getElementById("bodyfig");\n      if (reduce || !bf0){ render(); return; }',
+  'var bf0 = document.getElementById("bodyfig");\n      if (reduce || !bf0){ render(); return; }\n      if (window.IOFX && IOFX.turn && IOFX.turn(bf0, render, VIEW)) return;',
+  'IOFX.turn(bf0, render, VIEW)')
+
 io.open(p, "w", encoding="utf8", newline="\n").write(s)
 print("built", len(s))
