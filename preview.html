@@ -3497,12 +3497,121 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
 .frame.fxr2-on > img{visibility:hidden}
 .frame figcaption{z-index:1}
 /* N2: true foil on the opened fan card */
-.fc-aw > canvas.fxfoil{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:overlay;opacity:var(--foil,.7)}
+.fc-aw > canvas.fxfoil{position:absolute;left:50%;bottom:0;height:112%;width:auto;max-width:none;transform:translate(calc(-50% + var(--px,0) * 12px),calc(var(--py,0) * 7px));transition:transform .5s cubic-bezier(.2,.7,.2,1);pointer-events:none;mix-blend-mode:overlay;opacity:var(--foil,.7)}
 .fc-aw.fxfoil-on > .fc-holo{opacity:0!important}
 /* W5: the Ware figure turns in depth */
 canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
 .bodyfig.fxturning > *{visibility:hidden}
 .bodyfig.fxturning{animation:none!important;transform:none!important;filter:none!important}
+
+/* =========================== The rest of the approved list =========================== */
+/* ---- G3: panel depth. The box under the pointer leans a degree toward it ---- */
+.box.fxtilt{transform:perspective(1100px) rotateX(var(--tty,0deg)) rotateY(var(--ttx,0deg));transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.box.fxtilt-out{transition:transform .5s cubic-bezier(.2,.8,.3,1)}
+.box.fxtilt > .hb{box-shadow:0 calc(var(--tsh,0) * 1px) 10px rgba(0,0,0,.35)}
+
+/* ---- G6: persona re-key (Iō ↔ Zolo) ---- */
+html.fx-rekey::view-transition-old(root){animation:none}
+html.fx-rekey::view-transition-new(root){animation:fxRekey var(--rk-t,.9s) cubic-bezier(.5,0,.3,1) both}
+@keyframes fxRekey{from{clip-path:circle(0 at var(--rkx,50%) var(--rky,10%))}to{clip-path:circle(150vmax at var(--rkx,50%) var(--rky,10%))}}
+.fxrk-ring{position:fixed;z-index:90;pointer-events:none;left:var(--rkx);top:var(--rky);width:0;height:0}
+.fxrk-ring::before{content:"";position:absolute;left:0;top:0;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;border-radius:50%;box-shadow:inset 0 0 0 2px var(--rkc,#e3eaee),inset 0 0 40px var(--rkc,#e3eaee);transform:scale(0);animation:fxRkRing var(--rk-t,.9s) cubic-bezier(.5,0,.3,1) both;opacity:.85}
+@keyframes fxRkRing{to{transform:scale(1);opacity:0}}
+
+/* ---- G9: scroll choreography (where the browser supports scroll-driven animation) ---- */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    body.fx-scroll .fngrid .fcard:not(.fxd){animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+    body.fx-scroll .ryear > .yr span{animation:fxSlide linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
+    body.fx-scroll .cf .cfs{animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+    body.fx-scroll .advplan .pl-g,body.fx-scroll .advplan section{animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+    @keyframes fxRise{from{opacity:0;translate:0 34px;filter:brightness(1.8) saturate(.4)}}
+    @keyframes fxSlide{from{opacity:0;translate:-26px 0;letter-spacing:.3em}}
+  }
+}
+
+/* ---- D3: engraved stat plates ---- */
+body.fx-plates:not(.zolo) .dossier .stat{background-image:linear-gradient(180deg,rgba(255,232,180,.05),rgba(0,0,0,.18) 60%,rgba(255,232,180,.03));box-shadow:inset 0 1px 0 rgba(255,232,180,.09),inset 0 -2px 8px rgba(0,0,0,.55);transition:transform .2s cubic-bezier(.2,.8,.3,1),box-shadow .2s;position:relative;overflow:hidden;
+  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),#f6dca0 0%,color-mix(in srgb,#f6dca0 30%,var(--frame)) 45%,var(--frame) 100%) 1}
+body.fx-plates:not(.zolo) .dossier .stat .sv .dec{text-shadow:0 -1px 0 rgba(0,0,0,.9),0 1px 0 rgba(255,236,196,.2)}
+body.fx-plates:not(.zolo) .dossier .stat::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,236,190,.22),transparent);transform:skewX(-14deg);opacity:0}
+body.fx-plates:not(.zolo) .dossier .stat:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,232,180,.14),inset 0 -2px 8px rgba(0,0,0,.55),0 8px 16px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:no-preference){ body.fx-plates:not(.zolo) .dossier .stat:hover::after{animation:fxPlate .7s cubic-bezier(.3,.1,.3,1)} @keyframes fxPlate{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}} }
+
+/* ---- D4: brush-stroke element seals ---- */
+@property --ink{syntax:'<percentage>';inherits:false;initial-value:120%}
+@media (prefers-reduced-motion:no-preference){
+  body.fx-ink .elc.fxink,body.fx-ink tr.master:hover .elc{-webkit-mask-image:linear-gradient(135deg,#000 calc(var(--ink) - 18%),rgba(0,0,0,.25) calc(var(--ink) - 6%),transparent var(--ink));mask-image:linear-gradient(135deg,#000 calc(var(--ink) - 18%),rgba(0,0,0,.25) calc(var(--ink) - 6%),transparent var(--ink));animation:fxInk calc(.75s * var(--mk,1)) cubic-bezier(.4,.1,.3,1) both,fxInkGlow calc(1.3s * var(--mk,1)) ease-out both;animation-delay:calc(var(--ii,0) * 110ms * var(--mk,1))}
+  @keyframes fxInk{from{--ink:-10%}to{--ink:125%}}
+  @keyframes fxInkGlow{0%{text-shadow:0 0 0 currentColor}45%{text-shadow:0 0 16px currentColor,0 0 3px #fff}100%{text-shadow:0 0 8px currentColor}}
+}
+
+/* ---- D5: HP and Humanity as instruments ---- */
+.hp,.hum{position:relative}
+.hp > .n,.hum > .n,.hp > .of,.hum > .of{position:relative;z-index:1}
+.fxinst{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:var(--inst,1)}
+.fxinst svg{position:absolute;left:0;top:0;height:100%;width:200%;overflow:visible}
+.fxinst path{fill:none;stroke-width:1.4;vector-effect:non-scaling-stroke}
+.fxekg path{stroke:rgba(255,80,80,.55);filter:drop-shadow(0 0 3px rgba(255,60,60,.7))}
+.fxhum path{stroke:rgba(226,184,108,.42);filter:drop-shadow(0 0 3px rgba(226,184,108,.55))}
+.hum.armd .fxhum path{stroke:rgba(255,107,98,.55);filter:drop-shadow(0 0 3px rgba(255,80,80,.7))}
+@media (prefers-reduced-motion:no-preference){
+  .fxinst svg{animation:fxScroll 3.2s linear infinite}
+  .fxhum svg{animation-duration:6s}
+  .hum.armd .fxhum svg{animation-duration:2.4s}
+  @keyframes fxScroll{to{transform:translateX(-50%)}}
+  body.fx-inst:not(.zolo) .hp > .n:first-child .dec{animation:fxBeat 1.6s ease-out infinite}
+  @keyframes fxBeat{0%,30%,100%{text-shadow:none}8%{text-shadow:0 0 12px rgba(255,80,80,.75)}18%{text-shadow:0 0 6px rgba(255,80,80,.4)}}
+}
+
+/* ---- D6: weapons with weight ---- */
+body.fx-weap:not(.zolo) .wa .t td.name :is(svg.ico,.seal){box-shadow:0 0 0 3px rgba(12,9,8,.92),0 0 0 4px rgba(181,143,82,.26),0 0 14px rgba(255,214,150,.12);border-radius:2px;background:radial-gradient(circle at 50% 35%,rgba(255,226,170,.14),transparent 75%);transition:transform .22s cubic-bezier(.2,.8,.3,1),filter .22s}
+body.fx-weap:not(.zolo) .wa .t tr:hover td.name :is(svg.ico,.seal){transform:translateX(2px) scale(1.14);filter:drop-shadow(0 0 5px rgba(255,214,150,.65))}
+@media (prefers-reduced-motion:no-preference){
+  body.fx-weap:not(.zolo) .wa .t tr:hover td.name .tn{animation:fxDash .32s cubic-bezier(.2,.8,.3,1)}
+  @keyframes fxDash{0%{translate:-8px 0;text-shadow:-8px 0 0 rgba(255,214,150,.35),-16px 0 0 rgba(255,214,150,.15)}100%{translate:0 0}}
+}
+
+/* ---- D7: the Dossier load-in signs off ---- */
+.fxsync{position:absolute;z-index:56;pointer-events:none;height:2px;background:linear-gradient(90deg,transparent,#f0cf8e 12%,#fff6dc 50%,#f0cf8e 88%,transparent);box-shadow:0 0 12px rgba(240,207,142,.8);opacity:0;animation:fxSync 1.6s cubic-bezier(.2,.7,.2,1) both}
+.fxsync b{position:absolute;right:0;top:-18px;font:700 10.5px/1 var(--f-num);letter-spacing:.3em;color:#f0cf8e;text-shadow:0 0 8px rgba(240,207,142,.7);white-space:nowrap}
+@keyframes fxSync{0%{opacity:0;transform:scaleX(.2)}18%{opacity:1;transform:scaleX(1)}70%{opacity:1}100%{opacity:0}}
+.iogold.fxsheen{animation:iosheen 1.1s cubic-bezier(.3,.1,.3,1) 1!important}
+
+/* ---- W3: film callouts on the Ware figure ---- */
+.fxcall{position:absolute;inset:0;pointer-events:none;z-index:5}
+.fxcall svg{position:absolute;left:0;top:0;overflow:visible}
+.fxcall svg path{fill:none;stroke:rgba(240,207,142,.55);stroke-width:1}
+.fxcall svg circle{fill:#f0cf8e}
+.fxcl{position:absolute;pointer-events:auto;cursor:pointer;max-width:180px;padding:3px 8px 2px;font:600 11.5px/1.25 var(--f-body);letter-spacing:.04em;color:var(--ink-2);background:rgba(8,6,5,.86);border:1px solid rgba(181,143,82,.4);border-right-width:2px;border-right-color:#f0cf8e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform-origin:100% 50%;translate:-100% 0}
+.fxcl:hover,.fxcl:focus-visible{color:var(--ink);border-color:#f0cf8e}
+.fxcl em{font-style:normal;margin-left:6px;font:700 9px/1 var(--f-cond);letter-spacing:.14em;color:#f0cf8e}
+@media (prefers-reduced-motion:no-preference){
+  .fxcl{animation:fxCl .42s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--ci,0) * 80ms + 150ms)}
+  .fxcall svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:fxClLn .5s cubic-bezier(.3,.1,.3,1) forwards;animation-delay:calc(var(--ci,0) * 80ms)}
+  @keyframes fxCl{from{opacity:0;transform:scaleX(.2)}}
+  @keyframes fxClLn{to{stroke-dashoffset:0}}
+}
+
+/* ---- W4: live nerves ---- */
+.xr > .fxnv{position:absolute;inset:0;pointer-events:none;-webkit-mask:var(--sk) center/100% 100% no-repeat;mask:var(--sk) center/100% 100% no-repeat;mix-blend-mode:screen;
+  background:linear-gradient(0deg,transparent 0 40%,rgba(255,240,205,.0) 44%,rgba(255,240,205,.95) 48%,rgba(255,214,150,.0) 52%,transparent 56%) 0 0/100% 260%}
+@media (prefers-reduced-motion:no-preference){ .xr > .fxnv{animation:fxNv 2.8s cubic-bezier(.4,.1,.6,1) infinite} @keyframes fxNv{from{background-position:0 0%}to{background-position:0 100%}} }
+
+/* ---- W6: implant glints ---- */
+.fxglt{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;pointer-events:none;z-index:6;background:radial-gradient(circle,#fff 0 1px,rgba(255,214,120,.95) 2px,rgba(255,190,90,0) 8px)}
+.fxglt::before,.fxglt::after{content:"";position:absolute;left:50%;top:50%;background:rgba(255,236,190,.9);transform:translate(-50%,-50%)}
+.fxglt::before{width:26px;height:1px}.fxglt::after{width:1px;height:18px}
+@media (prefers-reduced-motion:no-preference){ .fxglt{animation:fxEye .9s ease-out both} }
+
+/* ---- V2: schematic mode for the selected vehicle ---- */
+.fxschbtn{margin-left:auto;font:700 11px/1 var(--f-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);background:rgba(17,13,12,.85);border:1px solid var(--frame);padding:6px 10px 5px;cursor:pointer}
+.fxschbtn[aria-pressed="true"]{color:#120d0a;background:#e2b86c;border-color:#e2b86c}
+.vfig canvas.fxsch{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.vfig.fxsch-on > img{visibility:hidden}
+.vstage.fxsch-st .vgrid{opacity:1;background-image:linear-gradient(rgba(226,184,108,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(226,184,108,.09) 1px,transparent 1px),linear-gradient(rgba(226,184,108,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(226,184,108,.04) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+.fxtb{position:absolute;right:18px;bottom:34px;z-index:3;pointer-events:none;font:600 10px/1.5 var(--f-num);letter-spacing:.16em;color:rgba(240,207,142,.85);text-transform:uppercase;border:1px solid rgba(226,184,108,.45);padding:6px 10px;background:rgba(8,6,5,.6)}
+.fxtb b{display:block;font-size:12px;color:#f6dca0;letter-spacing:.2em}
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -3528,11 +3637,12 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
     "grade.on":1, "grade.vig":.42, "grade.grain":.05, "grade.bloom":.35, "grade.streak":1,
     "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
-    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
+    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":1,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
     "id.on":1, "id.holo":.45, "id.spin":90,
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
-    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1
+    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "ink.on":1, "inst.on":1, "inst.op":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -3543,7 +3653,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     {g:"Key-light panels", on:"pan.on", k:[["pan.rim","Frame highlight",0,1,.05],["pan.rimr","Highlight reach (px)",80,600,10],["pan.pool","Light pool",0,.2,.005],["pan.poolr","Pool reach (px)",120,800,10]]},
     {g:"Film grade", on:"grade.on", k:[["grade.vig","Vignette",0,.9,.01],["grade.grain","Grain",0,.2,.005],["grade.bloom","Bloom",0,1,.05],["grade.streak","Tab streak",0,1,.05]]},
     {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
-    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
+    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5],["swap.carry","Carry Iō into Posse (0/1)",0,1,1]]},
     {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
     {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]},
     {g:"Tab entrances", on:"mom.on", k:[["mom.speed","Speed",.5,2,.05]]},
@@ -3555,7 +3665,19 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     {g:"Living portrait (Dossier)", on:"live.on", k:[["live.par","Depth parallax",0,3,.05],["live.rel","Relight",0,2,.05],["live.spec","Gold arm reflection",0,2.5,.05]]},
     {g:"Rep portraits in depth", on:"r2.on", k:[["r2.par","Depth parallax",0,3,.05]]},
     {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
-    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]}
+    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]},
+    {g:"Panel depth (lean)", on:"tilt.on", k:[["tilt.deg","Lean (degrees)",0,4,.1]]},
+    {g:"Iō / Zolo switch transition", on:"rekey.on", k:[["rekey.t","Duration (s)",.3,2,.05]]},
+    {g:"Scroll reveals", on:"scroll.on", k:[]},
+    {g:"Engraved stat plates", on:"plate.on", k:[]},
+    {g:"Brush-stroke seals", on:"ink.on", k:[]},
+    {g:"HP / Humanity instruments", on:"inst.on", k:[["inst.op","Line strength",0,1.5,.05]]},
+    {g:"Weapon alcoves", on:"weap.on", k:[]},
+    {g:"Dossier sign-off", on:"sync.on", k:[]},
+    {g:"Ware callouts", on:"call.on", k:[]},
+    {g:"Live nerves", on:"nerve.on", k:[]},
+    {g:"Implant glints", on:"glt.on", k:[]},
+    {g:"Vehicle schematic button", on:"sch.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -3568,7 +3690,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
-    s.setProperty("--foil", String(P("foil.str")));
+    s.setProperty("--foil", String(P("foil.str"))); s.setProperty("--inst", String(P("inst.op")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
@@ -3584,6 +3706,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
     if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
+    if (/^(tilt|rekey|scroll|plate|ink|inst|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
@@ -4087,8 +4210,10 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     if (!reduce && P("swap.on") && D.startViewTransition && !CTX.editing){
       root.classList.add("fx-swap");
       /* carrying the Iō figure between tabs is off by default: it fights each tab's own entrance (Ware boot scan, Dossier load-in, Posse reveal) */
-      root.classList.toggle("fx-carry", !!P("swap.carry") && (to === "ware" || to === "posse") && !!D.querySelector("#bodyfig, .portrait.iop .iopw, .fig.lead"));
-      try { vt = D.startViewTransition(function(){ fn(); }); } catch(e){ vt = null; }
+      var carry = !!P("swap.carry") && to === "posse" && CTX.who !== "zolo" && !!D.querySelector("#bodyfig, .portrait.iop .iopw");
+      root.classList.toggle("fx-carry", carry);
+      /* the lead figure skips its own rise when Iō is carried in, so the two don't fight */
+      try { vt = D.startViewTransition(function(){ fn(); if (carry){ var ld = D.querySelector(".lineup .fig.lead"); if (ld) ld.style.animation = "none"; } }); } catch(e){ vt = null; }
     }
     if (vt){ var done = function(){ root.classList.remove("fx-swap", "fx-carry"); }; vt.finished.then(done, done); vt.ready.then(streak, streak); }
     else { root.classList.remove("fx-swap", "fx-carry"); fn(); streak(); }
@@ -4319,7 +4444,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
       else if (CTX.tab === "advance") momAdv();
     }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
-    spineAfter(); posseAfter(enter); vehAfter(enter);
+    spineAfter(); posseAfter(enter); vehAfter(enter); restAfter(enter);
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
   }
 
@@ -4503,7 +4628,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     var aw = FOIL.aw, g = FOIL.g; if (!aw || !aw.isConnected || !g || g.lost || !aw.closest(".fnspot.on")){ foilStop(); return; }
     var cs = FOIL.card.style, px = parseFloat(cs.getPropertyValue("--px")) || 0, py = parseFloat(cs.getPropertyValue("--py")) || 0;
     FOIL.tilt[0] += (px - FOIL.tilt[0]) * .2; FOIL.tilt[1] += (py - FOIL.tilt[1]) * .2;
-    var r = aw.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    var r = FOIL.cv.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), ch = Math.round(Math.max(40, aw.clientHeight * 1.12) * dpr), cw = Math.round(ch * FOIL.asp);
     if (cw < 4 || ch < 4) return;
     if (FOIL.cv.width !== cw || FOIL.cv.height !== ch){ FOIL.cv.width = cw; FOIL.cv.height = ch; }
     g.f("uTilt", FOIL.tilt[0] * 2.2, FOIL.tilt[1] * 2.2); g.f("uT", t / 1000); g.draw();
@@ -4517,6 +4642,8 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     loadImg(src).then(function(im){
       if (!aw.isConnected || FOIL.src !== src) return;
       var cv = D.createElement("canvas"); cv.className = "fxfoil"; cv.setAttribute("aria-hidden", "true");
+      FOIL.asp = im.naturalWidth / Math.max(1, im.naturalHeight); cv.style.aspectRatio = im.naturalWidth + "/" + im.naturalHeight;
+      cv.height = Math.round(aw.clientHeight * 1.12); cv.width = Math.round(cv.height * FOIL.asp);
       var g = GL.make(cv, FOILF); if (!g) return;
       g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, true, 128));
       aw.appendChild(cv); FOIL.cv = cv; FOIL.g = g; FOIL.aw = aw; FOIL.card = aw.closest(".fcard.big"); FOIL.tilt = [0, 0]; tick.add(foilFrame);
@@ -4588,6 +4715,172 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
 
   function heroAfter(){ liveAfter(); r2After(); foilWatch();
     var fs = D.getElementById("fnspot"); foilMO.disconnect(); if (fs) foilMO.observe(fs, {attributes:true, childList:true, subtree:true, attributeFilter:["class", "hidden"]}); }
+
+  /* ================= The rest of the approved list ================= */
+  function px2(v){ return (+v).toFixed(2); }
+  function fxLater(fn, ms){ setTimeout(fn, ms); }
+
+  /* G3: panel depth */
+  var TILT = {el:null};
+  D.addEventListener("pointermove", function(ev){
+    if (ev.pointerType === "touch" || reduce || !P("tilt.on") || CTX.editing) return;
+    var b = ev.target.closest && ev.target.closest(".box:not(.rside):not(.glite):not(.pcard):not(.lo-con)");
+    if (b && !b.closest(".dossier, .adv, main.rep, .advance, .cf, main.posse")) b = null;
+    if (TILT.el && TILT.el !== b){ var o = TILT.el; o.classList.add("fxtilt-out"); o.style.setProperty("--ttx", "0deg"); o.style.setProperty("--tty", "0deg"); o.style.setProperty("--tsh", 0); setTimeout(function(){ if (TILT.el !== o) o.classList.remove("fxtilt", "fxtilt-out"); }, 500); }
+    TILT.el = b; if (!b) return;
+    var r = b.getBoundingClientRect(), k = P("tilt.deg") * Math.min(1, 380 / Math.max(r.height, r.width * .6)), nx = (ev.clientX - r.left) / r.width - .5, ny = (ev.clientY - r.top) / r.height - .5;
+    b.classList.remove("fxtilt-out"); b.classList.add("fxtilt");
+    b.style.setProperty("--ttx", px2(nx * k * 2) + "deg"); b.style.setProperty("--tty", px2(-ny * k * 2) + "deg"); b.style.setProperty("--tsh", px2(2 + ny * 4));
+  }, {passive:true});
+
+  /* G6: persona re-key */
+  FX.rekey = function(fn, btn){
+    var vt = null;
+    if (!reduce && P("rekey.on") && D.startViewTransition && !CTX.editing){
+      var r = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : {left:W.innerWidth / 2, top:60, width:0, height:0};
+      root.style.setProperty("--rkx", (r.left + r.width / 2) + "px"); root.style.setProperty("--rky", (r.top + r.height / 2) + "px"); root.style.setProperty("--rk-t", Math.max(.3, P("rekey.t")) + "s");
+      root.classList.add("fx-rekey");
+      try { vt = D.startViewTransition(function(){ fn();
+        var ring = D.createElement("i"); ring.className = "fxrk-ring"; ring.setAttribute("aria-hidden", "true");
+        ring.style.setProperty("--rkc", D.body.classList.contains("zolo") ? "#e3eaee" : "#f0cf8e"); D.body.appendChild(ring); setTimeout(function(){ ring.remove(); }, 1600);
+      }); } catch(e){ vt = null; }
+    }
+    function after(){ root.classList.remove("fx-rekey");
+      if (reduce) return;
+      [].forEach.call(D.querySelectorAll("header.top .id h1, header.top .id small, header.top .id .chip"), function(el, i){ var t = lastText(el) || (el.firstElementChild && lastText(el.firstElementChild)); if (t) scramble(t, 520, 60 + i * 120); }); }
+    if (vt){ vt.finished.then(after, after); } else { root.classList.remove("fx-rekey"); fn(); after(); }
+  };
+
+  /* D4: brush seals ink in on the Dossier's arrival */
+  function inkAfter(enter){
+    D.body.classList.toggle("fx-ink", !!P("ink.on"));
+    if (!enter || !momOn() || CTX.tab !== "dossier" || !P("ink.on")) return;
+    var els = D.querySelectorAll(".dossier .elc"); [].forEach.call(els, function(e, i){ e.style.setProperty("--ii", i + 10); e.classList.add("fxink"); });
+    momLater(function(){ [].forEach.call(els, function(e){ e.classList.remove("fxink"); }); }, 1100 + els.length * 110 + 1400);
+  }
+
+  /* D5: HP and Humanity instruments */
+  function ekgPath(w, h){ var d = "M0 " + h * .6, x = 0, beat = w / 4; while (x < w * 2){ d += " L" + (x + beat * .35) + " " + h * .6 + " L" + (x + beat * .42) + " " + h * .5 + " L" + (x + beat * .47) + " " + h * .68 + " L" + (x + beat * .52) + " " + h * .12 + " L" + (x + beat * .58) + " " + h * .9 + " L" + (x + beat * .64) + " " + h * .56 + " L" + (x + beat * .78) + " " + h * .6 + " Q" + (x + beat * .86) + " " + h * .46 + " " + (x + beat * .93) + " " + h * .6 + " L" + (x + beat) + " " + h * .6; x += beat; } return d; }
+  function humPath(w, h, tight){ var d = "", n = tight ? 10 : 4, amp = tight ? .14 : .26, steps = 160; for (var i = 0; i <= steps; i++){ var x = i / steps * w * 2, y = h * (.55 + amp * Math.sin(i / steps * Math.PI * 2 * n * 2) * (.7 + .3 * Math.sin(i / steps * 13))); d += (i ? " L" : "M") + x.toFixed(1) + " " + y.toFixed(1); } return d; }
+  function instAfter(){
+    D.body.classList.toggle("fx-inst", !!P("inst.on"));
+    [].forEach.call(D.querySelectorAll(".fxinst"), function(n){ n.remove(); });
+    if (!P("inst.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
+    [[".dossier .hp", "fxekg", ekgPath], [".dossier .hum", "fxhum", humPath]].forEach(function(q){
+      var el = D.querySelector(q[0]); if (!el) return; var r = el.getBoundingClientRect(), w = Math.max(100, r.width), h = Math.max(24, r.height);
+      var d = q[1] === "fxhum" ? humPath(w, h, el.classList.contains("armd")) : ekgPath(w, h);
+      var s = D.createElement("span"); s.className = "fxinst " + q[1]; s.setAttribute("aria-hidden", "true");
+      s.innerHTML = '<svg viewBox="0 0 ' + (w * 2) + ' ' + h + '" preserveAspectRatio="none"><path d="' + d + '"/></svg>'; el.insertBefore(s, el.firstChild);
+    });
+  }
+
+  /* D6 is CSS only. D3 plates take the key light. */
+  function platesAfter(){ D.body.classList.toggle("fx-plates", !!P("plate.on")); D.body.classList.toggle("fx-weap", !!P("weap.on"));
+    if (P("plate.on")) [].forEach.call(D.querySelectorAll(".dossier .stat"), function(s){ s.setAttribute("data-lit", ""); }); }
+
+  /* D7: when the Dossier load-in's scan lines leave, it signs off */
+  var SYNC = {armed:false};
+  new MutationObserver(function(ms){
+    if (!SYNC.armed) return;
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].removedNodes.length; j++){ var n = ms[i].removedNodes[j];
+      if (n.nodeType === 1 && n.classList.contains("hzscan") && !D.querySelector(".hzscan")){ SYNC.armed = false; syncDone(); return; } }
+  }).observe(D.documentElement, {childList:true, subtree:true});
+  function syncDone(){
+    if (reduce || !P("sync.on") || CTX.tab !== "dossier" || CTX.who === "zolo") return;
+    var tr = D.querySelector(".tabrow"); if (!tr) return; var r = tr.getBoundingClientRect();
+    var s = D.createElement("i"); s.className = "fxsync"; s.setAttribute("aria-hidden", "true"); s.innerHTML = "<b>SYNC COMPLETE</b>";
+    s.style.left = (r.left + W.scrollX) + "px"; s.style.width = r.width + "px"; s.style.top = (r.bottom + W.scrollY + 2) + "px"; D.body.appendChild(s); setTimeout(function(){ s.remove(); }, 1800);
+    [].forEach.call(D.querySelectorAll("header.top .m > span"), function(sp, i){ var t = lastText(sp.querySelector(".dec") || sp); if (t) scramble(t, 380, 180 + i * 90); });
+    var gold = D.querySelector(".iopw .iogold"); if (gold){ gold.classList.remove("fxsheen"); void gold.offsetWidth; gold.classList.add("fxsheen"); setTimeout(function(){ gold.classList.remove("fxsheen"); }, 1300); }
+  }
+
+  /* W3: film callouts beside the Ware figure */
+  function callAfter(){
+    [].forEach.call(D.querySelectorAll(".fxcall"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"), panel = D.getElementById("zpanel"), F = CTX.fig;
+    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")) return;
+    var regs = String(fig.dataset.sel || "").split(/\s+/).filter(Boolean); if (!regs.length) return;
+    var rows = [].slice.call(panel.querySelectorAll(".ctree > li.d0 > .nrow")).slice(0, 9); if (!rows.length) return;
+    var stage = fig.closest(".stage"), sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect();
+    var a = F.anch[regs[0] === "legs" ? "legs" : regs[0]] || F.anch.torso; if (!a) return;
+    var ax = fr.left - sr.left + fr.width * a[0] / 100, ay = fr.top - sr.top + fr.height * a[1] / 100;
+    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(10, ay - rows.length * 15), wrap = D.createElement("div"); wrap.className = "fxcall"; wrap.setAttribute("aria-hidden", "true");
+    var paths = "", labels = "";
+    rows.forEach(function(rw, i){
+      var nm = (rw.querySelector(".wn") || {}).textContent || "", tg = rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 30;
+      var mx = (x1 + ax) / 2, d = "M" + x1 + " " + (y + 9) + " L" + (mx - 10) + " " + (y + 9) + " L" + mx + " " + ay + " L" + (ax - 4) + " " + ay, len = Math.abs(mx - x1) + Math.hypot(10, ay - y) + Math.abs(ax - mx) + 20;
+      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"/>';
+      labels += '<span class="fxcl" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(nm) + '">' + esc(nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
+    });
+    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + '<circle cx="' + ax + '" cy="' + ay + '" r="3"/></svg>' + labels;
+    stage.appendChild(wrap);
+    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var rw = rows[+l.dataset.ci]; if (rw){ rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); rw.click(); } });
+  }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* W4: pulses run up the nerves on the Nerves layer */
+  function nerveAfter(){
+    [].forEach.call(D.querySelectorAll(".xr > .fxnv"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"); if (!fig || !P("nerve.on") || CTX.editing) return;
+    if (!/nerve/i.test(fig.style.getPropertyValue("--sk"))) return;
+    [].forEach.call(fig.querySelectorAll(".xr"), function(x){ var i = D.createElement("i"); i.className = "fxnv"; i.setAttribute("aria-hidden", "true"); x.appendChild(i); });
+  }
+  var nerveXl = FX.xl; FX.xl = function(fig, o, n, apply){ nerveXl(fig, o, n, function(){ apply(); setTimeout(nerveAfter, 0); }); };
+
+  /* W6: hovering a fabricated or upgraded implant makes it glint on the body */
+  D.addEventListener("mouseover", function(ev){
+    if (CTX.tab !== "ware" || reduce || !P("glt.on")) return;
+    var row = ev.target.closest && ev.target.closest(".nrow"); if (!row || row === RET.gl) return; RET.gl = row;
+    if (!row.querySelector(".t-fab, .t-upg")) return;
+    var fig = D.getElementById("bodyfig"), F = CTX.fig; if (!fig || !F || !F.anch) return;
+    var hr = row.closest("[data-hr]"), regs = String(hr ? hr.dataset.hr : fig.dataset.sel || "").split(/\s+/).filter(Boolean);
+    var an = row.closest("[data-an]"), keys = an && F.anch[an.dataset.an] ? [an.dataset.an] : regs; if (!keys.length) return;
+    keys.slice(0, 2).forEach(function(k, i){ var a = F.anch[k === "legs" ? "legs" : k]; if (!a) return;
+      var g = D.createElement("i"); g.className = "fxglt"; g.setAttribute("aria-hidden", "true"); g.style.left = a[0] + "%"; g.style.top = a[1] + "%"; g.style.animationDelay = i * 90 + "ms"; fig.appendChild(g); setTimeout(function(){ g.remove(); }, 1100); });
+  });
+
+  /* V2: schematic mode */
+  var SCHF = [
+    "precision mediump float;varying vec2 vUv;uniform sampler2D uImg;uniform vec2 uPx;uniform float uT;",
+    "float L(vec2 p){vec4 c=texture2D(uImg,p);return dot(c.rgb,vec3(.3,.59,.11))*c.a+c.a*.6;}",
+    "void main(){",
+    "  float tl=L(vUv+vec2(-uPx.x,-uPx.y)),t=L(vUv+vec2(0.,-uPx.y)),tr=L(vUv+vec2(uPx.x,-uPx.y)),l=L(vUv+vec2(-uPx.x,0.)),r=L(vUv+vec2(uPx.x,0.)),bl=L(vUv+vec2(-uPx.x,uPx.y)),b=L(vUv+vec2(0.,uPx.y)),br=L(vUv+vec2(uPx.x,uPx.y));",
+    "  float gx=-tl-2.*l-bl+tr+2.*r+br,gy=-tl-2.*t-tr+bl+2.*b+br,e=sqrt(gx*gx+gy*gy);",
+    "  float a=texture2D(uImg,vUv).a;",
+    "  float line=smoothstep(.12,.55,e);",
+    "  float fill=a*.06;",
+    "  float scan=.85+.15*sin(vUv.y*900.+uT*2.);",
+    "  float sweep=exp(-pow((vUv.x-fract(uT*.12)*1.4+.2)*7.,2.))*a*.35;",
+    "  vec3 col=vec3(.94,.78,.48)*(line*scan+fill)+vec3(1.,.95,.85)*sweep;",
+    "  float al=clamp(line*.95+fill+sweep,0.,1.);",
+    "  gl_FragColor=vec4(col*al,al);",
+    "}"].join("\n");
+  var SCH = {on:false, list:[]};
+  try { SCH.on = localStorage.getItem("io-fx-sch") === "1"; } catch(e){}
+  function schStop(){ tick.remove(schFrame); SCH.list.forEach(function(o){ o.g.kill(); o.cv.remove(); o.fig.classList.remove("fxsch-on"); }); SCH.list = []; }
+  function schFrame(t){ SCH.list.forEach(function(o){ if (!o.fig.isConnected || o.g.lost) return; var r = o.fig.getBoundingClientRect(); if (r.width < 4) return;
+    var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr); if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+    o.g.f("uPx", 1.2 / cw, 1.2 / ch); o.g.f("uT", t / 1000); o.g.draw(); if (!o.fig.classList.contains("fxsch-on")) o.fig.classList.add("fxsch-on"); }); }
+  function schAfter(){
+    schStop(); var st = D.querySelector(".vstage"); [].forEach.call(D.querySelectorAll(".fxschbtn, .fxtb"), function(n){ n.remove(); });
+    if (!st || CTX.tab !== "vehicles" || CTX.editing || !P("sch.on") || !GL.test()){ if (st) st.classList.remove("fxsch-st"); return; }
+    var foot = st.querySelector(".vfoot"); if (foot){ var b = D.createElement("button"); b.type = "button"; b.className = "fxschbtn"; b.textContent = "Schematic"; b.setAttribute("aria-pressed", String(SCH.on)); foot.appendChild(b);
+      b.addEventListener("click", function(){ SCH.on = !SCH.on; try { localStorage.setItem("io-fx-sch", SCH.on ? "1" : "0"); } catch(e){} schAfter(); }); }
+    st.classList.toggle("fxsch-st", SCH.on); if (!SCH.on) return;
+    var title = (st.querySelector(".vtitle h2") || {}).textContent || "", kind = (st.querySelector(".vtitle .lab") || {}).textContent || "", mods = D.querySelectorAll("main.garage .vm").length;
+    var tb = D.createElement("div"); tb.className = "fxtb"; tb.setAttribute("aria-hidden", "true"); tb.innerHTML = "<b>" + esc(title) + "</b>" + esc(kind) + " · schematic<br>" + mods + " modifications · rev 2048"; st.appendChild(tb);
+    [].forEach.call(st.querySelectorAll(".vfig"), function(fg){ var img = fg.querySelector("img.vcut"); if (!img) return;
+      loadImg(img.getAttribute("src")).then(function(im){ if (!fg.isConnected || !SCH.on) return;
+        var cv = D.createElement("canvas"); cv.className = "fxsch"; cv.setAttribute("aria-hidden", "true"); var g = GL.make(cv, SCHF); if (!g) return;
+        g.tex(0, "uImg", im); var cs = getComputedStyle(fg); if (cs.position === "static") fg.style.position = "relative"; fg.appendChild(cv);
+        SCH.list.push({fig:fg, cv:cv, g:g}); tick.add(schFrame); }, function(){}); });
+  }
+
+  function restAfter(enter){
+    D.body.classList.toggle("fx-scroll", !!P("scroll.on"));
+    platesAfter(); inkAfter(enter); instAfter(); callAfter(); nerveAfter(); schAfter();
+    if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
+  }
 
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
@@ -8292,7 +8585,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
   function fxAfter(){
     if (!window.IOFX || !IOFX.rendered) return;
     var F = tab === "ware" ? FIG() : null, base = WHO === "zolo" && IO ? IO : S;
-    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave}); } catch(e){}
+    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, anch:F.anch, back:!!F.back} : null, fx:base && base.fx, save:fxSave}); } catch(e){}
   }
   function fxSave(v){
     var base = WHO === "zolo" && IO ? IO : S; base.fx = v;
@@ -8724,7 +9017,7 @@ canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
     if (b.dataset.xl){ var xlOld = XLSRC(FIG()); XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel){ var xlNew = XLSRC(F2), xlSet = function(){ bf.style.setProperty("--sk", "url(" + xlNew + ")"); }; if (window.IOFX && IOFX.xl) IOFX.xl(bf, xlOld, xlNew, xlSet); else xlSet(); } document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } var zci = document.querySelector(".lo-con .config img"); if (zci) zci.src = "img/zolo/full-" + zk + ".webp"; document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
-    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; pwTab = true; repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; pwTab = true; repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} var fxRk = function(){ render(); window.scrollTo(0,0); decode(); }; if (window.IOFX && IOFX.rekey) IOFX.rekey(fxRk, b); else fxRk(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }
