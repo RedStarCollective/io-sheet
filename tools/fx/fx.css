@@ -384,6 +384,13 @@ body.fx-placing #lens{display:none!important}
 .fxtb{position:absolute;right:18px;bottom:34px;z-index:3;pointer-events:none;font:600 10px/1.5 var(--f-num);letter-spacing:.16em;color:rgba(240,207,142,.85);text-transform:uppercase;border:1px solid rgba(226,184,108,.45);padding:6px 10px;background:rgba(8,6,5,.6)}
 .fxtb b{display:block;font-size:12px;color:#f6dca0;letter-spacing:.2em}
 
+/* ---- Z6: the game's own type (Blender Pro for headings and labels, Arame Mono for numbers); switch: type.on ---- */
+@font-face{font-family:"Blender Pro";src:url(fonts/blenderpro-book.woff2) format("woff2");font-weight:300 500;font-display:swap}
+@font-face{font-family:"Blender Pro";src:url(fonts/blenderpro-bold.woff2) format("woff2");font-weight:600 800;font-display:swap}
+@font-face{font-family:"Arame Mono";src:url(fonts/arame-mono-regular.woff2) format("woff2");font-weight:300 500;font-display:swap}
+@font-face{font-family:"Arame Mono";src:url(fonts/arame-mono-bold.woff2) format("woff2");font-weight:600 800;font-display:swap}
+html.fx-type{--f-disp:"Blender Pro","Chakra Petch","Rajdhani","Arial Narrow",sans-serif;--f-cond:"Blender Pro","Barlow Condensed","Rajdhani","Arial Narrow",sans-serif;--f-num:"Arame Mono","Oxanium","Rajdhani",ui-monospace,monospace}
+
 /* ================= Nov 18 picks ================= */
 /* ---- X1: title screen ---- */
 .fxtitle{position:fixed;inset:0;z-index:200;overflow:hidden;color:var(--ink,#f0ebe3);background:radial-gradient(ellipse 60% 55% at 16% 18%,rgba(140,20,30,.34),transparent 70%),radial-gradient(ellipse 45% 40% at 72% 38%,rgba(90,40,60,.22),transparent 70%),rgba(8,6,5,.72);-webkit-backdrop-filter:blur(18px) brightness(.45);backdrop-filter:blur(18px) brightness(.45);transition:opacity .7s cubic-bezier(.4,.1,.3,1),backdrop-filter .7s,-webkit-backdrop-filter .7s}

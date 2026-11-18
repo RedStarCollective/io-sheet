@@ -15,3 +15,7 @@ The script replaces the two blocks and patches the app's hooks (it is safe to ru
 
 ## Nov 18 pick (fx/iter5): X1
 - X1 title screen (`title.on`): shows on the first open of a browser session for Iō, over a blurred sheet. Any key, Access, or Zolo dismisses it. "Skip this screen next time" stores `io-title=skip` in localStorage. The app passes `id` (name, handle, origin, rep, sin, roles) in the rendered() context. Y2 and Y3 were tried and removed (Oak, Nov 18).
+
+## Z6 game type (fx/z6, preview)
+- `type.on` puts the class `fx-type` on <html>. That swaps the `--f-disp` and `--f-cond` variables to Blender Pro and `--f-num` to Arame Mono, using the fonts in fonts/*.woff2 (converted from the resource folder Exports/fonts). Body text stays Rajdhani.
+- To reverse it: switch it off in the FX panel, or delete the Z6 block in fx.css.
