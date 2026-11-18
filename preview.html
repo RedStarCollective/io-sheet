@@ -1,20 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Iō Sheet</title>
-<meta name="description" content="Dr. Kōru Singh, a Highrider out of O'Neill Two. Rocker, Solo, Medtech. A Cyberpunk RED character file.">
-<meta name="theme-color" content="#9f0c17">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Red Star Collective">
-<meta property="og:title" content="Iō · Character File">
-<meta property="og:description" content="Dr. Kōru Singh, a Highrider out of O'Neill Two. Rocker, Solo, Medtech. A Cyberpunk RED character file.">
-<meta property="og:url" content="https://redstarcollective.github.io/io-sheet/">
-<meta property="og:image" content="https://redstarcollective.github.io/io-sheet/img/og-card.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Iō, Dr. Kōru Singh, raising a gold cyberarm fist above a glowing planet rim. Rocker 8, Solo 6, Medtech 6, Reputation 7.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Iō · Character File">
-<meta name="twitter:description" content="Dr. Kōru Singh, a Highrider out of O'Neill Two. Rocker, Solo, Medtech.">
-<meta name="twitter:image" content="https://redstarcollective.github.io/io-sheet/img/og-card.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Teko:wght@500;600&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap">
@@ -3609,13 +3594,6 @@ body.fx-placing #lens{display:none!important}
 .fxtb{position:absolute;right:18px;bottom:34px;z-index:3;pointer-events:none;font:600 10px/1.5 var(--f-num);letter-spacing:.16em;color:rgba(240,207,142,.85);text-transform:uppercase;border:1px solid rgba(226,184,108,.45);padding:6px 10px;background:rgba(8,6,5,.6)}
 .fxtb b{display:block;font-size:12px;color:#f6dca0;letter-spacing:.2em}
 
-/* ---- Z6: the game's own type (Blender Pro for headings and labels, Arame Mono for numbers); switch: type.on ---- */
-@font-face{font-family:"Blender Pro";src:url(fonts/blenderpro-book.woff2) format("woff2");font-weight:300 500;font-display:swap}
-@font-face{font-family:"Blender Pro";src:url(fonts/blenderpro-bold.woff2) format("woff2");font-weight:600 800;font-display:swap}
-@font-face{font-family:"Arame Mono";src:url(fonts/arame-mono-regular.woff2) format("woff2");font-weight:300 500;font-display:swap}
-@font-face{font-family:"Arame Mono";src:url(fonts/arame-mono-bold.woff2) format("woff2");font-weight:600 800;font-display:swap}
-html.fx-type{--f-disp:"Blender Pro","Chakra Petch","Rajdhani","Arial Narrow",sans-serif;--f-cond:"Blender Pro","Barlow Condensed","Rajdhani","Arial Narrow",sans-serif;--f-num:"Arame Mono","Oxanium","Rajdhani",ui-monospace,monospace}
-
 /* ================= Nov 18 picks ================= */
 /* ---- X1: title screen ---- */
 .fxtitle{position:fixed;inset:0;z-index:200;overflow:hidden;color:var(--ink,#f0ebe3);background:radial-gradient(ellipse 60% 55% at 16% 18%,rgba(140,20,30,.34),transparent 70%),radial-gradient(ellipse 45% 40% at 72% 38%,rgba(90,40,60,.22),transparent 70%),rgba(8,6,5,.72);-webkit-backdrop-filter:blur(18px) brightness(.45);backdrop-filter:blur(18px) brightness(.45);transition:opacity .7s cubic-bezier(.4,.1,.3,1),backdrop-filter .7s,-webkit-backdrop-filter .7s}
@@ -3706,7 +3684,7 @@ html.fx-titled{overflow:hidden}
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
     "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
-    "title.on":1, "type.on":1
+    "title.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -3738,8 +3716,7 @@ html.fx-titled{overflow:hidden}
     {g:"Live nerves", on:"nerve.on", k:[]},
     {g:"Implant glints", on:"glt.on", k:[]},
     {g:"Vehicle schematic button", on:"sch.on", k:[]},
-    {g:"Title screen on first open (X1)", on:"title.on", k:[]},
-    {g:"Game type: Blender Pro + Arame Mono (Z6)", on:"type.on", k:[]}
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -3756,7 +3733,6 @@ html.fx-titled{overflow:hidden}
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
     s.setProperty("--foil", String(P("foil.str")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
-    root.classList.toggle("fx-type", !!P("type.on"));
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
   }
