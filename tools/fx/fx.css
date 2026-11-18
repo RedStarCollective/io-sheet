@@ -464,14 +464,14 @@ html.fx-titled{overflow:hidden}
   @keyframes fbHold{0%,99.9%{opacity:0}}
   .fcard.fxbt .fc-aw{animation:fbArt calc(.95s * var(--fbk,1)) cubic-bezier(.3,.1,.3,1) both;animation-delay:var(--ad)}
   @keyframes fbArt{
-    0%{opacity:0;clip-path:inset(0 0 100% 0);--il:0px;filter:brightness(2.4) saturate(0) sepia(1) drop-shadow(4px 0 rgba(209,28,40,.85)) drop-shadow(-4px 0 rgba(246,220,160,.7))}
+    0%{opacity:0;clip-path:polygon(0 -40%,100% -40%,100% -40%,16px -40%,0 -40%);--il:0px;filter:brightness(2.4) saturate(0) sepia(1) drop-shadow(4px 0 rgba(209,28,40,.85)) drop-shadow(-4px 0 rgba(246,220,160,.7))}
     8%{opacity:1}
-    55%{clip-path:inset(0);--il:1.2px;filter:brightness(1.5) saturate(.4) sepia(.4) drop-shadow(2px 0 rgba(209,28,40,.6)) drop-shadow(-2px 0 rgba(246,220,160,.5))}
+    55%{clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px));--il:1.2px;filter:brightness(1.5) saturate(.4) sepia(.4) drop-shadow(2px 0 rgba(209,28,40,.6)) drop-shadow(-2px 0 rgba(246,220,160,.5))}
     70%{filter:brightness(1.15) drop-shadow(-1px 0 rgba(209,28,40,.4))}
-    100%{opacity:1;clip-path:inset(0);--il:4px;filter:none}}
-  .fcard.fxbt .fc-aw{-webkit-mask-image:repeating-linear-gradient(180deg,#000 0 var(--il),transparent var(--il) 4px);mask-image:repeating-linear-gradient(180deg,#000 0 var(--il),transparent var(--il) 4px)}
+    100%{opacity:1;clip-path:polygon(0 -40%,100% -40%,100% 100%,16px 100%,0 calc(100% - 16px));--il:4px;filter:none}}
+  .fcard.fxbt .fc-aw{-webkit-mask-image:repeating-linear-gradient(180deg,#000 0 var(--il),transparent var(--il) 4px);mask-image:repeating-linear-gradient(180deg,#000 0 var(--il),transparent var(--il) 4px);-webkit-mask-size:100% 4px;mask-size:100% 4px;mask-clip:no-clip}
   .fcard.fxbt .fxb-scan{animation:fbScan calc(.6s * var(--fbk,1)) cubic-bezier(.45,.05,.5,1) both;animation-delay:var(--ad)}
-  @keyframes fbScan{0%{top:0;opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+  @keyframes fbScan{0%{top:-40%;opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
   /* name plate slides up last; the name decodes */
   .fcard.fxbt .fc-plate{animation:fbPlate calc(.45s * var(--fbk,1)) cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--ad) + 220ms * var(--fbk,1))}
   @keyframes fbPlate{from{opacity:0;transform:translateY(10px)}}
