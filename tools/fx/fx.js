@@ -23,7 +23,7 @@
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
     "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
-    "title.on":1
+    "title.on":1, "fboot.on":1, "fboot.speed":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -55,7 +55,8 @@
     {g:"Live nerves", on:"nerve.on", k:[]},
     {g:"Implant glints", on:"glt.on", k:[]},
     {g:"Vehicle schematic button", on:"sch.on", k:[]},
-    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]},
+    {g:"Fans load-in (frames, then art)", on:"fboot.on", k:[["fboot.speed","Speed",.5,2,.05]]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -731,6 +732,41 @@
   }
   W.addEventListener("scroll", function(){ if (SPINE.el && !SPINE.raf) SPINE.raf = requestAnimationFrame(spineUpdate); }, {passive:true});
 
+
+  /* ---- Fans load-in: every card's frame traces and its panel fills first, then the art resolves line by line ---- */
+  var FB = {io:null, t:[], q:[], qT:0, art0:0};
+  function fbStop(){ if (FB.io){ FB.io.disconnect(); FB.io = null; } FB.t.forEach(clearTimeout); FB.t = []; clearTimeout(FB.qT); FB.q = [];
+    [].forEach.call(D.querySelectorAll(".fcard.fxbw, .fcard.fxbt"), function(c){ c.classList.remove("fxbw", "fxbt"); }); [].forEach.call(D.querySelectorAll(".fxb-fr, .fxb-scan"), function(n){ n.remove(); }); D.body.classList.remove("fx-fboot"); }
+  function fansBoot(){
+    fbStop();
+    var g = D.querySelector(".fngrid"); if (!g || CTX.tab !== "fans" || CTX.editing || reduce || !P("fboot.on") || g.classList.contains("arr")) return;
+    var sp = 1 / Math.max(.25, P("fboot.speed")); root.style.setProperty("--fbk", sp.toFixed(3));
+    var cards = [].slice.call(g.querySelectorAll(".fcard")); if (!cards.length) return;
+    D.body.classList.add("fx-fboot");
+    cards.forEach(function(c){ c.classList.add("fxbw"); });
+    /* the first screenful: all frames first, then all the art */
+    var vh = W.innerHeight, first = cards.filter(function(c){ var r = c.getBoundingClientRect(); return r.top < vh && r.bottom > 0; });
+    var bgStep = 55 * sp, artGap = 380 * sp, artStep = 85 * sp, artStart = first.length * bgStep + artGap;
+    first.forEach(function(c, i){ fbGo(c, i * bgStep, artStart + i * artStep); });
+    FB.art0 = performance.now() + artStart;
+    /* cards further down boot as they scroll into view, in small batches */
+    FB.io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting && e.target.classList.contains("fxbw") && !e.target._fb){ FB.io.unobserve(e.target); FB.q.push(e.target); } });
+      if (FB.q.length && !FB.qT) FB.qT = setTimeout(function(){ var b = FB.q.splice(0); FB.qT = 0; var wait = Math.max(0, FB.art0 - performance.now());
+        b.forEach(function(c, i){ fbGo(c, wait + i * bgStep, wait + b.length * bgStep + artGap * .6 + i * artStep); }); }, 30); }, {rootMargin:"0px 0px -6% 0px"});
+    cards.forEach(function(c){ if (first.indexOf(c) < 0) FB.io.observe(c); });
+  }
+  function fbGo(c, bd, ad){
+    c._fb = 1;
+    var inr = c.querySelector(".fc-in"); if (!inr) { c.classList.remove("fxbw"); return; }
+    var fr = D.createElementNS("http://www.w3.org/2000/svg", "svg"); fr.setAttribute("class", "fxb-fr"); fr.setAttribute("aria-hidden", "true"); fr.setAttribute("preserveAspectRatio", "none"); fr.setAttribute("viewBox", "0 0 100 100");
+    fr.innerHTML = '<rect x=".5" y=".5" width="99" height="99" pathLength="1"/>'; inr.appendChild(fr);
+    var aw = c.querySelector(".fc-aw"), sc = D.createElement("i"); sc.className = "fxb-scan"; sc.setAttribute("aria-hidden", "true"); if (aw) aw.appendChild(sc);
+    c.style.setProperty("--bd", Math.round(bd) + "ms"); c.style.setProperty("--ad", Math.round(ad) + "ms");
+    c.classList.add("fxbt"); c.classList.remove("fxbw");
+    var nm = c.querySelector(".fc-plate b"); if (nm && nm.firstChild) FB.t.push(setTimeout(function(){ if (nm.isConnected) scramble(nm.firstChild, 420, 0); }, ad + 260));
+    FB.t.push(setTimeout(function(){ c.classList.remove("fxbt"); fr.remove(); sc.remove(); c.style.removeProperty("--bd"); c.style.removeProperty("--ad"); if (!D.querySelector(".fcard.fxbw, .fcard.fxbt")) D.body.classList.remove("fx-fboot"); }, ad + 1400 * (+getComputedStyle(root).getPropertyValue("--fbk") || 1) + 200));
+  }
+
   /* P1 / P2 */
   var POS = {figs:[], sweep:null, eyeT:0};
   function posseFrame(){
@@ -815,6 +851,7 @@
       else if (CTX.tab === "rep") momRep();
       else if (CTX.tab === "advance") momAdv();
     }
+    if (enter){ if (CTX.tab === "fans") fansBoot(); else fbStop(); }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
     spineAfter(); posseAfter(enter); vehAfter(enter); restAfter(enter);
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
