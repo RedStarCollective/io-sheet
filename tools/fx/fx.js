@@ -22,7 +22,7 @@
     "id.on":1, "id.holo":.45, "id.spin":90,
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
-    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "ink.on":1, "inst.on":1, "inst.op":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -42,16 +42,12 @@
     {g:"Posse key light", on:"pose.on", k:[["pose.lit","Light strength",0,1.5,.05],["pose.dof","Blur behind (px)",0,5,.1]]},
     {g:"Vehicle engines and lights", on:"veh.on", k:[["veh.thr","Thruster glow",0,1.5,.05],["veh.strip","Light strip",0,1.5,.05]]},
     {g:"Treemap glass", on:"glass.on", k:[]},
-    {g:"Living portrait (Dossier)", on:"live.on", k:[["live.par","Depth parallax",0,3,.05],["live.rel","Relight",0,2,.05],["live.spec","Gold arm reflection",0,2.5,.05]]},
-    {g:"Rep portraits in depth", on:"r2.on", k:[["r2.par","Depth parallax",0,3,.05]]},
     {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
     {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]},
     {g:"Panel depth (lean)", on:"tilt.on", k:[["tilt.deg","Lean (degrees)",0,4,.1]]},
     {g:"Iō / Zolo switch transition", on:"rekey.on", k:[["rekey.t","Duration (s)",.3,2,.05]]},
     {g:"Scroll reveals", on:"scroll.on", k:[]},
     {g:"Engraved stat plates", on:"plate.on", k:[]},
-    {g:"Brush-stroke seals", on:"ink.on", k:[]},
-    {g:"HP / Humanity instruments", on:"inst.on", k:[["inst.op","Line strength",0,1.5,.05]]},
     {g:"Weapon alcoves", on:"weap.on", k:[]},
     {g:"Dossier sign-off", on:"sync.on", k:[]},
     {g:"Ware callouts", on:"call.on", k:[]},
@@ -61,7 +57,9 @@
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
-  function P(k){ var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
+  /* Pinned Nov 18 (Oak): the in-browser depth maps warp the portraits on load. Off until Oak supplies better depth maps. */
+  var PIN = {"live.on":1, "r2.on":1};
+  function P(k){ if (PIN[k]) return 0; var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
   FX.P = P;
   function cssVars(){
     var s = root.style;
@@ -70,12 +68,15 @@
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
-    s.setProperty("--foil", String(P("foil.str"))); s.setProperty("--inst", String(P("inst.op")));
+    s.setProperty("--foil", String(P("foil.str")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
   }
-  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
+  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); var cp = callPts(); if (Object.keys(cp).length) o["call.pts"] = cp; return o; }
+  /* Ware callout points, placed by hand: {"who|f|item name":[x%, y%]} (not a number, so it lives outside P) */
+  function callPts(){ var a = shared["call.pts"], b = local["call.pts"], o = {}, k; if (a && typeof a === "object") for (k in a) o[k] = a[k]; if (b && typeof b === "object") for (k in b) o[k] = b[k]; return o; }
+  function setPt(key, v){ var b = local["call.pts"] && typeof local["call.pts"] === "object" ? local["call.pts"] : {}; b[key] = v; local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
   function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
   function changed(k){
     if (/^(ret|lens)\./.test(k)){ if (k === "lens.on" && CTX.rerender) CTX.rerender(); else wareAfter(); }
@@ -86,7 +87,7 @@
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
     if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
-    if (/^(tilt|rekey|scroll|plate|ink|inst|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
+    if (/^(tilt|rekey|scroll|plate|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
   }
 
@@ -727,17 +728,6 @@
   }
   W.addEventListener("scroll", function(){ if (SPINE.el && !SPINE.raf) SPINE.raf = requestAnimationFrame(spineUpdate); }, {passive:true});
 
-  /* N1 */
-  function momFans(){
-    var g = D.querySelector(".fngrid.deal"); if (!g) return;
-    var gr = g.getBoundingClientRect(), ox = gr.left + gr.width / 2, oy = Math.max(gr.top - 70, 90), n = 0;
-    [].forEach.call(g.querySelectorAll(".fcard"), function(c){ var r = c.getBoundingClientRect(); if (r.top > W.innerHeight + 40 || n > 24) return;
-      c.style.setProperty("--fdx", (ox - (r.left + r.width / 2)).toFixed(0) + "px"); c.style.setProperty("--fdy", (oy - (r.top + r.height / 2)).toFixed(0) + "px");
-      c.style.setProperty("--fr", ((Math.random() - .5) * 26).toFixed(1) + "deg"); c.style.setProperty("--fn", n++); c.classList.add("fxd"); });
-    g.classList.remove("deal"); g.classList.add("fxdeal");
-    momLater(function(){ g.classList.remove("fxdeal"); [].forEach.call(g.querySelectorAll(".fcard.fxd"), function(c){ c.classList.remove("fxd"); }); }, 200 + n * 62 + 760);
-  }
-
   /* P1 / P2 */
   var POS = {figs:[], sweep:null, eyeT:0};
   function posseFrame(){
@@ -820,7 +810,6 @@
     if (enter && momOn()){
       if (CTX.tab === "casefile") momCase();
       else if (CTX.tab === "rep") momRep();
-      else if (CTX.tab === "fans") momFans();
       else if (CTX.tab === "advance") momAdv();
     }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
@@ -1131,29 +1120,6 @@
     if (vt){ vt.finished.then(after, after); } else { root.classList.remove("fx-rekey"); fn(); after(); }
   };
 
-  /* D4: brush seals ink in on the Dossier's arrival */
-  function inkAfter(enter){
-    D.body.classList.toggle("fx-ink", !!P("ink.on"));
-    if (!enter || !momOn() || CTX.tab !== "dossier" || !P("ink.on")) return;
-    var els = D.querySelectorAll(".dossier .elc"); [].forEach.call(els, function(e, i){ e.style.setProperty("--ii", i + 10); e.classList.add("fxink"); });
-    momLater(function(){ [].forEach.call(els, function(e){ e.classList.remove("fxink"); }); }, 1100 + els.length * 110 + 1400);
-  }
-
-  /* D5: HP and Humanity instruments */
-  function ekgPath(w, h){ var d = "M0 " + h * .6, x = 0, beat = w / 4; while (x < w * 2){ d += " L" + (x + beat * .35) + " " + h * .6 + " L" + (x + beat * .42) + " " + h * .5 + " L" + (x + beat * .47) + " " + h * .68 + " L" + (x + beat * .52) + " " + h * .12 + " L" + (x + beat * .58) + " " + h * .9 + " L" + (x + beat * .64) + " " + h * .56 + " L" + (x + beat * .78) + " " + h * .6 + " Q" + (x + beat * .86) + " " + h * .46 + " " + (x + beat * .93) + " " + h * .6 + " L" + (x + beat) + " " + h * .6; x += beat; } return d; }
-  function humPath(w, h, tight){ var d = "", n = tight ? 10 : 4, amp = tight ? .14 : .26, steps = 160; for (var i = 0; i <= steps; i++){ var x = i / steps * w * 2, y = h * (.55 + amp * Math.sin(i / steps * Math.PI * 2 * n * 2) * (.7 + .3 * Math.sin(i / steps * 13))); d += (i ? " L" : "M") + x.toFixed(1) + " " + y.toFixed(1); } return d; }
-  function instAfter(){
-    D.body.classList.toggle("fx-inst", !!P("inst.on"));
-    [].forEach.call(D.querySelectorAll(".fxinst"), function(n){ n.remove(); });
-    if (!P("inst.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
-    [[".dossier .hp", "fxekg", ekgPath], [".dossier .hum", "fxhum", humPath]].forEach(function(q){
-      var el = D.querySelector(q[0]); if (!el) return; var r = el.getBoundingClientRect(), w = Math.max(100, r.width), h = Math.max(24, r.height);
-      var d = q[1] === "fxhum" ? humPath(w, h, el.classList.contains("armd")) : ekgPath(w, h);
-      var s = D.createElement("span"); s.className = "fxinst " + q[1]; s.setAttribute("aria-hidden", "true");
-      s.innerHTML = '<svg viewBox="0 0 ' + (w * 2) + ' ' + h + '" preserveAspectRatio="none"><path d="' + d + '"/></svg>'; el.insertBefore(s, el.firstChild);
-    });
-  }
-
   /* D6 is CSS only. D3 plates take the key light. */
   function platesAfter(){ D.body.classList.toggle("fx-plates", !!P("plate.on")); D.body.classList.toggle("fx-weap", !!P("weap.on"));
     if (P("plate.on")) [].forEach.call(D.querySelectorAll(".dossier .stat"), function(s){ s.setAttribute("data-lit", ""); }); }
@@ -1174,28 +1140,79 @@
     var gold = D.querySelector(".iopw .iogold"); if (gold){ gold.classList.remove("fxsheen"); void gold.offsetWidth; gold.classList.add("fxsheen"); setTimeout(function(){ gold.classList.remove("fxsheen"); }, 1300); }
   }
 
-  /* W3: film callouts beside the Ware figure */
+  /* W3: film callouts beside the Ware figure. Each item's line ends where Oak placed it by hand;
+     an item not placed yet points at its zone's anchor (and shows a hollow dot to the admin). */
+  var CALL = {place:false, sel:"", drag:null};
   function callAfter(){
-    [].forEach.call(D.querySelectorAll(".fxcall"), function(n){ n.remove(); });
+    [].forEach.call(D.querySelectorAll(".fxcall, .fxcallbar"), function(n){ n.remove(); }); D.body.classList.remove("fx-placing");
     var fig = D.getElementById("bodyfig"), panel = D.getElementById("zpanel"), F = CTX.fig;
-    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")) return;
+    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")){ CALL.place = false; return; }
+    var stage = fig.closest(".stage"); if (!stage) return;
+    if (CTX.admin) callBar(stage);
     var regs = String(fig.dataset.sel || "").split(/\s+/).filter(Boolean); if (!regs.length) return;
-    var rows = [].slice.call(panel.querySelectorAll(".ctree > li.d0 > .nrow")).slice(0, 9); if (!rows.length) return;
-    var stage = fig.closest(".stage"), sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect();
+    var rows = [].slice.call(panel.querySelectorAll(".ctree li.d0 > .nrow, .ctree li.d1 > .nrow")).slice(0, 14); if (!rows.length) return;
+    var sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect(), pts = callPts(), face = (CTX.who || "io") + "|" + (F.back ? "b" : "f") + "|";
     var a = F.anch[regs[0] === "legs" ? "legs" : regs[0]] || F.anch.torso; if (!a) return;
-    var ax = fr.left - sr.left + fr.width * a[0] / 100, ay = fr.top - sr.top + fr.height * a[1] / 100;
-    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(10, ay - rows.length * 15), wrap = D.createElement("div"); wrap.className = "fxcall"; wrap.setAttribute("aria-hidden", "true");
-    var paths = "", labels = "";
-    rows.forEach(function(rw, i){
-      var nm = (rw.querySelector(".wn") || {}).textContent || "", tg = rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 30;
-      var mx = (x1 + ax) / 2, d = "M" + x1 + " " + (y + 9) + " L" + (mx - 10) + " " + (y + 9) + " L" + mx + " " + ay + " L" + (ax - 4) + " " + ay, len = Math.abs(mx - x1) + Math.hypot(10, ay - y) + Math.abs(ax - mx) + 20;
-      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"/>';
-      labels += '<span class="fxcl" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(nm) + '">' + esc(nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
+    function toStage(p){ return [fr.left - sr.left + fr.width * p[0] / 100, fr.top - sr.top + fr.height * p[1] / 100]; }
+    var items = rows.map(function(rw){ var nm = ((rw.querySelector(".wn") || {}).textContent || "").trim(), key = face + nm, p = pts[key]; return {rw:rw, nm:nm, key:key, placed:!!p, pt:toStage(p || a)}; });
+    if (items.some(function(it){ return it.placed; })) items.sort(function(p, q){ return p.pt[1] - q.pt[1]; });
+    var avg = items.reduce(function(s, it){ return s + it.pt[1]; }, 0) / items.length;
+    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(46, Math.min(sr.height - items.length * 28 - 50, avg - items.length * 14)), wrap = D.createElement("div");
+    wrap.className = "fxcall" + (CALL.place ? " fxplace" : ""); wrap.setAttribute("aria-hidden", "true");
+    var paths = "", dots = "", labels = "";
+    items.forEach(function(it, i){
+      var tg = it.rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 28, px = it.pt[0], py = it.pt[1];
+      var d = "M" + x1 + " " + (y + 9) + " L" + (x1 + 18) + " " + (y + 9) + " L" + px + " " + py;
+      var on = CALL.place && CALL.sel === it.key;
+      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"' + (on ? ' class="on"' : '') + '/>';
+      if (it.placed || CALL.place) dots += '<circle data-ci="' + i + '" cx="' + px + '" cy="' + py + '" r="' + (CALL.place ? 5 : 3) + '"' + (it.placed ? '' : ' class="un"') + (on ? ' data-on=""' : '') + '/>';
+      labels += '<span class="fxcl' + (on ? ' on' : '') + (CALL.place && !it.placed ? ' un' : '') + '" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(it.nm) + '">' + esc(it.nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
     });
-    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + '<circle cx="' + ax + '" cy="' + ay + '" r="3"/></svg>' + labels;
+    var hub = items.some(function(it){ return !it.placed; }) && !CALL.place ? '<circle cx="' + toStage(a)[0] + '" cy="' + toStage(a)[1] + '" r="3"/>' : "";
+    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + dots + hub + '</svg>' + labels;
     stage.appendChild(wrap);
-    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var rw = rows[+l.dataset.ci]; if (rw){ rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); rw.click(); } });
+    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var it = items[+l.dataset.ci]; if (!it) return;
+      if (CALL.place){ CALL.sel = CALL.sel === it.key ? "" : it.key; callAfter(); return; }
+      it.rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); it.rw.click(); });
+    if (!CALL.place) return;
+    D.body.classList.toggle("fx-placing", !!CALL.sel);
+    /* drag a dot to move it */
+    wrap.addEventListener("pointerdown", function(ev){ var c = ev.target.closest && ev.target.closest("circle[data-ci]"); if (!c) return; ev.preventDefault(); ev.stopPropagation();
+      var it = items[+c.dataset.ci]; CALL.sel = it.key; CALL.drag = {it:it, c:c}; c.setPointerCapture && c.setPointerCapture(ev.pointerId); });
+    wrap.addEventListener("pointermove", function(ev){ var g = CALL.drag; if (!g) return; g.c.setAttribute("cx", ev.clientX - sr.left); g.c.setAttribute("cy", ev.clientY - sr.top); });
+    wrap.addEventListener("pointerup", function(ev){ var g = CALL.drag; if (!g) return; CALL.drag = null; var r = fig.getBoundingClientRect();
+      setPt(g.it.key, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]); callAfter(); });
   }
+  /* admin bar: Place callouts / Save for everyone / Done */
+  function callBar(stage){
+    var bar = D.createElement("div"); bar.className = "fxcallbar" + (CALL.place ? " on" : "");
+    if (!CALL.place){ bar.innerHTML = '<button type="button" data-cb="go">Place callouts</button>'; }
+    else {
+      var nm = CALL.sel ? CALL.sel.split("|").slice(2).join("|") : "";
+      bar.innerHTML = '<span>' + (nm ? 'Click on the body where <b>' + esc(nm) + '</b> is. Drag any dot to adjust.' : 'Pick a label on the left, then click on the body where that item is. Hollow dots are not placed yet.') + '</span>' +
+        (nm ? '<button type="button" data-cb="clear">Unplace</button>' : '') + '<button type="button" data-cb="save">Save for everyone</button><button type="button" data-cb="done">Done</button>';
+    }
+    stage.appendChild(bar);
+    bar.addEventListener("click", function(ev){ var a = ev.target.getAttribute && ev.target.getAttribute("data-cb"); if (!a) return;
+      if (a === "go"){ CALL.place = true; CALL.sel = ""; }
+      if (a === "done"){ CALL.place = false; CALL.sel = ""; }
+      if (a === "clear" && CALL.sel){ var b = local["call.pts"] || {}, s = shared["call.pts"]; delete b[CALL.sel]; if (s && CALL.sel in s){ b[CALL.sel] = null; } local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
+      if (a === "save" && CTX.save){ var v = values(); v["call.pts"] = cleanPts(v["call.pts"]); shared = v; local = {}; try { localStorage.removeItem("io-fx"); } catch(e){}
+        ev.target.textContent = "Saving…"; Promise.resolve(CTX.save(v)).then(function(ok){ ev.target.textContent = ok === false ? "Couldn't save" : "Saved"; }, function(){ ev.target.textContent = "Couldn't save"; }); return; }
+      callAfter(); });
+  }
+  function cleanPts(o){ var r = {}; for (var k in o || {}) if (o[k] && o[k].length === 2) r[k] = o[k]; return r; }
+  /* in place mode a click on the figure sets the selected item's point (and doesn't select a zone) */
+  D.addEventListener("click", function(ev){
+    if (!CALL.place || !CALL.sel || CTX.tab !== "ware") return;
+    var fig = D.getElementById("bodyfig"); if (!fig || !fig.contains(ev.target)) return;
+    ev.preventDefault(); ev.stopPropagation();
+    var r = fig.getBoundingClientRect(); setPt(CALL.sel, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]);
+    /* move on to the next label that has no point yet */
+    var labs = [].slice.call(D.querySelectorAll(".fxcall .fxcl")), pts = callPts(), face = CALL.sel.split("|").slice(0, 2).join("|") + "|", next = "";
+    labs.forEach(function(l){ var k = face + (l.getAttribute("title") || ""); if (!next && !pts[k]) next = k; });
+    CALL.sel = next; callAfter();
+  }, true);
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 
   /* W4: pulses run up the nerves on the Nerves layer */
@@ -1258,7 +1275,7 @@
 
   function restAfter(enter){
     D.body.classList.toggle("fx-scroll", !!P("scroll.on"));
-    platesAfter(); inkAfter(enter); instAfter(); callAfter(); nerveAfter(); schAfter();
+    platesAfter(); callAfter(); nerveAfter(); schAfter();
     if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
   }
 
