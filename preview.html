@@ -3652,57 +3652,6 @@ html.fx-titled{overflow:hidden}
   .tt-foot span:nth-child(2){display:none}
 }
 
-/* ---- Y3: attribute hexes ---- */
-body.fx-hexes .dossier .stat{position:relative;isolation:isolate}
-.fxhex{position:absolute;left:50%;top:calc(50% + 10px);width:68px;height:68px;translate:-50% -50%;z-index:-1;pointer-events:none;background:#e2b86c;-webkit-mask:var(--hx) center/contain no-repeat;mask:var(--hx) center/contain no-repeat;opacity:.26;transition:opacity .25s,transform .25s cubic-bezier(.2,.8,.3,1)}
-.fxhex.fxhex-e{opacity:.16}
-.dossier .stat:hover .fxhex{opacity:.42;transform:scale(1.06)}
-.dossier .stat:has(.ofb, .of, .outof) .fxhex{width:56px;height:56px}
-/* ---- Y3: skill BASE bars: the row fills to its BASE on a 2–18 scale, with a bright edge ---- */
-@property --bp{syntax:'<percentage>';inherits:true;initial-value:0%}
-body.fx-bars .dossier table.sk tr.fxsbr{--bp:calc(var(--b) * 100%);background-image:linear-gradient(90deg,#8a6a38,#f0cf8e),linear-gradient(90deg,rgba(226,184,108,.05),rgba(226,184,108,.09));background-repeat:no-repeat;background-position:0 100%,0 0;background-size:var(--bp) 2px,var(--bp) 100%}
-body.fx-bars .dossier table.sk tr.fxsbr.fxsbmax{background-image:linear-gradient(90deg,#9f0c17,#ff6b62),linear-gradient(90deg,rgba(209,28,40,.05),rgba(209,28,40,.1))}
-body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(90deg,#b58f52,#f6dca0),linear-gradient(90deg,rgba(226,184,108,.08),rgba(226,184,108,.16))}
-@media (prefers-reduced-motion:no-preference){
-  body.fx-bars .dossier table.sk tr.fxsbr{animation:fxSb 1s cubic-bezier(.2,.8,.3,1) both .3s}
-  @keyframes fxSb{from{--bp:0%}}
-}
-.fxskg{display:inline-block;flex:none;align-self:center;width:18px;height:18px;margin:0 8px 0 0;background:#e2b86c;-webkit-mask:var(--hx) center/contain no-repeat;mask:var(--hx) center/contain no-repeat;opacity:.9}
-@media (prefers-reduced-motion:no-preference){
-  .fxsb{animation:fxSb .9s cubic-bezier(.2,.8,.3,1) both .25s}
-  @keyframes fxSb{from{background-size:0 100%,auto}}
-}
-
-/* ---- Y2: ripperdoc diagnostic ---- */
-.fxdiag{display:grid;grid-template-columns:150px 1fr;gap:16px;margin:4px 0 14px;padding:12px;border:1px solid rgba(181,143,82,.45);background:radial-gradient(ellipse at 25% 50%,rgba(181,143,82,.12),transparent 60%),rgba(13,10,9,.85);position:relative}
-.fxdiag::before{content:"";position:absolute;right:-1px;top:-1px;width:14px;height:14px;background:linear-gradient(225deg,#b58f52 50%,transparent 50%)}
-.dg-v{position:relative;height:170px;overflow:hidden;background:#0a0807;border:1px solid #2a221f}
-.dg-img{position:absolute;inset:8px;background:var(--sys) var(--fx) var(--fy)/var(--fs) no-repeat;mix-blend-mode:screen;filter:drop-shadow(0 0 6px rgba(226,184,108,.35))}
-.dg-scan{position:absolute;left:0;right:0;height:46px;top:-50px;background:linear-gradient(180deg,transparent,rgba(246,220,160,.22));border-bottom:1px solid rgba(246,220,160,.75);pointer-events:none}
-.dg-c{position:absolute;width:12px;height:12px;border:2px solid #e2b86c}
-.dg-c.c1{left:6px;top:6px;border-right:0;border-bottom:0}.dg-c.c2{right:6px;top:6px;border-left:0;border-bottom:0}.dg-c.c3{left:6px;bottom:6px;border-right:0;border-top:0}.dg-c.c4{right:6px;bottom:6px;border-left:0;border-top:0}
-.dg-t{display:flex;flex-direction:column;gap:8px;min-width:0;justify-content:center}
-.dg-k{margin:0;font:700 11px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.26em;color:#e2b86c;text-transform:uppercase}
-.dg-n{margin:0;font:700 22px/1.05 var(--f-disp,'Chakra Petch');color:var(--ink,#f0ebe3)}
-.dg-s{display:flex;gap:16px;flex-wrap:wrap}
-.dg-s span{display:flex;flex-direction:column;gap:3px;font:600 10px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.18em;color:#7e746f;text-transform:uppercase}
-.dg-s b{font:700 22px/1 var(--f-num,Oxanium);color:#f0ebe3;letter-spacing:0}
-.dg-bar{height:6px;background:#2a201d;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
-.dg-bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#b58f52,#f6dca0)}
-.dg-f{margin:0;font:600 10px/1 var(--f-num,Oxanium);letter-spacing:.2em;color:#7e746f;text-transform:uppercase}
-.dg-f b{color:#e2b86c;font-weight:700}
-@media (prefers-reduced-motion:no-preference){
-  .fxdiag .dg-scan{animation:dgScan 6s cubic-bezier(.45,.05,.4,1) infinite 2s}
-  .fxdiag.go .dg-scan{animation:dgScan 1.1s cubic-bezier(.45,.05,.4,1) both,dgScan 6s cubic-bezier(.45,.05,.4,1) infinite 4s}
-  @keyframes dgScan{0%{top:-50px}60%,100%{top:100%}}
-  .fxdiag.go .dg-img{animation:dgImg 1.1s cubic-bezier(.3,.1,.3,1) both}
-  @keyframes dgImg{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0)}}
-  .fxdiag.go .dg-bar i{animation:dgBar 1.1s cubic-bezier(.3,.1,.3,1) both}
-  @keyframes dgBar{from{width:0}}
-  .fxdiag.go .dg-c{animation:dgC .5s cubic-bezier(.2,.8,.3,1) both}
-  @keyframes dgC{from{opacity:0;transform:scale(1.8)}}
-}
-@media (max-width:560px){ .fxdiag{grid-template-columns:110px 1fr}.dg-v{height:130px} }
 @media (hover:none){ .tt-key{display:none} }
 </style>
 
@@ -3735,7 +3684,7 @@ body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(9
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
     "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
-    "title.on":1, "hex.on":1, "bar.on":1, "diag.on":1
+    "title.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -3767,10 +3716,7 @@ body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(9
     {g:"Live nerves", on:"nerve.on", k:[]},
     {g:"Implant glints", on:"glt.on", k:[]},
     {g:"Vehicle schematic button", on:"sch.on", k:[]},
-    {g:"Title screen on first open (X1)", on:"title.on", k:[]},
-    {g:"Attribute hexes (Y3)", on:"hex.on", k:[]},
-    {g:"Skill BASE bars (Y3)", on:"bar.on", k:[]},
-    {g:"Ripperdoc diagnostic (Y2)", on:"diag.on", k:[]}
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -3806,7 +3752,6 @@ body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(9
     if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
     if (/^(tilt|rekey|scroll|plate|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
-    if (/^(hex|bar|diag)\./.test(k)) newAfter();
     if (k === "title.on" && P("title.on")) titleShow(true);
   }
 
@@ -4999,8 +4944,7 @@ body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(9
   }
 
 
-  /* ================= Nov 18 picks: X1 title screen, Y3 hexes + bars, Y2 ripperdoc diagnostic ================= */
-  var A77 = "img/fx/2077/";
+  /* ================= Nov 18 pick: X1 title screen ================= */
 
   /* ---- X1: title screen on first open ---- */
   var TT = {el:null};
@@ -5052,68 +4996,13 @@ body.fx-bars .dossier table.sk tr.fxsbr:hover{background-image:linear-gradient(9
   }
   FX.title = function(){ titleShow(true); };
 
-  /* ---- Y3: attribute hexes behind the STAT values ---- */
-  var HEXG = {INT:"int", REF:"ref", TECH:"tech", COOL:"cool", BODY:"body"};
-  function hexAfter(){
-    [].forEach.call(D.querySelectorAll(".fxhex"), function(n){ n.remove(); });
-    D.body.classList.toggle("fx-hexes", !!P("hex.on") && CTX.tab === "dossier" && CTX.who !== "zolo");
-    if (!P("hex.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
-    /* the labels may be mid-decode (scrambled) when this runs, so go by the sheet's fixed stat order */
-    var ORDER = ["INT","REF","DEX","TECH","COOL","WILL","LUCK","MOVE","BODY","EMP"];
-    [].forEach.call(D.querySelectorAll(".dossier .stats .stat"), function(s, n){
-      var k = ORDER[n] || "", g = HEXG[k] || "empty";
-      var i = D.createElement("i"); i.className = "fxhex" + (HEXG[k] ? "" : " fxhex-e"); i.setAttribute("aria-hidden", "true"); i.style.setProperty("--hx", "url(" + A77 + "att-" + g + ".webp)");
-      s.insertBefore(i, s.firstChild);
-    });
-  }
-  /* ---- Y3: BASE bars on the skill tables (2 to 18), with the game's skill glyph on each table ---- */
-  /* each table is known by its first skill (the header text may be mid-decode) */
-  var SKG = [[/^Concentration$/,"stealth"],[/^Athletics$/,"athletics"],[/^Drive Land/,"engineering"],[/^(Accounting|Language)$/,"npc_hacking"],[/^Brawling$/,"street_brwaler"],[/^Acting$/,"device_hacking"],[/^Archery$/,"handguns"],[/^Bribery$/,"cold_blood"],[/^Air Vehicle Tech$/,"crafting"],[/^Surgery$/,"category"]];
-  function barsAfter(){
-    [].forEach.call(D.querySelectorAll(".fxskg"), function(n){ n.remove(); }); [].forEach.call(D.querySelectorAll(".fxsbr"), function(n){ n.classList.remove("fxsbr", "fxsbmax"); });
-    D.body.classList.toggle("fx-bars", !!P("bar.on"));
-    if (!P("bar.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
-    [].forEach.call(D.querySelectorAll(".dossier table.sk"), function(t){
-      var hb = t.parentElement && t.parentElement.querySelector(".hb .sp"), f0 = t.querySelector("tr[data-skill]"), nm = f0 ? f0.getAttribute("data-skill") : "";
-      for (var i = 0; i < SKG.length; i++) if (SKG[i][0].test(nm)){ var g = D.createElement("i"); g.className = "fxskg"; g.setAttribute("aria-hidden", "true"); g.style.setProperty("--hx", "url(" + A77 + "skl-" + SKG[i][1] + ".webp)"); var h0 = hb.parentNode.offsetHeight; hb.parentNode.insertBefore(g, hb); if (hb.parentNode.offsetHeight > h0 + 2) g.remove(); break; }
-      [].forEach.call(t.querySelectorAll("tr[data-skill]"), function(tr){
-        var bc = tr.querySelector("td.base"), v = bc ? parseFloat(bc.textContent) : NaN, td = tr.firstElementChild; if (!isFinite(v) || !td) return;
-        tr.style.setProperty("--b", Math.max(0, Math.min(1, (v - 2) / 16)).toFixed(3)); tr.classList.add("fxsbr"); tr.classList.toggle("fxsbmax", v >= 18);
-      });
-    });
-  }
-
-  /* ---- Y2: ripperdoc diagnostic at the top of the Ware zone panel ---- */
-  var SYS = {
-    neural:["nervous","Nervous system",[50,8],1.9], optics:["ocular","Ocular system",[50,50],.85], audio:["pfrontal_cortex","Auditory cortex",[50,50],1],
-    limbs:["full_skeleton","Limbs",[50,40],1.2], armR:["full_skeleton","Right arm",[0,32],1.7], armL:["full_skeleton","Left arm",[100,32],1.7], legR:["legs","Right leg",[50,50],1], legL:["legs","Left leg",[50,50],1], internal:["circular","Circulatory system",[50,30],1.7], external:["intergumentary","Integumentary system",[50,40],1.25],
-    fashion:["intergumentary","Integumentary system",[50,40],1.25], borg:["full_skeleton","Skeletal frame",[50,40],1.2], adv:["immune","Immune system",[50,32],1.6]
-  };
-  var DG = {key:""};
-  function diagAfter(){
-    var old = D.querySelector(".fxdiag"), zp = D.getElementById("zpanel"), on = D.querySelector(".zitem.on"), zid = on ? on.getAttribute("data-zone") : "";
-    var sys = SYS[zid];
-    if (zid === "limbs"){ var lb = D.querySelector(".lpb.on"), lk = lb ? lb.getAttribute("data-limb") : ""; if (SYS[lk]) sys = SYS[lk]; }
-    if (!zp || !sys || D.querySelector(".chrome2.armv") || !P("diag.on") || CTX.tab !== "ware" || CTX.editing){ if (old) old.remove(); if (!zp) DG.key = ""; return; }
-    var head = zp.querySelector(".zhead") || zp.querySelector(".zone .zh, .zone > h2, .zone > header") ; 
-    var rows = zp.querySelectorAll(".nrow"), fab = zp.querySelectorAll(".nrow .t-fab").length, upg = zp.querySelectorAll(".nrow .t-upg").length, adv = zp.querySelectorAll(".nrow .t-adv, .nrow .adv").length;
-    var key = (CTX.who || "") + "|" + zid + "|" + sys[0], fresh = key !== DG.key; DG.key = key;
-    var el = D.createElement("div"); el.className = "fxdiag" + (fresh && !reduce ? " go" : ""); el.setAttribute("aria-hidden", "true");
-    el.style.setProperty("--sys", "url(" + A77 + "sys-" + sys[0] + ".webp)"); el.style.setProperty("--fx", sys[2][0] + "%"); el.style.setProperty("--fy", sys[2][1] + "%"); el.style.setProperty("--fs", sys[3] ? "auto calc(100% * " + sys[3] + ")" : "contain");
-    el.innerHTML = '<div class="dg-v"><i class="dg-img"></i><i class="dg-scan"></i><i class="dg-c c1"></i><i class="dg-c c2"></i><i class="dg-c c3"></i><i class="dg-c c4"></i></div>' +
-      '<div class="dg-t"><p class="dg-k">Diagnostic</p><p class="dg-n">' + esc(sys[1]) + '</p>' +
-      '<div class="dg-s"><span><b>' + rows.length + '</b>Entries</span><span><b>' + fab + '</b>Fabricated</span><span><b>' + upg + '</b>Upgraded</span></div>' +
-      '<div class="dg-bar"><i></i></div><p class="dg-f">Scan <b>complete</b> · ' + esc(String(CTX.who === "zolo" ? "Zolo" : (CTX.id && CTX.id.handle) || "Iō")) + '</p></div>';
-    if (old) old.replaceWith(el); else if (head && head.parentNode === zp) head.insertAdjacentElement("afterend", el); else zp.insertBefore(el, zp.firstChild);
-  }
-  function newAfter(){ hexAfter(); barsAfter(); diagAfter(); }
 
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter(); newAfter();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
     if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };

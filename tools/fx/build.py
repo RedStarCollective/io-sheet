@@ -37,7 +37,7 @@ s = once(s,
   '  function fxAfter(){\n'
   '    if (!window.IOFX || !IOFX.rendered) return;\n'
   '    var F = tab === "ware" ? FIG() : null, base = WHO === "zolo" && IO ? IO : S;\n'
-  '    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave, rerender:render}); } catch(e){}\n'
+  '    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, anch:F.anch, back:!!F.back} : null, fx:base && base.fx, save:fxSave, rerender:render}); } catch(e){}\n'
   '  }\n'
   '  function fxSave(v){\n'
   '    var base = WHO === "zolo" && IO ? IO : S; base.fx = v;\n'
@@ -79,6 +79,21 @@ s = once(s,
   '  function loop(t){ if (t - last > 33){ draw(t); last = t; } requestAnimationFrame(loop); }',
   '  function loop(t){ if (t - last > 33 && !(window.IOFX && IOFX.skyOn && IOFX.skyOn())){ draw(t); last = t; } requestAnimationFrame(loop); }',
   'IOFX.skyOn && IOFX.skyOn()')
+
+# 7. Ware front/back: the FX layer turns the figure in depth; without it (or if it declines), the app's own CSS turn
+s = once(s,
+  'var bf0 = document.getElementById("bodyfig");\n      if (reduce || !bf0){ render(); return; }',
+  'var bf0 = document.getElementById("bodyfig");\n      if (reduce || !bf0){ render(); return; }\n      if (window.IOFX && IOFX.turn && IOFX.turn(bf0, render, VIEW)) return;',
+  'IOFX.turn(bf0, render, VIEW)')
+
+# 7b. the figure's anchor points (for callouts and glints)
+s = s.replace("fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null", "fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, anch:F.anch, back:!!F.back} : null")
+
+# 8. Iō <-> Zolo switch goes through the FX layer (re-key reveal); without it, the plain swap
+s = once(s,
+  'repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }',
+  'repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} var fxRk = function(){ render(); window.scrollTo(0,0); decode(); }; if (window.IOFX && IOFX.rekey) IOFX.rekey(fxRk, b); else fxRk(); } return; }',
+  'var fxRk = function(){')
 
 io.open(p, "w", encoding="utf8", newline="\n").write(s)
 print("built", len(s))

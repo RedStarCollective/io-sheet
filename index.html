@@ -3427,14 +3427,6 @@ body.fx-id:not(.zolo) .sin-row > div::before{content:"";position:absolute;left:0
   @keyframes fxFlare{0%{box-shadow:0 0 0 0 rgba(255,240,205,.9),0 0 18px 6px rgba(240,207,142,.9);background:#fff6dc}100%{box-shadow:0 0 0 14px rgba(255,240,205,0),0 0 8px rgba(240,207,142,.55)}}
 }
 
-/* ---- N1: Fans deal-in ---- */
-@media (prefers-reduced-motion:no-preference){
-  .fngrid.fxdeal .fcard.fxd{animation:fxDeal calc(.72s * var(--mk)) cubic-bezier(.18,.8,.22,1) backwards;animation-delay:calc((60ms + var(--fn,0) * 62ms) * var(--mk));z-index:3}
-  @keyframes fxDeal{0%{transform:translate(var(--fdx),var(--fdy)) rotate(var(--fr)) scale(.42);opacity:0}12%{opacity:1}100%{transform:none}}
-  .fngrid.fxdeal .fcard.fxd .fc-flip{animation:fxFlip calc(.62s * var(--mk)) cubic-bezier(.3,.1,.2,1) backwards;animation-delay:calc((200ms + var(--fn,0) * 62ms) * var(--mk))}
-  @keyframes fxFlip{0%{transform:rotateY(180deg)}100%{transform:rotateY(0deg)}}
-}
-
 /* ---- P1: Posse lineup under the key light ---- */
 .lineup:not(.mini) .fig .fxlit{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:1;-webkit-mask:var(--am) center bottom/auto 100% no-repeat;mask:var(--am) center bottom/auto 100% no-repeat;
   background:radial-gradient(circle var(--plr,320px) at var(--px,-999px) var(--py,-999px),rgba(255,226,170,var(--plit,.8)),rgba(255,210,150,calc(var(--plit,.8) * .35)) 45%,transparent 75%);mix-blend-mode:overlay}
@@ -3485,6 +3477,182 @@ body.fx-glass .tm-t{box-shadow:inset 0 1px 0 rgba(255,236,196,.12),inset 0 -28px
 body.fx-glass .tm-t:hover{transform:translateY(-2px);filter:brightness(1.22) saturate(1.1);z-index:3;box-shadow:inset 0 1px 0 rgba(255,236,196,.25),inset 0 -36px 44px -26px rgba(255,214,160,.32),0 10px 22px rgba(0,0,0,.55)}
 body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181,143,82,.3),inset 0 -36px 44px -26px rgba(255,214,160,.28)}
 .lineup:not(.mini){overflow-x:clip}
+
+/* =========================== Phase 4: hero pieces =========================== */
+/* D2: the living portrait. The WebGL canvas takes the picture's place once it has drawn */
+.iopw > canvas.fxlive{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.iopw.fxlive-on > picture img{visibility:hidden}
+.iopw > .iogold,.iopw > .iosmoke{z-index:1}
+/* R2: the Rep portraits move in depth */
+.frame canvas.fxr2{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:grayscale(.55) contrast(1.05) brightness(.8);transition:filter .35s}
+.frame:hover canvas.fxr2,.film:not(:hover) .frame.now canvas.fxr2{filter:none}
+.frame.fxr2-on > img{visibility:hidden}
+.frame figcaption{z-index:1}
+/* N2: true foil on the opened fan card */
+.fc-aw > canvas.fxfoil{position:absolute;left:50%;bottom:0;height:112%;width:auto;max-width:none;transform:translate(calc(-50% + var(--px,0) * 12px),calc(var(--py,0) * 7px));transition:transform .5s cubic-bezier(.2,.7,.2,1);pointer-events:none;mix-blend-mode:overlay;opacity:var(--foil,.7)}
+.fc-aw.fxfoil-on > .fc-holo{opacity:0!important}
+/* W5: the Ware figure turns in depth */
+canvas.fxturn{position:absolute;z-index:6;pointer-events:none}
+.bodyfig.fxturning > *{visibility:hidden}
+.bodyfig.fxturning{animation:none!important;transform:none!important;filter:none!important}
+
+/* =========================== The rest of the approved list =========================== */
+/* ---- G3: panel depth. The box under the pointer leans a degree toward it ---- */
+.box.fxtilt{transform:perspective(1100px) rotateX(var(--tty,0deg)) rotateY(var(--ttx,0deg));transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.box.fxtilt-out{transition:transform .5s cubic-bezier(.2,.8,.3,1)}
+.box.fxtilt > .hb{box-shadow:0 calc(var(--tsh,0) * 1px) 10px rgba(0,0,0,.35)}
+
+/* ---- G6: persona re-key (Iō ↔ Zolo) ---- */
+html.fx-rekey::view-transition-old(root){animation:none}
+html.fx-rekey::view-transition-new(root){animation:fxRekey var(--rk-t,.9s) cubic-bezier(.5,0,.3,1) both}
+@keyframes fxRekey{from{clip-path:circle(0 at var(--rkx,50%) var(--rky,10%))}to{clip-path:circle(150vmax at var(--rkx,50%) var(--rky,10%))}}
+.fxrk-ring{position:fixed;z-index:90;pointer-events:none;left:var(--rkx);top:var(--rky);width:0;height:0}
+.fxrk-ring::before{content:"";position:absolute;left:0;top:0;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;border-radius:50%;box-shadow:inset 0 0 0 2px var(--rkc,#e3eaee),inset 0 0 40px var(--rkc,#e3eaee);transform:scale(0);animation:fxRkRing var(--rk-t,.9s) cubic-bezier(.5,0,.3,1) both;opacity:.85}
+@keyframes fxRkRing{to{transform:scale(1);opacity:0}}
+
+/* ---- G9: scroll choreography (where the browser supports scroll-driven animation) ---- */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    body.fx-scroll .fngrid .fcard{animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+    body.fx-scroll .ryear > .yr span{animation:fxSlide linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
+    body.fx-scroll .cf .cfs{animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+    body.fx-scroll .advplan .pl-g,body.fx-scroll .advplan section{animation:fxRise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+    @keyframes fxRise{from{opacity:0;translate:0 34px;filter:brightness(1.8) saturate(.4)}}
+    @keyframes fxSlide{from{opacity:0;translate:-26px 0;letter-spacing:.3em}}
+  }
+}
+
+/* ---- D3: engraved stat plates ---- */
+body.fx-plates:not(.zolo) .dossier .stat{background-image:linear-gradient(180deg,rgba(255,232,180,.05),rgba(0,0,0,.18) 60%,rgba(255,232,180,.03));box-shadow:inset 0 1px 0 rgba(255,232,180,.09),inset 0 -2px 8px rgba(0,0,0,.55);transition:transform .2s cubic-bezier(.2,.8,.3,1),box-shadow .2s;position:relative;overflow:hidden;
+  border-image:radial-gradient(circle var(--pan-rimr,260px) at var(--klx) var(--kly),#f6dca0 0%,color-mix(in srgb,#f6dca0 30%,var(--frame)) 45%,var(--frame) 100%) 1}
+body.fx-plates:not(.zolo) .dossier .stat .sv .dec{text-shadow:0 -1px 0 rgba(0,0,0,.9),0 1px 0 rgba(255,236,196,.2)}
+body.fx-plates:not(.zolo) .dossier .stat::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,236,190,.22),transparent);transform:skewX(-14deg);opacity:0}
+body.fx-plates:not(.zolo) .dossier .stat:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,232,180,.14),inset 0 -2px 8px rgba(0,0,0,.55),0 8px 16px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:no-preference){ body.fx-plates:not(.zolo) .dossier .stat:hover::after{animation:fxPlate .7s cubic-bezier(.3,.1,.3,1)} @keyframes fxPlate{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}} }
+
+/* ---- D6: weapons with weight ---- */
+body.fx-weap:not(.zolo) .wa .t td.name :is(svg.ico,.seal){box-shadow:0 0 0 3px rgba(12,9,8,.92),0 0 0 4px rgba(181,143,82,.26),0 0 14px rgba(255,214,150,.12);border-radius:2px;background:radial-gradient(circle at 50% 35%,rgba(255,226,170,.14),transparent 75%);transition:transform .22s cubic-bezier(.2,.8,.3,1),filter .22s}
+body.fx-weap:not(.zolo) .wa .t tr:hover td.name :is(svg.ico,.seal){transform:translateX(2px) scale(1.14);filter:drop-shadow(0 0 5px rgba(255,214,150,.65))}
+@media (prefers-reduced-motion:no-preference){
+  body.fx-weap:not(.zolo) .wa .t tr:hover td.name .tn{animation:fxDash .32s cubic-bezier(.2,.8,.3,1)}
+  @keyframes fxDash{0%{translate:-8px 0;text-shadow:-8px 0 0 rgba(255,214,150,.35),-16px 0 0 rgba(255,214,150,.15)}100%{translate:0 0}}
+}
+
+/* ---- D7: the Dossier load-in signs off ---- */
+.fxsync{position:absolute;z-index:56;pointer-events:none;height:2px;background:linear-gradient(90deg,transparent,#f0cf8e 12%,#fff6dc 50%,#f0cf8e 88%,transparent);box-shadow:0 0 12px rgba(240,207,142,.8);opacity:0;animation:fxSync 1.6s cubic-bezier(.2,.7,.2,1) both}
+.fxsync b{position:absolute;right:0;top:-18px;font:700 10.5px/1 var(--f-num);letter-spacing:.3em;color:#f0cf8e;text-shadow:0 0 8px rgba(240,207,142,.7);white-space:nowrap}
+@keyframes fxSync{0%{opacity:0;transform:scaleX(.2)}18%{opacity:1;transform:scaleX(1)}70%{opacity:1}100%{opacity:0}}
+.iogold.fxsheen{animation:iosheen 1.1s cubic-bezier(.3,.1,.3,1) 1!important}
+
+/* ---- W3: film callouts on the Ware figure ---- */
+.fxcall{position:absolute;inset:0;pointer-events:none;z-index:5}
+.fxcall svg{position:absolute;left:0;top:0;overflow:visible}
+.fxcall svg path{fill:none;stroke:rgba(240,207,142,.55);stroke-width:1}
+.fxcall svg circle{fill:#f0cf8e}
+.fxcall svg path.on{stroke:#f6dca0;stroke-width:1.6}
+.fxcall svg circle.un{fill:none;stroke:#f0cf8e;stroke-width:1.2;stroke-dasharray:2 2}
+.fxcall.fxplace svg circle{pointer-events:auto;cursor:grab;stroke:#080605;stroke-width:1.5}
+.fxcall.fxplace svg circle.un{stroke:#f0cf8e;fill:rgba(8,6,5,.6)}
+.fxcall.fxplace svg circle[data-on]{fill:#d11c28;stroke:#f6dca0}
+.fxcl.on{color:#120d0a;background:#f0cf8e;border-color:#f6dca0}
+.fxcl.un{border-style:dashed}
+.fxcallbar{position:absolute;right:8px;top:44px;justify-content:flex-end;z-index:7;display:flex;gap:8px;align-items:center;max-width:calc(100% - 16px);font:600 12px/1.3 var(--f-body);color:var(--ink-2)}
+.fxcallbar span{background:rgba(8,6,5,.9);border:1px solid rgba(181,143,82,.45);padding:5px 9px}
+.fxcallbar b{color:#f6dca0}
+.fxcallbar button{font:700 10px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:#f0cf8e;background:rgba(8,6,5,.9);border:1px solid rgba(181,143,82,.55);padding:7px 10px;cursor:pointer;white-space:nowrap}
+.fxcallbar button:hover{background:#9f0c17;color:#fff;border-color:#d11c28}
+body.fx-placing #bodyfig{cursor:crosshair}
+body.fx-placing #lens{display:none!important}
+.fxcallbar.on{position:fixed;left:50%;right:auto;top:auto;bottom:22px;translate:-50% 0;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.7)}
+.fxcl{position:absolute;pointer-events:auto;cursor:pointer;max-width:180px;padding:3px 8px 2px;font:600 11.5px/1.25 var(--f-body);letter-spacing:.04em;color:var(--ink-2);background:rgba(8,6,5,.86);border:1px solid rgba(181,143,82,.4);border-right-width:2px;border-right-color:#f0cf8e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform-origin:100% 50%;translate:-100% 0}
+.fxcl:hover,.fxcl:focus-visible{color:var(--ink);border-color:#f0cf8e}
+.fxcl em{font-style:normal;margin-left:6px;font:700 9px/1 var(--f-cond);letter-spacing:.14em;color:#f0cf8e}
+@media (prefers-reduced-motion:no-preference){
+  .fxcl{animation:fxCl .42s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--ci,0) * 80ms + 150ms)}
+  .fxcall svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:fxClLn .5s cubic-bezier(.3,.1,.3,1) forwards;animation-delay:calc(var(--ci,0) * 80ms)}
+  @keyframes fxCl{from{opacity:0;transform:scaleX(.2)}}
+  @keyframes fxClLn{to{stroke-dashoffset:0}}
+}
+
+/* ---- W4: live nerves ---- */
+.xr > .fxnv{position:absolute;inset:0;pointer-events:none;-webkit-mask:var(--sk) center/100% 100% no-repeat;mask:var(--sk) center/100% 100% no-repeat;mix-blend-mode:screen;
+  background:linear-gradient(0deg,transparent 0 40%,rgba(255,240,205,.0) 44%,rgba(255,240,205,.95) 48%,rgba(255,214,150,.0) 52%,transparent 56%) 0 0/100% 260%}
+@media (prefers-reduced-motion:no-preference){ .xr > .fxnv{animation:fxNv 2.8s cubic-bezier(.4,.1,.6,1) infinite} @keyframes fxNv{from{background-position:0 0%}to{background-position:0 100%}} }
+
+/* ---- W6: implant glints ---- */
+.fxglt{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;pointer-events:none;z-index:6;background:radial-gradient(circle,#fff 0 1px,rgba(255,214,120,.95) 2px,rgba(255,190,90,0) 8px)}
+.fxglt::before,.fxglt::after{content:"";position:absolute;left:50%;top:50%;background:rgba(255,236,190,.9);transform:translate(-50%,-50%)}
+.fxglt::before{width:26px;height:1px}.fxglt::after{width:1px;height:18px}
+@media (prefers-reduced-motion:no-preference){ .fxglt{animation:fxEye .9s ease-out both} }
+
+/* ---- V2: schematic mode for the selected vehicle ---- */
+.fxschbtn{margin-left:auto;font:700 11px/1 var(--f-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);background:rgba(17,13,12,.85);border:1px solid var(--frame);padding:6px 10px 5px;cursor:pointer}
+.fxschbtn[aria-pressed="true"]{color:#120d0a;background:#e2b86c;border-color:#e2b86c}
+.vfig canvas.fxsch{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.vfig.fxsch-on > img{visibility:hidden}
+.vstage.fxsch-st .vgrid{opacity:1;background-image:linear-gradient(rgba(226,184,108,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(226,184,108,.09) 1px,transparent 1px),linear-gradient(rgba(226,184,108,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(226,184,108,.04) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+.fxtb{position:absolute;right:18px;bottom:34px;z-index:3;pointer-events:none;font:600 10px/1.5 var(--f-num);letter-spacing:.16em;color:rgba(240,207,142,.85);text-transform:uppercase;border:1px solid rgba(226,184,108,.45);padding:6px 10px;background:rgba(8,6,5,.6)}
+.fxtb b{display:block;font-size:12px;color:#f6dca0;letter-spacing:.2em}
+
+/* ================= Nov 18 picks ================= */
+/* ---- X1: title screen ---- */
+.fxtitle{position:fixed;inset:0;z-index:200;overflow:hidden;color:var(--ink,#f0ebe3);background:radial-gradient(ellipse 60% 55% at 16% 18%,rgba(140,20,30,.34),transparent 70%),radial-gradient(ellipse 45% 40% at 72% 38%,rgba(90,40,60,.22),transparent 70%),rgba(8,6,5,.72);-webkit-backdrop-filter:blur(18px) brightness(.45);backdrop-filter:blur(18px) brightness(.45);transition:opacity .7s cubic-bezier(.4,.1,.3,1),backdrop-filter .7s,-webkit-backdrop-filter .7s}
+html.fx-titled{overflow:hidden}
+.fxtitle .tt-planet{position:absolute;width:2400px;height:2400px;left:calc(50% - 1000px);top:calc(100% - 210px);border-radius:50%;background:radial-gradient(circle at 50% 50%,#0b0807 64%,rgba(247,190,110,.9) 64.35%,rgba(209,90,50,.38) 65.4%,rgba(159,12,23,.12) 67%,transparent 70%);pointer-events:none}
+.fxtitle .tt-art{position:absolute;right:max(2vw,calc(50% - 640px));bottom:0;height:min(94vh,980px);pointer-events:none}
+.fxtitle .tt-art img{height:100%;width:auto;display:block;filter:drop-shadow(0 0 50px rgba(0,0,0,.85)) drop-shadow(-18px 0 40px rgba(226,184,108,.08))}
+.fxtitle .tt-copy{position:absolute;left:max(6vw,calc(50% - 640px));top:50%;translate:0 -54%;display:flex;flex-direction:column;gap:16px;width:min(640px,88vw)}
+.fxtitle p{margin:0}
+.tt-up{font:600 13px/1 var(--f-num,Oxanium),monospace;letter-spacing:.32em;color:#b58f52}
+.tt-name{font:700 15px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.3em;color:var(--ink-2,#c1b8b2);text-transform:uppercase}
+.tt-h{margin:0;font:700 clamp(120px,17vw,230px)/.85 var(--f-disp,'Chakra Petch');letter-spacing:.02em;color:#f0ebe3;text-shadow:0 0 44px rgba(226,184,108,.25)}
+.tt-org{font:700 18px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.28em;color:#e2b86c;text-transform:uppercase}
+.tt-stats{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
+.tt-stats > div{display:flex;flex-direction:column;gap:6px}
+.tt-stats span{font:600 12px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.2em;color:#a39890;text-transform:uppercase}
+.tt-stats b{font:700 34px/1 var(--f-num,Oxanium);color:#f0ebe3}
+.tt-stats .rep b{color:#e2b86c}
+.tt-stats > i{width:1px;background:#6b5431}
+.tt-go{display:flex;gap:14px;margin-top:34px;align-items:center;flex-wrap:wrap}
+.tt-go button{cursor:pointer;min-height:56px;font:700 18px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.3em;text-transform:uppercase}
+.tt-in{display:inline-flex;align-items:center;gap:14px;padding:0 30px;border:1px solid #e2b86c;background:rgba(226,184,108,.1);color:#f6dca0;box-shadow:0 0 24px rgba(226,184,108,.25);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.tt-in:hover,.tt-in:focus-visible{background:#9f0c17;border-color:#d11c28;color:#fff;box-shadow:0 0 30px rgba(209,28,40,.5);outline:none}
+.tt-z{padding:0 22px;border:1px solid #6b5431;background:transparent;color:#c1b8b2;font-size:15px!important;letter-spacing:.24em!important}
+.tt-z:hover,.tt-z:focus-visible{border-color:#e2b86c;color:#f6dca0;outline:none}
+.tt-skip{display:inline-flex;gap:8px;align-items:center;font:500 15px/1.4 var(--f-body,Rajdhani);color:#a39890;cursor:pointer;width:max-content}
+.tt-skip input{accent-color:#b58f52;width:16px;height:16px}
+.tt-key{font:600 11px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.3em;text-transform:uppercase;color:#7e746f}
+.tt-foot{position:absolute;left:max(6vw,calc(50% - 640px));right:max(6vw,calc(50% - 640px));bottom:34px;display:flex;justify-content:space-between;gap:20px;font:600 12px/1 var(--f-num,Oxanium),monospace;letter-spacing:.28em;color:#8e837c;text-transform:uppercase}
+.tt-sync b{color:#e2b86c;font-weight:700}
+.tt-scan{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#f6dca0 20%,#fff 50%,#f6dca0 80%,transparent);box-shadow:0 0 18px 4px rgba(246,220,160,.35);opacity:0;pointer-events:none}
+.fxtitle.out{opacity:0;-webkit-backdrop-filter:blur(0) brightness(1);backdrop-filter:blur(0) brightness(1);pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  .fxtitle .tt-art{animation:ttArt 1.3s cubic-bezier(.2,.8,.2,1) both .1s}
+  @keyframes ttArt{from{opacity:0;transform:translateX(60px)}}
+  .fxtitle .tt-planet{animation:ttPl 1.6s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes ttPl{from{transform:translateY(120px);opacity:0}}
+  .tt-copy > *{animation:ttIn .7s cubic-bezier(.2,.8,.3,1) both}
+  .tt-up{animation-delay:.1s!important}.tt-name{animation-delay:.2s!important}.tt-h{animation-delay:.3s!important}.tt-org{animation-delay:.45s!important}.tt-stats{animation-delay:.6s!important}.tt-go{animation-delay:.8s!important}.tt-skip{animation-delay:.95s!important}.tt-key{animation:ttIn .7s both 1.1s,ttBlink 2.4s ease-in-out infinite 2s!important}
+  @keyframes ttIn{from{opacity:0;transform:translateY(14px)}}
+  @keyframes ttBlink{50%{opacity:.35}}
+  .tt-stats > div{animation:ttIn .5s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(.65s + var(--i,0) * 90ms)}
+  .tt-scan{animation:ttScan 1.4s cubic-bezier(.4,.1,.3,1) .05s}
+  @keyframes ttScan{0%{top:0;opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+  .fxtitle.out .tt-copy{transform:translateX(-40px);transition:transform .7s cubic-bezier(.4,.1,.3,1)}
+  .fxtitle.out .tt-art{transform:translateX(40px) scale(1.03);transition:transform .7s cubic-bezier(.4,.1,.3,1)}
+  .fxtitle.out .tt-planet{transform:translateY(160px);transition:transform .7s cubic-bezier(.4,.1,.3,1)}
+}
+@media (max-width:880px){
+  .fxtitle .tt-art{right:-18vw;height:78vh;opacity:.45}
+  .fxtitle .tt-copy{left:6vw;top:auto;bottom:80px;translate:none}
+  .tt-h{font-size:120px}
+  .tt-stats{gap:18px}.tt-stats b{font-size:26px}.tt-stats > i{display:none}
+  .tt-up{font-size:10px;letter-spacing:.22em}.tt-org{font-size:15px;letter-spacing:.2em}.tt-go{margin-top:18px}
+  .tt-foot{font-size:10px;bottom:22px;letter-spacing:.18em}
+  .tt-foot span:nth-child(2){display:none}
+}
+
+@media (hover:none){ .tt-key{display:none} }
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -3510,10 +3678,13 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
     "grade.on":1, "grade.vig":.42, "grade.grain":.05, "grade.bloom":.35, "grade.streak":1,
     "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
-    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
+    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":1,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
     "id.on":1, "id.holo":.45, "id.spin":90,
-    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1
+    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
+    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
+    "title.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -3524,7 +3695,7 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     {g:"Key-light panels", on:"pan.on", k:[["pan.rim","Frame highlight",0,1,.05],["pan.rimr","Highlight reach (px)",80,600,10],["pan.pool","Light pool",0,.2,.005],["pan.poolr","Pool reach (px)",120,800,10]]},
     {g:"Film grade", on:"grade.on", k:[["grade.vig","Vignette",0,.9,.01],["grade.grain","Grain",0,.2,.005],["grade.bloom","Bloom",0,1,.05],["grade.streak","Tab streak",0,1,.05]]},
     {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
-    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
+    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5],["swap.carry","Carry Iō into Posse (0/1)",0,1,1]]},
     {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
     {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]},
     {g:"Tab entrances", on:"mom.on", k:[["mom.speed","Speed",.5,2,.05]]},
@@ -3532,11 +3703,26 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     {g:"Rep timeline spine", on:"spine.on", k:[]},
     {g:"Posse key light", on:"pose.on", k:[["pose.lit","Light strength",0,1.5,.05],["pose.dof","Blur behind (px)",0,5,.1]]},
     {g:"Vehicle engines and lights", on:"veh.on", k:[["veh.thr","Thruster glow",0,1.5,.05],["veh.strip","Light strip",0,1.5,.05]]},
-    {g:"Treemap glass", on:"glass.on", k:[]}
+    {g:"Treemap glass", on:"glass.on", k:[]},
+    {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
+    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]},
+    {g:"Panel depth (lean)", on:"tilt.on", k:[["tilt.deg","Lean (degrees)",0,4,.1]]},
+    {g:"Iō / Zolo switch transition", on:"rekey.on", k:[["rekey.t","Duration (s)",.3,2,.05]]},
+    {g:"Scroll reveals", on:"scroll.on", k:[]},
+    {g:"Engraved stat plates", on:"plate.on", k:[]},
+    {g:"Weapon alcoves", on:"weap.on", k:[]},
+    {g:"Dossier sign-off", on:"sync.on", k:[]},
+    {g:"Ware callouts", on:"call.on", k:[]},
+    {g:"Live nerves", on:"nerve.on", k:[]},
+    {g:"Implant glints", on:"glt.on", k:[]},
+    {g:"Vehicle schematic button", on:"sch.on", k:[]},
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
-  function P(k){ var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
+  /* Pinned Nov 18 (Oak): the in-browser depth maps warp the portraits on load. Off until Oak supplies better depth maps. */
+  var PIN = {"live.on":1, "r2.on":1};
+  function P(k){ if (PIN[k]) return 0; var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
   FX.P = P;
   function cssVars(){
     var s = root.style;
@@ -3545,11 +3731,15 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
+    s.setProperty("--foil", String(P("foil.str")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
   }
-  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
+  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); var cp = callPts(); if (Object.keys(cp).length) o["call.pts"] = cp; return o; }
+  /* Ware callout points, placed by hand: {"who|f|item name":[x%, y%]} (not a number, so it lives outside P) */
+  function callPts(){ var a = shared["call.pts"], b = local["call.pts"], o = {}, k; if (a && typeof a === "object") for (k in a) o[k] = a[k]; if (b && typeof b === "object") for (k in b) o[k] = b[k]; return o; }
+  function setPt(key, v){ var b = local["call.pts"] && typeof local["call.pts"] === "object" ? local["call.pts"] : {}; b[key] = v; local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
   function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
   function changed(k){
     if (/^(ret|lens)\./.test(k)){ if (k === "lens.on" && CTX.rerender) CTX.rerender(); else wareAfter(); }
@@ -3559,7 +3749,10 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     if (/^sky\./.test(k)) skySync();
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
+    if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
+    if (/^(tilt|rekey|scroll|plate|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
+    if (k === "title.on" && P("title.on")) titleShow(true);
   }
 
   /* panel */
@@ -4062,8 +4255,10 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     if (!reduce && P("swap.on") && D.startViewTransition && !CTX.editing){
       root.classList.add("fx-swap");
       /* carrying the Iō figure between tabs is off by default: it fights each tab's own entrance (Ware boot scan, Dossier load-in, Posse reveal) */
-      root.classList.toggle("fx-carry", !!P("swap.carry") && (to === "ware" || to === "posse") && !!D.querySelector("#bodyfig, .portrait.iop .iopw, .fig.lead"));
-      try { vt = D.startViewTransition(function(){ fn(); }); } catch(e){ vt = null; }
+      var carry = !!P("swap.carry") && to === "posse" && CTX.who !== "zolo" && !!D.querySelector("#bodyfig, .portrait.iop .iopw");
+      root.classList.toggle("fx-carry", carry);
+      /* the lead figure skips its own rise when Iō is carried in, so the two don't fight */
+      try { vt = D.startViewTransition(function(){ fn(); if (carry){ var ld = D.querySelector(".lineup .fig.lead"); if (ld) ld.style.animation = "none"; } }); } catch(e){ vt = null; }
     }
     if (vt){ var done = function(){ root.classList.remove("fx-swap", "fx-carry"); }; vt.finished.then(done, done); vt.ready.then(streak, streak); }
     else { root.classList.remove("fx-swap", "fx-carry"); fn(); streak(); }
@@ -4197,17 +4392,6 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
   }
   W.addEventListener("scroll", function(){ if (SPINE.el && !SPINE.raf) SPINE.raf = requestAnimationFrame(spineUpdate); }, {passive:true});
 
-  /* N1 */
-  function momFans(){
-    var g = D.querySelector(".fngrid.deal"); if (!g) return;
-    var gr = g.getBoundingClientRect(), ox = gr.left + gr.width / 2, oy = Math.max(gr.top - 70, 90), n = 0;
-    [].forEach.call(g.querySelectorAll(".fcard"), function(c){ var r = c.getBoundingClientRect(); if (r.top > W.innerHeight + 40 || n > 24) return;
-      c.style.setProperty("--fdx", (ox - (r.left + r.width / 2)).toFixed(0) + "px"); c.style.setProperty("--fdy", (oy - (r.top + r.height / 2)).toFixed(0) + "px");
-      c.style.setProperty("--fr", ((Math.random() - .5) * 26).toFixed(1) + "deg"); c.style.setProperty("--fn", n++); c.classList.add("fxd"); });
-    g.classList.remove("deal"); g.classList.add("fxdeal");
-    momLater(function(){ g.classList.remove("fxdeal"); [].forEach.call(g.querySelectorAll(".fcard.fxd"), function(c){ c.classList.remove("fxd"); }); }, 200 + n * 62 + 760);
-  }
-
   /* P1 / P2 */
   var POS = {figs:[], sweep:null, eyeT:0};
   function posseFrame(){
@@ -4290,20 +4474,536 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     if (enter && momOn()){
       if (CTX.tab === "casefile") momCase();
       else if (CTX.tab === "rep") momRep();
-      else if (CTX.tab === "fans") momFans();
       else if (CTX.tab === "advance") momAdv();
     }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
-    spineAfter(); posseAfter(enter); vehAfter(enter);
+    spineAfter(); posseAfter(enter); vehAfter(enter); restAfter(enter);
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
   }
+
+  /* ================= Phase 4: hero pieces =================
+     All four use flat art and a depth map worked out in the browser: for cut-out art the silhouette is inflated into a
+     rounded volume (distance from the edge), with a little of the picture's own light on top; for framed art (Rep
+     portraits) depth comes from where the light falls and from the framing. A real depth map can replace either later. */
+  function depthOf(img, cut, w){
+    w = w || 160; var iw0 = img.naturalWidth || img.width, ih0 = img.naturalHeight || img.height, h = Math.max(2, Math.round(w * ih0 / Math.max(1, iw0)));
+    var c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d", {willReadFrequently:true}); x.drawImage(img, 0, 0, w, h);
+    var px = x.getImageData(0, 0, w, h).data, n = w * h, a = new Float32Array(n), lum = new Float32Array(n), d = new Float32Array(n), i, j, k;
+    for (i = 0; i < n; i++){ a[i] = px[i * 4 + 3] / 255; lum[i] = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255; }
+    function blur(src, r){ var t = new Float32Array(n), o = new Float32Array(n), y, xx, s, cnt;
+      for (y = 0; y < h; y++){ s = 0; cnt = 0; for (xx = -r; xx < w + r; xx++){ if (xx + r < w){ s += src[y * w + xx + r]; cnt++; } if (xx - r - 1 >= 0){ s -= src[y * w + xx - r - 1]; cnt--; } if (xx >= 0 && xx < w) t[y * w + xx] = s / Math.max(1, cnt); } }
+      for (xx = 0; xx < w; xx++){ s = 0; cnt = 0; for (y = -r; y < h + r; y++){ if (y + r < h){ s += t[(y + r) * w + xx]; cnt++; } if (y - r - 1 >= 0){ s -= t[(y - r - 1) * w + xx]; cnt--; } if (y >= 0 && y < h) o[y * w + xx] = s / Math.max(1, cnt); } }
+      return o; }
+    if (cut){
+      /* chamfer distance from the silhouette's edge */
+      var INF = 1e9; for (i = 0; i < n; i++) d[i] = a[i] > .5 ? INF : 0;
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; if (!d[k]) continue; var m = d[k];
+        if (i > 0) m = Math.min(m, d[k - 1] + 1); if (j > 0){ m = Math.min(m, d[k - w] + 1); if (i > 0) m = Math.min(m, d[k - w - 1] + 1.414); if (i < w - 1) m = Math.min(m, d[k - w + 1] + 1.414); } d[k] = m; }
+      for (j = h - 1; j >= 0; j--) for (i = w - 1; i >= 0; i--){ k = j * w + i; if (!d[k]) continue; var m2 = d[k];
+        if (i < w - 1) m2 = Math.min(m2, d[k + 1] + 1); if (j < h - 1){ m2 = Math.min(m2, d[k + w] + 1); if (i < w - 1) m2 = Math.min(m2, d[k + w + 1] + 1.414); if (i > 0) m2 = Math.min(m2, d[k + w - 1] + 1.414); } d[k] = m2; }
+      var mx = 0; for (i = 0; i < n; i++) if (d[i] < INF && d[i] > mx) mx = d[i];
+      var lb = blur(lum, Math.max(1, Math.round(w / 60)));
+      for (i = 0; i < n; i++){ var t2 = Math.min(1, d[i] / Math.max(1, mx * .95)); d[i] = a[i] > .02 ? Math.sqrt(t2 * (2 - t2)) * .72 + lb[i] * .28 : 0; }
+      d = blur(d, Math.max(1, Math.round(w / 80)));
+    } else {
+      var lb2 = blur(lum, Math.max(2, Math.round(w / 14))), lo = 1, hi = 0;
+      for (i = 0; i < n; i++){ if (lb2[i] < lo) lo = lb2[i]; if (lb2[i] > hi) hi = lb2[i]; }
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; var dx = (i / w - .5) / .55, dy = (j / h - .38) / .62, rad = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy));
+        d[k] = .5 * ((lb2[k] - lo) / Math.max(.01, hi - lo)) + .5 * rad * rad * (3 - 2 * rad); }
+      d = blur(d, Math.max(1, Math.round(w / 40)));
+    }
+    var out = D.createElement("canvas"); out.width = w; out.height = h; var ox = out.getContext("2d"), od = ox.createImageData(w, h);
+    for (i = 0; i < n; i++){ var v = Math.round(Math.max(0, Math.min(1, d[i])) * 255); od.data[i * 4] = od.data[i * 4 + 1] = od.data[i * 4 + 2] = v; od.data[i * 4 + 3] = 255; }
+    ox.putImageData(od, 0, 0); return out;
+  }
+  FX.depthOf = depthOf;
+  var STARS_GLSL = "float h21(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}" +
+    "float starf(vec2 p){vec2 g=floor(p),f=fract(p)-.5;float r=h21(g);return r>.9?smoothstep(.12,0.,length(f-(vec2(h21(g+1.3),h21(g+2.1))-.5)*.6))*(r-.9)*10.:0.;}";
+
+  /* ---- D2: the living portrait ---- */
+  var LIVEF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep,uGold;uniform vec2 uPtr,uLight;uniform float uT,uPar,uRel,uSpec,uHasGold,uAsp;",
+    STARS_GLSL,
+    "void main(){",
+    "  vec2 uv=vUv;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=vUv-(d-.45)*uPtr*uPar;d=texture2D(uDep,uv).r;}",
+    "  vec4 c=texture2D(uImg,uv);if(c.a<.003){gl_FragColor=vec4(0.);return;}",
+    "  vec2 e=vec2(1./160.,1./160.*uAsp);",
+    "  float dx=texture2D(uDep,uv+vec2(e.x,0.)).r-texture2D(uDep,uv-vec2(e.x,0.)).r;",
+    "  float dy=texture2D(uDep,uv+vec2(0.,e.y)).r-texture2D(uDep,uv-vec2(0.,e.y)).r;",
+    "  vec3 n=normalize(vec3(-dx*5.,dy*5.,1.));",
+    "  vec3 L=normalize(vec3((uLight-uv)*vec2(1.,-1.),.55));",
+    "  float dif=dot(n,L);",
+    "  vec3 rgb=c.rgb/max(c.a,.001);",
+    "  rgb*=1.+uRel*(dif-.42)*.6;",
+    "  float rim=pow(1.-n.z,1.6)*max(dot(normalize(n.xy+1e-4),L.xy),0.);",
+    "  rgb+=vec3(1.,.82,.55)*rim*uRel*.5;",
+    "  float g=uHasGold>.5?texture2D(uGold,uv).a:0.;",
+    "  if(g>.01){",
+    "    vec3 R=reflect(vec3(0.,0.,-1.),n);vec2 ru=R.xy*3.+uPtr*.6+vec2(uT*.01,0.);",
+    "    vec3 env=vec3(.06,.04,.03)+vec3(.95,.62,.3)*smoothstep(-.4,-.9,R.y)*.55+vec3(1.,.93,.8)*(starf(ru*9.)+starf(ru*17.+7.)*.7);",
+    "    float sp=pow(max(dot(reflect(-L,n),vec3(0.,0.,1.)),0.),22.);",
+    "    rgb+=g*uSpec*(env*vec3(1.,.8,.5)*.55+vec3(1.,.9,.7)*sp*.9);",
+    "  }",
+    "  gl_FragColor=vec4(clamp(rgb,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var LIVE = {cv:null, g:null, wrap:null, ptr:[0,0], tp:[0,0], vis:false, key:""};
+  function liveStop(){ tick.remove(liveFrame); if (LIVE.g) LIVE.g.kill(); if (LIVE.cv) LIVE.cv.remove(); if (LIVE.wrap) LIVE.wrap.classList.remove("fxlive-on"); LIVE.cv = LIVE.g = LIVE.wrap = null; LIVE.key = ""; }
+  function liveFrame(t){
+    var w = LIVE.wrap, g = LIVE.g; if (!w || !w.isConnected || !g || g.lost){ liveStop(); return; }
+    var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight) return;
+    var cx = r.left + r.width / 2, cy = r.top + r.height * .35;
+    LIVE.tp = [Math.max(-1, Math.min(1, (L.x - cx) / (W.innerWidth * .5))), Math.max(-1, Math.min(1, (L.y - cy) / (W.innerHeight * .5)))];
+    LIVE.ptr[0] += (LIVE.tp[0] - LIVE.ptr[0]) * .08; LIVE.ptr[1] += (LIVE.tp[1] - LIVE.ptr[1]) * .08;
+    var dpr = GL.dpr(), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    if (LIVE.cv.width !== cw || LIVE.cv.height !== ch){ LIVE.cv.width = cw; LIVE.cv.height = ch; }
+    g.f("uPtr", LIVE.ptr[0], -LIVE.ptr[1]); g.f("uLight", (L.x - r.left) / r.width, (L.y - r.top) / r.height); g.f("uT", t / 1000);
+    g.f("uPar", P("live.par") * .03); g.f("uRel", P("live.rel")); g.f("uSpec", P("live.spec"));
+    g.draw();
+    if (!w.classList.contains("fxlive-on")) w.classList.add("fxlive-on");
+  }
+  function liveAfter(){
+    var w = CTX.tab === "dossier" && CTX.who !== "zolo" && !CTX.editing ? D.querySelector(".portrait.iop .iopw") : null;
+    var img = w && w.querySelector("picture img"), want = !!(w && img && P("live.on") && GL.test() && !reduce && W.innerWidth > 880);
+    var key = want ? img.getAttribute("src") : "";
+    if (!want){ liveStop(); return; }
+    if (LIVE.wrap === w && LIVE.key === key) return;
+    liveStop(); LIVE.key = key;
+    var gsrc = (w.querySelector(".iogold") || {style:{getPropertyValue:function(){ return ""; }}}).style.getPropertyValue("--gm"); gsrc = urlOf(gsrc);
+    Promise.all([loadImg(key), gsrc ? loadImg(gsrc).catch(function(){ return null; }) : Promise.resolve(null)]).then(function(ims){
+      if (!w.isConnected || LIVE.key !== key) return;
+      var cv = D.createElement("canvas"); cv.className = "fxlive"; cv.setAttribute("aria-hidden", "true");
+      var g = GL.make(cv, LIVEF); if (!g) return;
+      var dep = depthOf(ims[0], true, 160);
+      g.tex(0, "uImg", ims[0]); g.tex(1, "uDep", dep); if (ims[1]) g.tex(2, "uGold", ims[1]); else { var l = g.u("uGold"); if (l) g.gl.uniform1i(l, 1); }
+      g.f("uHasGold", ims[1] ? 1 : 0); g.f("uAsp", ims[0].naturalWidth / ims[0].naturalHeight);
+      var pic = w.querySelector("picture"); pic.parentNode.insertBefore(cv, pic.nextSibling);
+      LIVE.cv = cv; LIVE.g = g; LIVE.wrap = w; LIVE.ptr = [0, 0]; tick.add(liveFrame);
+    }, function(){});
+  }
+
+  /* ---- R2: Rep portraits move in depth ---- */
+  var R2F = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uPtr,uS,uO;uniform float uZ,uPar;",
+    "void main(){",
+    "  vec2 base=(vUv-.5)/uZ+.5;vec2 uv=base*uS+uO;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=(base-(d-.5)*uPtr*uPar)*uS+uO;d=texture2D(uDep,uv).r;}",
+    "  vec3 c=texture2D(uImg,clamp(uv,0.,1.)).rgb;",
+    "  float v=smoothstep(1.15,.35,length((vUv-.5)*vec2(1.,1.2)));",
+    "  gl_FragColor=vec4(c*(.82+.18*v),1.);",
+    "}"].join("\n");
+  var R2 = {list:[], raf:false};
+  function r2Stop(){ tick.remove(r2Frame); R2.list.forEach(function(o){ if (o.g) o.g.kill(); if (o.cv) o.cv.remove(); if (o.fr) o.fr.classList.remove("fxr2-on"); }); R2.list = []; }
+  function r2Frame(t){
+    var any = false;
+    R2.list.forEach(function(o){
+      if (!o.fr.isConnected || o.g.lost){ return; } any = true;
+      var r = o.fr.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight || r.width < 4) return;
+      var act = o.fr.matches(":hover") || (o.fr.classList.contains("now") && !o.fr.parentNode.matches(":hover"));
+      var tx = act ? Math.max(-1, Math.min(1, (L.x - (r.left + r.width / 2)) / (r.width * .8))) : 0, ty = act ? Math.max(-1, Math.min(1, (L.y - (r.top + r.height / 2)) / (r.height * .8))) : 0;
+      var drift = act ? .35 * Math.sin(t / 1000 * .35 + o.ph) : 0;
+      o.p[0] += (tx + drift - o.p[0]) * .06; o.p[1] += (ty - o.p[1]) * .06; o.z += ((act ? 1.06 : 1.0) - o.z) * .04;
+      var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+      if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+      /* object-fit: cover with the frame's object-position */
+      var iw = o.im.naturalWidth, ih = o.im.naturalHeight, s = Math.max(r.width / iw, r.height / ih), vw = r.width / (iw * s), vh = r.height / (ih * s);
+      g2(o, "uS", vw, vh); g2(o, "uO", (1 - vw) * o.pos[0], (1 - vh) * o.pos[1]);
+      o.g.f("uPtr", -o.p[0], -o.p[1]); o.g.f("uZ", o.z); o.g.f("uPar", P("r2.par") * .035); o.g.draw();
+      if (!o.fr.classList.contains("fxr2-on")) o.fr.classList.add("fxr2-on");
+    });
+    if (!any) r2Stop();
+  }
+  function g2(o, n, a, b){ o.g.f(n, a, b); }
+  function r2After(){
+    r2Stop();
+    if (CTX.tab !== "rep" || CTX.editing || !P("r2.on") || !GL.test() || reduce) return;
+    [].forEach.call(D.querySelectorAll(".film .frame"), function(fr, i){
+      var img = fr.querySelector("img"); if (!img) return;
+      var op = (img.style.objectPosition || "50% 50%").split(/\s+/).map(function(v){ return parseFloat(v) / 100; });
+      loadImg(img.getAttribute("src")).then(function(im){
+        if (!fr.isConnected) return;
+        var cv = D.createElement("canvas"); cv.className = "fxr2"; cv.setAttribute("aria-hidden", "true");
+        var g = GL.make(cv, R2F); if (!g) return; g.gl.disable(g.gl.BLEND);
+        g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, false, 128));
+        fr.insertBefore(cv, img.nextSibling);
+        R2.list.push({fr:fr, cv:cv, g:g, im:im, pos:[isNaN(op[0]) ? .5 : op[0], isNaN(op[1]) ? .5 : op[1]], p:[0, 0], z:1, ph:i * 1.7});
+        tick.add(r2Frame);
+      }, function(){});
+    });
+  }
+
+  /* ---- N2: true foil on the opened fan card ---- */
+  var FOILF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uTilt;uniform float uT;",
+    STARS_GLSL,
+    "vec3 pal(float t){t=fract(t);vec3 a=vec3(.85,.62,.28),b=vec3(1.,.45,.55),c=vec3(.62,.38,1.),d=vec3(1.,.78,.42);",
+    "  return t<.25?mix(a,b,t*4.):t<.5?mix(b,c,(t-.25)*4.):t<.75?mix(c,d,(t-.5)*4.):mix(d,a,(t-.75)*4.);}",
+    "void main(){",
+    "  vec4 c=texture2D(uImg,vUv);if(c.a<.01){gl_FragColor=vec4(0.);return;}",
+    "  float dp=texture2D(uDep,vUv).r;",
+    "  vec2 e=vec2(1./128.,0.);float dx=texture2D(uDep,vUv+e.xy).r-texture2D(uDep,vUv-e.xy).r,dy=texture2D(uDep,vUv+e.yx).r-texture2D(uDep,vUv-e.yx).r;",
+    "  vec3 n=normalize(vec3(-dx*3.,-dy*3.,1.));",
+    "  float lum=dot(c.rgb/max(c.a,.001),vec3(.3,.59,.11));",
+    "  float film=dot(n.xy,uTilt)*1.6+(vUv.x*.9+vUv.y*.6)+dot(uTilt,vec2(.9,.6))*1.2+lum*.35;",
+    "  vec3 col=pal(film);",
+    "  float band=.35+.65*pow(.5+.5*sin(film*6.283*1.5),2.);",
+    "  float mid=smoothstep(.12,.45,lum)*(1.-smoothstep(.85,1.,lum));",
+    "  vec2 sg=vUv*vec2(70.,98.);float sp=starf(sg+floor(uTilt*8.))*step(.3,lum);",
+    "  vec3 o=mix(vec3(.5),col,band*mid)+vec3(.5)*sp;",
+    "  gl_FragColor=vec4(clamp(o,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var FOIL = {cv:null, g:null, aw:null, card:null, src:"", tilt:[0,0]};
+  function foilStop(){ tick.remove(foilFrame); if (FOIL.g) FOIL.g.kill(); if (FOIL.cv) FOIL.cv.remove(); if (FOIL.aw) FOIL.aw.classList.remove("fxfoil-on"); FOIL.cv = FOIL.g = FOIL.aw = FOIL.card = null; FOIL.src = ""; }
+  function foilFrame(t){
+    var aw = FOIL.aw, g = FOIL.g; if (!aw || !aw.isConnected || !g || g.lost || !aw.closest(".fnspot.on")){ foilStop(); return; }
+    var cs = FOIL.card.style, px = parseFloat(cs.getPropertyValue("--px")) || 0, py = parseFloat(cs.getPropertyValue("--py")) || 0;
+    FOIL.tilt[0] += (px - FOIL.tilt[0]) * .2; FOIL.tilt[1] += (py - FOIL.tilt[1]) * .2;
+    var r = FOIL.cv.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), ch = Math.round(Math.max(40, aw.clientHeight * 1.12) * dpr), cw = Math.round(ch * FOIL.asp);
+    if (cw < 4 || ch < 4) return;
+    if (FOIL.cv.width !== cw || FOIL.cv.height !== ch){ FOIL.cv.width = cw; FOIL.cv.height = ch; }
+    g.f("uTilt", FOIL.tilt[0] * 2.2, FOIL.tilt[1] * 2.2); g.f("uT", t / 1000); g.draw();
+    if (!aw.classList.contains("fxfoil-on")) aw.classList.add("fxfoil-on");
+  }
+  function foilWatch(){
+    var aw = P("foil.on") && !reduce && GL.test() ? D.querySelector(".fnspot.on .fcard.big .fc-aw") : null, img = aw && aw.querySelector("img.fc-art:not(.fc-holo)");
+    if (!aw || !img){ if (FOIL.aw) foilStop(); return; }
+    var src = img.getAttribute("src"); if (FOIL.aw === aw && FOIL.src === src) return;
+    foilStop(); FOIL.src = src;
+    loadImg(src).then(function(im){
+      if (!aw.isConnected || FOIL.src !== src) return;
+      var cv = D.createElement("canvas"); cv.className = "fxfoil"; cv.setAttribute("aria-hidden", "true");
+      FOIL.asp = im.naturalWidth / Math.max(1, im.naturalHeight); cv.style.aspectRatio = im.naturalWidth + "/" + im.naturalHeight;
+      cv.height = Math.round(aw.clientHeight * 1.12); cv.width = Math.round(cv.height * FOIL.asp);
+      var g = GL.make(cv, FOILF); if (!g) return;
+      g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, true, 128));
+      aw.appendChild(cv); FOIL.cv = cv; FOIL.g = g; FOIL.aw = aw; FOIL.card = aw.closest(".fcard.big"); FOIL.tilt = [0, 0]; tick.add(foilFrame);
+    }, function(){});
+  }
+  var foilMO = new MutationObserver(function(){ clearTimeout(foilMO.t); foilMO.t = setTimeout(foilWatch, 60); });
+
+  /* ---- W5: the Ware figure turns in depth ---- */
+  var TURNF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform float uA,uPad,uDZ,uGlow;uniform vec3 uCol;",
+    "void main(){",
+    "  float ca=cos(uA),sa=sin(uA);",
+    "  float xo=(vUv.x-.5)*(1.+2.*uPad);",                       /* output x, in units of the figure's width, centred */
+    "  float xs=xo/max(ca,.08),dz=0.;",
+    "  for(int i=0;i<4;i++){vec2 su=vec2(xs+.5,vUv.y);dz=texture2D(uDep,su).r*step(0.,su.x)*step(su.x,1.)*uDZ;xs=(xo-dz*sa)/max(ca,.08);}",
+    "  vec2 su=vec2(xs+.5,vUv.y);",
+    "  if(su.x<0.||su.x>1.){gl_FragColor=vec4(0.);return;}",
+    "  vec4 c=texture2D(uImg,su);",
+    "  float e=.02;float gx=(texture2D(uDep,su+vec2(e,0.)).r-texture2D(uDep,su-vec2(e,0.)).r)/(2.*e)*uDZ;",
+    "  float facing=clamp((ca+gx*sa)/sqrt(1.+gx*gx),0.,1.);",                  /* how square the surface sits to the viewer as it turns */
+    "  vec3 rgb=c.rgb*(.45+.55*facing);",
+    "  float rim=pow(1.-facing,4.)*abs(sa)*smoothstep(.02,.3,c.a);",
+    "  rgb+=uCol*rim*uGlow*.35*c.a;",
+    "  gl_FragColor=vec4(rgb,c.a);",
+    "}"].join("\n");
+  function turnSnap(fig){
+    var img = fig.querySelector("#bodyimg"); if (!img || !img.naturalWidth) return null;
+    var w = Math.min(520, img.naturalWidth), h = Math.round(w * img.naturalHeight / img.naturalWidth), c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
+    var clo = fig.querySelector(".cloth"), cs = clo && getComputedStyle(clo);
+    if (!(clo && fig.classList.contains("clothed"))) x.drawImage(img, 0, 0, w, h);
+    return {c:c, cloth:clo && fig.classList.contains("clothed") ? urlOf(clo.style.getPropertyValue("--ci")) : "", w:w, h:h, img:img};
+  }
+  function turnTex(fig){
+    var s = turnSnap(fig); if (!s) return Promise.reject();
+    if (!s.cloth) return Promise.resolve(s.c);
+    return loadImg(s.cloth).then(function(ci){ s.c.getContext("2d").drawImage(ci, 0, 0, s.w, s.h); return s.c; });
+  }
+  FX.turn = function(fig, doRender, dir){
+    try {
+      if (!fig || reduce || !P("turn.on") || !GL.test() || fig.classList.contains("boot")) return false;
+      var R = fig.getBoundingClientRect(); if (R.width < 20) return false;
+      var pad = .3, cv = D.createElement("canvas"); cv.className = "fxturn"; cv.setAttribute("aria-hidden", "true");
+      var dpr = GL.dpr(); cv.width = Math.round(R.width * (1 + 2 * pad) * dpr); cv.height = Math.round(R.height * dpr);
+      cv.style.left = (R.left + W.scrollX - R.width * pad) + "px"; cv.style.top = (R.top + W.scrollY) + "px"; cv.style.width = (R.width * (1 + 2 * pad)) + "px"; cv.style.height = R.height + "px";
+      var g = GL.make(cv, TURNF); if (!g) return false;
+      var zo = D.body.classList.contains("zolo"), T = Math.max(.15, P("turn.t")) * 1000, sgn = dir === "back" ? 1 : -1;
+      g.f("uPad", pad); g.f("uDZ", P("turn.depth") * .22); g.f("uGlow", 1.2); if (zo) g.f("uCol", .82, .9, .96); else g.f("uCol", 1., .8, .48);
+      var done = false;
+      function finish(){ if (done) return; done = true; tick.remove(fr); cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); }
+      function run(from, to, dur, ease0, then){ var t0 = 0; fr = function(t){ if (g.lost){ finish(); return; } if (!t0) t0 = t; var k = Math.min(1, (t - t0) / dur), e = ease0(k); g.f("uA", from + (to - from) * e); g.draw(); if (k >= 1){ tick.remove(fr); then(); } }; tick.add(fr); }
+      var fr = null;
+      return turnTex(fig).then(function(tex){
+        var dep = depthOf(tex, true, 96); g.tex(0, "uImg", tex); g.tex(1, "uDep", dep);
+        g.f("uA", 0); g.draw(); D.body.appendChild(cv); fig.classList.add("fxturning");
+        run(0, sgn * 1.45, T * .45, function(k){ return k * k * (3 - 2 * k) * k; }, function(){
+          doRender();
+          var nf = D.getElementById("bodyfig"); if (!nf){ finish(); return; }
+          nf.classList.add("fxturning");
+          var ni = nf.querySelector("#bodyimg"), ready = ni && !ni.complete ? new Promise(function(res){ ni.addEventListener("load", res, {once:true}); ni.addEventListener("error", res, {once:true}); }) : Promise.resolve();
+          within(900, ready.then(function(){ return turnTex(nf); })).then(function(t2){
+            g.tex(0, "uImg", t2); g.tex(1, "uDep", depthOf(t2, true, 96));
+            run(-sgn * 1.45, 0, T * .55, function(k){ var u = 1 - k; return 1 - u * u * u; }, finish);
+          }, finish);
+        });
+      }, function(){ cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); doRender(); }) && true;
+    } catch(e){ return false; }
+  };
+
+  function heroAfter(){ liveAfter(); r2After(); foilWatch();
+    var fs = D.getElementById("fnspot"); foilMO.disconnect(); if (fs) foilMO.observe(fs, {attributes:true, childList:true, subtree:true, attributeFilter:["class", "hidden"]}); }
+
+  /* ================= The rest of the approved list ================= */
+  function px2(v){ return (+v).toFixed(2); }
+  function fxLater(fn, ms){ setTimeout(fn, ms); }
+
+  /* G3: panel depth */
+  var TILT = {el:null};
+  D.addEventListener("pointermove", function(ev){
+    if (ev.pointerType === "touch" || reduce || !P("tilt.on") || CTX.editing) return;
+    var b = ev.target.closest && ev.target.closest(".box:not(.rside):not(.glite):not(.pcard):not(.lo-con)");
+    if (b && !b.closest(".dossier, .adv, main.rep, .advance, .cf, main.posse")) b = null;
+    if (TILT.el && TILT.el !== b){ var o = TILT.el; o.classList.add("fxtilt-out"); o.style.setProperty("--ttx", "0deg"); o.style.setProperty("--tty", "0deg"); o.style.setProperty("--tsh", 0); setTimeout(function(){ if (TILT.el !== o) o.classList.remove("fxtilt", "fxtilt-out"); }, 500); }
+    TILT.el = b; if (!b) return;
+    var r = b.getBoundingClientRect(), k = P("tilt.deg") * Math.min(1, 380 / Math.max(r.height, r.width * .6)), nx = (ev.clientX - r.left) / r.width - .5, ny = (ev.clientY - r.top) / r.height - .5;
+    b.classList.remove("fxtilt-out"); b.classList.add("fxtilt");
+    b.style.setProperty("--ttx", px2(nx * k * 2) + "deg"); b.style.setProperty("--tty", px2(-ny * k * 2) + "deg"); b.style.setProperty("--tsh", px2(2 + ny * 4));
+  }, {passive:true});
+
+  /* G6: persona re-key */
+  FX.rekey = function(fn, btn){
+    var vt = null;
+    if (!reduce && P("rekey.on") && D.startViewTransition && !CTX.editing){
+      var r = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : {left:W.innerWidth / 2, top:60, width:0, height:0};
+      root.style.setProperty("--rkx", (r.left + r.width / 2) + "px"); root.style.setProperty("--rky", (r.top + r.height / 2) + "px"); root.style.setProperty("--rk-t", Math.max(.3, P("rekey.t")) + "s");
+      root.classList.add("fx-rekey");
+      try { vt = D.startViewTransition(function(){ fn();
+        var ring = D.createElement("i"); ring.className = "fxrk-ring"; ring.setAttribute("aria-hidden", "true");
+        ring.style.setProperty("--rkc", D.body.classList.contains("zolo") ? "#e3eaee" : "#f0cf8e"); D.body.appendChild(ring); setTimeout(function(){ ring.remove(); }, 1600);
+      }); } catch(e){ vt = null; }
+    }
+    function after(){ root.classList.remove("fx-rekey");
+      if (reduce) return;
+      [].forEach.call(D.querySelectorAll("header.top .id h1, header.top .id small, header.top .id .chip"), function(el, i){ var t = lastText(el) || (el.firstElementChild && lastText(el.firstElementChild)); if (t) scramble(t, 520, 60 + i * 120); }); }
+    if (vt){ vt.finished.then(after, after); } else { root.classList.remove("fx-rekey"); fn(); after(); }
+  };
+
+  /* D6 is CSS only. D3 plates take the key light. */
+  function platesAfter(){ D.body.classList.toggle("fx-plates", !!P("plate.on")); D.body.classList.toggle("fx-weap", !!P("weap.on"));
+    if (P("plate.on")) [].forEach.call(D.querySelectorAll(".dossier .stat"), function(s){ s.setAttribute("data-lit", ""); }); }
+
+  /* D7: when the Dossier load-in's scan lines leave, it signs off */
+  var SYNC = {armed:false};
+  new MutationObserver(function(ms){
+    if (!SYNC.armed) return;
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].removedNodes.length; j++){ var n = ms[i].removedNodes[j];
+      if (n.nodeType === 1 && n.classList.contains("hzscan") && !D.querySelector(".hzscan")){ SYNC.armed = false; syncDone(); return; } }
+  }).observe(D.documentElement, {childList:true, subtree:true});
+  function syncDone(){
+    if (reduce || !P("sync.on") || CTX.tab !== "dossier" || CTX.who === "zolo") return;
+    var tr = D.querySelector(".tabrow"); if (!tr) return; var r = tr.getBoundingClientRect();
+    var s = D.createElement("i"); s.className = "fxsync"; s.setAttribute("aria-hidden", "true"); s.innerHTML = "<b>SYNC COMPLETE</b>";
+    s.style.left = (r.left + W.scrollX) + "px"; s.style.width = r.width + "px"; s.style.top = (r.bottom + W.scrollY + 2) + "px"; D.body.appendChild(s); setTimeout(function(){ s.remove(); }, 1800);
+    [].forEach.call(D.querySelectorAll("header.top .m > span"), function(sp, i){ var t = lastText(sp.querySelector(".dec") || sp); if (t) scramble(t, 380, 180 + i * 90); });
+    var gold = D.querySelector(".iopw .iogold"); if (gold){ gold.classList.remove("fxsheen"); void gold.offsetWidth; gold.classList.add("fxsheen"); setTimeout(function(){ gold.classList.remove("fxsheen"); }, 1300); }
+  }
+
+  /* W3: film callouts beside the Ware figure. Each item's line ends where Oak placed it by hand;
+     an item not placed yet points at its zone's anchor (and shows a hollow dot to the admin). */
+  var CALL = {place:false, sel:"", drag:null};
+  function callAfter(){
+    [].forEach.call(D.querySelectorAll(".fxcall, .fxcallbar"), function(n){ n.remove(); }); D.body.classList.remove("fx-placing");
+    var fig = D.getElementById("bodyfig"), panel = D.getElementById("zpanel"), F = CTX.fig;
+    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")){ CALL.place = false; return; }
+    var stage = fig.closest(".stage"); if (!stage) return;
+    if (CTX.admin) callBar(stage);
+    var regs = String(fig.dataset.sel || "").split(/\s+/).filter(Boolean); if (!regs.length) return;
+    var rows = [].slice.call(panel.querySelectorAll(".ctree li.d0 > .nrow, .ctree li.d1 > .nrow")).slice(0, 14); if (!rows.length) return;
+    var sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect(), pts = callPts(), face = (CTX.who || "io") + "|" + (F.back ? "b" : "f") + "|";
+    var a = F.anch[regs[0] === "legs" ? "legs" : regs[0]] || F.anch.torso; if (!a) return;
+    function toStage(p){ return [fr.left - sr.left + fr.width * p[0] / 100, fr.top - sr.top + fr.height * p[1] / 100]; }
+    var items = rows.map(function(rw){ var nm = ((rw.querySelector(".wn") || {}).textContent || "").trim(), key = face + nm, p = pts[key]; return {rw:rw, nm:nm, key:key, placed:!!p, pt:toStage(p || a)}; });
+    if (items.some(function(it){ return it.placed; })) items.sort(function(p, q){ return p.pt[1] - q.pt[1]; });
+    var avg = items.reduce(function(s, it){ return s + it.pt[1]; }, 0) / items.length;
+    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(46, Math.min(sr.height - items.length * 28 - 50, avg - items.length * 14)), wrap = D.createElement("div");
+    wrap.className = "fxcall" + (CALL.place ? " fxplace" : ""); wrap.setAttribute("aria-hidden", "true");
+    var paths = "", dots = "", labels = "";
+    items.forEach(function(it, i){
+      var tg = it.rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 28, px = it.pt[0], py = it.pt[1];
+      var d = "M" + x1 + " " + (y + 9) + " L" + (x1 + 18) + " " + (y + 9) + " L" + px + " " + py;
+      var on = CALL.place && CALL.sel === it.key;
+      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"' + (on ? ' class="on"' : '') + '/>';
+      if (it.placed || CALL.place) dots += '<circle data-ci="' + i + '" cx="' + px + '" cy="' + py + '" r="' + (CALL.place ? 5 : 3) + '"' + (it.placed ? '' : ' class="un"') + (on ? ' data-on=""' : '') + '/>';
+      labels += '<span class="fxcl' + (on ? ' on' : '') + (CALL.place && !it.placed ? ' un' : '') + '" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(it.nm) + '">' + esc(it.nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
+    });
+    var hub = items.some(function(it){ return !it.placed; }) && !CALL.place ? '<circle cx="' + toStage(a)[0] + '" cy="' + toStage(a)[1] + '" r="3"/>' : "";
+    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + dots + hub + '</svg>' + labels;
+    stage.appendChild(wrap);
+    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var it = items[+l.dataset.ci]; if (!it) return;
+      if (CALL.place){ CALL.sel = CALL.sel === it.key ? "" : it.key; callAfter(); return; }
+      it.rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); it.rw.click(); });
+    if (!CALL.place) return;
+    D.body.classList.toggle("fx-placing", !!CALL.sel);
+    /* drag a dot to move it */
+    wrap.addEventListener("pointerdown", function(ev){ var c = ev.target.closest && ev.target.closest("circle[data-ci]"); if (!c) return; ev.preventDefault(); ev.stopPropagation();
+      var it = items[+c.dataset.ci]; CALL.sel = it.key; CALL.drag = {it:it, c:c}; c.setPointerCapture && c.setPointerCapture(ev.pointerId); });
+    wrap.addEventListener("pointermove", function(ev){ var g = CALL.drag; if (!g) return; g.c.setAttribute("cx", ev.clientX - sr.left); g.c.setAttribute("cy", ev.clientY - sr.top); });
+    wrap.addEventListener("pointerup", function(ev){ var g = CALL.drag; if (!g) return; CALL.drag = null; var r = fig.getBoundingClientRect();
+      setPt(g.it.key, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]); callAfter(); });
+  }
+  /* admin bar: Place callouts / Save for everyone / Done */
+  function callBar(stage){
+    var bar = D.createElement("div"); bar.className = "fxcallbar" + (CALL.place ? " on" : "");
+    if (!CALL.place){ bar.innerHTML = '<button type="button" data-cb="go">Place callouts</button>'; }
+    else {
+      var nm = CALL.sel ? CALL.sel.split("|").slice(2).join("|") : "";
+      bar.innerHTML = '<span>' + (nm ? 'Click on the body where <b>' + esc(nm) + '</b> is. Drag any dot to adjust.' : 'Pick a label on the left, then click on the body where that item is. Hollow dots are not placed yet.') + '</span>' +
+        (nm ? '<button type="button" data-cb="clear">Unplace</button>' : '') + '<button type="button" data-cb="save">Save for everyone</button><button type="button" data-cb="done">Done</button>';
+    }
+    stage.appendChild(bar);
+    bar.addEventListener("click", function(ev){ var a = ev.target.getAttribute && ev.target.getAttribute("data-cb"); if (!a) return;
+      if (a === "go"){ CALL.place = true; CALL.sel = ""; }
+      if (a === "done"){ CALL.place = false; CALL.sel = ""; }
+      if (a === "clear" && CALL.sel){ var b = local["call.pts"] || {}, s = shared["call.pts"]; delete b[CALL.sel]; if (s && CALL.sel in s){ b[CALL.sel] = null; } local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
+      if (a === "save" && CTX.save){ var v = values(); v["call.pts"] = cleanPts(v["call.pts"]); shared = v; local = {}; try { localStorage.removeItem("io-fx"); } catch(e){}
+        ev.target.textContent = "Saving…"; Promise.resolve(CTX.save(v)).then(function(ok){ ev.target.textContent = ok === false ? "Couldn't save" : "Saved"; }, function(){ ev.target.textContent = "Couldn't save"; }); return; }
+      callAfter(); });
+  }
+  function cleanPts(o){ var r = {}; for (var k in o || {}) if (o[k] && o[k].length === 2) r[k] = o[k]; return r; }
+  /* in place mode a click on the figure sets the selected item's point (and doesn't select a zone) */
+  D.addEventListener("click", function(ev){
+    if (!CALL.place || !CALL.sel || CTX.tab !== "ware") return;
+    var fig = D.getElementById("bodyfig"); if (!fig || !fig.contains(ev.target)) return;
+    ev.preventDefault(); ev.stopPropagation();
+    var r = fig.getBoundingClientRect(); setPt(CALL.sel, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]);
+    /* move on to the next label that has no point yet */
+    var labs = [].slice.call(D.querySelectorAll(".fxcall .fxcl")), pts = callPts(), face = CALL.sel.split("|").slice(0, 2).join("|") + "|", next = "";
+    labs.forEach(function(l){ var k = face + (l.getAttribute("title") || ""); if (!next && !pts[k]) next = k; });
+    CALL.sel = next; callAfter();
+  }, true);
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* W4: pulses run up the nerves on the Nerves layer */
+  function nerveAfter(){
+    [].forEach.call(D.querySelectorAll(".xr > .fxnv"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"); if (!fig || !P("nerve.on") || CTX.editing) return;
+    if (!/nerve/i.test(fig.style.getPropertyValue("--sk"))) return;
+    [].forEach.call(fig.querySelectorAll(".xr"), function(x){ var i = D.createElement("i"); i.className = "fxnv"; i.setAttribute("aria-hidden", "true"); x.appendChild(i); });
+  }
+  var nerveXl = FX.xl; FX.xl = function(fig, o, n, apply){ nerveXl(fig, o, n, function(){ apply(); setTimeout(nerveAfter, 0); }); };
+
+  /* W6: hovering a fabricated or upgraded implant makes it glint on the body */
+  D.addEventListener("mouseover", function(ev){
+    if (CTX.tab !== "ware" || reduce || !P("glt.on")) return;
+    var row = ev.target.closest && ev.target.closest(".nrow"); if (!row || row === RET.gl) return; RET.gl = row;
+    if (!row.querySelector(".t-fab, .t-upg")) return;
+    var fig = D.getElementById("bodyfig"), F = CTX.fig; if (!fig || !F || !F.anch) return;
+    var hr = row.closest("[data-hr]"), regs = String(hr ? hr.dataset.hr : fig.dataset.sel || "").split(/\s+/).filter(Boolean);
+    var an = row.closest("[data-an]"), keys = an && F.anch[an.dataset.an] ? [an.dataset.an] : regs; if (!keys.length) return;
+    keys.slice(0, 2).forEach(function(k, i){ var a = F.anch[k === "legs" ? "legs" : k]; if (!a) return;
+      var g = D.createElement("i"); g.className = "fxglt"; g.setAttribute("aria-hidden", "true"); g.style.left = a[0] + "%"; g.style.top = a[1] + "%"; g.style.animationDelay = i * 90 + "ms"; fig.appendChild(g); setTimeout(function(){ g.remove(); }, 1100); });
+  });
+
+  /* V2: schematic mode */
+  var SCHF = [
+    "precision mediump float;varying vec2 vUv;uniform sampler2D uImg;uniform vec2 uPx;uniform float uT;",
+    "float L(vec2 p){vec4 c=texture2D(uImg,p);return dot(c.rgb,vec3(.3,.59,.11))*c.a+c.a*.6;}",
+    "void main(){",
+    "  float tl=L(vUv+vec2(-uPx.x,-uPx.y)),t=L(vUv+vec2(0.,-uPx.y)),tr=L(vUv+vec2(uPx.x,-uPx.y)),l=L(vUv+vec2(-uPx.x,0.)),r=L(vUv+vec2(uPx.x,0.)),bl=L(vUv+vec2(-uPx.x,uPx.y)),b=L(vUv+vec2(0.,uPx.y)),br=L(vUv+vec2(uPx.x,uPx.y));",
+    "  float gx=-tl-2.*l-bl+tr+2.*r+br,gy=-tl-2.*t-tr+bl+2.*b+br,e=sqrt(gx*gx+gy*gy);",
+    "  float a=texture2D(uImg,vUv).a;",
+    "  float line=smoothstep(.12,.55,e);",
+    "  float fill=a*.06;",
+    "  float scan=.85+.15*sin(vUv.y*900.+uT*2.);",
+    "  float sweep=exp(-pow((vUv.x-fract(uT*.12)*1.4+.2)*7.,2.))*a*.35;",
+    "  vec3 col=vec3(.94,.78,.48)*(line*scan+fill)+vec3(1.,.95,.85)*sweep;",
+    "  float al=clamp(line*.95+fill+sweep,0.,1.);",
+    "  gl_FragColor=vec4(col*al,al);",
+    "}"].join("\n");
+  var SCH = {on:false, list:[]};
+  try { SCH.on = localStorage.getItem("io-fx-sch") === "1"; } catch(e){}
+  function schStop(){ tick.remove(schFrame); SCH.list.forEach(function(o){ o.g.kill(); o.cv.remove(); o.fig.classList.remove("fxsch-on"); }); SCH.list = []; }
+  function schFrame(t){ SCH.list.forEach(function(o){ if (!o.fig.isConnected || o.g.lost) return; var r = o.fig.getBoundingClientRect(); if (r.width < 4) return;
+    var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr); if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+    o.g.f("uPx", 1.2 / cw, 1.2 / ch); o.g.f("uT", t / 1000); o.g.draw(); if (!o.fig.classList.contains("fxsch-on")) o.fig.classList.add("fxsch-on"); }); }
+  function schAfter(){
+    schStop(); var st = D.querySelector(".vstage"); [].forEach.call(D.querySelectorAll(".fxschbtn, .fxtb"), function(n){ n.remove(); });
+    if (!st || CTX.tab !== "vehicles" || CTX.editing || !P("sch.on") || !GL.test()){ if (st) st.classList.remove("fxsch-st"); return; }
+    var foot = st.querySelector(".vfoot"); if (foot){ var b = D.createElement("button"); b.type = "button"; b.className = "fxschbtn"; b.textContent = "Schematic"; b.setAttribute("aria-pressed", String(SCH.on)); foot.appendChild(b);
+      b.addEventListener("click", function(){ SCH.on = !SCH.on; try { localStorage.setItem("io-fx-sch", SCH.on ? "1" : "0"); } catch(e){} schAfter(); }); }
+    st.classList.toggle("fxsch-st", SCH.on); if (!SCH.on) return;
+    var title = (st.querySelector(".vtitle h2") || {}).textContent || "", kind = (st.querySelector(".vtitle .lab") || {}).textContent || "", mods = D.querySelectorAll("main.garage .vm").length;
+    var tb = D.createElement("div"); tb.className = "fxtb"; tb.setAttribute("aria-hidden", "true"); tb.innerHTML = "<b>" + esc(title) + "</b>" + esc(kind) + " · schematic<br>" + mods + " modifications · rev 2048"; st.appendChild(tb);
+    [].forEach.call(st.querySelectorAll(".vfig"), function(fg){ var img = fg.querySelector("img.vcut"); if (!img) return;
+      loadImg(img.getAttribute("src")).then(function(im){ if (!fg.isConnected || !SCH.on) return;
+        var cv = D.createElement("canvas"); cv.className = "fxsch"; cv.setAttribute("aria-hidden", "true"); var g = GL.make(cv, SCHF); if (!g) return;
+        g.tex(0, "uImg", im); var cs = getComputedStyle(fg); if (cs.position === "static") fg.style.position = "relative"; fg.appendChild(cv);
+        SCH.list.push({fig:fg, cv:cv, g:g}); tick.add(schFrame); }, function(){}); });
+  }
+
+  function restAfter(enter){
+    D.body.classList.toggle("fx-scroll", !!P("scroll.on"));
+    platesAfter(); callAfter(); nerveAfter(); schAfter();
+    if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
+  }
+
+
+  /* ================= Nov 18 pick: X1 title screen ================= */
+
+  /* ---- X1: title screen on first open ---- */
+  var TT = {el:null};
+  function titleSkip(){ try { return localStorage.getItem("io-title") === "skip" || sessionStorage.getItem("io-title") === "seen"; } catch(e){ return false; } }
+  function titleShow(force){
+    if (TT.el || CTX.editing || CTX.who === "zolo" || !CTX.id) return;
+    if (!force && (!P("title.on") || titleSkip())) return;
+    var id = CTX.id, roles = (id.roles || []).filter(function(r){ return r && r.role; }).slice(0, 4);
+    var el = D.createElement("div"); el.className = "fxtitle"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Title screen");
+    var go = CTX.tab === "dossier" ? "Access dossier" : "Continue";
+    el.innerHTML = '<div class="tt-planet" aria-hidden="true"></div><div class="tt-art" aria-hidden="true"><img src="img/io-fist.webp" alt=""></div><i class="tt-scan" aria-hidden="true"></i>' +
+      '<div class="tt-copy">' +
+        '<p class="tt-up">UPLINK ▸ ' + esc(String(id.origin || "O'Neill Two").split("·").pop().trim().toUpperCase()) + ' // L5 → NIGHT CITY</p>' +
+        '<p class="tt-name">' + esc(id.name || "") + '</p>' +
+        '<h1 class="tt-h">' + esc(id.handle || "Iō") + '</h1>' +
+        '<p class="tt-org">' + esc(id.origin || "") + '</p>' +
+        '<div class="tt-stats">' + roles.map(function(r, i){ return '<div style="--i:' + i + '"><span>' + esc(r.role) + '</span><b>' + esc(r.rank == null ? "" : r.rank) + '</b></div>'; }).join("") +
+          (id.rep != null && id.rep !== "" ? '<i></i><div class="rep" style="--i:' + roles.length + '"><span>Reputation</span><b>' + esc(id.rep) + '</b></div>' : '') + '</div>' +
+        '<div class="tt-go"><button type="button" class="tt-in" data-tt="in">' + go + ' <span aria-hidden="true">▸</span></button>' +
+          (D.querySelector('[data-who="zolo"]') ? '<button type="button" class="tt-z" data-tt="zolo">Zolo</button>' : '') + '</div>' +
+        '<label class="tt-skip"><input type="checkbox" data-tt="skip"> Skip this screen next time</label>' +
+        '<p class="tt-key">Press any key to continue</p>' +
+      '</div>' +
+      '<div class="tt-foot" aria-hidden="true"><span>' + (id.sin ? "SIN " + esc(id.sin) : "") + '</span><span>Red Star Collective</span><span class="tt-sync">Sync <b>0</b>%</span></div>';
+    D.body.appendChild(el); TT.el = el; root.classList.add("fx-titled");
+    try { sessionStorage.setItem("io-title", "seen"); } catch(e){}
+    var b = el.querySelector(".tt-in"); setTimeout(function(){ if (b && TT.el) b.focus({preventScroll:true}); }, 60);
+    /* entrance: name decodes, sync counts up */
+    if (!reduce){ var h = el.querySelector(".tt-h"); if (h && h.firstChild) scramble(h.firstChild, 900, 380); var nm = el.querySelector(".tt-name"); if (nm && nm.firstChild) scramble(nm.firstChild, 600, 200); }
+    var sy = el.querySelector(".tt-sync b"), t0 = performance.now(), dur = reduce ? 1 : 1600;
+    (function up(){ if (!TT.el) return; var k = Math.min(1, (performance.now() - t0) / dur); sy.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(up); })();
+    el.addEventListener("click", function(ev){ var a = ev.target.closest && ev.target.closest("[data-tt]"); a = a && a.getAttribute("data-tt");
+      if (a === "skip"){ try { if (ev.target.checked) localStorage.setItem("io-title", "skip"); else localStorage.removeItem("io-title"); } catch(e){} return; }
+      if (a === "in") titleGo();
+      if (a === "zolo") titleGo(function(){ var z = D.querySelector('[data-who="zolo"]'); if (z) z.click(); }); });
+    el.addEventListener("keydown", function(ev){ if (ev.key === "Tab"){ var f = [].slice.call(el.querySelectorAll("button, input")); var i = f.indexOf(D.activeElement); if (ev.shiftKey && i <= 0){ ev.preventDefault(); f[f.length - 1].focus(); } else if (!ev.shiftKey && i === f.length - 1){ ev.preventDefault(); f[0].focus(); } } });
+    D.addEventListener("keydown", titleKey, true);
+  }
+  function titleKey(ev){
+    if (!TT.el) return D.removeEventListener("keydown", titleKey, true);
+    if (ev.key === "Tab" || ev.key === "Shift" || (ev.target.closest && ev.target.closest(".tt-skip")) || (ev.target.closest && ev.target.closest(".fxtitle button") && (ev.key === "Enter" || ev.key === " "))) return;
+    ev.preventDefault(); titleGo();
+  }
+  function titleGo(then){
+    var el = TT.el; if (!el || el.classList.contains("out")) return;
+    D.removeEventListener("keydown", titleKey, true);
+    el.classList.add("out"); root.classList.remove("fx-titled");
+    setTimeout(function(){ el.remove(); TT.el = null; if (then) then(); }, reduce ? 0 : 760);
+  }
+  FX.title = function(){ titleShow(true); };
+
 
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
+    if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();
@@ -6454,7 +7154,7 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
       '<div class="fngms" role="group" aria-label="Filter by GM">' + (FGL().length ? '<span class="lab">Show</span><span class="fnkind" role="group" aria-label="Show">' + [["all","All"],["ind","Individuals"],["grp","Groups"]].map(function(o){ return '<button type="button" data-fnkind="' + o[0] + '" class="' + (FK === o[0] ? 'on' : '') + '" aria-pressed="' + (FK === o[0]) + '">' + o[1] + '</button>'; }).join("") + '</span>' : '') + '<span class="lab">GM</span><button type="button" class="fngm' + (!FN.gm ? ' on' : '') + '" data-fngm="">All<b>' + L.length + '</b></button>' +
       gms.map(function(g){ return '<button type="button" class="fngm' + (FN.gm === g[0] ? ' on' : '') + '" data-fngm="' + esc(g[0]) + '" style="--h:' + fnHue(g[0]) + '"><i></i>' + esc(g[0]) + '<b>' + g[1] + '</b></button>'; }).join("") +
       '</div>' + (fnCanArrange() ? '<button type="button" class="btn fa-btn" data-fa="start" title="Put the cards in your own order">Arrange cards</button>' : '<span class="fnshown" id="fnshown"></span>') + (fnCanArrange() ? '<span class="fnshown" id="fnshown" hidden></span>' : '') + '</div>';
-    var grid = '<div class="fngrid' + (arr ? ' arr' : fnEnter && !reduce ? ' deal' : '') + '" id="fngrid">' + L.map(function(f, i){
+    var grid = '<div class="fngrid' + (arr ? ' arr' : '') + '" id="fngrid">' + L.map(function(f, i){
       if (arr) return '<div class="fcard' + '' + '" draggable="true" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + '">' + fanCard(f, i) +
         '<span class="fa-ctl"><button type="button" data-famv="first" aria-label="Move ' + esc(f.name) + ' to the front" title="To the front"' + (i ? '' : ' disabled') + '>⇤</button><button type="button" data-famv="-1" aria-label="Move ' + esc(f.name) + ' earlier" title="Earlier"' + (i ? '' : ' disabled') + '>←</button><button type="button" data-famv="1" aria-label="Move ' + esc(f.name) + ' later" title="Later"' + (i < L.length - 1 ? '' : ' disabled') + '>→</button><button type="button" data-famv="last" aria-label="Move ' + esc(f.name) + ' to the end" title="To the end"' + (i < L.length - 1 ? '' : ' disabled') + '>⇥</button></span></div>';
       return '<button type="button" class="fcard' + '' + '" data-fan="' + i + '" style="--h:' + fnHue(f.gm) + ';--n:' + Math.min(i, 30) + '" aria-label="' + esc(f.name + ", GM " + (f.gm || "unknown") + ", from " + (f.gig || "an unknown gig")) + '">' + fanCard(f, i) + '</button>'; }).join("") +
@@ -8001,7 +8701,7 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
   function fxAfter(){
     if (!window.IOFX || !IOFX.rendered) return;
     var F = tab === "ware" ? FIG() : null, base = WHO === "zolo" && IO ? IO : S;
-    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, back:!!F.back} : null, fx:base && base.fx, save:fxSave}); } catch(e){}
+    try { IOFX.rendered({tab:tab, who:WHO, editing:editing, admin:isAdmin() || (WHO === "zolo" && !roIo), fig:F && !F.nomask ? {m:F.m, rbox:F.rbox, anch:F.anch, back:!!F.back} : null, fx:base && base.fx, save:fxSave, id:base ? {name:base.name, handle:base.handle, origin:base.origin, rep:base.rep, sin:base.sin, roles:(base.roles || []).map(function(r){ return {role:r.role, rank:r.rank}; })} : null}); } catch(e){}
   }
   function fxSave(v){
     var base = WHO === "zolo" && IO ? IO : S; base.fx = v;
@@ -8405,6 +9105,7 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     if (b.dataset.view){ if (b.dataset.view === VIEW) return; cloWas = null; VIEW = b.dataset.view; try { localStorage.setItem("io-view", VIEW); } catch(e){}
       var bf0 = document.getElementById("bodyfig");
       if (reduce || !bf0){ render(); return; }
+      if (window.IOFX && IOFX.turn && IOFX.turn(bf0, render, VIEW)) return;
       bf0.classList.add("turnout"); setTimeout(function(){ render(); var n = document.getElementById("bodyfig"); if (n){ n.classList.add("turnin"); setTimeout(function(){ n.classList.remove("turnin"); }, 400); } }, 220); return; }
     if (b.dataset.clo != null){ CLOFF = b.dataset.clo === "0"; NUDE = false; NUUI = ""; NUMSG = ""; render(); return; }
     if (b.dataset.nu){ var nu = b.dataset.nu, npw = ((document.getElementById("nupw") || {}).value || "");
@@ -8432,7 +9133,7 @@ body.fx-glass .tm-t.sel{box-shadow:inset 0 0 0 1px var(--gold),0 0 22px rgba(181
     if (b.dataset.xl){ var xlOld = XLSRC(FIG()); XL = b.dataset.xl; try { localStorage.setItem("io-xlayer", XL); } catch(e){} var bf = document.getElementById("bodyfig"), F2 = FIG(); if (bf && F2.skel){ var xlNew = XLSRC(F2), xlSet = function(){ bf.style.setProperty("--sk", "url(" + xlNew + ")"); }; if (window.IOFX && IOFX.xl) IOFX.xl(bf, xlOld, xlNew, xlSet); else xlSet(); } document.querySelectorAll("[data-xl]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.xl === XL)); }); return; }
     if (b.dataset.iop && IOP[b.dataset.iop]){ IOPK = b.dataset.iop; try { localStorage.setItem("io-portrait", IOPK); } catch(e){} render(); return; }
     if (b.dataset.zmask != null){ zMask = b.dataset.zmask === "1"; var zk = zMask ? "mask" : "open", zi = document.querySelector(".zpop img"), zs = document.querySelector(".zpop source"); if (zs){ zs.srcset = "img/zolo/cut-" + zk + ".webp"; } if (zi){ zi.src = "img/zolo/hip-" + zk + ".webp"; } var zci = document.querySelector(".lo-con .config img"); if (zci) zci.src = "img/zolo/full-" + zk + ".webp"; document.querySelectorAll("[data-zmask]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.zmask === (zMask ? "1" : "0"))); }); return; }
-    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; pwTab = true; repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} render(); window.scrollTo(0,0); decode(); } return; }
+    if (b.dataset.who){ if (b.dataset.who !== WHO){ setWho(b.dataset.who); if (tab === "ware") wareReset(); RF = {kind:"", who:"", lvl:0, q:""}; pwTab = true; repEnter = true; try { history.replaceState(null, "", "#" + hashFor(tab)); } catch(e){} var fxRk = function(){ render(); window.scrollTo(0,0); decode(); }; if (window.IOFX && IOFX.rekey) IOFX.rekey(fxRk, b); else fxRk(); } return; }
     if (b.id === "edit"){ editing = true; render(); return; }
     if (b.id === "cancel"){ editing = false; S = clone(saved); render(); return; }
     if (b.id === "save"){ persist().then(function(ok){ if (ok || readOnly){ editing = false; render(); status(ok ? "Saved" : ""); } }); return; }

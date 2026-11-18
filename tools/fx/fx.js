@@ -17,10 +17,13 @@
     "pan.on":1, "pan.rim":.9, "pan.rimr":260, "pan.pool":.07, "pan.poolr":360,
     "grade.on":1, "grade.vig":.42, "grade.grain":.05, "grade.bloom":.35, "grade.streak":1,
     "sky.on":1, "sky.par":14, "sky.stars":1, "sky.neb":1, "sky.atmo":.65, "sky.city":1, "sky.res":1,
-    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":0,
+    "swap.on":1, "swap.t":.34, "swap.blur":7, "swap.carry":1,
     "amb.on":1, "amb.gap":9, "amb.motes":1,
     "id.on":1, "id.holo":.45, "id.spin":90,
-    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1
+    "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
+    "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
+    "title.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -31,7 +34,7 @@
     {g:"Key-light panels", on:"pan.on", k:[["pan.rim","Frame highlight",0,1,.05],["pan.rimr","Highlight reach (px)",80,600,10],["pan.pool","Light pool",0,.2,.005],["pan.poolr","Pool reach (px)",120,800,10]]},
     {g:"Film grade", on:"grade.on", k:[["grade.vig","Vignette",0,.9,.01],["grade.grain","Grain",0,.2,.005],["grade.bloom","Bloom",0,1,.05],["grade.streak","Tab streak",0,1,.05]]},
     {g:"Orbit backdrop", on:"sky.on", k:[["sky.par","Parallax (px)",0,40,1],["sky.stars","Stars",0,2,.05],["sky.neb","Nebula",0,2.5,.05],["sky.atmo","Atmosphere",0,2.5,.05],["sky.city","City lights",0,2,.05],["sky.res","Sharpness (lower = lighter)",.4,1.25,.05]]},
-    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5]]},
+    {g:"Focus-pull tabs", on:"swap.on", k:[["swap.t","Duration (s)",.15,.9,.01],["swap.blur","Blur (px)",0,20,.5],["swap.carry","Carry Iō into Posse (0/1)",0,1,1]]},
     {g:"Ambient life", on:"amb.on", k:[["amb.gap","Seconds between events",3,30,1],["amb.motes","Dust motes",0,2,.05]]},
     {g:"ID header", on:"id.on", k:[["id.holo","Holo SIN",0,1,.05],["id.spin","Mark turn (s per turn)",8,240,2]]},
     {g:"Tab entrances", on:"mom.on", k:[["mom.speed","Speed",.5,2,.05]]},
@@ -39,11 +42,26 @@
     {g:"Rep timeline spine", on:"spine.on", k:[]},
     {g:"Posse key light", on:"pose.on", k:[["pose.lit","Light strength",0,1.5,.05],["pose.dof","Blur behind (px)",0,5,.1]]},
     {g:"Vehicle engines and lights", on:"veh.on", k:[["veh.thr","Thruster glow",0,1.5,.05],["veh.strip","Light strip",0,1.5,.05]]},
-    {g:"Treemap glass", on:"glass.on", k:[]}
+    {g:"Treemap glass", on:"glass.on", k:[]},
+    {g:"Fan card foil", on:"foil.on", k:[["foil.str","Foil strength",0,1,.02]]},
+    {g:"Ware front/back turn", on:"turn.on", k:[["turn.t","Duration (s)",.3,1.6,.05],["turn.depth","Volume",0,2.5,.05]]},
+    {g:"Panel depth (lean)", on:"tilt.on", k:[["tilt.deg","Lean (degrees)",0,4,.1]]},
+    {g:"Iō / Zolo switch transition", on:"rekey.on", k:[["rekey.t","Duration (s)",.3,2,.05]]},
+    {g:"Scroll reveals", on:"scroll.on", k:[]},
+    {g:"Engraved stat plates", on:"plate.on", k:[]},
+    {g:"Weapon alcoves", on:"weap.on", k:[]},
+    {g:"Dossier sign-off", on:"sync.on", k:[]},
+    {g:"Ware callouts", on:"call.on", k:[]},
+    {g:"Live nerves", on:"nerve.on", k:[]},
+    {g:"Implant glints", on:"glt.on", k:[]},
+    {g:"Vehicle schematic button", on:"sch.on", k:[]},
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
-  function P(k){ var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
+  /* Pinned Nov 18 (Oak): the in-browser depth maps warp the portraits on load. Off until Oak supplies better depth maps. */
+  var PIN = {"live.on":1, "r2.on":1};
+  function P(k){ if (PIN[k]) return 0; var v = k in local ? local[k] : k in shared ? shared[k] : DEF[k]; return typeof v === "number" && isFinite(v) ? v : DEF[k]; }
   FX.P = P;
   function cssVars(){
     var s = root.style;
@@ -52,11 +70,15 @@
     s.setProperty("--pan-rim", String(P("pan.rim"))); s.setProperty("--pan-rimr", P("pan.rimr") + "px"); s.setProperty("--pan-pool", String(P("pan.pool"))); s.setProperty("--pan-poolr", P("pan.poolr") + "px");
     s.setProperty("--gr-vig", String(P("grade.vig"))); s.setProperty("--gr-grain", String(P("grade.grain"))); s.setProperty("--gr-bloom", String(P("grade.bloom"))); s.setProperty("--gr-streak", String(P("grade.streak")));
     s.setProperty("--mk", (1 / Math.max(.25, P("mom.speed"))).toFixed(3)); s.setProperty("--plit", String(P("pose.lit"))); s.setProperty("--pdof", P("pose.dof") + "px"); s.setProperty("--thr", String(P("veh.thr"))); s.setProperty("--strip", String(P("veh.strip")));
+    s.setProperty("--foil", String(P("foil.str")));
     s.setProperty("--swap-t", P("swap.t") + "s"); s.setProperty("--swap-b", P("swap.blur") + "px");
     if (D.body){ D.body.classList.toggle("fx-nopan", !P("pan.on")); D.body.classList.toggle("fx-grade", !!P("grade.on")); }
     s.setProperty("--circ-r", P("circ.r") + "px"); s.setProperty("--circ-s", P("circ.s") + "px"); s.setProperty("--circ-band", String(P("circ.band"))); s.setProperty("--circ-t", P("circ.t") + "s");
   }
-  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); return o; }
+  function values(){ var o = {}; for (var k in DEF) o[k] = P(k); var cp = callPts(); if (Object.keys(cp).length) o["call.pts"] = cp; return o; }
+  /* Ware callout points, placed by hand: {"who|f|item name":[x%, y%]} (not a number, so it lives outside P) */
+  function callPts(){ var a = shared["call.pts"], b = local["call.pts"], o = {}, k; if (a && typeof a === "object") for (k in a) o[k] = a[k]; if (b && typeof b === "object") for (k in b) o[k] = b[k]; return o; }
+  function setPt(key, v){ var b = local["call.pts"] && typeof local["call.pts"] === "object" ? local["call.pts"] : {}; b[key] = v; local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
   function setLocal(k, v){ local[k] = v; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} cssVars(); changed(k); }
   function changed(k){
     if (/^(ret|lens)\./.test(k)){ if (k === "lens.on" && CTX.rerender) CTX.rerender(); else wareAfter(); }
@@ -66,7 +88,10 @@
     if (/^sky\./.test(k)) skySync();
     if (/^amb\./.test(k)) ambAfter();
     if (/^(red|spine|pose|veh|glass)\./.test(k) && CTX.rerender) CTX.rerender();
+    if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
+    if (/^(tilt|rekey|scroll|plate|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
+    if (k === "title.on" && P("title.on")) titleShow(true);
   }
 
   /* panel */
@@ -569,8 +594,10 @@
     if (!reduce && P("swap.on") && D.startViewTransition && !CTX.editing){
       root.classList.add("fx-swap");
       /* carrying the Iō figure between tabs is off by default: it fights each tab's own entrance (Ware boot scan, Dossier load-in, Posse reveal) */
-      root.classList.toggle("fx-carry", !!P("swap.carry") && (to === "ware" || to === "posse") && !!D.querySelector("#bodyfig, .portrait.iop .iopw, .fig.lead"));
-      try { vt = D.startViewTransition(function(){ fn(); }); } catch(e){ vt = null; }
+      var carry = !!P("swap.carry") && to === "posse" && CTX.who !== "zolo" && !!D.querySelector("#bodyfig, .portrait.iop .iopw");
+      root.classList.toggle("fx-carry", carry);
+      /* the lead figure skips its own rise when Iō is carried in, so the two don't fight */
+      try { vt = D.startViewTransition(function(){ fn(); if (carry){ var ld = D.querySelector(".lineup .fig.lead"); if (ld) ld.style.animation = "none"; } }); } catch(e){ vt = null; }
     }
     if (vt){ var done = function(){ root.classList.remove("fx-swap", "fx-carry"); }; vt.finished.then(done, done); vt.ready.then(streak, streak); }
     else { root.classList.remove("fx-swap", "fx-carry"); fn(); streak(); }
@@ -704,17 +731,6 @@
   }
   W.addEventListener("scroll", function(){ if (SPINE.el && !SPINE.raf) SPINE.raf = requestAnimationFrame(spineUpdate); }, {passive:true});
 
-  /* N1 */
-  function momFans(){
-    var g = D.querySelector(".fngrid.deal"); if (!g) return;
-    var gr = g.getBoundingClientRect(), ox = gr.left + gr.width / 2, oy = Math.max(gr.top - 70, 90), n = 0;
-    [].forEach.call(g.querySelectorAll(".fcard"), function(c){ var r = c.getBoundingClientRect(); if (r.top > W.innerHeight + 40 || n > 24) return;
-      c.style.setProperty("--fdx", (ox - (r.left + r.width / 2)).toFixed(0) + "px"); c.style.setProperty("--fdy", (oy - (r.top + r.height / 2)).toFixed(0) + "px");
-      c.style.setProperty("--fr", ((Math.random() - .5) * 26).toFixed(1) + "deg"); c.style.setProperty("--fn", n++); c.classList.add("fxd"); });
-    g.classList.remove("deal"); g.classList.add("fxdeal");
-    momLater(function(){ g.classList.remove("fxdeal"); [].forEach.call(g.querySelectorAll(".fcard.fxd"), function(c){ c.classList.remove("fxd"); }); }, 200 + n * 62 + 760);
-  }
-
   /* P1 / P2 */
   var POS = {figs:[], sweep:null, eyeT:0};
   function posseFrame(){
@@ -797,20 +813,536 @@
     if (enter && momOn()){
       if (CTX.tab === "casefile") momCase();
       else if (CTX.tab === "rep") momRep();
-      else if (CTX.tab === "fans") momFans();
       else if (CTX.tab === "advance") momAdv();
     }
     if (CTX.tab === "casefile" && !CTX.editing) redact();
-    spineAfter(); posseAfter(enter); vehAfter(enter);
+    spineAfter(); posseAfter(enter); vehAfter(enter); restAfter(enter);
     D.body.classList.toggle("fx-glass", !!P("glass.on"));
   }
+
+  /* ================= Phase 4: hero pieces =================
+     All four use flat art and a depth map worked out in the browser: for cut-out art the silhouette is inflated into a
+     rounded volume (distance from the edge), with a little of the picture's own light on top; for framed art (Rep
+     portraits) depth comes from where the light falls and from the framing. A real depth map can replace either later. */
+  function depthOf(img, cut, w){
+    w = w || 160; var iw0 = img.naturalWidth || img.width, ih0 = img.naturalHeight || img.height, h = Math.max(2, Math.round(w * ih0 / Math.max(1, iw0)));
+    var c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d", {willReadFrequently:true}); x.drawImage(img, 0, 0, w, h);
+    var px = x.getImageData(0, 0, w, h).data, n = w * h, a = new Float32Array(n), lum = new Float32Array(n), d = new Float32Array(n), i, j, k;
+    for (i = 0; i < n; i++){ a[i] = px[i * 4 + 3] / 255; lum[i] = (px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255; }
+    function blur(src, r){ var t = new Float32Array(n), o = new Float32Array(n), y, xx, s, cnt;
+      for (y = 0; y < h; y++){ s = 0; cnt = 0; for (xx = -r; xx < w + r; xx++){ if (xx + r < w){ s += src[y * w + xx + r]; cnt++; } if (xx - r - 1 >= 0){ s -= src[y * w + xx - r - 1]; cnt--; } if (xx >= 0 && xx < w) t[y * w + xx] = s / Math.max(1, cnt); } }
+      for (xx = 0; xx < w; xx++){ s = 0; cnt = 0; for (y = -r; y < h + r; y++){ if (y + r < h){ s += t[(y + r) * w + xx]; cnt++; } if (y - r - 1 >= 0){ s -= t[(y - r - 1) * w + xx]; cnt--; } if (y >= 0 && y < h) o[y * w + xx] = s / Math.max(1, cnt); } }
+      return o; }
+    if (cut){
+      /* chamfer distance from the silhouette's edge */
+      var INF = 1e9; for (i = 0; i < n; i++) d[i] = a[i] > .5 ? INF : 0;
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; if (!d[k]) continue; var m = d[k];
+        if (i > 0) m = Math.min(m, d[k - 1] + 1); if (j > 0){ m = Math.min(m, d[k - w] + 1); if (i > 0) m = Math.min(m, d[k - w - 1] + 1.414); if (i < w - 1) m = Math.min(m, d[k - w + 1] + 1.414); } d[k] = m; }
+      for (j = h - 1; j >= 0; j--) for (i = w - 1; i >= 0; i--){ k = j * w + i; if (!d[k]) continue; var m2 = d[k];
+        if (i < w - 1) m2 = Math.min(m2, d[k + 1] + 1); if (j < h - 1){ m2 = Math.min(m2, d[k + w] + 1); if (i < w - 1) m2 = Math.min(m2, d[k + w + 1] + 1.414); if (i > 0) m2 = Math.min(m2, d[k + w - 1] + 1.414); } d[k] = m2; }
+      var mx = 0; for (i = 0; i < n; i++) if (d[i] < INF && d[i] > mx) mx = d[i];
+      var lb = blur(lum, Math.max(1, Math.round(w / 60)));
+      for (i = 0; i < n; i++){ var t2 = Math.min(1, d[i] / Math.max(1, mx * .95)); d[i] = a[i] > .02 ? Math.sqrt(t2 * (2 - t2)) * .72 + lb[i] * .28 : 0; }
+      d = blur(d, Math.max(1, Math.round(w / 80)));
+    } else {
+      var lb2 = blur(lum, Math.max(2, Math.round(w / 14))), lo = 1, hi = 0;
+      for (i = 0; i < n; i++){ if (lb2[i] < lo) lo = lb2[i]; if (lb2[i] > hi) hi = lb2[i]; }
+      for (j = 0; j < h; j++) for (i = 0; i < w; i++){ k = j * w + i; var dx = (i / w - .5) / .55, dy = (j / h - .38) / .62, rad = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy));
+        d[k] = .5 * ((lb2[k] - lo) / Math.max(.01, hi - lo)) + .5 * rad * rad * (3 - 2 * rad); }
+      d = blur(d, Math.max(1, Math.round(w / 40)));
+    }
+    var out = D.createElement("canvas"); out.width = w; out.height = h; var ox = out.getContext("2d"), od = ox.createImageData(w, h);
+    for (i = 0; i < n; i++){ var v = Math.round(Math.max(0, Math.min(1, d[i])) * 255); od.data[i * 4] = od.data[i * 4 + 1] = od.data[i * 4 + 2] = v; od.data[i * 4 + 3] = 255; }
+    ox.putImageData(od, 0, 0); return out;
+  }
+  FX.depthOf = depthOf;
+  var STARS_GLSL = "float h21(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}" +
+    "float starf(vec2 p){vec2 g=floor(p),f=fract(p)-.5;float r=h21(g);return r>.9?smoothstep(.12,0.,length(f-(vec2(h21(g+1.3),h21(g+2.1))-.5)*.6))*(r-.9)*10.:0.;}";
+
+  /* ---- D2: the living portrait ---- */
+  var LIVEF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep,uGold;uniform vec2 uPtr,uLight;uniform float uT,uPar,uRel,uSpec,uHasGold,uAsp;",
+    STARS_GLSL,
+    "void main(){",
+    "  vec2 uv=vUv;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=vUv-(d-.45)*uPtr*uPar;d=texture2D(uDep,uv).r;}",
+    "  vec4 c=texture2D(uImg,uv);if(c.a<.003){gl_FragColor=vec4(0.);return;}",
+    "  vec2 e=vec2(1./160.,1./160.*uAsp);",
+    "  float dx=texture2D(uDep,uv+vec2(e.x,0.)).r-texture2D(uDep,uv-vec2(e.x,0.)).r;",
+    "  float dy=texture2D(uDep,uv+vec2(0.,e.y)).r-texture2D(uDep,uv-vec2(0.,e.y)).r;",
+    "  vec3 n=normalize(vec3(-dx*5.,dy*5.,1.));",
+    "  vec3 L=normalize(vec3((uLight-uv)*vec2(1.,-1.),.55));",
+    "  float dif=dot(n,L);",
+    "  vec3 rgb=c.rgb/max(c.a,.001);",
+    "  rgb*=1.+uRel*(dif-.42)*.6;",
+    "  float rim=pow(1.-n.z,1.6)*max(dot(normalize(n.xy+1e-4),L.xy),0.);",
+    "  rgb+=vec3(1.,.82,.55)*rim*uRel*.5;",
+    "  float g=uHasGold>.5?texture2D(uGold,uv).a:0.;",
+    "  if(g>.01){",
+    "    vec3 R=reflect(vec3(0.,0.,-1.),n);vec2 ru=R.xy*3.+uPtr*.6+vec2(uT*.01,0.);",
+    "    vec3 env=vec3(.06,.04,.03)+vec3(.95,.62,.3)*smoothstep(-.4,-.9,R.y)*.55+vec3(1.,.93,.8)*(starf(ru*9.)+starf(ru*17.+7.)*.7);",
+    "    float sp=pow(max(dot(reflect(-L,n),vec3(0.,0.,1.)),0.),22.);",
+    "    rgb+=g*uSpec*(env*vec3(1.,.8,.5)*.55+vec3(1.,.9,.7)*sp*.9);",
+    "  }",
+    "  gl_FragColor=vec4(clamp(rgb,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var LIVE = {cv:null, g:null, wrap:null, ptr:[0,0], tp:[0,0], vis:false, key:""};
+  function liveStop(){ tick.remove(liveFrame); if (LIVE.g) LIVE.g.kill(); if (LIVE.cv) LIVE.cv.remove(); if (LIVE.wrap) LIVE.wrap.classList.remove("fxlive-on"); LIVE.cv = LIVE.g = LIVE.wrap = null; LIVE.key = ""; }
+  function liveFrame(t){
+    var w = LIVE.wrap, g = LIVE.g; if (!w || !w.isConnected || !g || g.lost){ liveStop(); return; }
+    var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight) return;
+    var cx = r.left + r.width / 2, cy = r.top + r.height * .35;
+    LIVE.tp = [Math.max(-1, Math.min(1, (L.x - cx) / (W.innerWidth * .5))), Math.max(-1, Math.min(1, (L.y - cy) / (W.innerHeight * .5)))];
+    LIVE.ptr[0] += (LIVE.tp[0] - LIVE.ptr[0]) * .08; LIVE.ptr[1] += (LIVE.tp[1] - LIVE.ptr[1]) * .08;
+    var dpr = GL.dpr(), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+    if (LIVE.cv.width !== cw || LIVE.cv.height !== ch){ LIVE.cv.width = cw; LIVE.cv.height = ch; }
+    g.f("uPtr", LIVE.ptr[0], -LIVE.ptr[1]); g.f("uLight", (L.x - r.left) / r.width, (L.y - r.top) / r.height); g.f("uT", t / 1000);
+    g.f("uPar", P("live.par") * .03); g.f("uRel", P("live.rel")); g.f("uSpec", P("live.spec"));
+    g.draw();
+    if (!w.classList.contains("fxlive-on")) w.classList.add("fxlive-on");
+  }
+  function liveAfter(){
+    var w = CTX.tab === "dossier" && CTX.who !== "zolo" && !CTX.editing ? D.querySelector(".portrait.iop .iopw") : null;
+    var img = w && w.querySelector("picture img"), want = !!(w && img && P("live.on") && GL.test() && !reduce && W.innerWidth > 880);
+    var key = want ? img.getAttribute("src") : "";
+    if (!want){ liveStop(); return; }
+    if (LIVE.wrap === w && LIVE.key === key) return;
+    liveStop(); LIVE.key = key;
+    var gsrc = (w.querySelector(".iogold") || {style:{getPropertyValue:function(){ return ""; }}}).style.getPropertyValue("--gm"); gsrc = urlOf(gsrc);
+    Promise.all([loadImg(key), gsrc ? loadImg(gsrc).catch(function(){ return null; }) : Promise.resolve(null)]).then(function(ims){
+      if (!w.isConnected || LIVE.key !== key) return;
+      var cv = D.createElement("canvas"); cv.className = "fxlive"; cv.setAttribute("aria-hidden", "true");
+      var g = GL.make(cv, LIVEF); if (!g) return;
+      var dep = depthOf(ims[0], true, 160);
+      g.tex(0, "uImg", ims[0]); g.tex(1, "uDep", dep); if (ims[1]) g.tex(2, "uGold", ims[1]); else { var l = g.u("uGold"); if (l) g.gl.uniform1i(l, 1); }
+      g.f("uHasGold", ims[1] ? 1 : 0); g.f("uAsp", ims[0].naturalWidth / ims[0].naturalHeight);
+      var pic = w.querySelector("picture"); pic.parentNode.insertBefore(cv, pic.nextSibling);
+      LIVE.cv = cv; LIVE.g = g; LIVE.wrap = w; LIVE.ptr = [0, 0]; tick.add(liveFrame);
+    }, function(){});
+  }
+
+  /* ---- R2: Rep portraits move in depth ---- */
+  var R2F = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uPtr,uS,uO;uniform float uZ,uPar;",
+    "void main(){",
+    "  vec2 base=(vUv-.5)/uZ+.5;vec2 uv=base*uS+uO;float d=texture2D(uDep,uv).r;",
+    "  for(int i=0;i<3;i++){uv=(base-(d-.5)*uPtr*uPar)*uS+uO;d=texture2D(uDep,uv).r;}",
+    "  vec3 c=texture2D(uImg,clamp(uv,0.,1.)).rgb;",
+    "  float v=smoothstep(1.15,.35,length((vUv-.5)*vec2(1.,1.2)));",
+    "  gl_FragColor=vec4(c*(.82+.18*v),1.);",
+    "}"].join("\n");
+  var R2 = {list:[], raf:false};
+  function r2Stop(){ tick.remove(r2Frame); R2.list.forEach(function(o){ if (o.g) o.g.kill(); if (o.cv) o.cv.remove(); if (o.fr) o.fr.classList.remove("fxr2-on"); }); R2.list = []; }
+  function r2Frame(t){
+    var any = false;
+    R2.list.forEach(function(o){
+      if (!o.fr.isConnected || o.g.lost){ return; } any = true;
+      var r = o.fr.getBoundingClientRect(); if (r.bottom < 0 || r.top > W.innerHeight || r.width < 4) return;
+      var act = o.fr.matches(":hover") || (o.fr.classList.contains("now") && !o.fr.parentNode.matches(":hover"));
+      var tx = act ? Math.max(-1, Math.min(1, (L.x - (r.left + r.width / 2)) / (r.width * .8))) : 0, ty = act ? Math.max(-1, Math.min(1, (L.y - (r.top + r.height / 2)) / (r.height * .8))) : 0;
+      var drift = act ? .35 * Math.sin(t / 1000 * .35 + o.ph) : 0;
+      o.p[0] += (tx + drift - o.p[0]) * .06; o.p[1] += (ty - o.p[1]) * .06; o.z += ((act ? 1.06 : 1.0) - o.z) * .04;
+      var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+      if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+      /* object-fit: cover with the frame's object-position */
+      var iw = o.im.naturalWidth, ih = o.im.naturalHeight, s = Math.max(r.width / iw, r.height / ih), vw = r.width / (iw * s), vh = r.height / (ih * s);
+      g2(o, "uS", vw, vh); g2(o, "uO", (1 - vw) * o.pos[0], (1 - vh) * o.pos[1]);
+      o.g.f("uPtr", -o.p[0], -o.p[1]); o.g.f("uZ", o.z); o.g.f("uPar", P("r2.par") * .035); o.g.draw();
+      if (!o.fr.classList.contains("fxr2-on")) o.fr.classList.add("fxr2-on");
+    });
+    if (!any) r2Stop();
+  }
+  function g2(o, n, a, b){ o.g.f(n, a, b); }
+  function r2After(){
+    r2Stop();
+    if (CTX.tab !== "rep" || CTX.editing || !P("r2.on") || !GL.test() || reduce) return;
+    [].forEach.call(D.querySelectorAll(".film .frame"), function(fr, i){
+      var img = fr.querySelector("img"); if (!img) return;
+      var op = (img.style.objectPosition || "50% 50%").split(/\s+/).map(function(v){ return parseFloat(v) / 100; });
+      loadImg(img.getAttribute("src")).then(function(im){
+        if (!fr.isConnected) return;
+        var cv = D.createElement("canvas"); cv.className = "fxr2"; cv.setAttribute("aria-hidden", "true");
+        var g = GL.make(cv, R2F); if (!g) return; g.gl.disable(g.gl.BLEND);
+        g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, false, 128));
+        fr.insertBefore(cv, img.nextSibling);
+        R2.list.push({fr:fr, cv:cv, g:g, im:im, pos:[isNaN(op[0]) ? .5 : op[0], isNaN(op[1]) ? .5 : op[1]], p:[0, 0], z:1, ph:i * 1.7});
+        tick.add(r2Frame);
+      }, function(){});
+    });
+  }
+
+  /* ---- N2: true foil on the opened fan card ---- */
+  var FOILF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform vec2 uTilt;uniform float uT;",
+    STARS_GLSL,
+    "vec3 pal(float t){t=fract(t);vec3 a=vec3(.85,.62,.28),b=vec3(1.,.45,.55),c=vec3(.62,.38,1.),d=vec3(1.,.78,.42);",
+    "  return t<.25?mix(a,b,t*4.):t<.5?mix(b,c,(t-.25)*4.):t<.75?mix(c,d,(t-.5)*4.):mix(d,a,(t-.75)*4.);}",
+    "void main(){",
+    "  vec4 c=texture2D(uImg,vUv);if(c.a<.01){gl_FragColor=vec4(0.);return;}",
+    "  float dp=texture2D(uDep,vUv).r;",
+    "  vec2 e=vec2(1./128.,0.);float dx=texture2D(uDep,vUv+e.xy).r-texture2D(uDep,vUv-e.xy).r,dy=texture2D(uDep,vUv+e.yx).r-texture2D(uDep,vUv-e.yx).r;",
+    "  vec3 n=normalize(vec3(-dx*3.,-dy*3.,1.));",
+    "  float lum=dot(c.rgb/max(c.a,.001),vec3(.3,.59,.11));",
+    "  float film=dot(n.xy,uTilt)*1.6+(vUv.x*.9+vUv.y*.6)+dot(uTilt,vec2(.9,.6))*1.2+lum*.35;",
+    "  vec3 col=pal(film);",
+    "  float band=.35+.65*pow(.5+.5*sin(film*6.283*1.5),2.);",
+    "  float mid=smoothstep(.12,.45,lum)*(1.-smoothstep(.85,1.,lum));",
+    "  vec2 sg=vUv*vec2(70.,98.);float sp=starf(sg+floor(uTilt*8.))*step(.3,lum);",
+    "  vec3 o=mix(vec3(.5),col,band*mid)+vec3(.5)*sp;",
+    "  gl_FragColor=vec4(clamp(o,0.,1.)*c.a,c.a);",
+    "}"].join("\n");
+  var FOIL = {cv:null, g:null, aw:null, card:null, src:"", tilt:[0,0]};
+  function foilStop(){ tick.remove(foilFrame); if (FOIL.g) FOIL.g.kill(); if (FOIL.cv) FOIL.cv.remove(); if (FOIL.aw) FOIL.aw.classList.remove("fxfoil-on"); FOIL.cv = FOIL.g = FOIL.aw = FOIL.card = null; FOIL.src = ""; }
+  function foilFrame(t){
+    var aw = FOIL.aw, g = FOIL.g; if (!aw || !aw.isConnected || !g || g.lost || !aw.closest(".fnspot.on")){ foilStop(); return; }
+    var cs = FOIL.card.style, px = parseFloat(cs.getPropertyValue("--px")) || 0, py = parseFloat(cs.getPropertyValue("--py")) || 0;
+    FOIL.tilt[0] += (px - FOIL.tilt[0]) * .2; FOIL.tilt[1] += (py - FOIL.tilt[1]) * .2;
+    var r = FOIL.cv.getBoundingClientRect(), dpr = Math.min(1.5, GL.dpr()), ch = Math.round(Math.max(40, aw.clientHeight * 1.12) * dpr), cw = Math.round(ch * FOIL.asp);
+    if (cw < 4 || ch < 4) return;
+    if (FOIL.cv.width !== cw || FOIL.cv.height !== ch){ FOIL.cv.width = cw; FOIL.cv.height = ch; }
+    g.f("uTilt", FOIL.tilt[0] * 2.2, FOIL.tilt[1] * 2.2); g.f("uT", t / 1000); g.draw();
+    if (!aw.classList.contains("fxfoil-on")) aw.classList.add("fxfoil-on");
+  }
+  function foilWatch(){
+    var aw = P("foil.on") && !reduce && GL.test() ? D.querySelector(".fnspot.on .fcard.big .fc-aw") : null, img = aw && aw.querySelector("img.fc-art:not(.fc-holo)");
+    if (!aw || !img){ if (FOIL.aw) foilStop(); return; }
+    var src = img.getAttribute("src"); if (FOIL.aw === aw && FOIL.src === src) return;
+    foilStop(); FOIL.src = src;
+    loadImg(src).then(function(im){
+      if (!aw.isConnected || FOIL.src !== src) return;
+      var cv = D.createElement("canvas"); cv.className = "fxfoil"; cv.setAttribute("aria-hidden", "true");
+      FOIL.asp = im.naturalWidth / Math.max(1, im.naturalHeight); cv.style.aspectRatio = im.naturalWidth + "/" + im.naturalHeight;
+      cv.height = Math.round(aw.clientHeight * 1.12); cv.width = Math.round(cv.height * FOIL.asp);
+      var g = GL.make(cv, FOILF); if (!g) return;
+      g.tex(0, "uImg", im); g.tex(1, "uDep", depthOf(im, true, 128));
+      aw.appendChild(cv); FOIL.cv = cv; FOIL.g = g; FOIL.aw = aw; FOIL.card = aw.closest(".fcard.big"); FOIL.tilt = [0, 0]; tick.add(foilFrame);
+    }, function(){});
+  }
+  var foilMO = new MutationObserver(function(){ clearTimeout(foilMO.t); foilMO.t = setTimeout(foilWatch, 60); });
+
+  /* ---- W5: the Ware figure turns in depth ---- */
+  var TURNF = [
+    "precision mediump float;varying vec2 vUv;",
+    "uniform sampler2D uImg,uDep;uniform float uA,uPad,uDZ,uGlow;uniform vec3 uCol;",
+    "void main(){",
+    "  float ca=cos(uA),sa=sin(uA);",
+    "  float xo=(vUv.x-.5)*(1.+2.*uPad);",                       /* output x, in units of the figure's width, centred */
+    "  float xs=xo/max(ca,.08),dz=0.;",
+    "  for(int i=0;i<4;i++){vec2 su=vec2(xs+.5,vUv.y);dz=texture2D(uDep,su).r*step(0.,su.x)*step(su.x,1.)*uDZ;xs=(xo-dz*sa)/max(ca,.08);}",
+    "  vec2 su=vec2(xs+.5,vUv.y);",
+    "  if(su.x<0.||su.x>1.){gl_FragColor=vec4(0.);return;}",
+    "  vec4 c=texture2D(uImg,su);",
+    "  float e=.02;float gx=(texture2D(uDep,su+vec2(e,0.)).r-texture2D(uDep,su-vec2(e,0.)).r)/(2.*e)*uDZ;",
+    "  float facing=clamp((ca+gx*sa)/sqrt(1.+gx*gx),0.,1.);",                  /* how square the surface sits to the viewer as it turns */
+    "  vec3 rgb=c.rgb*(.45+.55*facing);",
+    "  float rim=pow(1.-facing,4.)*abs(sa)*smoothstep(.02,.3,c.a);",
+    "  rgb+=uCol*rim*uGlow*.35*c.a;",
+    "  gl_FragColor=vec4(rgb,c.a);",
+    "}"].join("\n");
+  function turnSnap(fig){
+    var img = fig.querySelector("#bodyimg"); if (!img || !img.naturalWidth) return null;
+    var w = Math.min(520, img.naturalWidth), h = Math.round(w * img.naturalHeight / img.naturalWidth), c = D.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
+    var clo = fig.querySelector(".cloth"), cs = clo && getComputedStyle(clo);
+    if (!(clo && fig.classList.contains("clothed"))) x.drawImage(img, 0, 0, w, h);
+    return {c:c, cloth:clo && fig.classList.contains("clothed") ? urlOf(clo.style.getPropertyValue("--ci")) : "", w:w, h:h, img:img};
+  }
+  function turnTex(fig){
+    var s = turnSnap(fig); if (!s) return Promise.reject();
+    if (!s.cloth) return Promise.resolve(s.c);
+    return loadImg(s.cloth).then(function(ci){ s.c.getContext("2d").drawImage(ci, 0, 0, s.w, s.h); return s.c; });
+  }
+  FX.turn = function(fig, doRender, dir){
+    try {
+      if (!fig || reduce || !P("turn.on") || !GL.test() || fig.classList.contains("boot")) return false;
+      var R = fig.getBoundingClientRect(); if (R.width < 20) return false;
+      var pad = .3, cv = D.createElement("canvas"); cv.className = "fxturn"; cv.setAttribute("aria-hidden", "true");
+      var dpr = GL.dpr(); cv.width = Math.round(R.width * (1 + 2 * pad) * dpr); cv.height = Math.round(R.height * dpr);
+      cv.style.left = (R.left + W.scrollX - R.width * pad) + "px"; cv.style.top = (R.top + W.scrollY) + "px"; cv.style.width = (R.width * (1 + 2 * pad)) + "px"; cv.style.height = R.height + "px";
+      var g = GL.make(cv, TURNF); if (!g) return false;
+      var zo = D.body.classList.contains("zolo"), T = Math.max(.15, P("turn.t")) * 1000, sgn = dir === "back" ? 1 : -1;
+      g.f("uPad", pad); g.f("uDZ", P("turn.depth") * .22); g.f("uGlow", 1.2); if (zo) g.f("uCol", .82, .9, .96); else g.f("uCol", 1., .8, .48);
+      var done = false;
+      function finish(){ if (done) return; done = true; tick.remove(fr); cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); }
+      function run(from, to, dur, ease0, then){ var t0 = 0; fr = function(t){ if (g.lost){ finish(); return; } if (!t0) t0 = t; var k = Math.min(1, (t - t0) / dur), e = ease0(k); g.f("uA", from + (to - from) * e); g.draw(); if (k >= 1){ tick.remove(fr); then(); } }; tick.add(fr); }
+      var fr = null;
+      return turnTex(fig).then(function(tex){
+        var dep = depthOf(tex, true, 96); g.tex(0, "uImg", tex); g.tex(1, "uDep", dep);
+        g.f("uA", 0); g.draw(); D.body.appendChild(cv); fig.classList.add("fxturning");
+        run(0, sgn * 1.45, T * .45, function(k){ return k * k * (3 - 2 * k) * k; }, function(){
+          doRender();
+          var nf = D.getElementById("bodyfig"); if (!nf){ finish(); return; }
+          nf.classList.add("fxturning");
+          var ni = nf.querySelector("#bodyimg"), ready = ni && !ni.complete ? new Promise(function(res){ ni.addEventListener("load", res, {once:true}); ni.addEventListener("error", res, {once:true}); }) : Promise.resolve();
+          within(900, ready.then(function(){ return turnTex(nf); })).then(function(t2){
+            g.tex(0, "uImg", t2); g.tex(1, "uDep", depthOf(t2, true, 96));
+            run(-sgn * 1.45, 0, T * .55, function(k){ var u = 1 - k; return 1 - u * u * u; }, finish);
+          }, finish);
+        });
+      }, function(){ cv.remove(); g.kill(); var n = D.getElementById("bodyfig"); if (n) n.classList.remove("fxturning"); doRender(); }) && true;
+    } catch(e){ return false; }
+  };
+
+  function heroAfter(){ liveAfter(); r2After(); foilWatch();
+    var fs = D.getElementById("fnspot"); foilMO.disconnect(); if (fs) foilMO.observe(fs, {attributes:true, childList:true, subtree:true, attributeFilter:["class", "hidden"]}); }
+
+  /* ================= The rest of the approved list ================= */
+  function px2(v){ return (+v).toFixed(2); }
+  function fxLater(fn, ms){ setTimeout(fn, ms); }
+
+  /* G3: panel depth */
+  var TILT = {el:null};
+  D.addEventListener("pointermove", function(ev){
+    if (ev.pointerType === "touch" || reduce || !P("tilt.on") || CTX.editing) return;
+    var b = ev.target.closest && ev.target.closest(".box:not(.rside):not(.glite):not(.pcard):not(.lo-con)");
+    if (b && !b.closest(".dossier, .adv, main.rep, .advance, .cf, main.posse")) b = null;
+    if (TILT.el && TILT.el !== b){ var o = TILT.el; o.classList.add("fxtilt-out"); o.style.setProperty("--ttx", "0deg"); o.style.setProperty("--tty", "0deg"); o.style.setProperty("--tsh", 0); setTimeout(function(){ if (TILT.el !== o) o.classList.remove("fxtilt", "fxtilt-out"); }, 500); }
+    TILT.el = b; if (!b) return;
+    var r = b.getBoundingClientRect(), k = P("tilt.deg") * Math.min(1, 380 / Math.max(r.height, r.width * .6)), nx = (ev.clientX - r.left) / r.width - .5, ny = (ev.clientY - r.top) / r.height - .5;
+    b.classList.remove("fxtilt-out"); b.classList.add("fxtilt");
+    b.style.setProperty("--ttx", px2(nx * k * 2) + "deg"); b.style.setProperty("--tty", px2(-ny * k * 2) + "deg"); b.style.setProperty("--tsh", px2(2 + ny * 4));
+  }, {passive:true});
+
+  /* G6: persona re-key */
+  FX.rekey = function(fn, btn){
+    var vt = null;
+    if (!reduce && P("rekey.on") && D.startViewTransition && !CTX.editing){
+      var r = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : {left:W.innerWidth / 2, top:60, width:0, height:0};
+      root.style.setProperty("--rkx", (r.left + r.width / 2) + "px"); root.style.setProperty("--rky", (r.top + r.height / 2) + "px"); root.style.setProperty("--rk-t", Math.max(.3, P("rekey.t")) + "s");
+      root.classList.add("fx-rekey");
+      try { vt = D.startViewTransition(function(){ fn();
+        var ring = D.createElement("i"); ring.className = "fxrk-ring"; ring.setAttribute("aria-hidden", "true");
+        ring.style.setProperty("--rkc", D.body.classList.contains("zolo") ? "#e3eaee" : "#f0cf8e"); D.body.appendChild(ring); setTimeout(function(){ ring.remove(); }, 1600);
+      }); } catch(e){ vt = null; }
+    }
+    function after(){ root.classList.remove("fx-rekey");
+      if (reduce) return;
+      [].forEach.call(D.querySelectorAll("header.top .id h1, header.top .id small, header.top .id .chip"), function(el, i){ var t = lastText(el) || (el.firstElementChild && lastText(el.firstElementChild)); if (t) scramble(t, 520, 60 + i * 120); }); }
+    if (vt){ vt.finished.then(after, after); } else { root.classList.remove("fx-rekey"); fn(); after(); }
+  };
+
+  /* D6 is CSS only. D3 plates take the key light. */
+  function platesAfter(){ D.body.classList.toggle("fx-plates", !!P("plate.on")); D.body.classList.toggle("fx-weap", !!P("weap.on"));
+    if (P("plate.on")) [].forEach.call(D.querySelectorAll(".dossier .stat"), function(s){ s.setAttribute("data-lit", ""); }); }
+
+  /* D7: when the Dossier load-in's scan lines leave, it signs off */
+  var SYNC = {armed:false};
+  new MutationObserver(function(ms){
+    if (!SYNC.armed) return;
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].removedNodes.length; j++){ var n = ms[i].removedNodes[j];
+      if (n.nodeType === 1 && n.classList.contains("hzscan") && !D.querySelector(".hzscan")){ SYNC.armed = false; syncDone(); return; } }
+  }).observe(D.documentElement, {childList:true, subtree:true});
+  function syncDone(){
+    if (reduce || !P("sync.on") || CTX.tab !== "dossier" || CTX.who === "zolo") return;
+    var tr = D.querySelector(".tabrow"); if (!tr) return; var r = tr.getBoundingClientRect();
+    var s = D.createElement("i"); s.className = "fxsync"; s.setAttribute("aria-hidden", "true"); s.innerHTML = "<b>SYNC COMPLETE</b>";
+    s.style.left = (r.left + W.scrollX) + "px"; s.style.width = r.width + "px"; s.style.top = (r.bottom + W.scrollY + 2) + "px"; D.body.appendChild(s); setTimeout(function(){ s.remove(); }, 1800);
+    [].forEach.call(D.querySelectorAll("header.top .m > span"), function(sp, i){ var t = lastText(sp.querySelector(".dec") || sp); if (t) scramble(t, 380, 180 + i * 90); });
+    var gold = D.querySelector(".iopw .iogold"); if (gold){ gold.classList.remove("fxsheen"); void gold.offsetWidth; gold.classList.add("fxsheen"); setTimeout(function(){ gold.classList.remove("fxsheen"); }, 1300); }
+  }
+
+  /* W3: film callouts beside the Ware figure. Each item's line ends where Oak placed it by hand;
+     an item not placed yet points at its zone's anchor (and shows a hollow dot to the admin). */
+  var CALL = {place:false, sel:"", drag:null};
+  function callAfter(){
+    [].forEach.call(D.querySelectorAll(".fxcall, .fxcallbar"), function(n){ n.remove(); }); D.body.classList.remove("fx-placing");
+    var fig = D.getElementById("bodyfig"), panel = D.getElementById("zpanel"), F = CTX.fig;
+    if (!fig || !panel || !F || !F.anch || CTX.tab !== "ware" || CTX.editing || !P("call.on") || W.innerWidth < 1180 || D.querySelector(".chrome2.ring")){ CALL.place = false; return; }
+    var stage = fig.closest(".stage"); if (!stage) return;
+    if (CTX.admin) callBar(stage);
+    var regs = String(fig.dataset.sel || "").split(/\s+/).filter(Boolean); if (!regs.length) return;
+    var rows = [].slice.call(panel.querySelectorAll(".ctree li.d0 > .nrow, .ctree li.d1 > .nrow")).slice(0, 14); if (!rows.length) return;
+    var sr = stage.getBoundingClientRect(), fr = fig.getBoundingClientRect(), pts = callPts(), face = (CTX.who || "io") + "|" + (F.back ? "b" : "f") + "|";
+    var a = F.anch[regs[0] === "legs" ? "legs" : regs[0]] || F.anch.torso; if (!a) return;
+    function toStage(p){ return [fr.left - sr.left + fr.width * p[0] / 100, fr.top - sr.top + fr.height * p[1] / 100]; }
+    var items = rows.map(function(rw){ var nm = ((rw.querySelector(".wn") || {}).textContent || "").trim(), key = face + nm, p = pts[key]; return {rw:rw, nm:nm, key:key, placed:!!p, pt:toStage(p || a)}; });
+    if (items.some(function(it){ return it.placed; })) items.sort(function(p, q){ return p.pt[1] - q.pt[1]; });
+    var avg = items.reduce(function(s, it){ return s + it.pt[1]; }, 0) / items.length;
+    var lx = Math.max(-sr.left + 236, fr.left - sr.left - 230), x1 = lx + 186, top0 = Math.max(46, Math.min(sr.height - items.length * 28 - 50, avg - items.length * 14)), wrap = D.createElement("div");
+    wrap.className = "fxcall" + (CALL.place ? " fxplace" : ""); wrap.setAttribute("aria-hidden", "true");
+    var paths = "", dots = "", labels = "";
+    items.forEach(function(it, i){
+      var tg = it.rw.querySelector(".t-fab, .t-upg"), y = top0 + i * 28, px = it.pt[0], py = it.pt[1];
+      var d = "M" + x1 + " " + (y + 9) + " L" + (x1 + 18) + " " + (y + 9) + " L" + px + " " + py;
+      var on = CALL.place && CALL.sel === it.key;
+      paths += '<path pathLength="1" d="' + d + '" style="--ci:' + i + '"' + (on ? ' class="on"' : '') + '/>';
+      if (it.placed || CALL.place) dots += '<circle data-ci="' + i + '" cx="' + px + '" cy="' + py + '" r="' + (CALL.place ? 5 : 3) + '"' + (it.placed ? '' : ' class="un"') + (on ? ' data-on=""' : '') + '/>';
+      labels += '<span class="fxcl' + (on ? ' on' : '') + (CALL.place && !it.placed ? ' un' : '') + '" data-ci="' + i + '" style="left:' + x1 + 'px;top:' + y + 'px;--ci:' + i + '" title="' + esc(it.nm) + '">' + esc(it.nm) + (tg ? '<em>' + esc(tg.textContent) + '</em>' : '') + '</span>';
+    });
+    var hub = items.some(function(it){ return !it.placed; }) && !CALL.place ? '<circle cx="' + toStage(a)[0] + '" cy="' + toStage(a)[1] + '" r="3"/>' : "";
+    wrap.innerHTML = '<svg width="' + sr.width + '" height="' + sr.height + '">' + paths + dots + hub + '</svg>' + labels;
+    stage.appendChild(wrap);
+    wrap.addEventListener("click", function(ev){ var l = ev.target.closest(".fxcl"); if (!l) return; var it = items[+l.dataset.ci]; if (!it) return;
+      if (CALL.place){ CALL.sel = CALL.sel === it.key ? "" : it.key; callAfter(); return; }
+      it.rw.scrollIntoView({block:"nearest", behavior:reduce ? "auto" : "smooth"}); it.rw.click(); });
+    if (!CALL.place) return;
+    D.body.classList.toggle("fx-placing", !!CALL.sel);
+    /* drag a dot to move it */
+    wrap.addEventListener("pointerdown", function(ev){ var c = ev.target.closest && ev.target.closest("circle[data-ci]"); if (!c) return; ev.preventDefault(); ev.stopPropagation();
+      var it = items[+c.dataset.ci]; CALL.sel = it.key; CALL.drag = {it:it, c:c}; c.setPointerCapture && c.setPointerCapture(ev.pointerId); });
+    wrap.addEventListener("pointermove", function(ev){ var g = CALL.drag; if (!g) return; g.c.setAttribute("cx", ev.clientX - sr.left); g.c.setAttribute("cy", ev.clientY - sr.top); });
+    wrap.addEventListener("pointerup", function(ev){ var g = CALL.drag; if (!g) return; CALL.drag = null; var r = fig.getBoundingClientRect();
+      setPt(g.it.key, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]); callAfter(); });
+  }
+  /* admin bar: Place callouts / Save for everyone / Done */
+  function callBar(stage){
+    var bar = D.createElement("div"); bar.className = "fxcallbar" + (CALL.place ? " on" : "");
+    if (!CALL.place){ bar.innerHTML = '<button type="button" data-cb="go">Place callouts</button>'; }
+    else {
+      var nm = CALL.sel ? CALL.sel.split("|").slice(2).join("|") : "";
+      bar.innerHTML = '<span>' + (nm ? 'Click on the body where <b>' + esc(nm) + '</b> is. Drag any dot to adjust.' : 'Pick a label on the left, then click on the body where that item is. Hollow dots are not placed yet.') + '</span>' +
+        (nm ? '<button type="button" data-cb="clear">Unplace</button>' : '') + '<button type="button" data-cb="save">Save for everyone</button><button type="button" data-cb="done">Done</button>';
+    }
+    stage.appendChild(bar);
+    bar.addEventListener("click", function(ev){ var a = ev.target.getAttribute && ev.target.getAttribute("data-cb"); if (!a) return;
+      if (a === "go"){ CALL.place = true; CALL.sel = ""; }
+      if (a === "done"){ CALL.place = false; CALL.sel = ""; }
+      if (a === "clear" && CALL.sel){ var b = local["call.pts"] || {}, s = shared["call.pts"]; delete b[CALL.sel]; if (s && CALL.sel in s){ b[CALL.sel] = null; } local["call.pts"] = b; try { localStorage.setItem("io-fx", JSON.stringify(local)); } catch(e){} }
+      if (a === "save" && CTX.save){ var v = values(); v["call.pts"] = cleanPts(v["call.pts"]); shared = v; local = {}; try { localStorage.removeItem("io-fx"); } catch(e){}
+        ev.target.textContent = "Saving…"; Promise.resolve(CTX.save(v)).then(function(ok){ ev.target.textContent = ok === false ? "Couldn't save" : "Saved"; }, function(){ ev.target.textContent = "Couldn't save"; }); return; }
+      callAfter(); });
+  }
+  function cleanPts(o){ var r = {}; for (var k in o || {}) if (o[k] && o[k].length === 2) r[k] = o[k]; return r; }
+  /* in place mode a click on the figure sets the selected item's point (and doesn't select a zone) */
+  D.addEventListener("click", function(ev){
+    if (!CALL.place || !CALL.sel || CTX.tab !== "ware") return;
+    var fig = D.getElementById("bodyfig"); if (!fig || !fig.contains(ev.target)) return;
+    ev.preventDefault(); ev.stopPropagation();
+    var r = fig.getBoundingClientRect(); setPt(CALL.sel, [+((ev.clientX - r.left) / r.width * 100).toFixed(2), +((ev.clientY - r.top) / r.height * 100).toFixed(2)]);
+    /* move on to the next label that has no point yet */
+    var labs = [].slice.call(D.querySelectorAll(".fxcall .fxcl")), pts = callPts(), face = CALL.sel.split("|").slice(0, 2).join("|") + "|", next = "";
+    labs.forEach(function(l){ var k = face + (l.getAttribute("title") || ""); if (!next && !pts[k]) next = k; });
+    CALL.sel = next; callAfter();
+  }, true);
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* W4: pulses run up the nerves on the Nerves layer */
+  function nerveAfter(){
+    [].forEach.call(D.querySelectorAll(".xr > .fxnv"), function(n){ n.remove(); });
+    var fig = D.getElementById("bodyfig"); if (!fig || !P("nerve.on") || CTX.editing) return;
+    if (!/nerve/i.test(fig.style.getPropertyValue("--sk"))) return;
+    [].forEach.call(fig.querySelectorAll(".xr"), function(x){ var i = D.createElement("i"); i.className = "fxnv"; i.setAttribute("aria-hidden", "true"); x.appendChild(i); });
+  }
+  var nerveXl = FX.xl; FX.xl = function(fig, o, n, apply){ nerveXl(fig, o, n, function(){ apply(); setTimeout(nerveAfter, 0); }); };
+
+  /* W6: hovering a fabricated or upgraded implant makes it glint on the body */
+  D.addEventListener("mouseover", function(ev){
+    if (CTX.tab !== "ware" || reduce || !P("glt.on")) return;
+    var row = ev.target.closest && ev.target.closest(".nrow"); if (!row || row === RET.gl) return; RET.gl = row;
+    if (!row.querySelector(".t-fab, .t-upg")) return;
+    var fig = D.getElementById("bodyfig"), F = CTX.fig; if (!fig || !F || !F.anch) return;
+    var hr = row.closest("[data-hr]"), regs = String(hr ? hr.dataset.hr : fig.dataset.sel || "").split(/\s+/).filter(Boolean);
+    var an = row.closest("[data-an]"), keys = an && F.anch[an.dataset.an] ? [an.dataset.an] : regs; if (!keys.length) return;
+    keys.slice(0, 2).forEach(function(k, i){ var a = F.anch[k === "legs" ? "legs" : k]; if (!a) return;
+      var g = D.createElement("i"); g.className = "fxglt"; g.setAttribute("aria-hidden", "true"); g.style.left = a[0] + "%"; g.style.top = a[1] + "%"; g.style.animationDelay = i * 90 + "ms"; fig.appendChild(g); setTimeout(function(){ g.remove(); }, 1100); });
+  });
+
+  /* V2: schematic mode */
+  var SCHF = [
+    "precision mediump float;varying vec2 vUv;uniform sampler2D uImg;uniform vec2 uPx;uniform float uT;",
+    "float L(vec2 p){vec4 c=texture2D(uImg,p);return dot(c.rgb,vec3(.3,.59,.11))*c.a+c.a*.6;}",
+    "void main(){",
+    "  float tl=L(vUv+vec2(-uPx.x,-uPx.y)),t=L(vUv+vec2(0.,-uPx.y)),tr=L(vUv+vec2(uPx.x,-uPx.y)),l=L(vUv+vec2(-uPx.x,0.)),r=L(vUv+vec2(uPx.x,0.)),bl=L(vUv+vec2(-uPx.x,uPx.y)),b=L(vUv+vec2(0.,uPx.y)),br=L(vUv+vec2(uPx.x,uPx.y));",
+    "  float gx=-tl-2.*l-bl+tr+2.*r+br,gy=-tl-2.*t-tr+bl+2.*b+br,e=sqrt(gx*gx+gy*gy);",
+    "  float a=texture2D(uImg,vUv).a;",
+    "  float line=smoothstep(.12,.55,e);",
+    "  float fill=a*.06;",
+    "  float scan=.85+.15*sin(vUv.y*900.+uT*2.);",
+    "  float sweep=exp(-pow((vUv.x-fract(uT*.12)*1.4+.2)*7.,2.))*a*.35;",
+    "  vec3 col=vec3(.94,.78,.48)*(line*scan+fill)+vec3(1.,.95,.85)*sweep;",
+    "  float al=clamp(line*.95+fill+sweep,0.,1.);",
+    "  gl_FragColor=vec4(col*al,al);",
+    "}"].join("\n");
+  var SCH = {on:false, list:[]};
+  try { SCH.on = localStorage.getItem("io-fx-sch") === "1"; } catch(e){}
+  function schStop(){ tick.remove(schFrame); SCH.list.forEach(function(o){ o.g.kill(); o.cv.remove(); o.fig.classList.remove("fxsch-on"); }); SCH.list = []; }
+  function schFrame(t){ SCH.list.forEach(function(o){ if (!o.fig.isConnected || o.g.lost) return; var r = o.fig.getBoundingClientRect(); if (r.width < 4) return;
+    var dpr = Math.min(1.5, GL.dpr()), cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr); if (o.cv.width !== cw || o.cv.height !== ch){ o.cv.width = cw; o.cv.height = ch; }
+    o.g.f("uPx", 1.2 / cw, 1.2 / ch); o.g.f("uT", t / 1000); o.g.draw(); if (!o.fig.classList.contains("fxsch-on")) o.fig.classList.add("fxsch-on"); }); }
+  function schAfter(){
+    schStop(); var st = D.querySelector(".vstage"); [].forEach.call(D.querySelectorAll(".fxschbtn, .fxtb"), function(n){ n.remove(); });
+    if (!st || CTX.tab !== "vehicles" || CTX.editing || !P("sch.on") || !GL.test()){ if (st) st.classList.remove("fxsch-st"); return; }
+    var foot = st.querySelector(".vfoot"); if (foot){ var b = D.createElement("button"); b.type = "button"; b.className = "fxschbtn"; b.textContent = "Schematic"; b.setAttribute("aria-pressed", String(SCH.on)); foot.appendChild(b);
+      b.addEventListener("click", function(){ SCH.on = !SCH.on; try { localStorage.setItem("io-fx-sch", SCH.on ? "1" : "0"); } catch(e){} schAfter(); }); }
+    st.classList.toggle("fxsch-st", SCH.on); if (!SCH.on) return;
+    var title = (st.querySelector(".vtitle h2") || {}).textContent || "", kind = (st.querySelector(".vtitle .lab") || {}).textContent || "", mods = D.querySelectorAll("main.garage .vm").length;
+    var tb = D.createElement("div"); tb.className = "fxtb"; tb.setAttribute("aria-hidden", "true"); tb.innerHTML = "<b>" + esc(title) + "</b>" + esc(kind) + " · schematic<br>" + mods + " modifications · rev 2048"; st.appendChild(tb);
+    [].forEach.call(st.querySelectorAll(".vfig"), function(fg){ var img = fg.querySelector("img.vcut"); if (!img) return;
+      loadImg(img.getAttribute("src")).then(function(im){ if (!fg.isConnected || !SCH.on) return;
+        var cv = D.createElement("canvas"); cv.className = "fxsch"; cv.setAttribute("aria-hidden", "true"); var g = GL.make(cv, SCHF); if (!g) return;
+        g.tex(0, "uImg", im); var cs = getComputedStyle(fg); if (cs.position === "static") fg.style.position = "relative"; fg.appendChild(cv);
+        SCH.list.push({fig:fg, cv:cv, g:g}); tick.add(schFrame); }, function(){}); });
+  }
+
+  function restAfter(enter){
+    D.body.classList.toggle("fx-scroll", !!P("scroll.on"));
+    platesAfter(); callAfter(); nerveAfter(); schAfter();
+    if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
+  }
+
+
+  /* ================= Nov 18 pick: X1 title screen ================= */
+
+  /* ---- X1: title screen on first open ---- */
+  var TT = {el:null};
+  function titleSkip(){ try { return localStorage.getItem("io-title") === "skip" || sessionStorage.getItem("io-title") === "seen"; } catch(e){ return false; } }
+  function titleShow(force){
+    if (TT.el || CTX.editing || CTX.who === "zolo" || !CTX.id) return;
+    if (!force && (!P("title.on") || titleSkip())) return;
+    var id = CTX.id, roles = (id.roles || []).filter(function(r){ return r && r.role; }).slice(0, 4);
+    var el = D.createElement("div"); el.className = "fxtitle"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Title screen");
+    var go = CTX.tab === "dossier" ? "Access dossier" : "Continue";
+    el.innerHTML = '<div class="tt-planet" aria-hidden="true"></div><div class="tt-art" aria-hidden="true"><img src="img/io-fist.webp" alt=""></div><i class="tt-scan" aria-hidden="true"></i>' +
+      '<div class="tt-copy">' +
+        '<p class="tt-up">UPLINK ▸ ' + esc(String(id.origin || "O'Neill Two").split("·").pop().trim().toUpperCase()) + ' // L5 → NIGHT CITY</p>' +
+        '<p class="tt-name">' + esc(id.name || "") + '</p>' +
+        '<h1 class="tt-h">' + esc(id.handle || "Iō") + '</h1>' +
+        '<p class="tt-org">' + esc(id.origin || "") + '</p>' +
+        '<div class="tt-stats">' + roles.map(function(r, i){ return '<div style="--i:' + i + '"><span>' + esc(r.role) + '</span><b>' + esc(r.rank == null ? "" : r.rank) + '</b></div>'; }).join("") +
+          (id.rep != null && id.rep !== "" ? '<i></i><div class="rep" style="--i:' + roles.length + '"><span>Reputation</span><b>' + esc(id.rep) + '</b></div>' : '') + '</div>' +
+        '<div class="tt-go"><button type="button" class="tt-in" data-tt="in">' + go + ' <span aria-hidden="true">▸</span></button>' +
+          (D.querySelector('[data-who="zolo"]') ? '<button type="button" class="tt-z" data-tt="zolo">Zolo</button>' : '') + '</div>' +
+        '<label class="tt-skip"><input type="checkbox" data-tt="skip"> Skip this screen next time</label>' +
+        '<p class="tt-key">Press any key to continue</p>' +
+      '</div>' +
+      '<div class="tt-foot" aria-hidden="true"><span>' + (id.sin ? "SIN " + esc(id.sin) : "") + '</span><span>Red Star Collective</span><span class="tt-sync">Sync <b>0</b>%</span></div>';
+    D.body.appendChild(el); TT.el = el; root.classList.add("fx-titled");
+    try { sessionStorage.setItem("io-title", "seen"); } catch(e){}
+    var b = el.querySelector(".tt-in"); setTimeout(function(){ if (b && TT.el) b.focus({preventScroll:true}); }, 60);
+    /* entrance: name decodes, sync counts up */
+    if (!reduce){ var h = el.querySelector(".tt-h"); if (h && h.firstChild) scramble(h.firstChild, 900, 380); var nm = el.querySelector(".tt-name"); if (nm && nm.firstChild) scramble(nm.firstChild, 600, 200); }
+    var sy = el.querySelector(".tt-sync b"), t0 = performance.now(), dur = reduce ? 1 : 1600;
+    (function up(){ if (!TT.el) return; var k = Math.min(1, (performance.now() - t0) / dur); sy.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(up); })();
+    el.addEventListener("click", function(ev){ var a = ev.target.closest && ev.target.closest("[data-tt]"); a = a && a.getAttribute("data-tt");
+      if (a === "skip"){ try { if (ev.target.checked) localStorage.setItem("io-title", "skip"); else localStorage.removeItem("io-title"); } catch(e){} return; }
+      if (a === "in") titleGo();
+      if (a === "zolo") titleGo(function(){ var z = D.querySelector('[data-who="zolo"]'); if (z) z.click(); }); });
+    el.addEventListener("keydown", function(ev){ if (ev.key === "Tab"){ var f = [].slice.call(el.querySelectorAll("button, input")); var i = f.indexOf(D.activeElement); if (ev.shiftKey && i <= 0){ ev.preventDefault(); f[f.length - 1].focus(); } else if (!ev.shiftKey && i === f.length - 1){ ev.preventDefault(); f[0].focus(); } } });
+    D.addEventListener("keydown", titleKey, true);
+  }
+  function titleKey(ev){
+    if (!TT.el) return D.removeEventListener("keydown", titleKey, true);
+    if (ev.key === "Tab" || ev.key === "Shift" || (ev.target.closest && ev.target.closest(".tt-skip")) || (ev.target.closest && ev.target.closest(".fxtitle button") && (ev.key === "Enter" || ev.key === " "))) return;
+    ev.preventDefault(); titleGo();
+  }
+  function titleGo(then){
+    var el = TT.el; if (!el || el.classList.contains("out")) return;
+    D.removeEventListener("keydown", titleKey, true);
+    el.classList.add("out"); root.classList.remove("fx-titled");
+    setTimeout(function(){ el.remove(); TT.el = null; if (then) then(); }, reduce ? 0 : 760);
+  }
+  FX.title = function(){ titleShow(true); };
+
 
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
+    if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();
