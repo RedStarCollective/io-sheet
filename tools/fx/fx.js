@@ -22,7 +22,8 @@
     "id.on":1, "id.holo":.45, "id.spin":90,
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
-    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1
+    "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
+    "title.on":1, "hex.on":1, "bar.on":1, "diag.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -53,7 +54,11 @@
     {g:"Ware callouts", on:"call.on", k:[]},
     {g:"Live nerves", on:"nerve.on", k:[]},
     {g:"Implant glints", on:"glt.on", k:[]},
-    {g:"Vehicle schematic button", on:"sch.on", k:[]}
+    {g:"Vehicle schematic button", on:"sch.on", k:[]},
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]},
+    {g:"Attribute hexes (Y3)", on:"hex.on", k:[]},
+    {g:"Skill BASE bars (Y3)", on:"bar.on", k:[]},
+    {g:"Ripperdoc diagnostic (Y2)", on:"diag.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -89,6 +94,8 @@
     if (/^(live|r2|foil)\.on$/.test(k)) heroAfter();
     if (/^(tilt|rekey|scroll|plate|weap|sync|call|nerve|glt|sch)\./.test(k)){ restAfter(false); if (k === "plate.on") lightScan(); }
     if (/^id\./.test(k)){ idAfter(); lightScan(); }
+    if (/^(hex|bar|diag)\./.test(k)) newAfter();
+    if (k === "title.on" && P("title.on")) titleShow(true);
   }
 
   /* panel */
@@ -1279,12 +1286,123 @@
     if (enter && CTX.tab === "dossier" && CTX.who !== "zolo" && D.querySelector(".hzscan")) SYNC.armed = true;
   }
 
+
+  /* ================= Nov 18 picks: X1 title screen, Y3 hexes + bars, Y2 ripperdoc diagnostic ================= */
+  var A77 = "img/fx/2077/";
+
+  /* ---- X1: title screen on first open ---- */
+  var TT = {el:null};
+  function titleSkip(){ try { return localStorage.getItem("io-title") === "skip" || sessionStorage.getItem("io-title") === "seen"; } catch(e){ return false; } }
+  function titleShow(force){
+    if (TT.el || CTX.editing || CTX.who === "zolo" || !CTX.id) return;
+    if (!force && (!P("title.on") || titleSkip())) return;
+    var id = CTX.id, roles = (id.roles || []).filter(function(r){ return r && r.role; }).slice(0, 4);
+    var el = D.createElement("div"); el.className = "fxtitle"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Title screen");
+    var go = CTX.tab === "dossier" ? "Access dossier" : "Continue";
+    el.innerHTML = '<div class="tt-planet" aria-hidden="true"></div><div class="tt-art" aria-hidden="true"><img src="img/io-fist.webp" alt=""></div><i class="tt-scan" aria-hidden="true"></i>' +
+      '<div class="tt-copy">' +
+        '<p class="tt-up">UPLINK ▸ ' + esc(String(id.origin || "O'Neill Two").split("·").pop().trim().toUpperCase()) + ' // L5 → NIGHT CITY</p>' +
+        '<p class="tt-name">' + esc(id.name || "") + '</p>' +
+        '<h1 class="tt-h">' + esc(id.handle || "Iō") + '</h1>' +
+        '<p class="tt-org">' + esc(id.origin || "") + '</p>' +
+        '<div class="tt-stats">' + roles.map(function(r, i){ return '<div style="--i:' + i + '"><span>' + esc(r.role) + '</span><b>' + esc(r.rank == null ? "" : r.rank) + '</b></div>'; }).join("") +
+          (id.rep != null && id.rep !== "" ? '<i></i><div class="rep" style="--i:' + roles.length + '"><span>Reputation</span><b>' + esc(id.rep) + '</b></div>' : '') + '</div>' +
+        '<div class="tt-go"><button type="button" class="tt-in" data-tt="in">' + go + ' <span aria-hidden="true">▸</span></button>' +
+          (D.querySelector('[data-who="zolo"]') ? '<button type="button" class="tt-z" data-tt="zolo">Zolo</button>' : '') + '</div>' +
+        '<label class="tt-skip"><input type="checkbox" data-tt="skip"> Skip this screen next time</label>' +
+        '<p class="tt-key">Press any key to continue</p>' +
+      '</div>' +
+      '<div class="tt-foot" aria-hidden="true"><span>' + (id.sin ? "SIN " + esc(id.sin) : "") + '</span><span>Red Star Collective</span><span class="tt-sync">Sync <b>0</b>%</span></div>';
+    D.body.appendChild(el); TT.el = el; root.classList.add("fx-titled");
+    try { sessionStorage.setItem("io-title", "seen"); } catch(e){}
+    var b = el.querySelector(".tt-in"); setTimeout(function(){ if (b && TT.el) b.focus({preventScroll:true}); }, 60);
+    /* entrance: name decodes, sync counts up */
+    if (!reduce){ var h = el.querySelector(".tt-h"); if (h && h.firstChild) scramble(h.firstChild, 900, 380); var nm = el.querySelector(".tt-name"); if (nm && nm.firstChild) scramble(nm.firstChild, 600, 200); }
+    var sy = el.querySelector(".tt-sync b"), t0 = performance.now(), dur = reduce ? 1 : 1600;
+    (function up(){ if (!TT.el) return; var k = Math.min(1, (performance.now() - t0) / dur); sy.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(up); })();
+    el.addEventListener("click", function(ev){ var a = ev.target.closest && ev.target.closest("[data-tt]"); a = a && a.getAttribute("data-tt");
+      if (a === "skip"){ try { if (ev.target.checked) localStorage.setItem("io-title", "skip"); else localStorage.removeItem("io-title"); } catch(e){} return; }
+      if (a === "in") titleGo();
+      if (a === "zolo") titleGo(function(){ var z = D.querySelector('[data-who="zolo"]'); if (z) z.click(); }); });
+    el.addEventListener("keydown", function(ev){ if (ev.key === "Tab"){ var f = [].slice.call(el.querySelectorAll("button, input")); var i = f.indexOf(D.activeElement); if (ev.shiftKey && i <= 0){ ev.preventDefault(); f[f.length - 1].focus(); } else if (!ev.shiftKey && i === f.length - 1){ ev.preventDefault(); f[0].focus(); } } });
+    D.addEventListener("keydown", titleKey, true);
+  }
+  function titleKey(ev){
+    if (!TT.el) return D.removeEventListener("keydown", titleKey, true);
+    if (ev.key === "Tab" || ev.key === "Shift" || (ev.target.closest && ev.target.closest(".tt-skip")) || (ev.target.closest && ev.target.closest(".fxtitle button") && (ev.key === "Enter" || ev.key === " "))) return;
+    ev.preventDefault(); titleGo();
+  }
+  function titleGo(then){
+    var el = TT.el; if (!el || el.classList.contains("out")) return;
+    D.removeEventListener("keydown", titleKey, true);
+    el.classList.add("out"); root.classList.remove("fx-titled");
+    setTimeout(function(){ el.remove(); TT.el = null; if (then) then(); }, reduce ? 0 : 760);
+  }
+  FX.title = function(){ titleShow(true); };
+
+  /* ---- Y3: attribute hexes behind the STAT values ---- */
+  var HEXG = {INT:"int", REF:"ref", TECH:"tech", COOL:"cool", BODY:"body"};
+  function hexAfter(){
+    [].forEach.call(D.querySelectorAll(".fxhex"), function(n){ n.remove(); });
+    D.body.classList.toggle("fx-hexes", !!P("hex.on") && CTX.tab === "dossier" && CTX.who !== "zolo");
+    if (!P("hex.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
+    /* the labels may be mid-decode (scrambled) when this runs, so go by the sheet's fixed stat order */
+    var ORDER = ["INT","REF","DEX","TECH","COOL","WILL","LUCK","MOVE","BODY","EMP"];
+    [].forEach.call(D.querySelectorAll(".dossier .stats .stat"), function(s, n){
+      var k = ORDER[n] || "", g = HEXG[k] || "empty";
+      var i = D.createElement("i"); i.className = "fxhex" + (HEXG[k] ? "" : " fxhex-e"); i.setAttribute("aria-hidden", "true"); i.style.setProperty("--hx", "url(" + A77 + "att-" + g + ".webp)");
+      s.insertBefore(i, s.firstChild);
+    });
+  }
+  /* ---- Y3: BASE bars on the skill tables (2 to 18), with the game's skill glyph on each table ---- */
+  /* each table is known by its first skill (the header text may be mid-decode) */
+  var SKG = [[/^Concentration$/,"stealth"],[/^Athletics$/,"athletics"],[/^Drive Land/,"engineering"],[/^(Accounting|Language)$/,"npc_hacking"],[/^Brawling$/,"street_brwaler"],[/^Acting$/,"device_hacking"],[/^Archery$/,"handguns"],[/^Bribery$/,"cold_blood"],[/^Air Vehicle Tech$/,"crafting"],[/^Surgery$/,"category"]];
+  function barsAfter(){
+    [].forEach.call(D.querySelectorAll(".fxskg"), function(n){ n.remove(); }); [].forEach.call(D.querySelectorAll(".fxsbr"), function(n){ n.classList.remove("fxsbr", "fxsbmax"); });
+    D.body.classList.toggle("fx-bars", !!P("bar.on"));
+    if (!P("bar.on") || CTX.tab !== "dossier" || CTX.who === "zolo" || CTX.editing) return;
+    [].forEach.call(D.querySelectorAll(".dossier table.sk"), function(t){
+      var hb = t.parentElement && t.parentElement.querySelector(".hb .sp"), f0 = t.querySelector("tr[data-skill]"), nm = f0 ? f0.getAttribute("data-skill") : "";
+      for (var i = 0; i < SKG.length; i++) if (SKG[i][0].test(nm)){ var g = D.createElement("i"); g.className = "fxskg"; g.setAttribute("aria-hidden", "true"); g.style.setProperty("--hx", "url(" + A77 + "skl-" + SKG[i][1] + ".webp)"); var h0 = hb.parentNode.offsetHeight; hb.parentNode.insertBefore(g, hb); if (hb.parentNode.offsetHeight > h0 + 2) g.remove(); break; }
+      [].forEach.call(t.querySelectorAll("tr[data-skill]"), function(tr){
+        var bc = tr.querySelector("td.base"), v = bc ? parseFloat(bc.textContent) : NaN, td = tr.firstElementChild; if (!isFinite(v) || !td) return;
+        tr.style.setProperty("--b", Math.max(0, Math.min(1, (v - 2) / 16)).toFixed(3)); tr.classList.add("fxsbr"); tr.classList.toggle("fxsbmax", v >= 18);
+      });
+    });
+  }
+
+  /* ---- Y2: ripperdoc diagnostic at the top of the Ware zone panel ---- */
+  var SYS = {
+    neural:["nervous","Nervous system",[50,8],1.9], optics:["ocular","Ocular system",[50,50],.85], audio:["pfrontal_cortex","Auditory cortex",[50,50],1],
+    limbs:["full_skeleton","Limbs",[50,40],1.2], armR:["full_skeleton","Right arm",[0,32],1.7], armL:["full_skeleton","Left arm",[100,32],1.7], legR:["legs","Right leg",[50,50],1], legL:["legs","Left leg",[50,50],1], internal:["circular","Circulatory system",[50,30],1.7], external:["intergumentary","Integumentary system",[50,40],1.25],
+    fashion:["intergumentary","Integumentary system",[50,40],1.25], borg:["full_skeleton","Skeletal frame",[50,40],1.2], adv:["immune","Immune system",[50,32],1.6]
+  };
+  var DG = {key:""};
+  function diagAfter(){
+    var old = D.querySelector(".fxdiag"), zp = D.getElementById("zpanel"), on = D.querySelector(".zitem.on"), zid = on ? on.getAttribute("data-zone") : "";
+    var sys = SYS[zid];
+    if (zid === "limbs"){ var lb = D.querySelector(".lpb.on"), lk = lb ? lb.getAttribute("data-limb") : ""; if (SYS[lk]) sys = SYS[lk]; }
+    if (!zp || !sys || D.querySelector(".chrome2.armv") || !P("diag.on") || CTX.tab !== "ware" || CTX.editing){ if (old) old.remove(); if (!zp) DG.key = ""; return; }
+    var head = zp.querySelector(".zhead") || zp.querySelector(".zone .zh, .zone > h2, .zone > header") ; 
+    var rows = zp.querySelectorAll(".nrow"), fab = zp.querySelectorAll(".nrow .t-fab").length, upg = zp.querySelectorAll(".nrow .t-upg").length, adv = zp.querySelectorAll(".nrow .t-adv, .nrow .adv").length;
+    var key = (CTX.who || "") + "|" + zid + "|" + sys[0], fresh = key !== DG.key; DG.key = key;
+    var el = D.createElement("div"); el.className = "fxdiag" + (fresh && !reduce ? " go" : ""); el.setAttribute("aria-hidden", "true");
+    el.style.setProperty("--sys", "url(" + A77 + "sys-" + sys[0] + ".webp)"); el.style.setProperty("--fx", sys[2][0] + "%"); el.style.setProperty("--fy", sys[2][1] + "%"); el.style.setProperty("--fs", sys[3] ? "auto calc(100% * " + sys[3] + ")" : "contain");
+    el.innerHTML = '<div class="dg-v"><i class="dg-img"></i><i class="dg-scan"></i><i class="dg-c c1"></i><i class="dg-c c2"></i><i class="dg-c c3"></i><i class="dg-c c4"></i></div>' +
+      '<div class="dg-t"><p class="dg-k">Diagnostic</p><p class="dg-n">' + esc(sys[1]) + '</p>' +
+      '<div class="dg-s"><span><b>' + rows.length + '</b>Entries</span><span><b>' + fab + '</b>Fabricated</span><span><b>' + upg + '</b>Upgraded</span></div>' +
+      '<div class="dg-bar"><i></i></div><p class="dg-f">Scan <b>complete</b> · ' + esc(String(CTX.who === "zolo" ? "Zolo" : (CTX.id && CTX.id.handle) || "Iō")) + '</p></div>';
+    if (old) old.replaceWith(el); else if (head && head.parentNode === zp) head.insertAdjacentElement("afterend", el); else zp.insertBefore(el, zp.firstChild);
+  }
+  function newAfter(){ hexAfter(); barsAfter(); diagAfter(); }
+
   /* ================= the app's hook ================= */
   FX.rendered = function(ctx){
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter(); newAfter();
+    if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
   cssVars();
