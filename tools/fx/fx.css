@@ -443,3 +443,41 @@ html.fx-titled{overflow:hidden}
 }
 
 @media (hover:none){ .tt-key{display:none} }
+
+/* ---- Stat resonance (Dossier) ---- */
+.dossier table.sk tr[data-skill]{transition:opacity .28s cubic-bezier(.2,.8,.3,1)}
+.dossier.fxres-dim table.sk tr[data-skill]:not(.fxres-on){opacity:.32}
+.dossier.fxres-dim .hb{opacity:.6;transition:opacity .28s}
+.dossier table.sk tr.fxres-on{background-image:linear-gradient(90deg,rgba(226,184,108,.34),rgba(226,184,108,.12) 75%,rgba(226,184,108,.04));background-repeat:no-repeat;background-size:100% 100%}
+.dossier table.sk tr.fxres-on b.st{color:#f6dca0;text-shadow:0 0 8px rgba(246,220,160,.7)}
+.dossier table.sk tr.fxres-on td:nth-child(4),.dossier table.sk tr.fxres-on .mname{color:#f6dca0}
+.dossier .stats .stat.fxres-src,.dossier .stats .stat.fxres-hit{position:relative;z-index:2;box-shadow:inset 0 0 0 1px #e2b86c,0 0 22px rgba(226,184,108,.28);background-color:rgba(226,184,108,.1)}
+.dossier .stats .stat.fxres-src::before{content:attr(data-res);position:absolute;left:0;right:0;bottom:5px;top:auto;width:auto;opacity:1;transform:none;background:none;text-align:center;white-space:nowrap;font:700 9px/1 var(--f-cond,'Barlow Condensed');letter-spacing:.2em;text-transform:uppercase;color:#f6dca0;pointer-events:none}
+.dossier table.sk tr.fxres-row{background-image:linear-gradient(90deg,rgba(226,184,108,.24),rgba(226,184,108,.08));background-repeat:no-repeat}
+.fxres-tr{position:fixed;left:0;top:0;z-index:40;pointer-events:none;overflow:visible}
+.fxres-tr path{fill:none;stroke-linejoin:round}
+.fxres-tr path.w{stroke:rgba(246,220,160,.22);stroke-width:5;filter:blur(2px)}
+.fxres-tr path.g{stroke:#f0cf8e;stroke-width:1.3}
+.fxres-tr circle{fill:#fff;filter:drop-shadow(0 0 4px #f6dca0) drop-shadow(0 0 9px rgba(246,220,160,.8))}
+.fxres-tr circle.end{fill:#e2b86c}
+.fxres-chip{position:fixed;z-index:41;translate:-100% calc(-100% - 6px);display:flex;align-items:baseline;gap:6px;padding:6px 9px 5px;background:rgba(8,6,5,.94);border:1px solid rgba(226,184,108,.6);box-shadow:0 8px 22px rgba(0,0,0,.6);pointer-events:none;font:700 15px/1 var(--f-num,Oxanium);color:#f0ebe3;white-space:nowrap}
+.fxres-chip span{display:inline-flex;align-items:baseline;gap:4px}
+.fxres-chip i{font:600 9px/1 var(--f-cond,'Barlow Condensed');font-style:normal;letter-spacing:.18em;color:#a39890}
+.fxres-chip b{color:#7e746f;font-weight:600}
+.fxres-chip .t{color:#f6dca0}.fxres-chip .t i{color:#e2b86c}
+@media (prefers-reduced-motion:no-preference){
+  .dossier table.sk tr.fxres-on{animation:rsSweep .5s cubic-bezier(.2,.8,.3,1) both;animation-delay:var(--rd,0ms)}
+  @keyframes rsSweep{0%{background-size:0% 100%;filter:brightness(1.6)}100%{background-size:100% 100%;filter:none}}
+  .dossier table.sk tr.fxres-on b.st{animation:rsGlow .6s ease-out both;animation-delay:var(--rd,0ms)}
+  @keyframes rsGlow{0%{color:inherit;text-shadow:none}35%{color:#fff;text-shadow:0 0 14px #f6dca0}}
+  .dossier .stats .stat.fxres-src{animation:rsSrc 1.6s ease-out infinite}
+  @keyframes rsSrc{0%{box-shadow:inset 0 0 0 1px #e2b86c,0 0 0 0 rgba(226,184,108,.55)}70%,100%{box-shadow:inset 0 0 0 1px #e2b86c,0 0 0 14px rgba(226,184,108,0)}}
+  .dossier .stats .stat.fxres-src::before{animation:rsTag .3s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rsTag{from{opacity:0;transform:translateY(3px)}}
+  .fxres-tr path{stroke-dasharray:1;stroke-dashoffset:1;animation:rsDraw .42s cubic-bezier(.3,.1,.3,1) forwards}
+  @keyframes rsDraw{to{stroke-dashoffset:0}}
+  .fxres-chip{animation:rsChip .32s cubic-bezier(.2,.8,.3,1) both .3s}
+  @keyframes rsChip{from{opacity:0;transform:translateY(4px)}}
+  .fxres-chip span{animation:rsChip .25s cubic-bezier(.2,.8,.3,1) both}
+  .fxres-chip span:nth-of-type(1){animation-delay:.34s}.fxres-chip span:nth-of-type(2){animation-delay:.4s}.fxres-chip span:nth-of-type(3){animation-delay:.46s}.fxres-chip span:nth-of-type(4){animation-delay:.52s}
+}

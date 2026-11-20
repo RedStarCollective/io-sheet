@@ -23,7 +23,7 @@
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
     "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
-    "title.on":1
+    "title.on":1, "res.on":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -55,7 +55,8 @@
     {g:"Live nerves", on:"nerve.on", k:[]},
     {g:"Implant glints", on:"glt.on", k:[]},
     {g:"Vehicle schematic button", on:"sch.on", k:[]},
-    {g:"Title screen on first open (X1)", on:"title.on", k:[]}
+    {g:"Title screen on first open (X1)", on:"title.on", k:[]},
+    {g:"Stat resonance (Dossier)", on:"res.on", k:[]}
   ];
   var shared = {}, local = {};
   try { local = JSON.parse(localStorage.getItem("io-fx") || "{}") || {}; } catch(e){ local = {}; }
@@ -1283,6 +1284,67 @@
   }
 
 
+
+  /* ---- Stat resonance (Dossier, Impeccable overdrive):
+     hover a STAT and a pulse ripples through every skill that uses it, nearest first;
+     hover a skill and a circuit trace runs back to its STAT while the BASE sum builds. ---- */
+  var RS = {ORDER:["INT","REF","DEX","TECH","COOL","WILL","LUCK","MOVE","BODY","EMP"], FIX:{"Language":"INT","Local Expert":"INT","Science":"INT","Martial Arts":"DEX"}, src:null, row:null, rt:0, svg:null, chip:null};
+  function rsOk(){ return P("res.on") && CTX.tab === "dossier" && !CTX.editing && CTX.who !== "zolo" && W.matchMedia("(hover:hover) and (pointer:fine)").matches; }
+  function rsStatOf(tr){ var b = tr.querySelector("b.st"), m = b && /\(([A-Z]{3,4})\)/.exec(b.textContent || ""); return m ? m[1] : (RS.FIX[tr.getAttribute("data-skill")] || ""); }
+  function rsCell(k){ var i = RS.ORDER.indexOf(k), cs = D.querySelectorAll(".dossier .stats .stat"); return i >= 0 ? cs[i] : null; }
+  function rsWave(cell){
+    rsWaveOff(); var i = [].indexOf.call(D.querySelectorAll(".dossier .stats .stat"), cell), k = RS.ORDER[i]; if (!k) return;
+    var dos = D.querySelector(".dossier"); if (!dos) return;
+    var cr = cell.getBoundingClientRect(), cx = cr.right, cy = cr.top + cr.height / 2, n = 0;
+    [].forEach.call(dos.querySelectorAll("table.sk tr[data-skill]"), function(tr){
+      if (rsStatOf(tr) !== k) return; var r = tr.getBoundingClientRect(), dx = r.left - cx, dy = r.top + r.height / 2 - cy;
+      tr.style.setProperty("--rd", Math.round(Math.sqrt(dx * dx + dy * dy) / 1.8) + "ms"); tr.classList.add("fxres-on"); n++;
+    });
+    if (!n) return;
+    dos.classList.add("fxres-dim"); cell.classList.add("fxres-src"); cell.setAttribute("data-res", n + (n === 1 ? " skill" : " skills")); RS.src = cell;
+  }
+  function rsWaveOff(){
+    var dos = D.querySelector(".dossier"); if (dos) dos.classList.remove("fxres-dim");
+    [].forEach.call(D.querySelectorAll(".fxres-on"), function(tr){ tr.classList.remove("fxres-on"); tr.style.removeProperty("--rd"); });
+    if (RS.src){ RS.src.classList.remove("fxres-src"); RS.src.removeAttribute("data-res"); RS.src = null; }
+  }
+  function rsTrace(tr){
+    rsTraceOff(); var k = rsStatOf(tr), cell = rsCell(k); if (!cell) return;
+    var cr = cell.getBoundingClientRect(), rr = tr.getBoundingClientRect(), sr = cell.parentNode.getBoundingClientRect();
+    if (rr.bottom < 0 || rr.top > W.innerHeight) return;
+    var sx = cr.right, sy = cr.top + cr.height / 2, bus = sr.right + 7, rx = rr.left, rtop = rr.top, ry = rr.top + rr.height / 2, c = 4;
+    var dir = rtop > sy ? 1 : -1, d;
+    if (Math.abs(rtop - sy) < 12) d = "M" + sx + " " + sy + " H" + (bus - c) + " L" + bus + " " + (sy + c * dir) + " V" + (ry - c * dir) + " L" + (bus + c) + " " + ry + " H" + rx;
+    else d = "M" + sx + " " + sy + " H" + (bus - c) + " L" + bus + " " + (sy + c * dir) + " V" + (rtop - c * dir) + " L" + (bus + c) + " " + rtop + " H" + (rx - 10) + " L" + (rx - 4) + " " + ry + " H" + rx;
+    var NS = "http://www.w3.org/2000/svg", svg = D.createElementNS(NS, "svg"); svg.setAttribute("class", "fxres-tr"); svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("width", W.innerWidth); svg.setAttribute("height", W.innerHeight);
+    svg.innerHTML = '<path class="w" d="' + d + '" pathLength="1"/><path class="g" d="' + d + '" pathLength="1"/><circle r="2.6"><animateMotion dur="0.42s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".3 .1 .3 1" path="' + d + '"/></circle><circle class="end" cx="' + sx + '" cy="' + sy + '" r="3"/>';
+    D.body.appendChild(svg); RS.svg = svg;
+    /* the BASE sum: LVL + STAT (+ MOD) = BASE, built from the row's own cells (MOD, LVL, STAT, BASE) */
+    var td = tr.cells, num = function(i){ if (!td[i]) return null; var s = (td[i].textContent || "").trim(); if (!s) return 0; var v = parseFloat(s); return isFinite(v) ? v : null; };
+    var mod = num(1), lvl = num(2), st = num(3), base = num(4);
+    if (lvl != null && st != null && base){
+      var ch = D.createElement("div"); ch.className = "fxres-chip"; ch.setAttribute("aria-hidden", "true");
+      ch.innerHTML = '<span><i>LVL</i>' + lvl + '</span><b>+</b><span><i>' + k + '</i>' + st + '</span>' + (mod ? '<b>+</b><span><i>MOD</i>' + mod + '</span>' : '') + '<b>=</b><span class="t"><i>BASE</i>' + base + '</span>';
+      ch.style.left = Math.round(rr.right) + "px"; ch.style.top = Math.round(rr.top) + "px"; D.body.appendChild(ch); RS.chip = ch;
+    }
+    cell.classList.add("fxres-hit"); RS.hit = cell; tr.classList.add("fxres-row"); RS.row = tr;
+  }
+  function rsTraceOff(){ if (RS.svg){ RS.svg.remove(); RS.svg = null; } if (RS.chip){ RS.chip.remove(); RS.chip = null; } if (RS.hit){ RS.hit.classList.remove("fxres-hit"); RS.hit = null; } if (RS.row){ RS.row.classList.remove("fxres-row"); RS.row = null; } }
+  D.addEventListener("pointerover", function(ev){
+    if (ev.pointerType !== "mouse" || !rsOk()) return; var t = ev.target;
+    var cell = t.closest && t.closest(".dossier .stats .stat");
+    if (cell){ if (RS.src !== cell){ rsTraceOff(); rsWave(cell); } return; }
+    var tr = t.closest && t.closest(".dossier table.sk tr[data-skill]");
+    if (tr){ if (RS.row === tr) return; clearTimeout(RS.rt); RS.rt = setTimeout(function(){ if (tr.matches(":hover")) rsTrace(tr); }, 90); }
+  });
+  D.addEventListener("pointerout", function(ev){
+    if (ev.pointerType !== "mouse") return; var t = ev.target, to = ev.relatedTarget;
+    var cell = t.closest && t.closest(".dossier .stats .stat"); if (cell && !(to && cell.contains(to))) rsWaveOff();
+    var tr = t.closest && t.closest(".dossier table.sk tr[data-skill]"); if (tr && !(to && tr.contains(to))){ clearTimeout(RS.rt); if (RS.row === tr) rsTraceOff(); }
+  });
+  W.addEventListener("scroll", function(){ if (RS.svg) rsTraceOff(); }, {passive:true});
+
   /* ================= Nov 18 pick: X1 title screen ================= */
 
   /* ---- X1: title screen on first open ---- */
@@ -1341,7 +1403,7 @@
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter(); rsTraceOff(); rsWaveOff();
     if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
