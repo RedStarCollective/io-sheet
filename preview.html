@@ -3725,6 +3725,23 @@ html.fx-titled{overflow:hidden}
   .fxres-chip span:nth-of-type(1){animation-delay:.34s}.fxres-chip span:nth-of-type(2){animation-delay:.4s}.fxres-chip span:nth-of-type(3){animation-delay:.46s}.fxres-chip span:nth-of-type(4){animation-delay:.52s}
 >>>>>>> fx/resonance
 }
+
+/* ---- Charge the Arm + elemental forms (Dossier) ---- */
+.fxarm{position:absolute;left:-22%;top:-12%;width:144%;height:112%;z-index:2;pointer-events:none}
+.iopw.fxarm-hot{cursor:pointer}
+.iopw.fxarm-hot:active{cursor:grabbing}
+.fxarmsw{position:absolute;left:auto;right:10px;bottom:48px;z-index:3;display:flex}
+.fxarmsw button{display:grid;place-items:center;width:38px;padding:6px 0!important}
+.fxarmsw svg{width:16px;height:16px;display:block}
+.fxarmsw button:not(.on){color:#a39890}
+.fxarmsw[data-mode="fire"] button.on{color:#ffb070}
+.fxarmsw[data-mode="frost"] button.on{color:#dfe4ff}
+.fxarmsw[data-mode="volt"] button.on{color:#d2bcff}
+.fxarmsw button.on{text-shadow:none;filter:drop-shadow(0 0 6px currentColor)}
+@media (prefers-reduced-motion:no-preference){
+  .iopw.fxarm-quake img,.iopw.fxarm-quake > .iogold{animation:armQuake 1.25s cubic-bezier(.2,.8,.3,1) infinite}
+  @keyframes armQuake{0%{transform:translate(0,0)}4%{transform:translate(-2px,1px)}8%{transform:translate(2px,-1px)}12%{transform:translate(-1px,1px)}16%{transform:translate(1px,0)}22%,100%{transform:translate(0,0)}}
+}
 </style>
 
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -3756,7 +3773,7 @@ html.fx-titled{overflow:hidden}
     "mom.on":1, "mom.speed":1, "red.on":1, "spine.on":1, "pose.on":1, "pose.lit":.8, "pose.dof":1.6, "veh.on":1, "veh.thr":1, "veh.strip":1, "glass.on":1,
     "live.on":1, "live.par":1, "live.rel":1, "live.spec":1, "r2.on":1, "r2.par":1, "foil.on":1, "foil.str":.7, "turn.on":1, "turn.t":.75, "turn.depth":1,
     "tilt.on":1, "tilt.deg":1.2, "rekey.on":1, "rekey.t":.9, "scroll.on":1, "plate.on":1, "weap.on":1, "sync.on":1, "call.on":1, "nerve.on":1, "glt.on":1, "sch.on":1,
-    "title.on":1, "res.on":1, "fboot.on":1, "fboot.speed":1
+    "title.on":1, "res.on":1, "arm.on":1, "fboot.on":1, "fboot.speed":1
   };
   var SPEC = [
     {g:"Key light", k:[["light.ease","Follow speed",.03,.5,.01]]},
@@ -3790,6 +3807,7 @@ html.fx-titled{overflow:hidden}
     {g:"Vehicle schematic button", on:"sch.on", k:[]},
     {g:"Title screen on first open (X1)", on:"title.on", k:[]},
     {g:"Stat resonance (Dossier)", on:"res.on", k:[]},
+    {g:"Charge the Arm + elemental forms (Dossier)", on:"arm.on", k:[]},
     {g:"Fans load-in (frames, then art)", on:"fboot.on", k:[["fboot.speed","Speed",.5,2,.05]]}
   ];
   var shared = {}, local = {};
@@ -5079,7 +5097,7 @@ html.fx-titled{overflow:hidden}
     if (RS.src){ RS.src.classList.remove("fxres-src"); RS.src.removeAttribute("data-res"); RS.src = null; }
   }
   function rsTrace(tr){
-    rsTraceOff(); var k = rsStatOf(tr), cell = rsCell(k); if (!cell) return;
+    rsTraceOff(); if (tr.classList.contains("master")) return; var k = rsStatOf(tr), cell = rsCell(k); if (!cell) return;
     var cr = cell.getBoundingClientRect(), rr = tr.getBoundingClientRect(), sr = cell.parentNode.getBoundingClientRect();
     if (rr.bottom < 0 || rr.top > W.innerHeight) return;
     var sx = cr.right, sy = cr.top + cr.height / 2, bus = sr.right + 7, rx = rr.left, rtop = rr.top, ry = rr.top + rr.height / 2, c = 4;
@@ -5114,6 +5132,267 @@ html.fx-titled{overflow:hidden}
     var tr = t.closest && t.closest(".dossier table.sk tr[data-skill]"); if (tr && !(to && tr.contains(to))){ clearTimeout(RS.rt); if (RS.row === tr) rsTraceOff(); }
   });
   W.addEventListener("scroll", function(){ if (RS.svg) rsTraceOff(); }, {passive:true});
+
+
+  /* ================= Dossier: Charge the Arm + Elemental forms (Impeccable overdrive, Nov 19) =================
+     One WebGL canvas over the portrait. The pose's gold mask (img/io-*-gold.png) becomes a texture: R = arm, G = soft
+     halo (~8px), B = wide halo (~30px). Hover the gold arm: its circuits light. Press and hold: it charges in the chosen
+     mode (fire / frost / volt, like the Magi Palm). Let go: a shockwave runs through the Dossier panels.
+     Hover a mastered form: its element plays over the portrait (fire embers, water light, air ribbons, earth tremor).
+     It only draws while something is happening; idle, the canvas is cleared and the frame loop stops. */
+  var ARM_FRAG = [
+    "precision mediump float;",
+    "varying vec2 vUv;",
+    "uniform sampler2D uM;",
+    "uniform vec2 uRes, uMs, uMo;",
+    "uniform float uT, uArm, uChg, uShock, uShockK, uMode, uEl, uElA, uAsp;",
+    "uniform vec2 uCtr;",
+    "float h1(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+    "float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);",
+    "  return mix(mix(h1(i), h1(i + vec2(1., 0.)), f.x), mix(h1(i + vec2(0., 1.)), h1(i + vec2(1., 1.)), f.x), f.y); }",
+    "float fbm(vec2 p){ float a = .5, s = 0.; for (int i = 0; i < 4; i++){ s += a * vn(p); p = p * 2.03 + 7.1; a *= .5; } return s; }",
+    "vec3 msk(vec2 uv){ vec2 m = uv * uMs + uMo; if (m.x < 0. || m.y < 0. || m.x > 1. || m.y > 1.) return vec3(0.); return texture2D(uM, m).rgb; }",
+    /* sparse points in a grid that scrolls: returns brightness of the nearest dot */
+    "float dots(vec2 p, float sz, float seed){ vec2 i = floor(p), f = fract(p); float r = h1(i + seed);",
+    "  vec2 c = vec2(h1(i + seed + 3.1), h1(i + seed + 9.7)) * .8 + .1; float d = length(f - c);",
+    "  return step(.55, r) * smoothstep(sz, 0., d) * (.5 + .5 * sin(uT * 6. + r * 40.)); }",
+    "void main(){",
+    "  vec2 uv = vUv; vec3 M = msk(uv); float m = M.r, g = M.g, b = M.b;",
+    "  vec2 ap = vec2(uv.x * uAsp, uv.y);",
+    "  vec3 col = vec3(0.); float al = 0.;",
+    "  float k = clamp(uArm * .55 + uChg * .9, 0., 1.4);",
+    "  if (k > .001 || uShock >= 0.){",
+    /* circuits on the arm: broken Manhattan traces with a pulse running up them */
+    "    vec2 cp = ap * 70.; vec2 ci = floor(cp), cf = fract(cp);",
+    "    float hl = step(.62, h1(vec2(ci.y, 3.))) * step(.4, vn(vec2(cp.x * .25, ci.y))) * smoothstep(.16, .0, abs(cf.y - .5));",
+    "    float vl = step(.66, h1(vec2(ci.x, 8.))) * step(.45, vn(vec2(ci.x, cp.y * .25))) * smoothstep(.16, .0, abs(cf.x - .5));",
+    "    float circ = max(hl, vl) * m;",
+    "    float pulse = .35 + .65 * pow(.5 + .5 * sin(uv.y * 38. - uT * (5. + uChg * 9.)), 3.);",
+    "    vec3 cA, cB; ",
+    "    if (uMode < .5){ cA = vec3(1., .48, .12); cB = vec3(1., .86, .45); }",
+    "    else if (uMode < 1.5){ cA = vec3(.62, .68, 1.); cB = vec3(.93, .95, 1.); }",
+    "    else { cA = vec3(.66, .42, 1.); cB = vec3(.97, .92, 1.); }",
+    "    float c1 = circ * pulse * k * 1.4;",
+    "    col += cB * c1; al += c1;",
+    /* rim light hugging the arm */
+    "    float rim = clamp(g * 1.5 - m * 1.25, 0., 1.) * k * .5;",
+    "    col += cA * rim; al += rim * .7;",
+    "    if (uMode < .5){",
+    /* FIRE: flames lick upward off the arm, embers rise */
+    "      float n = fbm(vec2(ap.x * 9., uv.y * 7. + uT * 2.2));",
+    "      float n2 = fbm(vec2(ap.x * 22., uv.y * 13. + uT * 4.2));",
+    "      vec3 Mb = msk(uv + vec2((n - .5) * .03, .02 + .055 * n * k));",
+    "      float den = (Mb.g * .85 + Mb.b * .25) * min(k, 1.1);",
+    "      float fl = smoothstep(.32, .78, den * (.35 + 1.1 * n2)) * (1. - m) * .9;",
+    "      vec3 fc = mix(vec3(.7, .07, .02), vec3(1., .5, .1), smoothstep(.15, .6, fl)); fc = mix(fc, vec3(1., .86, .5), smoothstep(.65, .95, fl));",
+    "      col += fc * fl; al += fl * .8;",
+    "      float e = dots(vec2(ap.x * 26., uv.y * 26. + uT * 3.2), .09, 1.) * smoothstep(.0, .25, b + g) * k;",
+    "      col += vec3(1., .7, .3) * e; al += e;",
+    "      float heat = m * k * .07; col += vec3(1., .35, .08) * heat; al += heat * .2;",
+    "    } else if (uMode < 1.5){",
+    /* FROST: crystals creep over the arm as it charges, a cold mist falls off it, glints */
+    "      vec2 vp = ap * 34.; vec2 vi = floor(vp), vf = fract(vp); float d1 = 8., d2 = 8.;",
+    "      for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++){ vec2 o = vec2(float(x), float(y)); vec2 pt = o + vec2(h1(vi + o), h1(vi + o + 5.3)) - vf;",
+    "        float d = dot(pt, pt); if (d < d1){ d2 = d1; d1 = d; } else if (d < d2) d2 = d; }",
+    "      float edge = smoothstep(.09, .0, sqrt(d2) - sqrt(d1));",
+    "      float cover = smoothstep(k * 1.05, k * 1.05 - .25, vn(ap * 6.) * .8 + .1);",
+    "      float fr = edge * m * cover * (.45 + k * .6);",
+    "      col += vec3(.9, .93, 1.) * fr; al += fr;",
+    "      float ice = m * cover * k * .12; col += vec3(.7, .76, 1.) * ice; al += ice * .3;",
+    "      float mist = fbm(vec2(ap.x * 5. + uT * .15, uv.y * 4. - uT * .45)) * b * k * .7 * (1. - m);",
+    "      col += vec3(.82, .86, 1.) * mist; al += mist * .6;",
+    "      float gl = dots(ap * 40., .07, 5.) * m * cover * k * 1.4; col += vec3(1.) * gl; al += gl;",
+    "    } else {",
+    /* VOLT: arcs crawl along the arm and jump off it; they flicker in steps like real arcs */
+    "      float st = floor(uT * 18.);",
+    "      float a1 = abs(fbm(ap * 9. + vec2(st * .37, st * .11)) - .5);",
+    "      float a2 = abs(fbm(ap * 15. + vec2(-st * .23, st * .29) + 4.) - .5);",
+    "      float arc = (smoothstep(.022, .0, a1) + smoothstep(.016, .0, a2) * .8) * clamp(g * 1.4 + m * .4, 0., 1.);",
+    "      float jump = smoothstep(.012, .0, abs(fbm(ap * 6. + vec2(st * .61, 2.)) - .5)) * b * step(.35, h1(vec2(st, 1.))) * smoothstep(.4, 1., k);",
+    "      float fk = .65 + .35 * h1(vec2(st, 7.));",
+    "      float v = (arc + jump) * k * fk * 1.5;",
+    "      col += mix(cA, cB, clamp(v, 0., 1.)) * v; al += v;",
+    "      float haze = (b - m) * k * .14 * fk; col += cA * max(haze, 0.); al += max(haze, 0.) * .45;",
+    "    }",
+    /* the charge throb at full power */
+    "    float thr = smoothstep(.85, 1., uChg) * (.5 + .5 * sin(uT * 14.)) * m * .35; col += cB * thr; al += thr * .6;",
+    /* release: a ring of light leaves the arm */
+    "    if (uShock >= 0.){",
+    "      vec2 d = vec2((uv.x - uCtr.x) * uAsp, uv.y - uCtr.y); float r = uShock * 1.25, dd = length(d);",
+    "      float ring = exp(-pow((dd - r) * 70., 2.)) * (1. - smoothstep(.15, 1., uShock)) * uShockK * .8;",
+    "      float flash = clamp(g * 1.2 - m * .4, 0., 1.) * (1. - smoothstep(0., .3, uShock)) * uShockK * .8;",
+    "      col += mix(cA, cB, .5) * ring * 1.3 + cB * flash; al += ring + flash * .8;",
+    "    }",
+    "  }",
+    /* elemental forms */
+    "  if (uElA > .001){",
+    "    float e = uElA;",
+    "    if (uEl < 1.5){",
+    "      float em = dots(vec2(ap.x * 18., uv.y * 18. + uT * 2.4), .11, 2.) + dots(vec2(ap.x * 31. + 3., uv.y * 31. + uT * 3.6), .08, 6.) * .7;",
+    "      float zone = smoothstep(.15, .9, uv.y) * .7 + smoothstep(.0, .3, b + g) * .8;",
+    "      float ef = em * zone * e * 1.7; col += vec3(1., .62, .22) * ef; al += ef;",
+    "      float glow = smoothstep(.55, 1., uv.y) * e * .28 * (.8 + .2 * sin(uT * 3.)); col += vec3(.9, .28, .05) * glow; al += glow * .5;",
+    "    } else if (uEl < 2.5){",
+    "      vec2 q = ap * 3.2; q += vec2(fbm(q + uT * .18), fbm(q - uT * .15)) * 1.4;",
+    "      float c = pow(1. - abs(sin(fbm(q * 1.7) * 7.)), 12.);",
+    "      float wa = c * e * .45 * (1. - smoothstep(.9, 1., uv.y)); col += vec3(.82, .87, 1.) * wa; al += wa * .6;\n      float wash = e * .07; col += vec3(.5, .56, .8) * wash; al += wash * .5;",
+    "      vec2 rd = vec2((uv.x - .5) * uAsp, uv.y - .55); float rr = length(rd);",
+    "      float rip = pow(.5 + .5 * sin(rr * 60. - uT * 3.), 4.) * smoothstep(.5, .0, rr) * e * .3; col += vec3(.75, .8, 1.) * rip; al += rip * .5;",
+    "    } else if (uEl < 3.5){",
+    "      vec2 rd = vec2((uv.x - .48) * uAsp, uv.y - .55); float rr = length(rd), an = atan(rd.y, rd.x);",
+    "      float band = sin(an * 2. + rr * 10. - uT * 2.4 + fbm(vec2(cos(an), sin(an)) * 1.5 + rr * 5.) * 3.);",
+    "      float rib = smoothstep(.955, 1., band) * smoothstep(.8, .12, rr) * e * .5; col += vec3(.95, .86, .68) * rib; al += rib * .8;",
+    "      vec2 sw = vec2(an * 6. + uT * .9, rr * 14.);",
+    "      float mo = dots(sw * 2., .13, 4.) * smoothstep(.75, .1, rr) * e * 1.1; col += vec3(1., .92, .78) * mo; al += mo;",
+    "    } else {",
+    "      float gr = (dots(vec2(ap.x * 30., uv.y * 30. - uT * 5.), .09, 3.) + dots(vec2(ap.x * 17. + 2., uv.y * 17. - uT * 3.6), .1, 8.)) * e * 1.4; col += vec3(.85, .7, .45) * gr; al += gr;",
+    "      float du = fbm(vec2(ap.x * 4. + uT * .2, uv.y * 3. + uT * .5)) * smoothstep(.55, 1., uv.y) * e * .85; col += vec3(.55, .42, .25) * du; al += du * .7;",
+    "    }",
+    "  }",
+    "  al = clamp(al, 0., 1.); col = min(col, vec3(1.4));",
+    "  gl_FragColor = vec4(col, al);",
+    "}"].join("\n");
+
+  var ARMX = {on:false, cv:null, g:null, key:"", ready:false, mask:null, mw:0, mh:0, ctr:[.4,.5],
+    arm:0, armT:0, chg:0, holding:false, shock:-1, shockK:0, el:0, elA:0, elT:0, t0:0, last:0, mode:0, run:false, prev:0, live:null};
+  try { ARMX.mode = Math.max(0, ["fire","frost","volt"].indexOf(localStorage.getItem("io-armmode") || "fire")); } catch(e){}
+  var ARM_PAD = {l:.22, r:.22, t:.12};
+  function armOk(){ return P("arm.on") && CTX.tab === "dossier" && CTX.who !== "zolo" && !CTX.editing && GL.test() && W.innerWidth > 880; }
+  function armSetup(){
+    var fig = D.querySelector(".dossier .portrait.iop"), wrap = fig && fig.querySelector(".iopw"), gold = wrap && wrap.querySelector(".iogold");
+    [].forEach.call(D.querySelectorAll(".fxarmsw"), function(n){ if (!fig || !fig.contains(n)) n.remove(); });
+    if (!armOk() || !wrap || !gold){ armDrop(); return; }
+    var gm = /url\(["']?([^"')]+)["']?\)/.exec(gold.style.getPropertyValue("--gm") || ""); if (!gm){ armDrop(); return; }
+    armSwitch(fig);
+    if (ARMX.cv && ARMX.cv.parentNode === wrap && ARMX.key === gm[1]) return;
+    armDrop(true);
+    var cv = D.createElement("canvas"); cv.className = "fxarm"; cv.setAttribute("aria-hidden", "true"); wrap.appendChild(cv); ARMX.cv = cv; ARMX.key = gm[1]; ARMX.wrap = wrap;
+    loadImg(gm[1]).then(function(im){ if (ARMX.key !== gm[1]) return; armMask(im); }).catch(function(){});
+    wrap.addEventListener("pointermove", armMove); wrap.addEventListener("pointerleave", armLeave); wrap.addEventListener("pointerdown", armDown);
+  }
+  function armDrop(keepSwitch){
+    if (ARMX.wrap){ ARMX.wrap.removeEventListener("pointermove", armMove); ARMX.wrap.removeEventListener("pointerleave", armLeave); ARMX.wrap.removeEventListener("pointerdown", armDown); ARMX.wrap.classList.remove("fxarm-hot"); }
+    if (ARMX.g) ARMX.g.kill(); if (ARMX.cv) ARMX.cv.remove();
+    ARMX.g = ARMX.cv = ARMX.wrap = null; ARMX.ready = false; ARMX.key = ""; ARMX.holding = false; ARMX.chg = ARMX.arm = ARMX.armT = 0; ARMX.shock = -1; ARMX.elA = ARMX.elT = 0;
+    tick.remove(armFrame); ARMX.run = false;
+    if (!keepSwitch) [].forEach.call(D.querySelectorAll(".fxarmsw"), function(n){ n.remove(); });
+  }
+  /* the mask as three channels: arm, soft halo, wide halo (blur by down- and up-scaling) */
+  function armMask(im){
+    var w = 324, h = Math.round(w * im.naturalHeight / im.naturalWidth);
+    function alphaAt(scale){ var c = D.createElement("canvas"), sw = Math.max(2, Math.round(w * scale)), sh = Math.max(2, Math.round(h * scale));
+      var s = D.createElement("canvas"); s.width = sw; s.height = sh; var sx = s.getContext("2d"); sx.imageSmoothingQuality = "high"; sx.drawImage(im, 0, 0, sw, sh);
+      c.width = w; c.height = h; var cx = c.getContext("2d", {willReadFrequently:true}); cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = "high"; cx.drawImage(s, 0, 0, w, h);
+      return cx.getImageData(0, 0, w, h).data; }
+    var A = alphaAt(1), B = alphaAt(.16), C = alphaAt(.045);
+    var out = D.createElement("canvas"); out.width = w; out.height = h; var ox = out.getContext("2d"), id = ox.createImageData(w, h), d = id.data, mk = new Uint8Array(w * h);
+    var sx = 0, sy = 0, n = 0;
+    for (var i = 0, p = 0; i < w * h; i++, p += 4){
+      var a = A[p + 3], bb = Math.min(255, B[p + 3] * 1.9), cc = Math.min(255, C[p + 3] * 3.2);
+      d[p] = a; d[p + 1] = bb; d[p + 2] = cc; d[p + 3] = 255; mk[i] = Math.max(a, bb * .8);
+      if (a > 128){ sx += i % w; sy += (i / w) | 0; n++; }
+    }
+    ox.putImageData(id, 0, 0);
+    ARMX.mask = mk; ARMX.mw = w; ARMX.mh = h; ARMX.ctr = n ? [sx / n / w, sy / n / h] : [.4, .5]; ARMX.maskCanvas = out; ARMX.ready = true;
+  }
+  function armGL(){
+    if (ARMX.g || !ARMX.ready || !ARMX.cv) return !!ARMX.g;
+    var g = GL.make(ARMX.cv, ARM_FRAG); if (!g){ armDrop(); return false; }
+    g.tex(0, "uM", ARMX.maskCanvas); ARMX.g = g; armSize(); return true;
+  }
+  function armSize(){
+    var cv = ARMX.cv, r = cv.getBoundingClientRect(), dpr = Math.min(GL.dpr(), 1.35) * .8;
+    cv.width = Math.max(2, Math.round(r.width * dpr)); cv.height = Math.max(2, Math.round(r.height * dpr));
+  }
+  /* pointer: uv in the arm canvas -> mask lookup */
+  function armUV(ev){ var r = ARMX.cv.getBoundingClientRect(); return [(ev.clientX - r.left) / r.width, (ev.clientY - r.top) / r.height]; }
+  function armHit(uv){
+    if (!ARMX.mask) return 0; var sxp = 1 + ARM_PAD.l + ARM_PAD.r, syp = 1 + ARM_PAD.t;
+    var mx = uv[0] * sxp - ARM_PAD.l, my = uv[1] * syp - ARM_PAD.t; if (mx < 0 || my < 0 || mx >= 1 || my >= 1) return 0;
+    return ARMX.mask[((my * ARMX.mh) | 0) * ARMX.mw + ((mx * ARMX.mw) | 0)] / 255;
+  }
+  function armMove(ev){ if (!ARMX.cv) return; var on = armHit(armUV(ev)) > .35; if (on !== (ARMX.armT === 1)){ ARMX.armT = on ? 1 : 0; ARMX.wrap.classList.toggle("fxarm-hot", on); } if (on) armWake(); }
+  function armLeave(){ ARMX.armT = 0; if (ARMX.wrap) ARMX.wrap.classList.remove("fxarm-hot"); if (ARMX.holding) armRelease(); }
+  function armDown(ev){
+    if (!ARMX.cv || armHit(armUV(ev)) <= .35) return;
+    ev.preventDefault(); ARMX.holding = true; ARMX.armT = 1; ARMX.wrap.classList.add("fxarm-hot");
+    try { ARMX.wrap.setPointerCapture(ev.pointerId); } catch(e){}
+    var up = function(){ ARMX.wrap && ARMX.wrap.removeEventListener("pointerup", up); ARMX.wrap && ARMX.wrap.removeEventListener("pointercancel", up); armRelease(); if (ev.pointerType !== "mouse") armLeave(); };
+    ARMX.wrap.addEventListener("pointerup", up); ARMX.wrap.addEventListener("pointercancel", up);
+    armWake();
+  }
+  function armRelease(){
+    if (!ARMX.holding) return; ARMX.holding = false;
+    if (ARMX.chg > .22){ ARMX.shock = 0; ARMX.shockK = Math.min(1, ARMX.chg * 1.1); if (!reduce) armRipple(ARMX.shockK); }
+    armWake();
+  }
+  /* the shockwave through the Dossier panels: each block is pushed away from the arm and springs back, nearest first */
+  function armRipple(k){
+    var r = ARMX.cv.getBoundingClientRect(), cx = r.left + (ARMX.ctr[0] + ARM_PAD.l) / (1 + ARM_PAD.l + ARM_PAD.r) * r.width, cy = r.top + (ARMX.ctr[1] + ARM_PAD.t) / (1 + ARM_PAD.t) * r.height;
+    var els = [].slice.call(D.querySelectorAll(".dossier .stats .stat, .dossier table.sk, .dossier .hb, .dossier .dbox, .dossier .armbox, .dossier section > .box"));
+    var col = ["rgba(255,140,60,.55)", "rgba(200,210,255,.55)", "rgba(190,150,255,.6)"][ARMX.mode];
+    els.forEach(function(el){
+      var b = el.getBoundingClientRect(); if (b.bottom < 0 || b.top > W.innerHeight || !b.width) return;
+      var dx = b.left + b.width / 2 - cx, dy = b.top + b.height / 2 - cy, dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var amp = 7 * k * Math.max(.25, 1 - dist / 1600), ux = dx / dist * amp, uy = dy / dist * amp * .6;
+      try { el.animate([{transform:"translate(0,0)"}, {transform:"translate(" + ux.toFixed(1) + "px," + uy.toFixed(1) + "px)", offset:.28}, {transform:"translate(" + (-ux * .32).toFixed(1) + "px," + (-uy * .32).toFixed(1) + "px)", offset:.62}, {transform:"translate(0,0)"}],
+        {duration:620, delay:dist / 2.4, easing:"cubic-bezier(.3,.6,.3,1)", composite:"add"});
+        el.animate([{filter:"none"}, {filter:"drop-shadow(0 0 10px " + col + ") brightness(1.18)", offset:.25}, {filter:"none"}], {duration:700, delay:dist / 2.4, easing:"ease-out"}); } catch(e){}
+    });
+  }
+  /* elemental forms: hover a mastered form row */
+  var ARM_EL = {"m-fire":1, "m-water":2, "m-air":3, "m-earth":4};
+  function armForm(tr){
+    var el = 0; if (tr) for (var c in ARM_EL) if (tr.classList.contains(c)){ el = ARM_EL[c]; break; }
+    if (el){ ARMX.el = el; ARMX.elT = 1; armWake(); } else ARMX.elT = 0;
+    if (ARMX.wrap) ARMX.wrap.classList.toggle("fxarm-quake", el === 4 && !reduce);
+    if (el) armWake();
+  }
+  function armWake(){ if (!ARMX.cv || !armGL()) return; if (!ARMX.run){ ARMX.run = true; ARMX.prev = performance.now(); tick.add(armFrame); } }
+  function armFrame(now){
+    var g = ARMX.g; if (!g || g.lost || !ARMX.cv || !ARMX.cv.isConnected){ armDrop(); return; }
+    var dt = Math.min(.05, (now - ARMX.prev) / 1000); ARMX.prev = now;
+    var ease = function(cur, to, rate){ return cur + (to - cur) * (1 - Math.exp(-rate * dt)); };
+    ARMX.arm = ease(ARMX.arm, ARMX.armT, 9);
+    ARMX.chg = ARMX.holding ? Math.min(1, ARMX.chg + dt / 1.15) : ease(ARMX.chg, 0, 7);
+    ARMX.elA = ease(ARMX.elA, ARMX.elT, 5);
+    if (ARMX.shock >= 0){ ARMX.shock += dt / .9; if (ARMX.shock > 1){ ARMX.shock = -1; } }
+    if (!reduce) ARMX.t0 += dt;
+    var cw = ARMX.cv.clientWidth, ch = ARMX.cv.clientHeight;
+    if (Math.abs(cw * Math.min(GL.dpr(), 1.35) * .8 - ARMX.cv.width) > 3) armSize();
+    var sxp = 1 + ARM_PAD.l + ARM_PAD.r, syp = 1 + ARM_PAD.t;
+    g.f("uMs", sxp, syp); g.f("uMo", -ARM_PAD.l, -ARM_PAD.t); g.f("uAsp", cw / Math.max(1, ch));
+    g.f("uT", ARMX.t0); g.f("uArm", ARMX.arm); g.f("uChg", ARMX.chg); g.f("uShock", ARMX.shock); g.f("uShockK", ARMX.shockK);
+    g.f("uMode", ARMX.mode); g.f("uEl", ARMX.el); g.f("uElA", ARMX.elA);
+    g.f("uCtr", (ARMX.ctr[0] + ARM_PAD.l) / sxp, (ARMX.ctr[1] + ARM_PAD.t) / syp);
+    g.draw();
+    if (ARMX.arm < .004 && ARMX.chg < .004 && ARMX.elA < .004 && ARMX.shock < 0 && !ARMX.holding && !ARMX.armT && !ARMX.elT){
+      var gl = g.gl; gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); tick.remove(armFrame); ARMX.run = false; }
+  }
+  /* mode switch beside the pose switch: fire / frost / volt (remembered) */
+  var ARM_ICO = [
+    '<path d="M12 2.8c1.2 3.1 4.6 5 4.6 9.4a4.6 4.6 0 0 1-9.2 0c0-2.2 1.1-3.6 2.2-4.8.2 1.6.9 2.6 1.9 3.1-.6-2.7.2-5.3.5-7.7z" fill="currentColor"/><path d="M12 20.8a2.6 2.6 0 0 1-2.6-2.6c0-1.5 1.3-2.4 2.6-3.9 1.3 1.5 2.6 2.4 2.6 3.9a2.6 2.6 0 0 1-2.6 2.6z" fill="#120d0a" opacity=".55"/>',
+    '<path d="M12 2.2 17 7.4 15.4 18.6 12 21.8 8.6 18.6 7 7.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 2.2v19.6M7 7.4l5 3.2 5-3.2M8.6 18.6 12 15.6l3.4 3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" opacity=".75"/>',
+    '<path d="M13.6 2.5 5.5 13.4h5.6l-1.5 8.1 8.9-11.8h-5.8z" fill="currentColor"/>'];
+  var ARM_NAME = ["Fire", "Frost", "Volt"];
+  function armSwitch(fig){
+    var sw = fig.querySelector(".fxarmsw");
+    if (!sw){ sw = D.createElement("span"); sw.className = "fxarmsw zmask ttseg"; sw.setAttribute("role", "group"); sw.setAttribute("aria-label", "Arm charge mode");
+      sw.innerHTML = ARM_NAME.map(function(n, i){ return '<button type="button" data-armm="' + i + '" title="' + n + ' (hold the gold arm to charge)" aria-label="' + n + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + ARM_ICO[i] + '</svg></button>'; }).join("");
+      fig.appendChild(sw);
+      sw.addEventListener("click", function(ev){ var b = ev.target.closest("[data-armm]"); if (!b) return; ARMX.mode = +b.getAttribute("data-armm");
+        try { localStorage.setItem("io-armmode", ["fire","frost","volt"][ARMX.mode]); } catch(e){}
+        armMark(sw); if (ARMX.cv){ ARMX.armT = 1; armWake(); setTimeout(function(){ if (!ARMX.holding && !(ARMX.wrap && ARMX.wrap.matches(":hover"))) ARMX.armT = 0; }, 900); } });
+    }
+    armMark(sw);
+  }
+  function armMark(sw){ [].forEach.call(sw.querySelectorAll("[data-armm]"), function(b){ var on = +b.getAttribute("data-armm") === ARMX.mode; b.setAttribute("aria-pressed", on ? "true" : "false"); b.classList.toggle("on", on); }); sw.setAttribute("data-mode", ["fire","frost","volt"][ARMX.mode]); }
+  D.addEventListener("pointerover", function(ev){
+    if (!ARMX.cv) return; var tr = ev.target.closest && ev.target.closest(".dossier table.sk tr.master");
+    if (tr) armForm(tr); });
+  D.addEventListener("pointerout", function(ev){
+    if (!ARMX.cv) return; var tr = ev.target.closest && ev.target.closest(".dossier table.sk tr.master"), to = ev.relatedTarget;
+    if (tr && !(to && tr.contains(to))) armForm(null); });
 
   /* ================= Nov 18 pick: X1 title screen ================= */
 
@@ -5173,7 +5452,7 @@ html.fx-titled{overflow:hidden}
     CTX = ctx || {};
     if (CTX.fx && typeof CTX.fx === "object") shared = CTX.fx;
     cssVars(); panelSync(); gradeSync(); skySync(); idAfter();
-    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter(); rsTraceOff(); rsWaveOff();
+    wareAfter(); armAfter(); lightScan(); clothWipe(); ambAfter(); moments(); heroAfter(); rsTraceOff(); rsWaveOff(); armSetup();
     if (!FX._tt && CTX.id && CTX.id.handle){ FX._tt = 1; titleShow(false); }
     if (!FX._first){ FX._first = 1; setTimeout(streak, 500); }
   };
