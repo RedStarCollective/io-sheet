@@ -19,3 +19,10 @@ The script replaces the two blocks and patches the app's hooks (it is safe to ru
 ## Fans load-in (fx/fansboot, Nov 18)
 - `fboot.on` and `fboot.speed`. On entering Fans, every card in the first screenful has its frame traced in gold and its panel filled in 7 steps with a grid flash, one card after another (55 ms apart). Then the art resolves on each in turn (85 ms apart): interlaced lines thicken from 0 to 4 px under a gold scan bar, with a brief red/gold split and a sepia flash that settles. After that the name plate rises and the name decodes.
 - Cards further down wait hidden (`.fxbw`) and boot in small batches as they scroll in (IntersectionObserver). The scroll-rise reveal is off while booting (`body.fx-fboot`). Reduced motion and arrange mode skip it.
+## Stat resonance (fx/resonance, Nov 19, Impeccable overdrive on Dossier)
+- `res.on`. Mouse only, Dossier, Iō.
+- Hovering a STAT dims every skill row that doesn't use it. The rows that do use it light up in a gold sweep, ordered by distance from the stat cell (`--rd` = distance / 1.8 ms). The stat cell pulses and shows "N skills".
+- Hovering a skill row (after 90 ms) draws a fixed SVG circuit trace from its STAT cell along the gutter bus to the row, with a light packet riding it (SMIL animateMotion). A chip above the row's right end builds the BASE sum, read from the row's MOD/LVL/STAT/BASE cells, with blanks counted as 0.
+- The stat is read from the row's `b.st` "(XXX)". Language, Local Expert and Science count as INT, and Martial Arts as DEX.
+- Reduced motion gets the same highlight and trace without the motion.
+- The tag uses ::before, because `body.fx-plates .dossier .stat::after` owns ::after.
