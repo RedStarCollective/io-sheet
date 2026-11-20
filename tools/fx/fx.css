@@ -515,3 +515,20 @@ html.fx-titled{overflow:hidden}
   .fxres-chip span:nth-of-type(1){animation-delay:.34s}.fxres-chip span:nth-of-type(2){animation-delay:.4s}.fxres-chip span:nth-of-type(3){animation-delay:.46s}.fxres-chip span:nth-of-type(4){animation-delay:.52s}
 >>>>>>> fx/resonance
 }
+
+/* ---- Charge the Arm + elemental forms (Dossier) ---- */
+.fxarm{position:absolute;left:-22%;top:-12%;width:144%;height:112%;z-index:2;pointer-events:none}
+.iopw.fxarm-hot{cursor:pointer}
+.iopw.fxarm-hot:active{cursor:grabbing}
+.fxarmsw{position:absolute;left:auto;right:10px;bottom:48px;z-index:3;display:flex}
+.fxarmsw button{display:grid;place-items:center;width:38px;padding:6px 0!important}
+.fxarmsw svg{width:16px;height:16px;display:block}
+.fxarmsw button:not(.on){color:#a39890}
+.fxarmsw[data-mode="fire"] button.on{color:#ffb070}
+.fxarmsw[data-mode="frost"] button.on{color:#dfe4ff}
+.fxarmsw[data-mode="volt"] button.on{color:#d2bcff}
+.fxarmsw button.on{text-shadow:none;filter:drop-shadow(0 0 6px currentColor)}
+@media (prefers-reduced-motion:no-preference){
+  .iopw.fxarm-quake img,.iopw.fxarm-quake > .iogold{animation:armQuake 1.25s cubic-bezier(.2,.8,.3,1) infinite}
+  @keyframes armQuake{0%{transform:translate(0,0)}4%{transform:translate(-2px,1px)}8%{transform:translate(2px,-1px)}12%{transform:translate(-1px,1px)}16%{transform:translate(1px,0)}22%,100%{transform:translate(0,0)}}
+}

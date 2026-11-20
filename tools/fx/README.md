@@ -26,3 +26,16 @@ The script replaces the two blocks and patches the app's hooks (it is safe to ru
 - The stat is read from the row's `b.st` "(XXX)". Language, Local Expert and Science count as INT, and Martial Arts as DEX.
 - Reduced motion gets the same highlight and trace without the motion.
 - The tag uses ::before, because `body.fx-plates .dossier .stat::after` owns ::after.
+
+## Charge the Arm + elemental forms (fx/arm, Nov 19, Impeccable overdrive on Dossier)
+- `arm.on`. Dossier, Iō, viewports wider than 880 px (phones load io-portrait.jpg, which the masks don't fit).
+- There is one WebGL canvas `.fxarm` inside `.iopw`, padded 22% left/right and 12% top so effects can spill off the figure. The pose's gold mask (`--gm` on `.iogold`) becomes a 324 px texture: R = arm, G = soft halo, B = wide halo. The halos are blurred by down- and up-scaling. A CPU copy of the mask does the hit-testing.
+- **Hover the gold arm:** circuit traces light along it and pulse upward.
+- **Press and hold:** it charges over 1.15 s in the chosen mode.
+  - Fire: flame tongues licking off the arm, embers.
+  - Frost: Voronoi ice creeping over it, cold mist, glints.
+  - Volt: stepped flickering arcs, plus jumps at high charge.
+- **Release** (charge > 0.22): a ring leaves the arm, and every Dossier block gets a WAAPI push-and-spring (composite: add) plus a coloured glow, nearest first.
+- The mode switch `.fxarmsw` (Fire / Frost / Volt, drawn SVG icons, no snowflake) sits above the pose switch and is remembered in localStorage `io-armmode`.
+- **Hovering a mastered form row** (`tr.master.m-fire|water|air|earth`) plays its element over the portrait: fire embers + under-glow, water caustic light + ripples, air ribbons + motes swirling around the figure, earth falling grit + dust + a small tremor on the img and gold layer.
+- The frame loop runs only while something is active, then clears and stops. Reduced motion freezes time and skips the ripple and tremor. Resonance skips the trace on mastered rows.
